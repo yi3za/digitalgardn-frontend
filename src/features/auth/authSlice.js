@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "./auth.constants";
+import { registerThunk } from "./auth.thunks";
 
 /**
  * Etat initial du slice d'authentification
@@ -13,7 +14,7 @@ const initialState = {
   user: null,
   status: AUTH_STATUS.IDLE,
   checked: false,
-  error: null,
+  errors: null,
 };
 
 /**
@@ -21,10 +22,31 @@ const initialState = {
  *
  * name : nom du slice dans le store global
  * initialState : etat initial defini ci-dessus
+ * extraReducers : permet de gerer les actions asynchrones
  */
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  extraReducers: (builder) => {
+    // registerThunk
+    builder
+      .addCase(registerThunk.pending, (state) => {
+        state.user = null;
+        state.status = AUTH_STATUS.LOADING;
+        state.checked = false;
+        state.errors = null;
+      })
+      .addCase(registerThunk.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.status = AUTH_STATUS.AUTHENTICATED;
+        state.checked = true;
+      })
+      .addCase(registerThunk.rejected, (state, { payload }) => {
+        state.status = AUTH_STATUS.UNAUTHENTICATED;
+        state.checked = true;
+        state.errors = payload;
+      });
+  },
 });
 
 // Export du reducer du slice d'authentification
