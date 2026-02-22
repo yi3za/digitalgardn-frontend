@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { api } from "../../api/client";
 
 // Recupere le cookie CSRF
 export const getCsrfCookie = () => api.get("/sanctum/csrf-cookie");
