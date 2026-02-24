@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "./auth.constants";
-import { getMeThunk, loginThunk, registerThunk } from "./auth.thunks";
+import {
+  getMeThunk,
+  loginThunk,
+  logoutThunk,
+  registerThunk,
+} from "./auth.thunks";
 
 /**
  * Etat initial du slice d'authentification
@@ -79,6 +84,21 @@ const authSlice = createSlice({
       })
       .addCase(getMeThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
+        state.checked = true;
+        state.errors = payload;
+      });
+    // logoutThunk
+    builder
+      .addCase(logoutThunk.pending, (state) => {
+        state.checked = false;
+        state.errors = null;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.user = null;
+        state.status = AUTH_STATUS.UNAUTHENTICATED;
+        state.checked = true;
+      })
+      .addCase(logoutThunk.rejected, (state, { payload }) => {
         state.checked = true;
         state.errors = payload;
       });
