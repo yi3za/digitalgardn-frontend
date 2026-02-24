@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCsrfCookie, login, register } from "./auth.api";
+import { getCsrfCookie, getMe, login, register } from "./auth.api";
 import { normalizeError } from "./auth.utils";
 
 /**
@@ -39,6 +39,28 @@ export const loginThunk = createAsyncThunk(
     try {
       await getCsrfCookie();
       const response = await login(data);
+      const { user } = response?.data ?? {};
+      return user;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la recuperation de l'utilisateur authentifie
+ *
+ * Recupere les informations de l'utilisateur actuellement connecte
+ * Verifie la validite de la session cote backend
+ * Retourne l'utilisateur en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const getMeThunk = createAsyncThunk(
+  "auth/me",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getMe();
       const { user } = response?.data ?? {};
       return user;
     } catch ({ response }) {
