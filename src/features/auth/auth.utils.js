@@ -30,6 +30,13 @@ export const normalizeError = (response) => {
         errors: null,
         status,
       };
+    case 419:
+      return {
+        type: AUTH_ERROR_TYPES.AUTH,
+        message: "Session expired",
+        errors: null,
+        status,
+      };
     default:
       return {
         type: AUTH_ERROR_TYPES.SERVER,
