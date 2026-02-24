@@ -19,7 +19,7 @@ const initialState = {
   user: null,
   status: AUTH_STATUS.IDLE,
   checked: false,
-  errors: null,
+  error: null,
 };
 
 /**
@@ -39,7 +39,7 @@ const authSlice = createSlice({
         state.user = null;
         state.status = AUTH_STATUS.LOADING;
         state.checked = false;
-        state.errors = null;
+        state.error = null;
       })
       .addCase(registerThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -49,7 +49,7 @@ const authSlice = createSlice({
       .addCase(registerThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
         state.checked = true;
-        state.errors = payload;
+        state.error = payload;
       });
     // loginThunk
     builder
@@ -57,7 +57,7 @@ const authSlice = createSlice({
         state.user = null;
         state.status = AUTH_STATUS.LOADING;
         state.checked = false;
-        state.errors = null;
+        state.error = null;
       })
       .addCase(loginThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -67,7 +67,7 @@ const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
         state.checked = true;
-        state.errors = payload;
+        state.error = payload;
       });
     // getMeThunk
     builder
@@ -75,7 +75,7 @@ const authSlice = createSlice({
         state.user = null;
         state.status = AUTH_STATUS.LOADING;
         state.checked = false;
-        state.errors = null;
+        state.error = null;
       })
       .addCase(getMeThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -85,13 +85,13 @@ const authSlice = createSlice({
       .addCase(getMeThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
         state.checked = true;
-        state.errors = payload;
+        state.error = payload;
       });
     // logoutThunk
     builder
       .addCase(logoutThunk.pending, (state) => {
         state.checked = false;
-        state.errors = null;
+        state.error = null;
       })
       .addCase(logoutThunk.fulfilled, (state) => {
         state.user = null;
@@ -100,7 +100,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutThunk.rejected, (state, { payload }) => {
         state.checked = true;
-        state.errors = payload;
+        state.error = payload;
       });
   },
 });
