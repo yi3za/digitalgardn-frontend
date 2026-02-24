@@ -24,4 +24,5 @@ export const AUTH_ERROR_TYPES = {
   VALIDATION: "validation",
   AUTH: "auth",
   SERVER: "server",
+  NOT_FOUND: "not_found",
 };
