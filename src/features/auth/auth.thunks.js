@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCsrfCookie, login, register } from "./auth.api";
+import { normalizeError } from "./auth.utils";
 
 /**
  * Thunk responsable de l'inscription utilisateur
@@ -7,7 +8,7 @@ import { getCsrfCookie, login, register } from "./auth.api";
  * Recupere le cookie CSRF
  * Envoie les donnees au backend
  * Retourne l'utilisateur en cas de succes
- * Retourne les errors de validation en cas d'echec
+ * Retourne une erreur normalisee en cas d'echec
  */
 export const registerThunk = createAsyncThunk(
   "auth/register",
@@ -17,9 +18,9 @@ export const registerThunk = createAsyncThunk(
       const response = await register(data);
       const { user } = response?.data ?? {};
       return user;
-    } catch (errors) {
-      const { errors: validationErrors } = errors?.response?.data ?? {};
-      return rejectWithValue(validationErrors);
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
     }
   },
 );
@@ -30,7 +31,7 @@ export const registerThunk = createAsyncThunk(
  * Recupere le cookie CSRF
  * Envoie les donnees au backend
  * Retourne l'utilisateur en cas de succes
- * Retourne les errors de validation en cas d'echec
+ * Retourne une erreur normalisee en cas d'echec
  */
 export const loginThunk = createAsyncThunk(
   "auth/login",
@@ -40,9 +41,9 @@ export const loginThunk = createAsyncThunk(
       const response = await login(data);
       const { user } = response?.data ?? {};
       return user;
-    } catch (errors) {
-      const { errors: validationErrors } = errors?.response?.data ?? {};
-      return rejectWithValue(validationErrors);
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
     }
   },
 );
