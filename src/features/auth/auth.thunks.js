@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCsrfCookie, getMe, login, register } from "./auth.api";
+import { getCsrfCookie, getMe, login, logout, register } from "./auth.api";
 import { normalizeError } from "./auth.utils";
 
 /**
@@ -63,6 +63,24 @@ export const getMeThunk = createAsyncThunk(
       const response = await getMe();
       const { user } = response?.data ?? {};
       return user;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la deconnexion utilisateur
+ *
+ * Appelle l'API de logout
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const logoutThunk = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await logout();
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
