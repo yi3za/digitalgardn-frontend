@@ -12,3 +12,16 @@ export const AUTH_STATUS = {
   AUTHENTICATED: "authenticated",
   UNAUTHENTICATED: "unauthenticated",
 };
+
+/**
+ * Types d'erreurs possibles lors des operations d'authentification
+ *
+ * VALIDATION : erreurs liees a la validation des donnees
+ * AUTH : erreurs d'authentification
+ * SERVER : erreurs internes du serveur
+ */
+export const AUTH_ERROR_TYPES = {
+  VALIDATION: "validation",
+  AUTH: "auth",
+  SERVER: "server",
+};
