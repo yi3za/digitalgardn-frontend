@@ -14,33 +14,35 @@ import { AUTH_ERROR_TYPES } from "./auth.constants";
  * - status : code HTTP
  */
 export const normalizeError = (response) => {
-  const { status, data } = response ?? {};
+  const { status, data, statusText } = response ?? {};
   switch (status) {
     case 422:
       return {
         type: AUTH_ERROR_TYPES.VALIDATION,
-        message: "Validation failed",
+        message: statusText,
         errors: data?.errors,
         status,
       };
     case 401:
-      return {
-        type: AUTH_ERROR_TYPES.AUTH,
-        message: "Unauthenticated",
-        errors: null,
-        status,
-      };
+    case 403:
     case 419:
       return {
         type: AUTH_ERROR_TYPES.AUTH,
-        message: "Session expired",
+        message: statusText,
+        errors: null,
+        status,
+      };
+    case 404:
+      return {
+        type: AUTH_ERROR_TYPES.NOT_FOUND,
+        message: statusText,
         errors: null,
         status,
       };
     default:
       return {
         type: AUTH_ERROR_TYPES.SERVER,
-        message: "Something went wrong",
+        message: statusText ?? "Something went wrong",
         errors: null,
         status: status ?? null,
       };
