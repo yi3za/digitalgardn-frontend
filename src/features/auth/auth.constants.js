@@ -7,22 +7,19 @@
  * UNAUTHENTICATED : utilisateur non authentifie ou deconnecte
  */
 export const AUTH_STATUS = {
-  IDLE: "idle",
-  LOADING: "loading",
-  AUTHENTICATED: "authenticated",
-  UNAUTHENTICATED: "unauthenticated",
+  IDLE: "IDLE",
+  LOADING: "LOADING",
+  AUTHENTICATED: "AUTHENTICATED",
+  UNAUTHENTICATED: "UNAUTHENTICATED",
 };
 
 /**
- * Types d'erreurs possibles lors des operations d'authentification
+ * Codes standards utilises pour les reponses d'authentification
  *
- * VALIDATION : erreurs liees a la validation des donnees
- * AUTH : erreurs d'authentification
- * SERVER : erreurs internes du serveur
+ * VALIDATION_ERROR : erreurs de validation des champs envoyes
+ * NETWORK_ERROR : erreur reseau
  */
-export const AUTH_ERROR_TYPES = {
-  VALIDATION: "validation",
-  AUTH: "auth",
-  SERVER: "server",
-  NOT_FOUND: "not_found",
+export const AUTH_CODES = {
+  VALIDATION_ERROR: "VALIDATION_ERROR",
+  NETWORK_ERROR: "NETWORK_ERROR",
 };
