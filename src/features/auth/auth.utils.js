@@ -1,50 +1,20 @@
-import { AUTH_ERROR_TYPES } from "./auth.constants";
+import { AUTH_CODES } from "./auth.constants";
 
 /**
  * Normalise la reponse d'erreur HTTP provenant du backend
  *
- * - 422 : erreurs de validation des donnees
- * - 401 : utilisateur non authentifie
- * - default : erreur serveur ou erreur inconnue
- *
  * Objet d'erreur normalise contenant :
- * - type : categorie d'erreur
+ * - code : code d'erreur (categorie)
  * - message : message general
- * - errors : details des erreurs (si existants)
+ * - details : details des erreurs
  * - status : code HTTP
+ *
+ * Utilise NETWORK_ERROR si response est absente (probleme reseau)
  */
 export const normalizeError = (response) => {
-  const { status, data, statusText } = response ?? {};
-  switch (status) {
-    case 422:
-      return {
-        type: AUTH_ERROR_TYPES.VALIDATION,
-        message: statusText,
-        errors: data?.errors,
-        status,
-      };
-    case 401:
-    case 403:
-    case 419:
-      return {
-        type: AUTH_ERROR_TYPES.AUTH,
-        message: statusText,
-        errors: null,
-        status,
-      };
-    case 404:
-      return {
-        type: AUTH_ERROR_TYPES.NOT_FOUND,
-        message: statusText,
-        errors: null,
-        status,
-      };
-    default:
-      return {
-        type: AUTH_ERROR_TYPES.SERVER,
-        message: statusText ?? "Something went wrong",
-        errors: null,
-        status: status ?? null,
-      };
-  }
+  const { status, data: { code, details } = {} } = response ?? {
+    data: { code: AUTH_CODES.NETWORK_ERROR },
+  };
+  const message = code; //Le message represente le code i18n pour traduction (implementation future)
+  return { code, message, details, status };
 };
