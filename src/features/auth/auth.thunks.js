@@ -16,7 +16,7 @@ export const registerThunk = createAsyncThunk(
     try {
       await getCsrfCookie();
       const response = await register(data);
-      const { user } = response?.data ?? {};
+      const { user } = response?.data?.details ?? {};
       return user;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
@@ -39,7 +39,7 @@ export const loginThunk = createAsyncThunk(
     try {
       await getCsrfCookie();
       const response = await login(data);
-      const { user } = response?.data ?? {};
+      const { user } = response?.data?.details ?? {};
       return user;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
@@ -61,7 +61,7 @@ export const getMeThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getMe();
-      const { user } = response?.data ?? {};
+      const { user } = response?.data?.details ?? {};
       return user;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
