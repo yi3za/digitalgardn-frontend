@@ -1,3 +1,4 @@
+import i18n from "i18next";
 import { AUTH_CODES } from "./auth.constants";
 
 /**
@@ -15,6 +16,6 @@ export const normalizeError = (response) => {
   const { status, data: { code, details } = {} } = response ?? {
     data: { code: AUTH_CODES.NETWORK_ERROR },
   };
-  const message = code; //Le message represente le code i18n pour traduction (implementation future)
+  const message = i18n.t(code);
   return { code, message, details, status };
 };
