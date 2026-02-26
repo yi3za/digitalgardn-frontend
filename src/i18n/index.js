@@ -15,3 +15,6 @@ i18n.use(initReactI18next).init({
   // Echape le texte
   interpolation: { escapeValue: false },
 });
+
+// Export de l'instance i18next initialisee
+export default i18n;
