@@ -4,6 +4,7 @@ export const codes = {
   // Codes d'erreurs
   VALIDATION_ERROR: "Erreur de validation des données",
   UNAUTHENTICATED: "Utilisateur non authentifié",
+  INVALID_CREDENTIALS: "Identifiants incorrects",
   FORBIDDEN: "Accès refusé ou droits insuffisants",
   NOT_FOUND: "Ressource ou route introuvable",
   SERVER_ERROR: "Erreur interne du serveur",
