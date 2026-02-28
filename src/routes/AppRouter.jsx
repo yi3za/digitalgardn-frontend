@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
 
 /**
  * Composant responsable de la configuration du routage global
@@ -13,6 +14,8 @@ export default function AppRouter() {
       <Routes>
         {/* login */}
         <Route path="/login" element={<Login />} />
+        {/* register */}
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
