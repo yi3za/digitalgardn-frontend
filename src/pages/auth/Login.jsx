@@ -20,9 +20,9 @@ export default function Login() {
   return (
     <FormWrapper onSubmit={submit} serverError={error}>
       {/* Champ email connecte au formulaire */}
-      <FormInput label={t("email")} name="email" />
+      <FormInput label={t("email")} name="email" type="email" />
       {/* Champ password connecte au formulaire */}
-      <FormInput label={t("password")} name="password" />
+      <FormInput label={t("password")} name="password" type="password" />
       {/* Bouton de soumission du formulaire */}
       <Button text={t("login")} />
     </FormWrapper>
