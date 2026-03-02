@@ -1,4 +1,4 @@
-import AppRouter from "./routes/AppRouter";
+import AppRouter from "@/routes/AppRouter";
 
 /**
  * Composant principal de l'application

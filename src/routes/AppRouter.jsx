@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "../pages/auth/Login";
+import Login from "@/pages/auth/Login";
 
 /**
  * Composant responsable de la configuration du routage global
