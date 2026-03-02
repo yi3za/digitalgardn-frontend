@@ -1,5 +1,4 @@
 import { codes } from "./codes";
-import { fields } from "./fields";
 
 /**
  * Ce fichier regroupe toutes les traductions pour la langue française
@@ -7,6 +6,5 @@ import { fields } from "./fields";
 export const fr = {
   translation: {
     ...codes,
-    ...fields,
   },
 };
