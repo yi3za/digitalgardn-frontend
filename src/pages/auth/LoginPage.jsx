@@ -19,6 +19,7 @@ import { errorSelector, statusSelector } from "@/features/auth/auth.selectors";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { useAuthToast } from "@/hooks/useAuthToast";
 import { useServerErrors } from "@/hooks/useServerErrors";
+import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,11 +64,18 @@ export function LoginPage() {
               <FormItem>
                 <Label>{t("login.fields.email.label")}</Label>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder={t("login.fields.email.placeholder")}
-                  />
+                  <div className="relative">
+                    <Mail
+                      className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                      size={16}
+                    />
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder={t("login.fields.email.placeholder")}
+                      className="pl-10"
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,11 +88,18 @@ export function LoginPage() {
               <FormItem>
                 <Label>{t("login.fields.password.label")}</Label>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    placeholder={t("login.fields.password.placeholder")}
-                  />
+                  <div className="relative">
+                    <Lock
+                      className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                      size={16}
+                    />
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder={t("login.fields.password.placeholder")}
+                      className="pl-10"
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
