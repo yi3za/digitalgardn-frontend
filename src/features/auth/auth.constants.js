@@ -12,14 +12,3 @@ export const AUTH_STATUS = {
   AUTHENTICATED: "AUTHENTICATED",
   UNAUTHENTICATED: "UNAUTHENTICATED",
 };
-
-/**
- * Codes standards utilises pour les reponses d'authentification
- *
- * VALIDATION_ERROR : erreurs de validation des champs envoyes
- * NETWORK_ERROR : erreur reseau
- */
-export const AUTH_CODES = {
-  VALIDATION_ERROR: "VALIDATION_ERROR",
-  NETWORK_ERROR: "NETWORK_ERROR",
-};
