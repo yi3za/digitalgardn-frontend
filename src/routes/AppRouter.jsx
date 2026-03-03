@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "@/pages/auth/Login";
+import { BrowserRouter, Routes } from "react-router-dom";
+import { AuthRoutes } from "./AuthRoutes";
 
 /**
  * Composant responsable de la configuration du routage global
@@ -11,8 +11,8 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* login */}
-        <Route path="/login" element={<Login />} />
+        {/* Injection des routes d'authentification */}
+        {AuthRoutes()}
       </Routes>
     </BrowserRouter>
   );
