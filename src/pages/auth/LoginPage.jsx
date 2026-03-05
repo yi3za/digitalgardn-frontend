@@ -63,20 +63,20 @@ export function LoginPage() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("login.fields.email.label")}</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Mail
-                      className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
-                      size={16}
-                    />
+                <div className="relative">
+                  <Mail
+                    className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                    size={16}
+                  />
+                  <FormControl>
                     <Input
                       {...field}
                       type="email"
                       placeholder={t("login.fields.email.placeholder")}
                       className="pl-10"
                     />
-                  </div>
-                </FormControl>
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -87,20 +87,20 @@ export function LoginPage() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("login.fields.password.label")}</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Lock
-                      className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
-                      size={16}
-                    />
+                <div className="relative">
+                  <Lock
+                    className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                    size={16}
+                  />
+                  <FormControl>
                     <Input
                       {...field}
                       type="password"
                       placeholder={t("login.fields.password.placeholder")}
                       className="pl-10"
                     />
-                  </div>
-                </FormControl>
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
