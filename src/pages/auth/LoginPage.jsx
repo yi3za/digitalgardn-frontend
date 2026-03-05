@@ -12,8 +12,8 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel,
   Input,
-  Label,
 } from "@/components/ui";
 import { errorSelector, statusSelector } from "@/features/auth/auth.selectors";
 import { loginThunk } from "@/features/auth/auth.thunks";
@@ -62,7 +62,7 @@ export function LoginPage() {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <Label>{t("login.fields.email.label")}</Label>
+                <FormLabel>{t("login.fields.email.label")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Mail
@@ -86,7 +86,7 @@ export function LoginPage() {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <Label>{t("login.fields.password.label")}</Label>
+                <FormLabel>{t("login.fields.password.label")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Lock
