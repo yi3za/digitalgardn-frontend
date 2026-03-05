@@ -8,6 +8,6 @@ export {
   CardHeader,
   CardTitle,
 } from "./card";
-export { Form, FormControl, FormField, FormItem, FormMessage } from "./form";
+export { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from "./form";
 export { Input } from "./input";
 export { Label } from "./label";
