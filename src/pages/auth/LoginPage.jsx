@@ -15,7 +15,7 @@ import {
   FormLabel,
   Input,
 } from "@/components/ui";
-import { errorSelector, statusSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { useAuthToast } from "@/hooks/useAuthToast";
 import { useServerErrors } from "@/hooks/useServerErrors";
@@ -34,13 +34,11 @@ export function LoginPage() {
   const { t } = useTranslation();
   // dispatcher pour les actions et selecteurs pour l'état auth
   const dispatch = useDispatch();
-  const { code, details } = useSelector(errorSelector) ?? {};
-  const status = useSelector(statusSelector);
+  const { status, error } = useSelector(authSelector) ?? {};
   // Gestion des erreurs serveur et affichage dans le formulaire
-  const { setError } = form;
-  useServerErrors(details, setError);
+  useServerErrors(error?.details, form.setError);
   // Affichage des notifications toast selon l'etat d'authentification
-  useAuthToast(status, code, t);
+  useAuthToast(status, error?.code, t, "login");
   // Fonction de soumission du formulaire : dispatch de l'action login
   const submit = (data) => dispatch(loginThunk(data));
 
