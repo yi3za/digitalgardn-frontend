@@ -15,14 +15,13 @@ import {
   FormLabel,
   Input,
 } from "@/components/ui";
-import { authSelector } from "@/features/auth/auth.selectors";
 import { loginThunk } from "@/features/auth/auth.thunks";
-import { useAuthToast } from "@/hooks/useAuthToast";
-import { useServerErrors } from "@/hooks/useServerErrors";
+import { setServerErrors } from "@/lib/utils";
 import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 /**
  * Composant de la page de connexion
@@ -32,15 +31,24 @@ export function LoginPage() {
   const form = useForm({ defaultValues: { email: "", password: "" } });
   // Hook pour la traduction
   const { t } = useTranslation();
-  // dispatcher pour les actions et selecteurs pour l'état auth
+  // Dispatcher pour les actions
   const dispatch = useDispatch();
-  const { status, error } = useSelector(authSelector) ?? {};
-  // Gestion des erreurs serveur et affichage dans le formulaire
-  useServerErrors(error?.details, form.setError);
-  // Affichage des notifications toast selon l'etat d'authentification
-  useAuthToast(status, error?.code, t, "login");
-  // Fonction de soumission du formulaire : dispatch de l'action login
-  const submit = (data) => dispatch(loginThunk(data));
+  /**
+   * Fonction de soumission du formulaire : dispatch de l'action login
+   */
+  const submit = async (data) => {
+    try {
+      // Envoyer les donnees
+      await dispatch(loginThunk(data)).unwrap();
+      // Afficher message de succes
+      toast.success(t("login.toast.success"));
+    } catch ({ code, details: errors }) {
+      // Afficher les erreurs du serveur dans le formulaire
+      setServerErrors(errors, form.setError);
+      // Afficher notification d'erreur
+      toast.error(t(code));
+    }
+  };
 
   return (
     <Card className="min-w-lg">
