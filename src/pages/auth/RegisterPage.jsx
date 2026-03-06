@@ -30,6 +30,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 export function RegisterPage() {
@@ -66,6 +67,7 @@ export function RegisterPage() {
     } catch ({ code, details: errors }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);
+      // Retour a l'etape 1
       setStep(1);
       // Afficher notification d'erreur
       toast.error(t(code));
@@ -79,7 +81,9 @@ export function RegisterPage() {
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
         <CardAction>
-          <Button variant="link">{t("register.headerAction.logIn")}</Button>
+          <Link to="/login">
+            <Button variant="link">{t("register.headerAction.logIn")}</Button>
+          </Link>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}

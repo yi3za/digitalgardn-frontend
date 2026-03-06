@@ -15,6 +15,7 @@ import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -51,7 +52,9 @@ export function LoginPage() {
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
         <CardAction>
-          <Button variant="link">{t("login.headerAction.signUp")}</Button>
+          <Link to="/register">
+            <Button variant="link">{t("login.headerAction.signUp")}</Button>
+          </Link>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
