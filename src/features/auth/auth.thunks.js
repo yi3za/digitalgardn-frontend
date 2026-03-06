@@ -80,7 +80,9 @@ export const logoutThunk = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await logout();
+      const response = await logout();
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
