@@ -1,5 +1,4 @@
 import {
-  Card,
   CardAction,
   CardContent,
   CardDescription,
@@ -75,7 +74,7 @@ export function RegisterPage() {
   };
 
   return (
-    <Card className="min-w-lg">
+    <>
       {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("register.title")}</CardTitle>
@@ -282,6 +281,6 @@ export function RegisterPage() {
           </Button>
         </ButtonGroup>
       </CardFooter>
-    </Card>
+    </>
   );
 }

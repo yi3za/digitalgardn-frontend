@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   CardAction,
   CardContent,
   CardDescription,
@@ -51,7 +50,7 @@ export function LoginPage() {
   };
 
   return (
-    <Card className="min-w-lg">
+    <>
       {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("login.title")}</CardTitle>
@@ -123,6 +122,6 @@ export function LoginPage() {
           {t("login.actions.submit")}
         </Button>
       </CardFooter>
-    </Card>
+    </>
   );
 }
