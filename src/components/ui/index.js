@@ -16,6 +16,7 @@ export {
   FormMessage,
   FormLabel,
   CustomFormField,
+  FormDescription,
 } from "./form";
 export { Input } from "./input";
 export { Label } from "./label";
@@ -55,3 +56,9 @@ export {
   EmptyMedia,
 } from "./empty";
 export { Spinner } from "./spinner";
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "./input-otp";
