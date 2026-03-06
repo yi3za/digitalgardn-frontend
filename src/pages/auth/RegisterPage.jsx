@@ -181,6 +181,13 @@ export function RegisterPage() {
               : t("register.actions.next")}
           </Button>
         </ButtonGroup>
+        <Button
+          onClick={() => form.reset()}
+          variant="secondary"
+          className="w-full"
+        >
+          {t("register.actions.reset")}
+        </Button>
       </CardFooter>
     </>
   );

@@ -85,6 +85,13 @@ export function LoginPage() {
         >
           {t("login.actions.submit")}
         </Button>
+        <Button
+          onClick={() => form.reset()}
+          variant="secondary"
+          className="w-full"
+        >
+          {t("login.actions.reset")}
+        </Button>
       </CardFooter>
     </>
   );
