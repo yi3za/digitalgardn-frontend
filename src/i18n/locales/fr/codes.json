@@ -1,13 +1,13 @@
 {
-  "SUCCESS": "Opération effectuée avec succès",
-  "VALIDATION_ERROR": "Erreur de validation des données",
-  "UNAUTHENTICATED": "Utilisateur non authentifié",
-  "INVALID_CREDENTIALS": "Identifiants incorrects",
-  "FORBIDDEN": "Accès refusé ou droits insuffisants",
-  "NOT_FOUND": "Ressource ou route introuvable",
-  "SERVER_ERROR": "Erreur interne du serveur",
-  "NETWORK_ERROR": "Erreur réseau, veuillez vérifier votre connexion",
-  "METHOD_NOT_ALLOWED": "Méthode HTTP non autorisée",
-  "CSRF_TOKEN_MISMATCH": "Session expirée ou jeton invalide",
-  "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer plus tard"
+  "SUCCESS": "Opération réussie avec succès.",
+  "VALIDATION_ERROR": "Certains champs sont incorrects ou manquants.",
+  "UNAUTHENTICATED": "Vous devez être connecté pour accéder à cette action.",
+  "INVALID_CREDENTIALS": "Adresse e-mail ou mot de passe incorrect.",
+  "FORBIDDEN": "Vous n'avez pas la permission d'effectuer cette action.",
+  "NOT_FOUND": "Désolé, nous n'avons pas trouvé ce que vous cherchez.",
+  "SERVER_ERROR": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+  "NETWORK_ERROR": "Impossible de se connecter. Vérifiez votre connexion internet.",
+  "METHOD_NOT_ALLOWED": "Cette action n'est pas autorisée.",
+  "CSRF_TOKEN_MISMATCH": "Votre session a expiré. Veuillez vous reconnecter.",
+  "TOO_MANY_REQUESTS": "Vous avez effectué trop de requêtes. Veuillez réessayer plus tard."
 }
