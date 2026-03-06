@@ -18,7 +18,7 @@ import {
 const initialState = {
   user: null,
   status: AUTH_STATUS.IDLE,
-  checked: false,
+  checked: true,
   error: null,
 };
 
