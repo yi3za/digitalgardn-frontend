@@ -134,7 +134,7 @@ export function RegisterPage() {
                       onValueChange={field.onChange}
                     >
                       {["freelance", "client"].map((r) => (
-                        <FieldLabel key={r} htmlFor={r}>
+                        <FieldLabel key={r} className="pt-0">
                           <Field>
                             <FieldContent>
                               <FieldTitle>
@@ -146,7 +146,7 @@ export function RegisterPage() {
                                 )}
                               </FieldDescription>
                             </FieldContent>
-                            <RadioGroupItem hidden value={r} id={r} />
+                            <RadioGroupItem hidden value={r} />
                           </Field>
                         </FieldLabel>
                       ))}
