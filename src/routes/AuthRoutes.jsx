@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { AuthLayout } from "@/components/layout/AuthLayout";
+import { RegisterPage } from "@/pages/auth/RegisterPage";
 
 /**
  * Definit les routes liees à l'authentification
@@ -11,6 +12,8 @@ export function AuthRoutes() {
     <Route element={<AuthLayout />}>
       {/* Route pour la page de connexion */}
       <Route path="login" element={<LoginPage />} />
+      {/* Route pour la page d'inscription */}
+      <Route path="register" element={<RegisterPage />} />
     </Route>
   );
 }
