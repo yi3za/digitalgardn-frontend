@@ -10,7 +10,6 @@ import {
   FormItem,
   FormMessage,
   FormLabel,
-  Input,
   Button,
   CardFooter,
   ButtonGroup,
@@ -22,6 +21,7 @@ import {
   FieldTitle,
   FieldDescription,
   RadioGroupItem,
+  CustomFormField,
 } from "@/components/ui";
 import { registerThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -59,7 +59,6 @@ export function RegisterPage() {
    */
   const submit = async (data) => {
     try {
-      console.log(data);
       // Envoyer les donnees
       await dispatch(registerThunk(data)).unwrap();
       // Afficher message de succes
@@ -88,136 +87,34 @@ export function RegisterPage() {
         <Form {...form}>
           {step === 1 && (
             <>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.fields.name.label")}</FormLabel>
-                    <div className="relative">
-                      <User
-                        className="absolute top-1/2 -translate-1/2 left-5 text-gray-400"
-                        size={16}
-                      />
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder={t("register.fields.name.placeholder")}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={form.control}
+              <CustomFormField name="name" control={form.control} icon={User} />
+              <CustomFormField
                 name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.fields.username.label")}</FormLabel>
-                    <div className="relative">
-                      <AtSign
-                        className="absolute top-1/2 -translate-1/2 left-5 text-gray-400"
-                        size={16}
-                      />
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder={t(
-                            "register.fields.username.placeholder",
-                          )}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
                 control={form.control}
+                icon={AtSign}
+              />
+              <CustomFormField
                 name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.fields.email.label")}</FormLabel>
-                    <div className="relative">
-                      <Mail
-                        className="absolute top-1/2 -translate-1/2 left-5 text-gray-400"
-                        size={16}
-                      />
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type="email"
-                          placeholder={t("register.fields.email.placeholder")}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+                type="email"
+                control={form.control}
+                icon={Mail}
+              />
             </>
           )}
           {step === 2 && (
             <>
-              <FormField
-                control={form.control}
+              <CustomFormField
                 name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.fields.password.label")}</FormLabel>
-                    <div className="relative">
-                      <Lock
-                        className="absolute top-1/2 -translate-1/2 left-5 text-gray-400"
-                        size={16}
-                      />
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type="password"
-                          placeholder={t(
-                            "register.fields.password.placeholder",
-                          )}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
+                type="password"
                 control={form.control}
+                icon={Lock}
+              />
+              <CustomFormField
                 name="password_confirmation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("register.fields.password_confirmation.label")}
-                    </FormLabel>
-                    <div className="relative">
-                      <Lock
-                        className="absolute top-1/2 -translate-1/2 left-5 text-gray-400"
-                        size={16}
-                      />
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type="password"
-                          placeholder={t(
-                            "register.fields.password_confirmation.placeholder",
-                          )}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+                type="password"
+                control={form.control}
+                icon={Lock}
+              />
             </>
           )}
           {step === 3 && (

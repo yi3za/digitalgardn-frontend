@@ -7,12 +7,7 @@ import {
   CardHeader,
   CardTitle,
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  FormLabel,
-  Input,
+  CustomFormField,
 } from "@/components/ui";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -62,53 +57,19 @@ export function LoginPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <FormField
+          <CustomFormField
             name="email"
+            type="email"
+            page="login"
             control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("login.fields.email.label")}</FormLabel>
-                <div className="relative">
-                  <Mail
-                    className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
-                    size={16}
-                  />
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder={t("login.fields.email.placeholder")}
-                      className="pl-10"
-                    />
-                  </FormControl>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
+            icon={Mail}
           />
-          <FormField
+          <CustomFormField
             name="password"
+            type="password"
+            page="login"
             control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("login.fields.password.label")}</FormLabel>
-                <div className="relative">
-                  <Lock
-                    className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
-                    size={16}
-                  />
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder={t("login.fields.password.placeholder")}
-                      className="pl-10"
-                    />
-                  </FormControl>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
+            icon={Lock}
           />
         </Form>
       </CardContent>
