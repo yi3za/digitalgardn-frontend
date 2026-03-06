@@ -54,3 +54,4 @@ export {
   EmptyContent,
   EmptyMedia,
 } from "./empty";
+export { Spinner } from "./spinner";
