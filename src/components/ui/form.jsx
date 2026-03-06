@@ -5,6 +5,8 @@ import { Controller, FormProvider, useFormContext, useFormState } from "react-ho
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { useTranslation } from "react-i18next";
+import { Input } from ".";
 
 const Form = FormProvider
 
@@ -132,6 +134,41 @@ function FormMessage({
   );
 }
 
+/**
+ * Composant de champ de formulaire personnalise
+ */
+function CustomFormField({ name, control, icon: Icon, page="register", ...props }) {
+  const { t } = useTranslation();
+  return (
+    <FormField
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{t(`${page}.fields.${name}.label`)}</FormLabel>
+          <div className="relative">
+            {Icon && (
+              <Icon
+                className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                size={16}
+              />
+            )}
+            <FormControl>
+              <Input
+                {...field}
+                {...props}
+                placeholder={t(`${page}.fields.${name}.placeholder`)}
+                className="pl-10"
+              />
+            </FormControl>
+          </div>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
 export {
   useFormField,
   Form,
@@ -141,4 +178,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  CustomFormField,
 }

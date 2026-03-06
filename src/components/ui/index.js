@@ -15,6 +15,7 @@ export {
   FormItem,
   FormMessage,
   FormLabel,
+  CustomFormField,
 } from "./form";
 export { Input } from "./input";
 export { Label } from "./label";
