@@ -1,12 +1,12 @@
-import { api } from "@/api/client";
+import { client } from "@/api/client";
 
 // Recupere le cookie CSRF
-export const getCsrfCookie = () => api.get("/sanctum/csrf-cookie");
+export const getCsrfCookie = () => client.get("/sanctum/csrf-cookie");
 // Enregistrement d'un nouvel utilisateur
-export const register = (data) => api.post("/api/auth/register", data);
+export const register = (data) => client.post("/api/auth/register", data);
 // Connexion de l'utilisateur
-export const login = (data) => api.post("/api/auth/login", data);
+export const login = (data) => client.post("/api/auth/login", data);
 // Recupere les informations de l'utilisateur authentifie
-export const getMe = () => api.get("/api/me");
+export const getMe = () => client.get("/api/me");
 // Deconnexion de l'utilisateur
-export const logout = () => api.post("/api/me/logout");
+export const logout = () => client.post("/api/me/logout");
