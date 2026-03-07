@@ -67,8 +67,9 @@ export function RegisterPage() {
     } catch ({ code, details: errors }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);
-      // Retour a l'etape 1
-      setStep(1);
+      // Determine l'etape du formulaire selon les erreurs reçues
+      if (errors?.name || errors?.username || errors?.email) setStep(1);
+      else if (errors?.password) setStep(2);
       // Afficher notification d'erreur
       toast.error(t(code));
     }
