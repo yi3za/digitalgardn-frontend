@@ -177,9 +177,7 @@ export function RegisterPage() {
             variant={step === 3 ? "" : "ghost"}
             onClick={step === 3 ? form.handleSubmit(submit) : next}
           >
-            {step === 3
-              ? t("register.actions.submit")
-              : t("register.actions.next")}
+            {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
           </Button>
         </ButtonGroup>
         <Button
