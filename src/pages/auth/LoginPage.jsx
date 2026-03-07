@@ -15,15 +15,19 @@ import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
  * Composant de la page de connexion
  */
 export function LoginPage() {
+  // Recuperation des donnees passees via navigate (state) depuis la page precedente
+  const { state } = useLocation();
   // Initialisation du formulaire
-  const form = useForm({ defaultValues: { email: "", password: "" } });
+  const form = useForm({
+    defaultValues: { email: state?.email ?? "", password: "" },
+  });
   // Hook pour la traduction
   const { t } = useTranslation();
   // Dispatcher pour les actions
