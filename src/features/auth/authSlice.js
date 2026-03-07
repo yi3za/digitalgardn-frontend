@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "./auth.constants";
 import {
+  sendResetCodeThunk,
   getMeThunk,
   loginThunk,
   logoutThunk,
   registerThunk,
+  resetPasswordThunk,
 } from "./auth.thunks";
 
 /**
@@ -99,6 +101,32 @@ const authSlice = createSlice({
         state.checked = true;
       })
       .addCase(logoutThunk.rejected, (state, { payload }) => {
+        state.checked = true;
+        state.error = payload;
+      });
+    // sendResetCodeThunk
+    builder
+      .addCase(sendResetCodeThunk.pending, (state) => {
+        state.checked = false;
+        state.error = null;
+      })
+      .addCase(sendResetCodeThunk.fulfilled, (state) => {
+        state.checked = true;
+      })
+      .addCase(sendResetCodeThunk.rejected, (state, { payload }) => {
+        state.checked = true;
+        state.error = payload;
+      });
+    // resetPasswordThunk
+    builder
+      .addCase(resetPasswordThunk.pending, (state) => {
+        state.checked = false;
+        state.error = null;
+      })
+      .addCase(resetPasswordThunk.fulfilled, (state) => {
+        state.checked = true;
+      })
+      .addCase(resetPasswordThunk.rejected, (state, { payload }) => {
         state.checked = true;
         state.error = payload;
       });

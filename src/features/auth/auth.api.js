@@ -10,3 +10,7 @@ export const login = (data) => client.post("/api/auth/login", data);
 export const getMe = () => client.get("/api/me");
 // Deconnexion de l'utilisateur
 export const logout = () => client.post("/api/me/logout");
+// Demander le code de reinitialisation le mot de passe
+export const sendResetCode = (data) => client.post("/api/auth/forget-password", data);
+// Reinitialiser le mot de passe avec le code
+export const resetPassword = (data) => client.post("/api/auth/reset-password", data);

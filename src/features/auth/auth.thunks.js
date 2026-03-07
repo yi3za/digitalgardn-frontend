@@ -1,5 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCsrfCookie, getMe, login, logout, register } from "./auth.api";
+import {
+  getCsrfCookie,
+  getMe,
+  login,
+  logout,
+  register,
+  resetPassword,
+  sendResetCode,
+} from "./auth.api";
 import { normalizeError } from "./auth.utils";
 
 /**
@@ -81,6 +89,51 @@ export const logoutThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await logout();
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la demande du code de reinitialisationde du mot de passe
+ *
+ * Envoie l'email de l'utilisateur au backend
+ * Le backend genere un code de verification et l'envoie par email
+ * Retourne une reponse succes si le code est envoye
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const sendResetCodeThunk = createAsyncThunk(
+  "auth/sendResetCode",
+  async (_data, { rejectWithValue }) => {
+    try {
+      await getCsrfCookie();
+      const response = await sendResetCode(_data);
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la reinitialisation du mot de passe
+ *
+ * Envoie l'email, le code de verification et le nouveau mot de passe au backend
+ * Le backend met a jour le mot de passe si le code est valide
+ * Retourne une reponse succes si le code est envoye
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const resetPasswordThunk = createAsyncThunk(
+  "auth/resetPassword",
+  async (_data, { rejectWithValue }) => {
+    try {
+      const response = await resetPassword(_data);
       const { data } = response ?? {};
       return data;
     } catch ({ response }) {
