@@ -96,6 +96,11 @@ export function LoginPage() {
         >
           {t("login.actions.reset")}
         </Button>
+        <Link to="/password-reset">
+          <Button variant="link" className="w-full">
+            {t("login.actions.forgotPassword")}
+          </Button>
+        </Link>
       </CardFooter>
     </>
   );
