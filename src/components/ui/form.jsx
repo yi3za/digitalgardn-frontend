@@ -114,10 +114,12 @@ function FormDescription({
 
 function FormMessage({
   className,
+  rules,
   ...props
 }) {
+  const { t } = useTranslation();
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? "") : props.children
+  const body = error ? String(t(error?.message ?? "", rules ?? {})) : props.children
 
   if (!body) {
     return null
@@ -137,15 +139,17 @@ function FormMessage({
 /**
  * Composant de champ de formulaire personnalise
  */
-function CustomFormField({ name, control, icon: Icon, page="register", ...props }) {
+function CustomFormField({ name, control, icon: Icon, page="register", rules, ...props }) {
   const { t } = useTranslation();
   return (
     <FormField
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field }) => {
+        const label = t(`${page}.fields.${name}.label`);
+        return (
         <FormItem>
-          <FormLabel>{t(`${page}.fields.${name}.label`)}</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <div className="relative">
             {Icon && (
               <Icon
@@ -162,9 +166,9 @@ function CustomFormField({ name, control, icon: Icon, page="register", ...props 
               />
             </FormControl>
           </div>
-          <FormMessage />
+          <FormMessage rules={{attribute: label,...rules}} />
         </FormItem>
-      )}
+  )}}
     />
   );
 }
