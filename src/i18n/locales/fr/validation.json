@@ -21,7 +21,7 @@
     },
     "boolean": "{{attribute}} doit être vrai ou faux.",
     "can": "{{attribute}} contient une valeur non autorisée.",
-    "confirmed": "{{attribute}} ne correspond pas à sa confirmation.",
+    "confirmed": "{{attribute}} ne correspond pas à la valeur attendue.",
     "contains": "{{attribute}} ne contient pas toutes les valeurs requises.",
     "current_password": "{{attribute}} est incorrect.",
     "date": "{{attribute}} n'est pas une date valide.",
