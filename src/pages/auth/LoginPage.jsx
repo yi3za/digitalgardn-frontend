@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { loginSchema } from "@/features/auth/auth.schemas";
 
 /**
  * Composant de la page de connexion
@@ -25,8 +27,10 @@ export function LoginPage() {
   // Recuperation des donnees passees via navigate (state) depuis la page precedente
   const { state } = useLocation();
   // Initialisation du formulaire
+  // Validation des champs basee sur loginSchema
   const form = useForm({
     defaultValues: { email: state?.email ?? "", password: "" },
+    resolver: zodResolver(loginSchema)
   });
   // Hook pour la traduction
   const { t } = useTranslation();
