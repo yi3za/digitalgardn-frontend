@@ -70,6 +70,7 @@ export function LoginPage() {
             page="login"
             control={form.control}
             icon={Mail}
+            rules={{ max: 255 }}
           />
           <CustomFormField
             name="password"
@@ -77,6 +78,7 @@ export function LoginPage() {
             page="login"
             control={form.control}
             icon={Lock}
+            rules={{ min: 8 }}
           />
         </Form>
       </CardContent>
