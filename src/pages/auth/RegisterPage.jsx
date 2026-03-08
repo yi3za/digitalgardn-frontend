@@ -23,8 +23,10 @@ import {
   RadioGroupItem,
   CustomFormField,
 } from "@/components/ui";
+import { registerSchema } from "@/features/auth/auth.schemas";
 import { registerThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, User, AtSign } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,6 +37,7 @@ import { toast } from "sonner";
 
 export function RegisterPage() {
   // Initialisation du formulaire
+  // Validation des champs basee sur loginSchema
   const form = useForm({
     defaultValues: {
       name: "",
@@ -44,6 +47,7 @@ export function RegisterPage() {
       password_confirmation: "",
       role: "client",
     },
+    resolver: zodResolver(registerSchema),
   });
   // Dispatcher pour les actions
   const dispatch = useDispatch();
@@ -102,17 +106,24 @@ export function RegisterPage() {
         <Form {...form}>
           {step === 1 && (
             <>
-              <CustomFormField name="name" control={form.control} icon={User} />
+              <CustomFormField
+                name="name"
+                control={form.control}
+                icon={User}
+                rules={{ max: 255 }}
+              />
               <CustomFormField
                 name="username"
                 control={form.control}
                 icon={AtSign}
+                rules={{ min: 3, max: 30 }}
               />
               <CustomFormField
                 name="email"
                 type="email"
                 control={form.control}
                 icon={Mail}
+                rules={{ max: 255 }}
               />
             </>
           )}
@@ -123,6 +134,7 @@ export function RegisterPage() {
                 type="password"
                 control={form.control}
                 icon={Lock}
+                rules={{ min: 8 }}
               />
               <CustomFormField
                 name="password_confirmation"
@@ -136,9 +148,11 @@ export function RegisterPage() {
             <FormField
               control={form.control}
               name="role"
-              render={({ field }) => (
+              render={({ field }) => {
+                const label = t("register.fields.role.label");
+                return (
                 <FormItem>
-                  <FormLabel>{t("register.fields.role.label")}</FormLabel>
+                  <FormLabel>{label}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       value={field.value}
@@ -163,9 +177,10 @@ export function RegisterPage() {
                       ))}
                     </RadioGroup>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage rules={{ attribute: label }} />
                 </FormItem>
-              )}
+                );
+              }}
             />
           )}
         </Form>
