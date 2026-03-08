@@ -74,6 +74,16 @@ export function RegisterPage() {
       toast.error(t(code));
     }
   };
+  // Reset des champs selon l'etape actuelle
+  const handleFormResetByStep = () => {
+    const fieldsResetByStep =
+      step === 1
+        ? ["name", "username", "email"]
+        : step === 2
+          ? ["password", "password_confirmation"]
+          : ["role"];
+    fieldsResetByStep.forEach((field) => form.resetField(field));
+  };
 
   return (
     <>
@@ -181,7 +191,7 @@ export function RegisterPage() {
           </Button>
         </ButtonGroup>
         <Button
-          onClick={() => form.reset()}
+          onClick={handleFormResetByStep}
           variant="secondary"
           className="w-full"
         >
