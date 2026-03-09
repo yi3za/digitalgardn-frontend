@@ -19,12 +19,17 @@ import {
   InputOTPSlot,
   Spinner,
 } from "@/components/ui";
+import {
+  resetPasswordSchema,
+  sendResetCodeSchema,
+} from "@/features/auth/auth.schemas";
 import { authCheckedSelector } from "@/features/auth/auth.selectors";
 import {
   resetPasswordThunk,
   sendResetCodeThunk,
 } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Lock, Mail } from "lucide-react";
 import { useState } from "react";
@@ -37,7 +42,12 @@ import { toast } from "sonner";
 export function PasswordResetPage() {
   // Etat de store indiquant si une requete auth est en cours
   const checked = useSelector(authCheckedSelector);
+  // Indique c'est le code a ete envoye
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  // Etape actuelle du processus (1 = code & 2 = nouveau mot de passe)
+  const [step, setStep] = useState(1);
   // Initialisation du formulaire avec les valeurs par defaut
+  // Validation des champs basee sur resetPasswordSchema si isCodeSent sinon sendResetCodeSchema
   const form = useForm({
     defaultValues: {
       email: "",
@@ -45,6 +55,9 @@ export function PasswordResetPage() {
       password: "",
       password_confirmation: "",
     },
+    resolver: zodResolver(
+      !isCodeSent ? sendResetCodeSchema : resetPasswordSchema,
+    ),
   });
   // Hook pour envoyer des actions Redux
   const dispatch = useDispatch();
@@ -52,36 +65,26 @@ export function PasswordResetPage() {
   const navigate = useNavigate();
   // Hook pour la traduction
   const { t } = useTranslation();
-  // Indique c'est le code a ete envoye
-  const [isCodeSent, setIsCodeSent] = useState(false);
-  // Etape actuelle du processus (1 = code & 2 = nouveau mot de passe)
-  const [step, setStep] = useState(1);
   // Passer a l'etape suivante
   const next = () => setStep((s) => s + 1);
   // Revenir a l'etape precedente
   const back = () => setStep((s) => s - 1);
-  // Envoyer le code de reinitialisation par email
-  const sendCode = async () => {
-    const { email } = form.getValues();
+  /**
+   * Gerer le processus de reinitialisation du mot de passe :
+   */
+  const processPasswordReset = async (data) => {
     try {
-      await dispatch(sendResetCodeThunk({ email })).unwrap();
-      toast.success(t("passwordReset.toast.successSendCode"));
-      setIsCodeSent(true);
+      const email = data?.email;
+      const thunk = !isCodeSent
+        ? sendResetCodeThunk({ email })
+        : resetPasswordThunk(data);
+      const messageKey = !isCodeSent ? "successSendCode" : "successReset";
+      await dispatch(thunk).unwrap();
+      toast.success(t(`passwordReset.toast.${messageKey}`));
+      if (!isCodeSent) setIsCodeSent(true);
+      else navigate("/login", { state: { email } });
     } catch ({ code, details: errors }) {
       setServerErrors(errors, form.setError);
-      toast.error(t(code));
-    }
-  };
-  // Envoyer la demande de reinitialisation du mot de passe
-  const resetPassword = async (data) => {
-    try {
-      await dispatch(resetPasswordThunk(data)).unwrap();
-      toast.success(t("passwordReset.toast.successReset"));
-      const email = form.getValues("email");
-      navigate("/login", { state: { email } });
-    } catch ({ code, details: errors }) {
-      setServerErrors(errors, form.setError);
-      setStep(errors?.code ? 1 : 2);
       toast.error(t(code));
     }
   };
@@ -94,18 +97,17 @@ export function PasswordResetPage() {
   };
   // Gestion du button retour
   const handleStepBack = () => {
-    if (step === 2) return back;
+    if (step === 2) return back();
     setIsCodeSent(false);
     form.reset();
   };
   // Configuration de l’action et du label du bouton principal
-  const resetPasswordConfig = !isCodeSent
-    ? { action: sendCode, label: "sendCode" }
-    : step === 1
+  const resetPasswordConfig =
+    isCodeSent && step === 1
       ? { action: next, label: "next" }
       : {
-          action: form.handleSubmit(resetPassword),
-          label: "resetPassword",
+          action: form.handleSubmit(processPasswordReset),
+          label: !isCodeSent ? "sendCode" : "resetPassword",
         };
 
   return (
@@ -138,6 +140,7 @@ export function PasswordResetPage() {
               page="passwordReset"
               control={form.control}
               icon={Mail}
+              rules={{ max: 255 }}
             />
           )}
           {isCodeSent && (
@@ -146,11 +149,11 @@ export function PasswordResetPage() {
                 <FormField
                   name="code"
                   control={form.control}
-                  render={({ field }) => (
+                  render={({ field }) => {
+                    const label = t("passwordReset.fields.code.label");
+                    return (
                     <FormItem>
-                      <FormLabel>
-                        {t("passwordReset.fields.code.label")}
-                      </FormLabel>
+                      <FormLabel>{label}</FormLabel>
                       <FormControl>
                         <InputOTP
                           disabled={!checked}
@@ -171,9 +174,13 @@ export function PasswordResetPage() {
                       <FormDescription className="text-center">
                         {t("passwordReset.fields.code.placeholder")}
                       </FormDescription>
-                      <FormMessage className="text-center" />
+                      <FormMessage
+                        className="text-center"
+                        rules={{ attribute: label, size: 6 }}
+                      />
                     </FormItem>
-                  )}
+                    );
+                  }}
                 />
               ) : (
                 <>
@@ -183,6 +190,7 @@ export function PasswordResetPage() {
                     type="password"
                     control={form.control}
                     icon={Lock}
+                    rules={{ min: 8 }}
                   />
                   <CustomFormField
                     disabled={!checked}
