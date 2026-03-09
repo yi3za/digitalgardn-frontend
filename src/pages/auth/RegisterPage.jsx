@@ -32,7 +32,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export function RegisterPage() {
@@ -51,6 +51,8 @@ export function RegisterPage() {
   });
   // Dispatcher pour les actions
   const dispatch = useDispatch();
+  // Hook pour naviguer vers une autre page
+  const navigate = useNavigate();
   // Hook pour la traduction
   const { t } = useTranslation();
   // Gestion des etapes du formulaire d'inscription
@@ -96,9 +98,9 @@ export function RegisterPage() {
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
         <CardAction>
-          <Link to="/login">
-            <Button variant="link">{t("register.headerAction.logIn")}</Button>
-          </Link>
+          <Button onClick={() => navigate("/login")} variant="link">
+            {t("register.headerAction.logIn")}
+          </Button>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}

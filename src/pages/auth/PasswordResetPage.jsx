@@ -117,16 +117,20 @@ export function PasswordResetPage() {
         <CardTitle>{t("passwordReset.title")}</CardTitle>
         <CardDescription>{t("passwordReset.description")}</CardDescription>
         <CardAction className="flex flex-col items-end">
-          <Link to="/login">
-            <Button variant="link" disabled={!checked}>
-              {t("passwordReset.headerAction.logIn")}
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button variant="link" disabled={!checked}>
-              {t("passwordReset.headerAction.signUp")}
-            </Button>
-          </Link>
+          <Button
+            onClick={() => navigate("/login")}
+            variant="link"
+            disabled={!checked}
+          >
+            {t("passwordReset.headerAction.logIn")}
+          </Button>
+          <Button
+            onClick={() => navigate("/register")}
+            variant="link"
+            disabled={!checked}
+          >
+            {t("passwordReset.headerAction.signUp")}
+          </Button>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}

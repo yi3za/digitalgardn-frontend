@@ -15,9 +15,9 @@ import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/features/auth/auth.schemas";
 
 /**
@@ -30,12 +30,14 @@ export function LoginPage() {
   // Validation des champs basee sur loginSchema
   const form = useForm({
     defaultValues: { email: state?.email ?? "", password: "" },
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
   });
   // Hook pour la traduction
   const { t } = useTranslation();
   // Dispatcher pour les actions
   const dispatch = useDispatch();
+  // Hook pour naviguer entre les pages
+  const navigate = useNavigate();
   /**
    * Fonction de soumission du formulaire : dispatch de l'action login
    */
@@ -60,9 +62,9 @@ export function LoginPage() {
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
         <CardAction>
-          <Link to="/register">
-            <Button variant="link">{t("login.headerAction.signUp")}</Button>
-          </Link>
+          <Button onClick={() => navigate("/register")} variant="link">
+            {t("login.headerAction.signUp")}
+          </Button>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
@@ -102,11 +104,13 @@ export function LoginPage() {
         >
           {t("login.actions.reset")}
         </Button>
-        <Link to="/password-reset">
-          <Button variant="link" className="w-full">
-            {t("login.actions.forgotPassword")}
-          </Button>
-        </Link>
+        <Button
+          onClick={() => navigate("/password-reset")}
+          variant="link"
+          className="w-full"
+        >
+          {t("login.actions.forgotPassword")}
+        </Button>
       </CardFooter>
     </>
   );
