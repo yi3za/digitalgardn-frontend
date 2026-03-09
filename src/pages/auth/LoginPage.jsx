@@ -14,16 +14,19 @@ import { setServerErrors } from "@/lib/utils";
 import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/features/auth/auth.schemas";
+import { authCheckedSelector } from "@/features/auth/auth.selectors";
 
 /**
  * Composant de la page de connexion
  */
 export function LoginPage() {
+  // Etat de store indiquant si une requete auth est en cours
+  const checked = useSelector(authCheckedSelector);
   // Recuperation des donnees passees via navigate (state) depuis la page precedente
   const { state } = useLocation();
   // Initialisation du formulaire
@@ -62,7 +65,7 @@ export function LoginPage() {
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/register")} variant="link">
+          <Button onClick={() => navigate("/register")} variant="link" disabled={!checked}>
             {t("login.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -70,6 +73,7 @@ export function LoginPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
+          <fieldset disabled={!checked}>
           <CustomFormField
             name="email"
             type="email"
@@ -86,6 +90,7 @@ export function LoginPage() {
             icon={Lock}
             rules={{ min: 8 }}
           />
+          </fieldset>
         </Form>
       </CardContent>
       {/* Pied de carte */}
@@ -94,6 +99,7 @@ export function LoginPage() {
           className="w-full"
           size="lg"
           onClick={form.handleSubmit(submit)}
+          disabled={!checked}
         >
           {t("login.actions.submit")}
         </Button>
@@ -101,6 +107,7 @@ export function LoginPage() {
           onClick={() => form.reset()}
           variant="secondary"
           className="w-full"
+          disabled={!checked}
         >
           {t("login.actions.reset")}
         </Button>
@@ -108,6 +115,7 @@ export function LoginPage() {
           onClick={() => navigate("/password-reset")}
           variant="link"
           className="w-full"
+          disabled={!checked}
         >
           {t("login.actions.forgotPassword")}
         </Button>

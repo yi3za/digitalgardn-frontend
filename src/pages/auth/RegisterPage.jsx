@@ -24,6 +24,7 @@ import {
   CustomFormField,
 } from "@/components/ui";
 import { registerSchema } from "@/features/auth/auth.schemas";
+import { authCheckedSelector } from "@/features/auth/auth.selectors";
 import { registerThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,11 +32,13 @@ import { Mail, Lock, User, AtSign } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export function RegisterPage() {
+  // Etat de store indiquant si une requete auth est en cours
+  const checked = useSelector(authCheckedSelector);
   // Initialisation du formulaire
   // Validation des champs basee sur registerSchema
   const form = useForm({
@@ -98,7 +101,7 @@ export function RegisterPage() {
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/login")} variant="link">
+          <Button onClick={() => navigate("/login")} variant="link" disabled={!checked}>
             {t("register.headerAction.logIn")}
           </Button>
         </CardAction>
@@ -106,6 +109,7 @@ export function RegisterPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
+          <fieldset disabled={!checked}>
           {step === 1 && (
             <>
               <CustomFormField
@@ -185,13 +189,14 @@ export function RegisterPage() {
               }}
             />
           )}
+          </fieldset>
         </Form>
       </CardContent>
       {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <ButtonGroup className="w-full flex">
           <Button
-            disabled={step === 1}
+            disabled={step === 1 || !checked}
             variant="ghost"
             className="flex-1"
             onClick={back}
@@ -200,6 +205,7 @@ export function RegisterPage() {
           </Button>
           <ButtonGroupSeparator />
           <Button
+            disabled={!checked}
             className="flex-1"
             variant={step === 3 ? "" : "ghost"}
             onClick={step === 3 ? form.handleSubmit(submit) : next}
@@ -208,6 +214,7 @@ export function RegisterPage() {
           </Button>
         </ButtonGroup>
         <Button
+          disabled={!checked}
           onClick={handleFormResetByStep}
           variant="secondary"
           className="w-full"

@@ -36,7 +36,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export function PasswordResetPage() {
@@ -113,22 +113,14 @@ export function PasswordResetPage() {
   return (
     <>
       {/* En-tete de la carte */}
-      <CardHeader disabled={!checked}>
+      <CardHeader>
         <CardTitle>{t("passwordReset.title")}</CardTitle>
         <CardDescription>{t("passwordReset.description")}</CardDescription>
         <CardAction className="flex flex-col items-end">
-          <Button
-            onClick={() => navigate("/login")}
-            variant="link"
-            disabled={!checked}
-          >
+          <Button onClick={() => navigate("/login")} variant="link" disabled={!checked}>
             {t("passwordReset.headerAction.logIn")}
           </Button>
-          <Button
-            onClick={() => navigate("/register")}
-            variant="link"
-            disabled={!checked}
-          >
+          <Button onClick={() => navigate("/register")} variant="link" disabled={!checked}>
             {t("passwordReset.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -136,10 +128,10 @@ export function PasswordResetPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
+          <fieldset disabled={!checked}>
           {!isCodeSent && (
             <CustomFormField
               name="email"
-              disabled={!checked}
               type="email"
               page="passwordReset"
               control={form.control}
@@ -160,7 +152,6 @@ export function PasswordResetPage() {
                       <FormLabel>{label}</FormLabel>
                       <FormControl>
                         <InputOTP
-                          disabled={!checked}
                           maxLength={6}
                           {...field}
                           pattern={REGEXP_ONLY_DIGITS}
@@ -189,7 +180,6 @@ export function PasswordResetPage() {
               ) : (
                 <>
                   <CustomFormField
-                    disabled={!checked}
                     name="password"
                     type="password"
                     control={form.control}
@@ -197,7 +187,6 @@ export function PasswordResetPage() {
                     rules={{ min: 8 }}
                   />
                   <CustomFormField
-                    disabled={!checked}
                     name="password_confirmation"
                     type="password"
                     control={form.control}
@@ -207,6 +196,7 @@ export function PasswordResetPage() {
               )}
             </>
           )}
+          </fieldset>
         </Form>
       </CardContent>
       {/* Pied de carte */}
