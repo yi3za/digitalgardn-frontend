@@ -113,6 +113,7 @@ export function RegisterPage() {
           {step === 1 && (
             <>
               <CustomFormField
+                autoFocus
                 name="name"
                 control={form.control}
                 icon={User}
@@ -136,6 +137,7 @@ export function RegisterPage() {
           {step === 2 && (
             <>
               <CustomFormField
+                autoFocus
                 name="password"
                 type="password"
                 control={form.control}

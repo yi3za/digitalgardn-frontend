@@ -131,6 +131,7 @@ export function PasswordResetPage() {
           <fieldset disabled={!checked}>
           {!isCodeSent && (
             <CustomFormField
+              autoFocus
               name="email"
               type="email"
               page="passwordReset"
@@ -152,6 +153,7 @@ export function PasswordResetPage() {
                       <FormLabel>{label}</FormLabel>
                       <FormControl>
                         <InputOTP
+                          autoFocus
                           maxLength={6}
                           {...field}
                           pattern={REGEXP_ONLY_DIGITS}
@@ -180,6 +182,7 @@ export function PasswordResetPage() {
               ) : (
                 <>
                   <CustomFormField
+                    autoFocus
                     name="password"
                     type="password"
                     control={form.control}

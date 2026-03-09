@@ -75,6 +75,7 @@ export function LoginPage() {
         <Form {...form}>
           <fieldset disabled={!checked}>
           <CustomFormField
+            autoFocus
             name="email"
             type="email"
             page="login"
