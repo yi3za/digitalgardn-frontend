@@ -37,7 +37,7 @@ import { toast } from "sonner";
 
 export function RegisterPage() {
   // Initialisation du formulaire
-  // Validation des champs basee sur loginSchema
+  // Validation des champs basee sur registerSchema
   const form = useForm({
     defaultValues: {
       name: "",
