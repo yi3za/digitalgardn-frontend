@@ -64,6 +64,11 @@ export function RegisterPage() {
   const next = () => setStep((s) => s + 1);
   // Revenire a l'etape precedente
   const back = () => setStep((s) => s - 1);
+  // Fonction appelee lorsque la validation du formulaire echoue
+  const onError = (errors) => {
+    if (errors?.name || errors?.username || errors?.email) setStep(1);
+    else if (errors?.password || errors?.password_confirmation) setStep(2);
+  };
   /**
    * Fonction de soumission du formulaire : dispatch de l'action login
    */
@@ -210,7 +215,7 @@ export function RegisterPage() {
             disabled={!checked}
             className="flex-1"
             variant={step === 3 ? "" : "ghost"}
-            onClick={step === 3 ? form.handleSubmit(submit) : next}
+            onClick={step === 3 ? form.handleSubmit(submit, onError) : next}
           >
             {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
           </Button>
