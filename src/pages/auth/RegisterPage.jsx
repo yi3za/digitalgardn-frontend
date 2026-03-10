@@ -66,6 +66,7 @@ export function RegisterPage() {
   const back = () => setStep((s) => s - 1);
   // Fonction appelee lorsque la validation du formulaire echoue
   const onError = (errors) => {
+    if (!errors) return;
     if (errors?.name || errors?.username || errors?.email) setStep(1);
     else if (errors?.password || errors?.password_confirmation) setStep(2);
   };
@@ -79,11 +80,12 @@ export function RegisterPage() {
       // Afficher message de succes
       toast.success(t("register.toast.success"));
     } catch ({ code, details: errors }) {
+      // Mettre le formulaire a l'etape correspondant aux champs en erreur
+      onError(errors);
       // Afficher les erreurs du serveur dans le formulaire
-      setServerErrors(errors, form.setError);
-      // Determine l'etape du formulaire selon les erreurs reçues
-      if (errors?.name || errors?.username || errors?.email) setStep(1);
-      else if (errors?.password) setStep(2);
+      setTimeout(() => {
+        setServerErrors(errors, form.setError);
+      }, 0);
       // Afficher notification d'erreur
       toast.error(t(code));
     }

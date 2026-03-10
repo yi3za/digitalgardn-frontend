@@ -69,6 +69,11 @@ export function PasswordResetPage() {
   const next = () => setStep((s) => s + 1);
   // Revenir a l'etape precedente
   const back = () => setStep((s) => s - 1);
+  // Fonction appelee lorsque la validation du formulaire echoue
+  const onError = (errors) => {
+    if (!errors) return;
+    if (isCodeSent && errors?.code && step !== 1) setStep(1);
+  };
   /**
    * Gerer le processus de reinitialisation du mot de passe :
    */
@@ -84,7 +89,10 @@ export function PasswordResetPage() {
       if (!isCodeSent) setIsCodeSent(true);
       else navigate("/login", { state: { email } });
     } catch ({ code, details: errors }) {
-      setServerErrors(errors, form.setError);
+      onError(errors);
+      setTimeout(() => {
+        setServerErrors(errors, form.setError);
+      }, 0);
       toast.error(t(code));
     }
   };
@@ -100,10 +108,6 @@ export function PasswordResetPage() {
     if (step === 2) return back();
     setIsCodeSent(false);
     form.reset();
-  };
-  // Fonction appelee lorsque la validation du formulaire echoue
-  const onError = (errors) => {
-    if (isCodeSent && errors?.code && step !== 1) setStep(1);
   };
   // Configuration de l’action et du label du bouton principal
   const resetPasswordConfig =
