@@ -103,7 +103,7 @@ export function PasswordResetPage() {
   };
   // Fonction appelee lorsque la validation du formulaire echoue
   const onError = (errors) => {
-    if (!isCodeSent && errors?.code && step !== 1) setStep(1);
+    if (isCodeSent && errors?.code && step !== 1) setStep(1);
   };
   // Configuration de l’action et du label du bouton principal
   const resetPasswordConfig =
