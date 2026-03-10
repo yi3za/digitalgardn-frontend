@@ -7,9 +7,17 @@ export function cn(...inputs) {
 
 /**
  * Assigne les erreurs serveur à chaque champ dans react-hook-form
+ * shouldFocus : applique automatiquement le focus sur le champ qui contient une erreur
  */
 export function setServerErrors(errors, setError) {
-  Object.entries(errors ?? {}).forEach(([field, message]) => {
-    setError(field, { type: "server", message: message[0] });
+  const errorsArray = Object.entries(errors ?? {});
+  if (errorsArray.length === 0) return;
+  const firstElement = errorsArray[0][0];
+  errorsArray.forEach(([field, message]) => {
+    setError(
+      field,
+      { type: "server", message: message[0] },
+      { shouldFocus: field === firstElement },
+    );
   });
 }
