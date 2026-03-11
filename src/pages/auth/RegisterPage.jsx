@@ -22,6 +22,7 @@ import {
   FieldDescription,
   RadioGroupItem,
   CustomFormField,
+  Spinner,
 } from "@/components/ui";
 import { registerSchema } from "@/features/auth/auth.schemas";
 import { authCheckedSelector } from "@/features/auth/auth.selectors";
@@ -219,6 +220,7 @@ export function RegisterPage() {
             variant={step === 3 ? "" : "ghost"}
             onClick={step === 3 ? form.handleSubmit(submit, onError) : next}
           >
+            {!checked && <Spinner />}
             {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
           </Button>
         </ButtonGroup>

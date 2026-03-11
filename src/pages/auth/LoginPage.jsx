@@ -8,6 +8,7 @@ import {
   CardTitle,
   Form,
   CustomFormField,
+  Spinner,
 } from "@/components/ui";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -102,6 +103,7 @@ export function LoginPage() {
           onClick={form.handleSubmit(submit)}
           disabled={!checked}
         >
+          {!checked && <Spinner />}
           {t("login.actions.submit")}
         </Button>
         <Button
