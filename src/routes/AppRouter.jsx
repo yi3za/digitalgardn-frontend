@@ -7,6 +7,6 @@ import { router } from "./router";
  * configure le router principal de l'application
  * utilise RouterProvider pour rendre le routage accessible dans l'application
  */
-export default function AppRouter() {
+export function AppRouter() {
   return <RouterProvider router={router} />;
 }
