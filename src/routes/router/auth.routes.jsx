@@ -2,7 +2,7 @@ import { LoginPage } from "@/pages/auth/LoginPage";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
 import { PasswordResetPage } from "@/pages/auth/PasswordResetPage";
-import { GuestRoute } from "./guards/GuestRoute";
+import { GuestRoute } from "../guards/GuestRoute";
 
 /**
  * Definit les routes liees à l'authentification
