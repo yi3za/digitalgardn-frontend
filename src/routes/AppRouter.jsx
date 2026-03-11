@@ -1,19 +1,12 @@
-import { BrowserRouter, Routes } from "react-router-dom";
-import { AuthRoutes } from "./AuthRoutes";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 
 /**
  * Composant responsable de la configuration du routage global
  *
- * - Enveloppe l'application avec BrowserRouter
- * - Definit les differentes routes disponibles
+ * configure le router principal de l'application
+ * utilise RouterProvider pour rendre le routage accessible dans l'application
  */
 export default function AppRouter() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Injection des routes d'authentification */}
-        {AuthRoutes()}
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }
