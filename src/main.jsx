@@ -1,17 +1,16 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import { Provider } from "react-redux";
-import { store } from "./store";
+// configuration de l'internationalisation
 import "@/i18n";
+// styles globaux de l'application
 import "@/styles/index.css";
-import { Toaster } from "@/components/ui/sonner";
 
+/**
+ * Point d'entree principal de l'application React
+ */
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-      <Toaster position="top-center" />
-    </Provider>
+    <App />
   </StrictMode>,
 );

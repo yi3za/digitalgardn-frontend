@@ -1,11 +1,19 @@
 import AppRouter from "@/routes/AppRouter";
+import { store } from "./store";
+import { Provider } from "react-redux";
+import { Toaster } from "sonner";
 
 /**
  * Composant principal de l'application
  *
- * Charge et retourne le routeur principal (AppRouter)
- * qui gere la navigation entre les differentes pages
+ * Il initialise le store
+ * Affiche le routeur
  */
 export default function App() {
-  return <AppRouter />;
+  return (
+    <Provider store={store}>
+      <AppRouter />
+      <Toaster position="top-center" />
+    </Provider>
+  );
 }
