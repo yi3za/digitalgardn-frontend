@@ -23,7 +23,7 @@ import {
   resetPasswordSchema,
   sendResetCodeSchema,
 } from "@/features/auth/auth.schemas";
-import { authCheckedSelector } from "@/features/auth/auth.selectors";
+import { authLoadingSelector } from "@/features/auth/auth.selectors";
 import {
   resetPasswordThunk,
   sendResetCodeThunk,
@@ -41,7 +41,7 @@ import { toast } from "sonner";
 
 export function PasswordResetPage() {
   // Etat de store indiquant si une requete auth est en cours
-  const checked = useSelector(authCheckedSelector);
+  const loading = useSelector(authLoadingSelector);
   // Indique c'est le code a ete envoye
   const [isCodeSent, setIsCodeSent] = useState(false);
   // Etape actuelle du processus (1 = code & 2 = nouveau mot de passe)
@@ -133,10 +133,10 @@ export function PasswordResetPage() {
         <CardTitle>{t("passwordReset.title")}</CardTitle>
         <CardDescription>{t("passwordReset.description")}</CardDescription>
         <CardAction className="flex flex-col items-end">
-          <Button onClick={() => navigate("/login")} variant="link" disabled={!checked}>
+          <Button onClick={() => navigate("/login")} variant="link" disabled={loading}>
             {t("passwordReset.headerAction.logIn")}
           </Button>
-          <Button onClick={() => navigate("/register")} variant="link" disabled={!checked}>
+          <Button onClick={() => navigate("/register")} variant="link" disabled={loading}>
             {t("passwordReset.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -144,7 +144,7 @@ export function PasswordResetPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={!checked}>
+          <fieldset disabled={loading}>
           {!isCodeSent && (
             <CustomFormField
               autoFocus
@@ -221,24 +221,24 @@ export function PasswordResetPage() {
       {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <Button
-          disabled={!checked}
+          disabled={loading}
           size="lg"
           className="w-full"
           onClick={resetPasswordConfig.action}
         >
-          {!checked && <Spinner />}
+          {loading && <Spinner />}
           {t(`passwordReset.actions.${resetPasswordConfig.label}`)}
         </Button>
         <Button
           onClick={handleFormResetByStep}
-          disabled={!checked}
+          disabled={loading}
           variant="secondary"
           className="w-full"
         >
           {t("passwordReset.actions.reset")}
         </Button>
         {isCodeSent && (
-          <Button variant="link" onClick={handleStepBack} disabled={!checked}>
+          <Button variant="link" onClick={handleStepBack} disabled={loading}>
             {t(
               `passwordReset.actions.${step === 2 ? "editCode" : "editEmail"}`,
             )}

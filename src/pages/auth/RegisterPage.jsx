@@ -25,7 +25,7 @@ import {
   Spinner,
 } from "@/components/ui";
 import { registerSchema } from "@/features/auth/auth.schemas";
-import { authCheckedSelector } from "@/features/auth/auth.selectors";
+import { authLoadingSelector } from "@/features/auth/auth.selectors";
 import { registerThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,7 @@ import { toast } from "sonner";
 
 export function RegisterPage() {
   // Etat de store indiquant si une requete auth est en cours
-  const checked = useSelector(authCheckedSelector);
+  const loading = useSelector(authLoadingSelector);
   // Initialisation du formulaire
   // Validation des champs basee sur registerSchema
   const form = useForm({
@@ -109,7 +109,7 @@ export function RegisterPage() {
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/login")} variant="link" disabled={!checked}>
+          <Button onClick={() => navigate("/login")} variant="link" disabled={loading}>
             {t("register.headerAction.logIn")}
           </Button>
         </CardAction>
@@ -117,7 +117,7 @@ export function RegisterPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={!checked}>
+          <fieldset disabled={loading}>
           {step === 1 && (
             <>
               <CustomFormField
@@ -206,7 +206,7 @@ export function RegisterPage() {
       <CardFooter className="flex-col gap-2">
         <ButtonGroup className="w-full flex">
           <Button
-            disabled={step === 1 || !checked}
+            disabled={step === 1 || loading}
             variant="ghost"
             className="flex-1"
             onClick={back}
@@ -215,17 +215,17 @@ export function RegisterPage() {
           </Button>
           <ButtonGroupSeparator />
           <Button
-            disabled={!checked}
+            disabled={loading}
             className="flex-1"
             variant={step === 3 ? "" : "ghost"}
             onClick={step === 3 ? form.handleSubmit(submit, onError) : next}
           >
-            {!checked && <Spinner />}
+            {loading && <Spinner />}
             {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
           </Button>
         </ButtonGroup>
         <Button
-          disabled={!checked}
+          disabled={loading}
           onClick={handleFormResetByStep}
           variant="secondary"
           className="w-full"

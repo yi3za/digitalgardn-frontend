@@ -20,14 +20,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/features/auth/auth.schemas";
-import { authCheckedSelector } from "@/features/auth/auth.selectors";
+import { authLoadingSelector } from "@/features/auth/auth.selectors";
 
 /**
  * Composant de la page de connexion
  */
 export function LoginPage() {
   // Etat de store indiquant si une requete auth est en cours
-  const checked = useSelector(authCheckedSelector);
+  const loading = useSelector(authLoadingSelector);
   // Recuperation des donnees passees via navigate (state) depuis la page precedente
   const { state } = useLocation();
   // Initialisation du formulaire
@@ -66,7 +66,7 @@ export function LoginPage() {
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/register")} variant="link" disabled={!checked}>
+          <Button onClick={() => navigate("/register")} variant="link" disabled={loading}>
             {t("login.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -74,7 +74,7 @@ export function LoginPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={!checked}>
+          <fieldset disabled={loading}>
           <CustomFormField
             autoFocus
             name="email"
@@ -101,16 +101,16 @@ export function LoginPage() {
           className="w-full"
           size="lg"
           onClick={form.handleSubmit(submit)}
-          disabled={!checked}
+          disabled={loading}
         >
-          {!checked && <Spinner />}
+          {loading && <Spinner />}
           {t("login.actions.submit")}
         </Button>
         <Button
           onClick={() => form.reset()}
           variant="secondary"
           className="w-full"
-          disabled={!checked}
+          disabled={loading}
         >
           {t("login.actions.reset")}
         </Button>
@@ -118,7 +118,7 @@ export function LoginPage() {
           onClick={() => navigate("/password-reset")}
           variant="link"
           className="w-full"
-          disabled={!checked}
+          disabled={loading}
         >
           {t("login.actions.forgotPassword")}
         </Button>
