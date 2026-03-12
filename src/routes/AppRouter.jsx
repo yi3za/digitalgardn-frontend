@@ -3,7 +3,7 @@ import { router } from "./router";
 import { useSelector } from "react-redux";
 import { authStatusSelector } from "@/features/auth/auth.selectors";
 import { AUTH_STATUS } from "@/features/auth/auth.constants";
-import { SplashScreen } from "@/components/ui/splash-screen";
+import { SplashScreen } from "@/components/feedback/splash-screen";
 
 /**
  * Composant responsable de la configuration du routage global
