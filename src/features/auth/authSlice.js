@@ -13,14 +13,14 @@ import {
  * Etat initial du slice d'authentification
  *
  * user : informations de l'utilisateur connecte
- * status : etat actuel de la requete d'authentification
- * checked : indique si la verification d'authentification a deja ete effectuee
+ * status : etat actuel de l'authentification
+ * loading : indique si une requete est en cours
  * error : contient le message d'erreur en cas d'echec
  */
 const initialState = {
   user: null,
   status: AUTH_STATUS.IDLE,
-  checked: true,
+  loading: false,
   error: null,
 };
 
@@ -39,96 +39,93 @@ const authSlice = createSlice({
     builder
       .addCase(registerThunk.pending, (state) => {
         state.user = null;
-        state.status = AUTH_STATUS.LOADING;
-        state.checked = false;
         state.error = null;
+        state.loading = true;
       })
       .addCase(registerThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(registerThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
     // loginThunk
     builder
       .addCase(loginThunk.pending, (state) => {
         state.user = null;
-        state.status = AUTH_STATUS.LOADING;
-        state.checked = false;
         state.error = null;
+        state.loading = true;
       })
       .addCase(loginThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(loginThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
     // getMeThunk
     builder
       .addCase(getMeThunk.pending, (state) => {
         state.user = null;
-        state.status = AUTH_STATUS.LOADING;
-        state.checked = false;
         state.error = null;
+        state.loading = true;
       })
       .addCase(getMeThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(getMeThunk.rejected, (state, { payload }) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
     // logoutThunk
     builder
       .addCase(logoutThunk.pending, (state) => {
-        state.checked = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(logoutThunk.fulfilled, (state) => {
         state.user = null;
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(logoutThunk.rejected, (state, { payload }) => {
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
     // sendResetCodeThunk
     builder
       .addCase(sendResetCodeThunk.pending, (state) => {
-        state.checked = false;
         state.error = null;
+        state.loading = true;
       })
       .addCase(sendResetCodeThunk.fulfilled, (state) => {
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(sendResetCodeThunk.rejected, (state, { payload }) => {
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
     // resetPasswordThunk
     builder
       .addCase(resetPasswordThunk.pending, (state) => {
-        state.checked = false;
         state.error = null;
+        state.loading = true;
       })
       .addCase(resetPasswordThunk.fulfilled, (state) => {
-        state.checked = true;
+        state.loading = false;
       })
       .addCase(resetPasswordThunk.rejected, (state, { payload }) => {
-        state.checked = true;
         state.error = payload;
+        state.loading = false;
       });
   },
 });
