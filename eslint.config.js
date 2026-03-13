@@ -3,6 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import query from '@tanstack/eslint-plugin-query'
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -22,8 +23,15 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
+    plugins: {
+      '@tanstack/query': query,
+    },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // React Query rules
+      '@tanstack/query/exhaustive-deps': 'error',
+      '@tanstack/query/prefer-query-object-syntax': 'warn',
+      '@tanstack/query/stable-query-client': 'error',
     },
   },
-])
+]);
