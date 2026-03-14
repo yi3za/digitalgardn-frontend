@@ -15,7 +15,7 @@ export const useCategories = () =>
 // Hook pour une categorie par slug
 export const useCategorie = (slug) =>
   useQuery({
-    queryKey: ["categories", slug],
+    queryKey: ["categorie", slug],
     queryFn: () => getCategorieBySlug(slug),
     enabled: !!slug,
   });
@@ -23,7 +23,7 @@ export const useCategorie = (slug) =>
 // Hook pour services d'une categorie
 export const useServicesByCategorie = (slug) =>
   useQuery({
-    queryKey: ["categories", slug, "services"],
+    queryKey: ["categorie", slug, "services"],
     queryFn: () => getServicesByCategorie(slug),
     enabled: !!slug,
   });

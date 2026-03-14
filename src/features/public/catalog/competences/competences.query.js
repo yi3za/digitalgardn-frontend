@@ -23,7 +23,7 @@ export const useCompetence = (slug) =>
 // Hook pour services d'une competence
 export const useServicesByCompetence = (slug) =>
   useQuery({
-    queryKey: ["competences", slug, "services"],
+    queryKey: ["competence", slug, "services"],
     queryFn: () => getServicesByCompetence(slug),
     enabled: !!slug,
   });
