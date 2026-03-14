@@ -93,3 +93,4 @@ export {
   CarouselPrevious,
   CarouselNext,
 } from "./carousel";
+export { Alert, AlertTitle, AlertDescription, ErrorAlert, EmptyAlert } from "./alert";
