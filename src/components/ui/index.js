@@ -86,3 +86,10 @@ export {
   ItemFooter,
 } from "./item";
 export { Skeleton } from "./skeleton";
+export {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "./carousel";
