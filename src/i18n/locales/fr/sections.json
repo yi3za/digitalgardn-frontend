@@ -1,0 +1,17 @@
+{
+  "categories": {
+    "title": "Catégories",
+    "description": "Parcourez les différentes catégories disponibles",
+    "viewAll": "Voir tout"
+  },
+  "competences": {
+    "title": "Compétences",
+    "description": "Découvrez les compétences disponibles",
+    "viewAll": "Voir tout"
+  },
+  "refresh": "Actualiser",
+  "notAvailable": {
+    "title": "non disponible",
+    "description": "Aucun contenu n'est disponible pour le moment."
+  }
+}
