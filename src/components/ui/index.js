@@ -94,3 +94,4 @@ export {
   CarouselNext,
 } from "./carousel";
 export { Alert, AlertTitle, AlertDescription, ErrorAlert, EmptyAlert } from "./alert";
+export { ScrollArea, ScrollBar } from "./scroll-area";
