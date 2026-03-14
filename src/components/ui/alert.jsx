@@ -2,7 +2,7 @@ import * as React from "react"
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils"
-import { AlertCircleIcon, MinusCircleIcon, RefreshCcw } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import { Button } from ".";
 
 const alertVariants = cva(
@@ -62,36 +62,27 @@ function AlertDescription({
   );
 }
 
-function ErrorAlert({ code, onRefetch, message, refreshText }) {
+function CustomAlert({
+  header,
+  body,
+  onRefetch,
+  icon: Icon,
+  refreshText,
+  variant = "default",
+}) {
   return (
-    <Alert variant="destructive">
-      <AlertCircleIcon />
+    <Alert variant={variant}>
+      <Icon />
       <AlertTitle className="flex justify-between items-center">
-        {code}
-        <Button onClick={onRefetch} variant="destructive" size="sm">
+        {header}
+        <Button variant="link" onClick={onRefetch} size="sm">
           <RefreshCcw />
           {refreshText}
         </Button>
       </AlertTitle>
-      <AlertDescription>{message}</AlertDescription>
+      <AlertDescription>{body}</AlertDescription>
     </Alert>
   );
 }
 
-function EmptyAlert({ titre,description, onRefetch, refreshText }) {
-  return (
-    <Alert>
-      <MinusCircleIcon />
-      <AlertTitle className="flex justify-between items-center">
-        <span className="capitalize">{titre}</span>
-        <Button onClick={onRefetch} size="sm" variant="outline">
-          <RefreshCcw />
-          {refreshText}
-        </Button>
-      </AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
-    </Alert>
-  );
-}
-
-export { Alert, AlertTitle, AlertDescription, ErrorAlert, EmptyAlert }
+export { Alert, AlertTitle, AlertDescription, CustomAlert }

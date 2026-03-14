@@ -9,11 +9,10 @@ import {
   CardAction,
   ScrollBar,
   ScrollArea,
-  ErrorAlert,
   Spinner,
-  EmptyAlert,
+  CustomAlert,
 } from "../ui";
-import { ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowRight, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -51,11 +50,13 @@ export function ItemsSection({ itemsQuery, name }) {
       <CardContent className="h-20">
         {isLoading && <Skeleton className="h-full" />}
         {isError && (
-          <ErrorAlert
+          <CustomAlert
+            header={code}
+            body={t(code)}
             onRefetch={refetch}
-            code={code}
-            message={t(code)}
             refreshText={t("refresh")}
+            icon={AlertCircle}
+            variant="destructive"
           />
         )}
         {isSuccess &&
@@ -76,11 +77,13 @@ export function ItemsSection({ itemsQuery, name }) {
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           ) : (
-            <EmptyAlert
-              titre={t(`${name}.title`) + " " + t("notAvailable.title")}
-              description={t("notAvailable.description")}
+            <CustomAlert
+              header={t(`${name}.title`) + " " + t("notAvailable.title")}
+              body={t("notAvailable.description")}
               onRefetch={refetch}
               refreshText={t("refresh")}
+              icon={Ban}
+              variant="outline"
             />
           ))}
       </CardContent>
