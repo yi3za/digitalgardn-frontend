@@ -85,3 +85,4 @@ export {
   ItemHeader,
   ItemFooter,
 } from "./item";
+export { Skeleton } from "./skeleton";
