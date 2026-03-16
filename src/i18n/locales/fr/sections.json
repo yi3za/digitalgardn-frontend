@@ -10,19 +10,28 @@
     "settings": "Paramètres",
     "logout": "Déconnexion"
   },
+  "footer": {
+    "copyright": "© 2026 DigitalGarden",
+    "built_with": "Réalisé avec React & Laravel"
+  },
   "categories": {
     "title": "Catégories",
-    "description": "Parcourez les différentes catégories disponibles",
-    "viewAll": "Voir tout"
+    "description": "Parcourez les différentes catégories disponibles"
   },
   "competences": {
     "title": "Compétences",
-    "description": "Découvrez les compétences disponibles",
-    "viewAll": "Voir tout"
+    "description": "Découvrez les compétences disponibles"
   },
-  "refresh": "Actualiser",
-  "notAvailable": {
-    "title": "non disponible",
-    "description": "Aucun contenu n'est disponible pour le moment."
+  "services": {
+    "title": "Services",
+    "description": "Découvrez nos services disponibles"
+  },
+  "common": {
+    "refresh": "Actualiser",
+    "viewAll": "Voir tout",
+    "notAvailable": {
+      "title": "Non disponible",
+      "description": "Aucun contenu n'est disponible pour le moment."
+    }
   }
 }

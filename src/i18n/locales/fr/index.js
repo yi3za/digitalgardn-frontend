@@ -7,10 +7,8 @@ import sections from "./sections.json";
  * Ce fichier regroupe toutes les traductions pour la langue française
  */
 export const fr = {
-  translation: {
-    ...codes,
-    ...auth,
-    ...validation,
-    ...sections,
-  },
+  codes,
+  auth,
+  validation,
+  sections,
 };
