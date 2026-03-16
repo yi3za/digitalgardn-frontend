@@ -1,4 +1,15 @@
 {
+  "header": {
+    "home": "Accueil",
+    "login": "Se connecter",
+    "register": "S'inscrire"
+  },
+  "user_menu": {
+    "label": "Mon compte",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
   "categories": {
     "title": "Catégories",
     "description": "Parcourez les différentes catégories disponibles",
