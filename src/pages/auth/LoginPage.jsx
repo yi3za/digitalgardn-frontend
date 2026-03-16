@@ -37,7 +37,7 @@ export function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
   // Hook pour la traduction
-  const { t } = useTranslation();
+  const { t } = useTranslation(["auth", "codes"]);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Hook pour naviguer entre les pages
@@ -55,7 +55,7 @@ export function LoginPage() {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);
       // Afficher notification d'erreur
-      toast.error(t(code));
+      toast.error(t(`codes:${code}`));
     }
   };
 
@@ -66,7 +66,11 @@ export function LoginPage() {
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/register")} variant="link" disabled={loading}>
+          <Button
+            onClick={() => navigate("/register")}
+            variant="link"
+            disabled={loading}
+          >
             {t("login.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -75,23 +79,23 @@ export function LoginPage() {
       <CardContent>
         <Form {...form}>
           <fieldset disabled={loading}>
-          <CustomFormField
-            autoFocus
-            name="email"
-            type="email"
-            page="login"
-            control={form.control}
-            icon={Mail}
-            rules={{ max: 255 }}
-          />
-          <CustomFormField
-            name="password"
-            type="password"
-            page="login"
-            control={form.control}
-            icon={Lock}
-            rules={{ min: 8 }}
-          />
+            <CustomFormField
+              autoFocus
+              name="email"
+              type="email"
+              page="login"
+              control={form.control}
+              icon={Mail}
+              rules={{ max: 255 }}
+            />
+            <CustomFormField
+              name="password"
+              type="password"
+              page="login"
+              control={form.control}
+              icon={Lock}
+              rules={{ min: 8 }}
+            />
           </fieldset>
         </Form>
       </CardContent>

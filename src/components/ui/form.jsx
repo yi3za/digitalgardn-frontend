@@ -117,7 +117,7 @@ function FormMessage({
   rules,
   ...props
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("validation");
   const { error, formMessageId } = useFormField()
   const body = error ? String(t(error?.message ?? "", rules ?? {})) : props.children
 
@@ -140,7 +140,7 @@ function FormMessage({
  * Composant de champ de formulaire personnalise
  */
 function CustomFormField({ name, control, icon: Icon, page="register", rules, ...props }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("auth");
   return (
     <FormField
       name={name}

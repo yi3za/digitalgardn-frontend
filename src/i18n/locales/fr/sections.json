@@ -11,7 +11,7 @@
     "logout": "Déconnexion"
   },
   "footer": {
-    "copyright": "© 2026 DigitalGarden",
+    "copyright": "© 2026",
     "built_with": "Réalisé avec React & Laravel"
   },
   "categories": {

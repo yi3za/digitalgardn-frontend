@@ -58,7 +58,7 @@ export function RegisterPage() {
   // Hook pour naviguer vers une autre page
   const navigate = useNavigate();
   // Hook pour la traduction
-  const { t } = useTranslation();
+  const { t } = useTranslation(["auth", "codes"]);
   // Gestion des etapes du formulaire d'inscription
   const [step, setStep] = useState(1);
   // Passe a l'etape suivante
@@ -88,7 +88,7 @@ export function RegisterPage() {
         setServerErrors(errors, form.setError);
       }, 0);
       // Afficher notification d'erreur
-      toast.error(t(code));
+      toast.error(t(`codes:${code}`));
     }
   };
   // Reset des champs selon l'etape actuelle
@@ -109,7 +109,11 @@ export function RegisterPage() {
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
         <CardAction>
-          <Button onClick={() => navigate("/login")} variant="link" disabled={loading}>
+          <Button
+            onClick={() => navigate("/login")}
+            variant="link"
+            disabled={loading}
+          >
             {t("register.headerAction.logIn")}
           </Button>
         </CardAction>
@@ -118,87 +122,89 @@ export function RegisterPage() {
       <CardContent>
         <Form {...form}>
           <fieldset disabled={loading}>
-          {step === 1 && (
-            <>
-              <CustomFormField
-                autoFocus
-                name="name"
+            {step === 1 && (
+              <>
+                <CustomFormField
+                  autoFocus
+                  name="name"
+                  control={form.control}
+                  icon={User}
+                  rules={{ max: 255 }}
+                />
+                <CustomFormField
+                  name="username"
+                  control={form.control}
+                  icon={AtSign}
+                  rules={{ min: 3, max: 30 }}
+                />
+                <CustomFormField
+                  name="email"
+                  type="email"
+                  control={form.control}
+                  icon={Mail}
+                  rules={{ max: 255 }}
+                />
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <CustomFormField
+                  autoFocus
+                  name="password"
+                  type="password"
+                  control={form.control}
+                  icon={Lock}
+                  rules={{ min: 8 }}
+                />
+                <CustomFormField
+                  name="password_confirmation"
+                  type="password"
+                  control={form.control}
+                  icon={Lock}
+                />
+              </>
+            )}
+            {step === 3 && (
+              <FormField
                 control={form.control}
-                icon={User}
-                rules={{ max: 255 }}
+                name="role"
+                render={({ field }) => {
+                  const label = t("register.fields.role.label");
+                  return (
+                    <FormItem>
+                      <FormLabel>{label}</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          {["freelance", "client"].map((r) => (
+                            <FieldLabel key={r} className="pt-0">
+                              <Field>
+                                <FieldContent>
+                                  <FieldTitle>
+                                    {t(
+                                      `register.fields.role.options.${r}.title`,
+                                    )}
+                                  </FieldTitle>
+                                  <FieldDescription>
+                                    {t(
+                                      `register.fields.role.options.${r}.description`,
+                                    )}
+                                  </FieldDescription>
+                                </FieldContent>
+                                <RadioGroupItem hidden value={r} />
+                              </Field>
+                            </FieldLabel>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage rules={{ attribute: label }} />
+                    </FormItem>
+                  );
+                }}
               />
-              <CustomFormField
-                name="username"
-                control={form.control}
-                icon={AtSign}
-                rules={{ min: 3, max: 30 }}
-              />
-              <CustomFormField
-                name="email"
-                type="email"
-                control={form.control}
-                icon={Mail}
-                rules={{ max: 255 }}
-              />
-            </>
-          )}
-          {step === 2 && (
-            <>
-              <CustomFormField
-                autoFocus
-                name="password"
-                type="password"
-                control={form.control}
-                icon={Lock}
-                rules={{ min: 8 }}
-              />
-              <CustomFormField
-                name="password_confirmation"
-                type="password"
-                control={form.control}
-                icon={Lock}
-              />
-            </>
-          )}
-          {step === 3 && (
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => {
-                const label = t("register.fields.role.label");
-                return (
-                <FormItem>
-                  <FormLabel>{label}</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
-                      {["freelance", "client"].map((r) => (
-                        <FieldLabel key={r} className="pt-0">
-                          <Field>
-                            <FieldContent>
-                              <FieldTitle>
-                                {t(`register.fields.role.options.${r}.title`)}
-                              </FieldTitle>
-                              <FieldDescription>
-                                {t(
-                                  `register.fields.role.options.${r}.description`,
-                                )}
-                              </FieldDescription>
-                            </FieldContent>
-                            <RadioGroupItem hidden value={r} />
-                          </Field>
-                        </FieldLabel>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage rules={{ attribute: label }} />
-                </FormItem>
-                );
-              }}
-            />
-          )}
+            )}
           </fieldset>
         </Form>
       </CardContent>

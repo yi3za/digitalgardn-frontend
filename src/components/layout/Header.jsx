@@ -18,16 +18,13 @@ import { AuthButtons } from "./AuthButtons";
  */
 export function Header() {
   // Hook pour la traduction
-  const { t } = useTranslation();
+  const { t } = useTranslation(["sections", "codes", "auth"]);
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
   return (
     <header className="flex justify-between items-center py-4">
       {/* logo */}
-      <Link
-        to="/"
-        className="text-xl font-medium min-w-1/4"
-      >
+      <Link to="/" className="text-xl font-medium min-w-1/4">
         Digital<span className="text-primary">Gardn</span>
       </Link>
       {/* navigation */}
@@ -48,7 +45,7 @@ export function Header() {
         {status === AUTH_STATUS.AUTHENTICATED ? (
           <UserMenu user={user} t={t} />
         ) : (
-          <AuthButtons />
+          <AuthButtons t={t} />
         )}
       </div>
     </header>

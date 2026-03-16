@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 export function ItemsSection({ itemsQuery, name }) {
   // Hook de traduction
-  const { t } = useTranslation();
+  const { t } = useTranslation(["sections", "codes"]);
   // Destructuration des donnees et etats de la requete
   const {
     data: items,
@@ -42,7 +42,7 @@ export function ItemsSection({ itemsQuery, name }) {
         <CardAction>
           <Button asChild variant="link">
             <Link to={`/${name}`}>
-              {t(`${name}.viewAll`)} <ArrowRight />
+              {t("common.viewAll")} <ArrowRight />
             </Link>
           </Button>
         </CardAction>
@@ -52,9 +52,9 @@ export function ItemsSection({ itemsQuery, name }) {
         {isError && (
           <CustomAlert
             header={code}
-            body={t(code)}
+            body={t(`codes:${code}`)}
             onRefetch={refetch}
-            refreshText={t("refresh")}
+            refreshText={t("common.refresh")}
             icon={AlertCircle}
             variant="destructive"
           />
@@ -78,10 +78,10 @@ export function ItemsSection({ itemsQuery, name }) {
             </ScrollArea>
           ) : (
             <CustomAlert
-              header={t(`${name}.title`) + " " + t("notAvailable.title")}
-              body={t("notAvailable.description")}
+              header={t(`${name}.title`) + " " + t("common.notAvailable.title")}
+              body={t("common.notAvailable.description")}
               onRefetch={refetch}
-              refreshText={t("refresh")}
+              refreshText={t("common.refresh")}
               icon={Ban}
               variant="outline"
             />

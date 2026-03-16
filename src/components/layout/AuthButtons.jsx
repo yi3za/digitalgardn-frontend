@@ -4,7 +4,7 @@ import { Button } from "../ui";
 /**
  * Composant qui affiche les boutons de connexion et d'inscription
  */
-export function AuthButtons() {
+export function AuthButtons({ t }) {
   return (
     <>
       <Button asChild variant="link">

@@ -64,7 +64,7 @@ export function PasswordResetPage() {
   // Hook pour naviguer vers une autre page
   const navigate = useNavigate();
   // Hook pour la traduction
-  const { t } = useTranslation();
+  const { t } = useTranslation(["auth", "codes"]);
   // Passer a l'etape suivante
   const next = () => setStep((s) => s + 1);
   // Revenir a l'etape precedente
@@ -101,7 +101,7 @@ export function PasswordResetPage() {
         setServerErrors(errors, form.setError);
       }, 0);
       // Afficher un toast d'erreur
-      toast.error(t(code));
+      toast.error(t(`codes:${code}`));
     }
   };
   // Reset des champs selon l'etape actuelle
@@ -133,10 +133,18 @@ export function PasswordResetPage() {
         <CardTitle>{t("passwordReset.title")}</CardTitle>
         <CardDescription>{t("passwordReset.description")}</CardDescription>
         <CardAction className="flex flex-col items-end">
-          <Button onClick={() => navigate("/login")} variant="link" disabled={loading}>
+          <Button
+            onClick={() => navigate("/login")}
+            variant="link"
+            disabled={loading}
+          >
             {t("passwordReset.headerAction.logIn")}
           </Button>
-          <Button onClick={() => navigate("/register")} variant="link" disabled={loading}>
+          <Button
+            onClick={() => navigate("/register")}
+            variant="link"
+            disabled={loading}
+          >
             {t("passwordReset.headerAction.signUp")}
           </Button>
         </CardAction>
@@ -145,76 +153,76 @@ export function PasswordResetPage() {
       <CardContent>
         <Form {...form}>
           <fieldset disabled={loading}>
-          {!isCodeSent && (
-            <CustomFormField
-              autoFocus
-              name="email"
-              type="email"
-              page="passwordReset"
-              control={form.control}
-              icon={Mail}
-              rules={{ max: 255 }}
-            />
-          )}
-          {isCodeSent && (
-            <>
-              {step === 1 ? (
-                <FormField
-                  name="code"
-                  control={form.control}
-                  render={({ field }) => {
-                    const label = t("passwordReset.fields.code.label");
-                    return (
-                    <FormItem>
-                      <FormLabel>{label}</FormLabel>
-                      <FormControl>
-                        <InputOTP
-                          autoFocus
-                          maxLength={6}
-                          {...field}
-                          pattern={REGEXP_ONLY_DIGITS}
-                        >
-                          <InputOTPGroup className="w-full flex justify-center">
-                            <InputOTPSlot index={0} />
-                            <InputOTPSlot index={1} />
-                            <InputOTPSlot index={2} />
-                            <InputOTPSlot index={3} />
-                            <InputOTPSlot index={4} />
-                            <InputOTPSlot index={5} />
-                          </InputOTPGroup>
-                        </InputOTP>
-                      </FormControl>
-                      <FormDescription className="text-center">
-                        {t("passwordReset.fields.code.placeholder")}
-                      </FormDescription>
-                      <FormMessage
-                        className="text-center"
-                        rules={{ attribute: label, size: 6 }}
-                      />
-                    </FormItem>
-                    );
-                  }}
-                />
-              ) : (
-                <>
-                  <CustomFormField
-                    autoFocus
-                    name="password"
-                    type="password"
+            {!isCodeSent && (
+              <CustomFormField
+                autoFocus
+                name="email"
+                type="email"
+                page="passwordReset"
+                control={form.control}
+                icon={Mail}
+                rules={{ max: 255 }}
+              />
+            )}
+            {isCodeSent && (
+              <>
+                {step === 1 ? (
+                  <FormField
+                    name="code"
                     control={form.control}
-                    icon={Lock}
-                    rules={{ min: 8 }}
+                    render={({ field }) => {
+                      const label = t("passwordReset.fields.code.label");
+                      return (
+                        <FormItem>
+                          <FormLabel>{label}</FormLabel>
+                          <FormControl>
+                            <InputOTP
+                              autoFocus
+                              maxLength={6}
+                              {...field}
+                              pattern={REGEXP_ONLY_DIGITS}
+                            >
+                              <InputOTPGroup className="w-full flex justify-center">
+                                <InputOTPSlot index={0} />
+                                <InputOTPSlot index={1} />
+                                <InputOTPSlot index={2} />
+                                <InputOTPSlot index={3} />
+                                <InputOTPSlot index={4} />
+                                <InputOTPSlot index={5} />
+                              </InputOTPGroup>
+                            </InputOTP>
+                          </FormControl>
+                          <FormDescription className="text-center">
+                            {t("passwordReset.fields.code.placeholder")}
+                          </FormDescription>
+                          <FormMessage
+                            className="text-center"
+                            rules={{ attribute: label, size: 6 }}
+                          />
+                        </FormItem>
+                      );
+                    }}
                   />
-                  <CustomFormField
-                    name="password_confirmation"
-                    type="password"
-                    control={form.control}
-                    icon={Lock}
-                  />
-                </>
-              )}
-            </>
-          )}
+                ) : (
+                  <>
+                    <CustomFormField
+                      autoFocus
+                      name="password"
+                      type="password"
+                      control={form.control}
+                      icon={Lock}
+                      rules={{ min: 8 }}
+                    />
+                    <CustomFormField
+                      name="password_confirmation"
+                      type="password"
+                      control={form.control}
+                      icon={Lock}
+                    />
+                  </>
+                )}
+              </>
+            )}
           </fieldset>
         </Form>
       </CardContent>
