@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {
+  Button,
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -7,14 +8,16 @@ import {
   navigationMenuTriggerStyle,
 } from "../ui";
 
+/**
+ * Composant Header
+ */
 export function Header() {
   return (
-    <header className="px-10 py-5 flex justify-between items-center">
+    <header className="flex justify-between items-center py-4">
       {/* logo */}
-      <Link to="/" className="text-3xl font-medium">
-        Digital<span className="text-green-500">Gardn</span>
+      <Link to="/" className="text-xl font-medium text-black dark:text-white">
+        Digital<span className="text-primary">Gardn</span>
       </Link>
-
       {/* navigation */}
       <NavigationMenu>
         <NavigationMenuList>
@@ -28,21 +31,14 @@ export function Header() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-
       {/* user actions */}
       <div className="flex items-center gap-4">
-        <Link
-          to="/login"
-          className="px-4 py-2 border border-green-500 text-green-500 rounded hover:bg-green-50 transition duration-200"
-        >
-          Se connecter
-        </Link>
-        <Link
-          to="/register"
-          className="px-4 py-2 border border-green-500 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200"
-        >
-          S'inscrire
-        </Link>
+        <Button asChild variant="link">
+          <Link to="/login">Se connecter</Link>
+        </Button>
+        <Button asChild>
+          <Link to="/register">S'inscrire</Link>
+        </Button>
       </div>
     </header>
   );
