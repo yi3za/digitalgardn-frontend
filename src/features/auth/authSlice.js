@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "./auth.constants";
+import { withLoadingAndError } from "./auth.matchers";
 import {
-  sendResetCodeThunk,
   getMeThunk,
   loginThunk,
   logoutThunk,
   registerThunk,
-  resetPasswordThunk,
 } from "./auth.thunks";
 
 /**
@@ -20,8 +19,8 @@ import {
 const initialState = {
   user: null,
   status: AUTH_STATUS.IDLE,
-  loading: false,
-  error: null,
+  loading: {},
+  error: {},
 };
 
 /**
@@ -35,98 +34,40 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: (builder) => {
-    // registerThunk
+    // Gestion de l'inscription de l'utilisateur
     builder
-      .addCase(registerThunk.pending, (state) => {
-        state.user = null;
-        state.error = null;
-        state.loading = true;
-      })
       .addCase(registerThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.loading = false;
       })
-      .addCase(registerThunk.rejected, (state, { payload }) => {
+      .addCase(registerThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.error = payload;
-        state.loading = false;
       });
-    // loginThunk
+    // Gestion de la connexion de l'utilisateur
     builder
-      .addCase(loginThunk.pending, (state) => {
-        state.user = null;
-        state.error = null;
-        state.loading = true;
-      })
       .addCase(loginThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.loading = false;
       })
-      .addCase(loginThunk.rejected, (state, { payload }) => {
+      .addCase(loginThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.error = payload;
-        state.loading = false;
       });
-    // getMeThunk
+    // Gestion de la deconnexion de l'utilisateur
+    builder.addCase(logoutThunk.fulfilled, (state) => {
+      state.user = null;
+      state.status = AUTH_STATUS.UNAUTHENTICATED;
+    });
+    // Gestion de la recuperation de l'utilisateur authentifie
     builder
-      .addCase(getMeThunk.pending, (state) => {
-        state.user = null;
-        state.error = null;
-        state.loading = true;
-      })
       .addCase(getMeThunk.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.status = AUTH_STATUS.AUTHENTICATED;
-        state.loading = false;
       })
-      .addCase(getMeThunk.rejected, (state, { payload }) => {
+      .addCase(getMeThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.error = payload;
-        state.loading = false;
       });
-    // logoutThunk
-    builder
-      .addCase(logoutThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(logoutThunk.fulfilled, (state) => {
-        state.user = null;
-        state.status = AUTH_STATUS.UNAUTHENTICATED;
-        state.loading = false;
-      })
-      .addCase(logoutThunk.rejected, (state, { payload }) => {
-        state.error = payload;
-        state.loading = false;
-      });
-    // sendResetCodeThunk
-    builder
-      .addCase(sendResetCodeThunk.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(sendResetCodeThunk.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(sendResetCodeThunk.rejected, (state, { payload }) => {
-        state.error = payload;
-        state.loading = false;
-      });
-    // resetPasswordThunk
-    builder
-      .addCase(resetPasswordThunk.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(resetPasswordThunk.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(resetPasswordThunk.rejected, (state, { payload }) => {
-        state.error = payload;
-        state.loading = false;
-      });
+    // Ajout des matchers pour gerer les etats de chargement et d'erreur de toutes les actions du slice
+    withLoadingAndError(builder);
   },
 });
 
