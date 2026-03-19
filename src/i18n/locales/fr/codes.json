@@ -9,5 +9,6 @@
   "NETWORK_ERROR": "Impossible de se connecter. Vérifiez votre connexion internet.",
   "METHOD_NOT_ALLOWED": "Cette action n'est pas autorisée.",
   "CSRF_TOKEN_MISMATCH": "Votre session a expiré. Veuillez vous reconnecter.",
-  "TOO_MANY_REQUESTS": "Vous avez effectué trop de requêtes. Veuillez réessayer plus tard."
+  "TOO_MANY_REQUESTS": "Vous avez effectué trop de requêtes. Veuillez réessayer plus tard.",
+  "BAD_REQUEST": "Une erreur est survenue dans votre demande. Veuillez réessayer."
 }
