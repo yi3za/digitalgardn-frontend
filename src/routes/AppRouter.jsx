@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { useSelector } from "react-redux";
-import { authStatusSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 import { AUTH_STATUS } from "@/features/auth/auth.constants";
 import { SplashScreen } from "@/components/feedback/splash-screen";
 
@@ -13,9 +13,9 @@ import { SplashScreen } from "@/components/feedback/splash-screen";
  */
 export function AppRouter() {
   // Recuperation du statut d'authentification
-  const status = useSelector(authStatusSelector);
+  const { status, loading } = useSelector(authSelector);
   // Afficher SplashScreen tant que le statut d'authentification est IDLE
-  if (status === AUTH_STATUS.IDLE) return <SplashScreen />;
+  if (status === AUTH_STATUS.IDLE && loading.me) return <SplashScreen />;
 
   return <RouterProvider router={router} />;
 }

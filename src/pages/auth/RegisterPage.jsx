@@ -25,7 +25,7 @@ import {
   Spinner,
 } from "@/components/ui";
 import { registerSchema } from "@/features/auth/auth.schemas";
-import { authLoadingSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 import { registerThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,7 @@ import { toast } from "sonner";
 
 export function RegisterPage() {
   // Etat de store indiquant si une requete auth est en cours
-  const loading = useSelector(authLoadingSelector);
+  const { loading } = useSelector(authSelector);
   // Initialisation du formulaire
   // Validation des champs basee sur registerSchema
   const form = useForm({
@@ -112,7 +112,7 @@ export function RegisterPage() {
           <Button
             onClick={() => navigate("/login")}
             variant="link"
-            disabled={loading}
+            disabled={loading.register}
           >
             {t("register.headerAction.logIn")}
           </Button>
@@ -121,7 +121,7 @@ export function RegisterPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={loading}>
+          <fieldset disabled={loading.register}>
             {step === 1 && (
               <>
                 <CustomFormField
@@ -212,7 +212,7 @@ export function RegisterPage() {
       <CardFooter className="flex-col gap-2">
         <ButtonGroup className="w-full flex">
           <Button
-            disabled={step === 1 || loading}
+            disabled={step === 1 || loading.register}
             variant="ghost"
             className="flex-1"
             onClick={back}
@@ -221,17 +221,17 @@ export function RegisterPage() {
           </Button>
           <ButtonGroupSeparator />
           <Button
-            disabled={loading}
+            disabled={loading.register}
             className="flex-1"
             variant={step === 3 ? "" : "ghost"}
             onClick={step === 3 ? form.handleSubmit(submit, onError) : next}
           >
-            {loading && <Spinner />}
+            {loading.register && <Spinner />}
             {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
           </Button>
         </ButtonGroup>
         <Button
-          disabled={loading}
+          disabled={loading.register}
           onClick={handleFormResetByStep}
           variant="secondary"
           className="w-full"

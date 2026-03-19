@@ -14,14 +14,14 @@ import {
 import { logoutThunk } from "@/features/auth/auth.thunks";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { authLoadingSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 
 /**
  * Composant affichant le menu utilisateur
  */
 export function UserMenu({ user, t }) {
   // Etat de store indiquant si une requete auth est en cours
-  const loading = useSelector(authLoadingSelector);
+  const { loading } = useSelector(authSelector);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   /**
@@ -39,22 +39,20 @@ export function UserMenu({ user, t }) {
     }
   };
 
-  return (
+  return loading.logout ? (
+    <Spinner className="size-8" />
+  ) : (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        {loading ? (
-          <Spinner className="size-8" />
-        ) : (
-          <Avatar className="cursor-pointer">
-            <AvatarImage src={user.avatar_url} alt={user.username} />
-            <AvatarFallback>
-              {user.name
-                .split(" ")
-                .map((w) => w[0].toUpperCase())
-                .join("")}
-            </AvatarFallback>
-          </Avatar>
-        )}
+        <Avatar className="cursor-pointer">
+          <AvatarImage src={user.avatar_url} alt={user.username} />
+          <AvatarFallback>
+            {user.name
+              .split(" ")
+              .map((w) => w[0].toUpperCase())
+              .join("")}
+          </AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>{t("user_menu.label")}</DropdownMenuLabel>

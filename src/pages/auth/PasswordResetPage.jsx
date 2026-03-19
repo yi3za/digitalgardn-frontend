@@ -23,7 +23,7 @@ import {
   resetPasswordSchema,
   sendResetCodeSchema,
 } from "@/features/auth/auth.schemas";
-import { authLoadingSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 import {
   resetPasswordThunk,
   sendResetCodeThunk,
@@ -41,7 +41,7 @@ import { toast } from "sonner";
 
 export function PasswordResetPage() {
   // Etat de store indiquant si une requete auth est en cours
-  const loading = useSelector(authLoadingSelector);
+  const { loading } = useSelector(authSelector);
   // Indique c'est le code a ete envoye
   const [isCodeSent, setIsCodeSent] = useState(false);
   // Etape actuelle du processus (1 = code & 2 = nouveau mot de passe)
@@ -136,14 +136,14 @@ export function PasswordResetPage() {
           <Button
             onClick={() => navigate("/login")}
             variant="link"
-            disabled={loading}
+            disabled={loading.sendResetCode || loading.resetPassword}
           >
             {t("passwordReset.headerAction.logIn")}
           </Button>
           <Button
             onClick={() => navigate("/register")}
             variant="link"
-            disabled={loading}
+            disabled={loading.sendResetCode || loading.resetPassword}
           >
             {t("passwordReset.headerAction.signUp")}
           </Button>
@@ -152,7 +152,7 @@ export function PasswordResetPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={loading}>
+          <fieldset disabled={loading.sendResetCode || loading.resetPassword}>
             {!isCodeSent && (
               <CustomFormField
                 autoFocus
@@ -229,24 +229,28 @@ export function PasswordResetPage() {
       {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <Button
-          disabled={loading}
+          disabled={loading.sendResetCode || loading.resetPassword}
           size="lg"
           className="w-full"
           onClick={resetPasswordConfig.action}
         >
-          {loading && <Spinner />}
+          {(loading.sendResetCode || loading.resetPassword) && <Spinner />}
           {t(`passwordReset.actions.${resetPasswordConfig.label}`)}
         </Button>
         <Button
           onClick={handleFormResetByStep}
-          disabled={loading}
+          disabled={loading.sendResetCode || loading.resetPassword}
           variant="secondary"
           className="w-full"
         >
           {t("passwordReset.actions.reset")}
         </Button>
         {isCodeSent && (
-          <Button variant="link" onClick={handleStepBack} disabled={loading}>
+          <Button
+            variant="link"
+            onClick={handleStepBack}
+            disabled={loading.sendResetCode || loading.resetPassword}
+          >
             {t(
               `passwordReset.actions.${step === 2 ? "editCode" : "editEmail"}`,
             )}

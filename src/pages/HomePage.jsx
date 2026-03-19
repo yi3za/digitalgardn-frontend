@@ -1,6 +1,6 @@
 import { ItemsSection } from "@/components/sections/ItemsSection";
 import { AUTH_STATUS } from "@/features/auth/auth.constants";
-import { authStatusSelector } from "@/features/auth/auth.selectors";
+import { authSelector } from "@/features/auth/auth.selectors";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
  * Affiche "(authentifie)" si l'utilisateur est connecte
  */
 export function HomePage() {
-  const status = useSelector(authStatusSelector);
+  const { status } = useSelector(authSelector);
   const categoriesQuery = useCategories();
   const competencesQuery = useCompetences();
   return (
