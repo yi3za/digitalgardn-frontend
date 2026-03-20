@@ -59,7 +59,7 @@
       "string": "{{attribute}} doit contenir au minimum {{value}} caractères."
     },
     "hex_color": "{{attribute}} doit être une couleur hexadécimale valide.",
-    "image": "{{attribute}} doit être une image (jpeg, png, gif, etc.).",
+    "image": "{{attribute}} doit être une image (jpeg, jpg, png, webp, etc.).",
     "in": "{{attribute}} contient une valeur sélectionnée non valide.",
     "in_array": "{{attribute}} n'existe pas dans {{other}}.",
     "in_array_keys": "{{attribute}} doit contenir au moins l'une des clés suivantes : {{values}}.",

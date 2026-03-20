@@ -1,0 +1,27 @@
+{
+  "title": "Modifier le profil",
+  "description": "Gérez les informations de votre compte et votre photo de profil pour personnaliser votre expérience.",
+  "fields": {
+    "avatar": {
+      "label": "Photo de profil"
+    },
+    "name": {
+      "label": "Nom complet",
+      "placeholder": "Entrez votre nom",
+      "description": "Ce nom sera affiché sur votre profil public."
+    },
+    "username": {
+      "label": "Nom d'utilisateur",
+      "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
+    }
+  },
+  "actions": {
+    "edit": "Modifier",
+    "save": "Enregistrer les modifications",
+    "close": "Fermer"
+  },
+  "toast": {
+    "successAvatar": "Photo de profil mise à jour avec succès !",
+    "successName": "Nom mis à jour avec succès !"
+  }
+}

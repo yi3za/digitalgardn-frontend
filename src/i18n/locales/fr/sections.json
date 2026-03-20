@@ -6,7 +6,7 @@
   },
   "user_menu": {
     "label": "Mon compte",
-    "profile": "Profil",
+    "profil": "Profil",
     "settings": "Paramètres",
     "logout": "Déconnexion"
   },
