@@ -6,6 +6,7 @@ import {
   loginThunk,
   logoutThunk,
   registerThunk,
+  updateInfoThunk,
   uploadAvatarThunk,
 } from "./auth.thunks";
 
@@ -69,6 +70,10 @@ const authSlice = createSlice({
       });
     // Gestion de l'upload de l'avatar de l'utilisateur
     builder.addCase(uploadAvatarThunk.fulfilled, (state, { payload }) => {
+      state.user = payload;
+    });
+    // Gestion de la mise a jour des informations de l'utilisateur
+    builder.addCase(updateInfoThunk.fulfilled, (state, { payload }) => {
       state.user = payload;
     });
     // Ajout des matchers pour gerer les etats de chargement et d'erreur de toutes les actions du slice

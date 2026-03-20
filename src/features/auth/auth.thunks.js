@@ -7,6 +7,7 @@ import {
   register,
   resetPassword,
   sendResetCode,
+  updateInfo,
   uploadAvatar,
 } from "./auth.api";
 import { normalizeError } from "./auth.utils";
@@ -157,6 +158,28 @@ export const uploadAvatarThunk = createAsyncThunk(
   async (_data, { rejectWithValue }) => {
     try {
       const response = await uploadAvatar(_data);
+      const { user } = response?.data?.details ?? {};
+      return user;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la mise a jour des informations de l'utilisateur
+ *
+ * Envoie les nouvelles informations de l'utilisateur au backend
+ * Le backend met a jour les informations de l'utilisateur
+ * Retourne l'utilisateur mis a jour en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const updateInfoThunk = createAsyncThunk(
+  "auth/updateInfo",
+  async (_data, { rejectWithValue }) => {
+    try {
+      const response = await updateInfo(_data);
       const { user } = response?.data?.details ?? {};
       return user;
     } catch ({ response }) {

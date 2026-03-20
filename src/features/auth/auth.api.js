@@ -19,3 +19,5 @@ export const uploadAvatar = (data) =>
   client.post("/api/me/upload-avatar", data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+// Mettre a jour les informations de l'utilisateur 
+export const updateInfo = (data) => client.patch("/api/me", data);
