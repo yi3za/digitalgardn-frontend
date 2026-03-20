@@ -65,7 +65,7 @@ export const loginThunk = createAsyncThunk(
  * Retourne une erreur normalisee en cas d'echec
  */
 export const getMeThunk = createAsyncThunk(
-  "auth/me",
+  "auth/getMe",
   async (_, { rejectWithValue }) => {
     try {
       const response = await getMe();

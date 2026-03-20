@@ -15,7 +15,7 @@ export function AppRouter() {
   // Recuperation du statut d'authentification
   const { status, loading } = useSelector(authSelector);
   // Afficher SplashScreen tant que le statut d'authentification est IDLE
-  if (status === AUTH_STATUS.IDLE && loading.me) return <SplashScreen />;
+  if (status === AUTH_STATUS.IDLE && loading.getMe) return <SplashScreen />;
 
   return <RouterProvider router={router} />;
 }
