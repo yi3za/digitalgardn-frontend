@@ -15,6 +15,7 @@ import { logoutThunk } from "@/features/auth/auth.thunks";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
+import { Link } from "react-router-dom";
 
 /**
  * Composant affichant le menu utilisateur
@@ -45,20 +46,22 @@ export function UserMenu({ user, t }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={user.avatar_url} alt={user.username} />
+          <AvatarImage src={user?.avatar_url} alt={user?.username} />
           <AvatarFallback>
-            {user.name
+            {user?.name
               .split(" ")
-              .map((w) => w[0].toUpperCase())
+              .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
               .join("")}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>{t("user_menu.label")}</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <UserIcon />
-          {t("user_menu.profile")}
+        <DropdownMenuItem asChild>
+          <Link to="/profil">
+            <UserIcon />
+            {t("user_menu.profil")}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <SettingsIcon />
