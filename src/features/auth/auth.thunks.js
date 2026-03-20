@@ -7,6 +7,7 @@ import {
   register,
   resetPassword,
   sendResetCode,
+  uploadAvatar,
 } from "./auth.api";
 import { normalizeError } from "./auth.utils";
 
@@ -136,6 +137,28 @@ export const resetPasswordThunk = createAsyncThunk(
       const response = await resetPassword(_data);
       const { data } = response ?? {};
       return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de l'upload de l'avatar de l'utilisateur
+ *
+ * Envoie le fichier de l'avatar au backend
+ * Le backend stocke le fichier et met a jour l'URL de l'avatar de l'utilisateur
+ * Retourne l'utilisateur mis a jour en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const uploadAvatarThunk = createAsyncThunk(
+  "auth/uploadAvatar",
+  async (_data, { rejectWithValue }) => {
+    try {
+      const response = await uploadAvatar(_data);
+      const { user } = response?.data?.details ?? {};
+      return user;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);

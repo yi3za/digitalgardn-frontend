@@ -14,3 +14,8 @@ export const logout = () => client.post("/api/me/logout");
 export const sendResetCode = (data) => client.post("/api/auth/forget-password", data);
 // Reinitialiser le mot de passe avec le code
 export const resetPassword = (data) => client.post("/api/auth/reset-password", data);
+// Upload l'avatar de l'utilisateur
+export const uploadAvatar = (data) =>
+  client.post("/api/me/upload-avatar", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
