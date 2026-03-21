@@ -118,7 +118,11 @@ export function ProfilPage() {
       <Item variant="outline" className="col-span-3">
         <ItemMedia>
           <Avatar className="size-20">
-            <AvatarImage src={user?.avatar_url} alt={user?.username} />
+            <AvatarImage
+              src={user?.avatar_url}
+              alt={user?.username}
+              title={user?.name}
+            />
             <AvatarFallback>
               {user?.name
                 .split(" ")
@@ -142,7 +146,7 @@ export function ProfilPage() {
                 <SheetDescription>{t("description")}</SheetDescription>
               </SheetHeader>
               <Separator />
-              <FieldSet disabled={loading.updateInfo} className="px-4">
+              <FieldSet disabled={loading.updateInfo} className="p-5">
                 <FieldGroup>
                   <Field className="w-fit mx-auto rounded-full">
                     <FieldLabel className="pt-0 rounded-full">
@@ -217,6 +221,7 @@ export function ProfilPage() {
                   </Field>
                 </FieldGroup>
               </FieldSet>
+              <Separator />
               <SheetFooter>
                 {user?.name !== name && (
                   <Button

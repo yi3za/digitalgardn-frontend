@@ -1,6 +1,7 @@
 import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import {
   Avatar,
+  AvatarBadge,
   AvatarFallback,
   AvatarImage,
   DropdownMenu,
@@ -45,14 +46,20 @@ export function UserMenu({ user, t }) {
   ) : (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src={user?.avatar_url} alt={user?.username} />
+        <Avatar size="lg" className="cursor-pointer overflow-visible">
+          <AvatarImage
+            src={user?.avatar_url}
+            alt={user?.username}
+            title={user?.username}
+            className="rounded-full"
+          />
           <AvatarFallback>
             {user?.name
               .split(" ")
               .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
               .join("")}
           </AvatarFallback>
+          <AvatarBadge />
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
