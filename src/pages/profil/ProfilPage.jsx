@@ -114,7 +114,7 @@ export function ProfilPage() {
   };
 
   return (
-    <>
+    <div className="grid grid-cols-4 gap-5">
       <Item variant="outline" className="col-span-3">
         <ItemMedia>
           <Avatar className="size-20">
@@ -249,6 +249,6 @@ export function ProfilPage() {
           </Sheet>
         </ItemActions>
       </Item>
-    </>
+    </div>
   );
 }
