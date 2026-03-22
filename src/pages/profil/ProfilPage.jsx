@@ -33,11 +33,7 @@ import {
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
 import { formatDate } from "@/lib/utils";
-import {
-  CameraIcon,
-  Lock,
-  UserRound,
-} from "lucide-react";
+import { CameraIcon, Lock, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -120,7 +116,7 @@ export function ProfilPage() {
 
   return (
     <div className="grid grid-cols-4 gap-5">
-      <Item variant="outline" className="col-span-3">
+      <Item variant="outline" className="col-span-3 gap-5">
         <ItemMedia>
           <Avatar className="size-20">
             <AvatarImage
@@ -146,7 +142,7 @@ export function ProfilPage() {
             </div>
           </ItemDescription>
         </ItemContent>
-        <ItemActions>
+        <ItemActions className="self-start">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="link">{t("actions.edit")}</Button>
@@ -221,11 +217,17 @@ export function ProfilPage() {
                     <FieldLabel htmlFor="username">
                       {t("fields.username.label")}
                     </FieldLabel>
-                    <Input
-                      id="username"
-                      readOnly
-                      defaultValue={"@" + user?.username}
-                    />
+                    <div className="relative">
+                      <Lock
+                        className="absolute -translate-1/2 right-0 top-1/2 mx-1 text-gray-400"
+                        size={16}
+                      />
+                      <Input
+                        id="username"
+                        disabled
+                        defaultValue={"@" + user?.username}
+                      />
+                    </div>
                     <FieldDescription>
                       {t("fields.username.description")}{" "}
                     </FieldDescription>
