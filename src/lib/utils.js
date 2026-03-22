@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -21,3 +22,18 @@ export function setServerErrors(errors, setError) {
     );
   });
 }
+
+/**
+ * Formate une date en affichant le mois et l'annee dans la langue courante de l'application
+ *
+ * Utilise l'API Intl.DateTimeFormat pour le formatage de la date
+ *
+ * i18n.language : langue courante de l'application pour le formatage de la date
+ * month: "long" : affiche le nom complet du mois
+ * year: "numeric" : affiche l'annee en chiffres
+ */
+export const formatDate = (date) =>
+  new Intl.DateTimeFormat(i18n.language, {
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
