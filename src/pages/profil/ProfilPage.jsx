@@ -32,7 +32,12 @@ import {
   updateInfoThunk,
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
-import { CameraIcon } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import {
+  CameraIcon,
+  Lock,
+  UserRound,
+} from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -134,6 +139,12 @@ export function ProfilPage() {
         <ItemContent>
           <ItemTitle>{user?.name}</ItemTitle>
           <ItemDescription>{"@" + user?.username}</ItemDescription>
+          <ItemDescription asChild>
+            <div className="flex items-center gap-2 mt-5">
+              <UserRound size={16} />
+              {t("meta.joined", { date: formatDate(user?.created_at) })}
+            </div>
+          </ItemDescription>
         </ItemContent>
         <ItemActions>
           <Sheet>

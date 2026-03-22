@@ -15,6 +15,9 @@
       "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
     }
   },
+  "meta": {
+    "joined": "Inscrit en {{date}}"
+  },
   "actions": {
     "edit": "Modifier",
     "save": "Enregistrer les modifications",
