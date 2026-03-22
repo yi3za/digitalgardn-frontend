@@ -37,3 +37,16 @@ export const formatDate = (date) =>
     month: "long",
     year: "numeric",
   }).format(new Date(date));
+
+/**
+ * Genere une nom fallback a partit du parametre name
+ *
+ * Exemple : "yaaza aitbah" => "YZ"
+ */
+export const getFallbackName = (name) =>
+  !name
+    ? null
+    : name
+        .split(" ")
+        .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
+        .join("");
