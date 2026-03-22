@@ -132,11 +132,9 @@ export function ProfilPage() {
         <ItemContent>
           <ItemTitle>{user?.name}</ItemTitle>
           <ItemDescription>{"@" + user?.username}</ItemDescription>
-          <ItemDescription asChild>
-            <div className="flex items-center gap-2 mt-5">
-              <UserRound size={16} />
-              {t("meta.joined", { date: formatDate(user?.created_at) })}
-            </div>
+          <ItemDescription className="flex items-center gap-2 mt-5">
+            <UserRound size={16} />
+            {t("meta.joined", { date: formatDate(user?.created_at) })}
           </ItemDescription>
         </ItemContent>
         <ItemActions className="self-start">
