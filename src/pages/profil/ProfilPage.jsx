@@ -33,7 +33,7 @@ import {
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
 import { formatDate } from "@/lib/utils";
-import { CameraIcon, Lock, UserRound } from "lucide-react";
+import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -149,8 +149,10 @@ export function ProfilPage() {
             </SheetTrigger>
             <SheetContent showCloseButton={false} className="overflow-x-auto">
               <SheetHeader>
-                <SheetTitle>{t("title")}</SheetTitle>
-                <SheetDescription>{t("description")}</SheetDescription>
+                <SheetTitle>{t("modifierInfo.title")}</SheetTitle>
+                <SheetDescription>
+                  {t("modifierInfo.description")}
+                </SheetDescription>
               </SheetHeader>
               <Separator />
               <FieldSet disabled={loading.updateInfo} className="p-5">
@@ -185,7 +187,7 @@ export function ProfilPage() {
                     <FieldError className="text-center">
                       {errors?.avatar &&
                         t(`validation:${errors.avatar[0]}`, {
-                          attribute: t("fields.avatar.label"),
+                          attribute: t("modifierInfo.fields.avatar.label"),
                           values: "jpeg,jpg,png,webp",
                           max: 2048,
                         })}
@@ -193,29 +195,29 @@ export function ProfilPage() {
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="name">
-                      {t("fields.name.label")}
+                      {t("modifierInfo.fields.name.label")}
                     </FieldLabel>
                     <Input
                       id="name"
                       name="name"
-                      placeholder={t("fields.name.placeholder")}
+                      placeholder={t("modifierInfo.fields.name.placeholder")}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                     <FieldError>
                       {errors?.name &&
                         t(`validation:${errors.name[0]}`, {
-                          attribute: t("fields.name.label"),
+                          attribute: t("modifierInfo.fields.name.label"),
                           max: 255,
                         })}
                     </FieldError>
                     <FieldDescription>
-                      {t("fields.name.description")}
+                      {t("modifierInfo.fields.name.description")}
                     </FieldDescription>
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="username">
-                      {t("fields.username.label")}
+                      {t("modifierInfo.fields.username.label")}
                     </FieldLabel>
                     <div className="relative">
                       <Lock
@@ -229,7 +231,7 @@ export function ProfilPage() {
                       />
                     </div>
                     <FieldDescription>
-                      {t("fields.username.description")}{" "}
+                      {t("modifierInfo.fields.username.description")}{" "}
                     </FieldDescription>
                   </Field>
                 </FieldGroup>
