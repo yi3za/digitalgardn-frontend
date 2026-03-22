@@ -33,10 +33,12 @@ export function setServerErrors(errors, setError) {
  * year: "numeric" : affiche l'annee en chiffres
  */
 export const formatDate = (date) =>
-  new Intl.DateTimeFormat(i18n.language, {
-    month: "long",
-    year: "numeric",
-  }).format(new Date(date));
+  !date
+    ? null
+    : new Intl.DateTimeFormat(i18n.language, {
+        month: "long",
+        year: "numeric",
+      }).format(new Date(date));
 
 /**
  * Genere une nom fallback a partit du parametre name
