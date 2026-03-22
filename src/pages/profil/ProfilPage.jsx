@@ -14,6 +14,8 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
+  ItemGroup,
+  ItemHeader,
   ItemMedia,
   ItemTitle,
   Separator,
@@ -33,7 +35,7 @@ import {
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
 import { formatDate, getFallbackName } from "@/lib/utils";
-import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
+import { CameraIcon, Eye, Lock, UserRound, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,6 +50,11 @@ export function ProfilPage() {
   const { user, loading } = useSelector(authSelector);
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
   const avatarFallback = getFallbackName(user?.name);
+  // Generation du nom de l'utilisateur avec la premiere lettre en majuscule pour l'affichage dans le profil
+  const user_name =
+    user?.name && user.name.charAt(0).toUpperCase() + user.name.slice(1);
+  // Formatage de la date d'inscription de l'utilisateur pour l'affichage dans le profil
+  const date_incription = formatDate(user?.created_at);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Fonction de traduction
@@ -118,6 +125,59 @@ export function ProfilPage() {
 
   return (
     <div className="grid grid-cols-4 gap-5">
+      <Item className="col-span-3 px-0">
+        <ItemContent>
+          <ItemTitle>{t("public.title")}</ItemTitle>
+          <ItemDescription>{t("public.description")}</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="secondary">
+                <Eye />
+                {t("public.action")}
+              </Button>
+            </SheetTrigger>
+            <SheetContent showCloseButton={false} className="overflow-x-auto">
+              <SheetClose asChild>
+                <Button variant="ghost" className="size-10 self-end mt-3 mr-3">
+                  <XIcon className="size-5" />
+                </Button>
+              </SheetClose>
+              <Separator />
+              <ItemGroup className="p-4">
+                <Item>
+                  <ItemHeader className="justify-center">
+                    <Avatar className="size-30">
+                      <AvatarImage
+                        src={user?.avatar_url}
+                        alt={user?.username}
+                      />
+                      <AvatarFallback>{avatarFallback}</AvatarFallback>
+                    </Avatar>
+                  </ItemHeader>
+                  <ItemContent className="items-center">
+                    <ItemTitle>{user_name}</ItemTitle>
+                    <ItemDescription>{"@" + user?.username}</ItemDescription>
+                  </ItemContent>
+                </Item>
+                <Separator />
+                <Item>
+                  <ItemMedia>
+                    <UserRound className="text-muted-foreground" size={16} />
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemDescription>
+                      {t("meta.joined", { date: date_incription })}
+                    </ItemDescription>
+                  </ItemContent>
+                </Item>
+                <Separator />
+              </ItemGroup>
+            </SheetContent>
+          </Sheet>
+        </ItemActions>
+      </Item>
       <Item variant="outline" className="col-span-3 gap-5">
         <ItemMedia>
           <Avatar className="size-20">
@@ -130,11 +190,11 @@ export function ProfilPage() {
           </Avatar>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{user?.name}</ItemTitle>
+          <ItemTitle>{user_name}</ItemTitle>
           <ItemDescription>{"@" + user?.username}</ItemDescription>
           <ItemDescription className="flex items-center gap-2 mt-5">
             <UserRound size={16} />
-            {t("meta.joined", { date: formatDate(user?.created_at) })}
+            {t("meta.joined", { date: date_incription })}
           </ItemDescription>
         </ItemContent>
         <ItemActions className="self-start">

@@ -21,6 +21,11 @@
       "successName": "Nom mis à jour avec succès !"
     }
   },
+  "public": {
+    "title": "Aperçu de votre profil",
+    "description": "Consultez votre profil tel qu’il est visible pour les autres utilisateurs de la plateforme, et découvrez comment votre présentation et vos informations apparaissent pour faciliter les interactions et les opportunités.",
+    "action": "Voir le profil"
+  },
   "meta": {
     "joined": "Inscrit en {{date}}"
   },
