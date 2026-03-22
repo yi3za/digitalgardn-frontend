@@ -32,7 +32,7 @@ import {
   updateInfoThunk,
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
-import { formatDate } from "@/lib/utils";
+import { formatDate, getFallbackName } from "@/lib/utils";
 import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -46,6 +46,8 @@ import { toast } from "sonner";
 export function ProfilPage() {
   // Recupere les donnees de l'utilisateur authentifie
   const { user, loading } = useSelector(authSelector);
+  // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
+  const avatarFallback = getFallbackName(user?.name);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Fonction de traduction
@@ -124,12 +126,7 @@ export function ProfilPage() {
               alt={user?.username}
               title={user?.name}
             />
-            <AvatarFallback>
-              {user?.name
-                .split(" ")
-                .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
-                .join("")}
-            </AvatarFallback>
+            <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
         </ItemMedia>
         <ItemContent>
@@ -175,6 +172,7 @@ export function ProfilPage() {
                             />
                           </>
                         )}
+                        <AvatarFallback>{avatarFallback}</AvatarFallback>
                       </Avatar>
                       <Input
                         type="file"

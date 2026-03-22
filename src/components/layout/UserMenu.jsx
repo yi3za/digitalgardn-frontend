@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { Link } from "react-router-dom";
+import { getFallbackName } from "@/lib/utils";
 
 /**
  * Composant affichant le menu utilisateur
@@ -26,6 +27,8 @@ export function UserMenu({ user, t }) {
   const { loading } = useSelector(authSelector);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
+  // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
+  const avatarFallback = getFallbackName(user?.name);
   /**
    * Fonction de deconnexion de l'utilisateur : dispatch de l'action logout
    */
@@ -53,12 +56,7 @@ export function UserMenu({ user, t }) {
             title={user?.username}
             className="rounded-full"
           />
-          <AvatarFallback>
-            {user?.name
-              .split(" ")
-              .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
-              .join("")}
-          </AvatarFallback>
+          <AvatarFallback>{avatarFallback}</AvatarFallback>
           <AvatarBadge />
         </Avatar>
       </DropdownMenuTrigger>
