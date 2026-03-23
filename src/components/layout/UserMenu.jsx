@@ -68,9 +68,11 @@ export function UserMenu({ user, t }) {
             {t("user_menu.profil")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <SettingsIcon />
-          {t("user_menu.settings")}
+        <DropdownMenuItem asChild>
+          <Link to="/settings">
+            <SettingsIcon />
+            {t("user_menu.settings")}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={logout}>
