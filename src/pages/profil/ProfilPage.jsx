@@ -124,7 +124,7 @@ export function ProfilPage() {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-5">
+    <ItemGroup className="grid grid-cols-4 gap-5">
       <Item className="col-span-3 px-0">
         <ItemContent>
           <ItemTitle>{t("voirInfo.title")}</ItemTitle>
@@ -330,6 +330,6 @@ export function ProfilPage() {
           </Sheet>
         </ItemActions>
       </Item>
-    </div>
+    </ItemGroup>
   );
 }
