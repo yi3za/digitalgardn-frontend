@@ -1,30 +1,36 @@
 {
   "modifierInfo": {
-    "title": "Modifier le profil",
-    "description": "Gérez les informations de votre compte et votre photo de profil pour personnaliser votre expérience.",
-    "fields": {
-      "avatar": {
-        "label": "Photo de profil"
+    "sheet": {
+      "title": "Modifier le profil",
+      "description": "Gérez les informations de votre compte et votre photo de profil pour personnaliser votre expérience.",
+      "fields": {
+        "avatar": {
+          "label": "Photo de profil"
+        },
+        "name": {
+          "label": "Nom complet",
+          "placeholder": "Entrez votre nom",
+          "description": "Ce nom sera affiché sur votre profil public."
+        },
+        "username": {
+          "label": "Nom d'utilisateur",
+          "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
+        }
       },
-      "name": {
-        "label": "Nom complet",
-        "placeholder": "Entrez votre nom",
-        "description": "Ce nom sera affiché sur votre profil public."
-      },
-      "username": {
-        "label": "Nom d'utilisateur",
-        "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
+      "toast": {
+        "successAvatar": "Photo de profil mise à jour avec succès !",
+        "successName": "Nom mis à jour avec succès !"
       }
-    },
-    "toast": {
-      "successAvatar": "Photo de profil mise à jour avec succès !",
-      "successName": "Nom mis à jour avec succès !"
     }
   },
-  "public": {
+  "voirInfo": {
     "title": "Aperçu de votre profil",
     "description": "Consultez votre profil tel qu’il est visible pour les autres utilisateurs de la plateforme, et découvrez comment votre présentation et vos informations apparaissent pour faciliter les interactions et les opportunités.",
-    "action": "Voir le profil"
+    "action": "Voir le profil",
+    "sheet": {
+      "title": "Profil public",
+      "description": "Voici comment les autres utilisateurs voient votre profil"
+    }
   },
   "meta": {
     "joined": "Inscrit en {{date}}"

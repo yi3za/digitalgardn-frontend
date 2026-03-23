@@ -35,7 +35,7 @@ import {
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
 import { formatDate, getFallbackName } from "@/lib/utils";
-import { CameraIcon, Eye, Lock, UserRound, XIcon } from "lucide-react";
+import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -127,23 +127,24 @@ export function ProfilPage() {
     <div className="grid grid-cols-4 gap-5">
       <Item className="col-span-3 px-0">
         <ItemContent>
-          <ItemTitle>{t("public.title")}</ItemTitle>
-          <ItemDescription>{t("public.description")}</ItemDescription>
+          <ItemTitle>{t("voirInfo.title")}</ItemTitle>
+          <ItemDescription>{t("voirInfo.description")}</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="secondary">
                 <Eye />
-                {t("public.action")}
+                {t("voirInfo.action")}
               </Button>
             </SheetTrigger>
             <SheetContent showCloseButton={false} className="overflow-x-auto">
-              <SheetClose asChild>
-                <Button variant="ghost" className="size-10 self-end mt-3 mr-3">
-                  <XIcon className="size-5" />
-                </Button>
-              </SheetClose>
+              <SheetHeader>
+                <SheetTitle>{t("voirInfo.sheet.title")}</SheetTitle>
+                <SheetDescription>
+                  {t("voirInfo.sheet.description")}
+                </SheetDescription>
+              </SheetHeader>
               <Separator />
               <ItemGroup className="p-4">
                 <Item>
@@ -174,6 +175,11 @@ export function ProfilPage() {
                 </Item>
                 <Separator />
               </ItemGroup>
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline">{t("actions.close")}</Button>
+                </SheetClose>
+              </SheetFooter>
             </SheetContent>
           </Sheet>
         </ItemActions>
@@ -204,9 +210,9 @@ export function ProfilPage() {
             </SheetTrigger>
             <SheetContent showCloseButton={false} className="overflow-x-auto">
               <SheetHeader>
-                <SheetTitle>{t("modifierInfo.title")}</SheetTitle>
+                <SheetTitle>{t("modifierInfo.sheet.title")}</SheetTitle>
                 <SheetDescription>
-                  {t("modifierInfo.description")}
+                  {t("modifierInfo.sheet.description")}
                 </SheetDescription>
               </SheetHeader>
               <Separator />
@@ -243,7 +249,9 @@ export function ProfilPage() {
                     <FieldError className="text-center">
                       {errors?.avatar &&
                         t(`validation:${errors.avatar[0]}`, {
-                          attribute: t("modifierInfo.fields.avatar.label"),
+                          attribute: t(
+                            "modifierInfo.sheet.fields.avatar.label",
+                          ),
                           values: "jpeg,jpg,png,webp",
                           max: 2048,
                         })}
@@ -251,29 +259,31 @@ export function ProfilPage() {
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="name">
-                      {t("modifierInfo.fields.name.label")}
+                      {t("modifierInfo.sheet.fields.name.label")}
                     </FieldLabel>
                     <Input
                       id="name"
                       name="name"
-                      placeholder={t("modifierInfo.fields.name.placeholder")}
+                      placeholder={t(
+                        "modifierInfo.sheet.fields.name.placeholder",
+                      )}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                     <FieldError>
                       {errors?.name &&
                         t(`validation:${errors.name[0]}`, {
-                          attribute: t("modifierInfo.fields.name.label"),
+                          attribute: t("modifierInfo.sheet.fields.name.label"),
                           max: 255,
                         })}
                     </FieldError>
                     <FieldDescription>
-                      {t("modifierInfo.fields.name.description")}
+                      {t("modifierInfo.sheet.fields.name.description")}
                     </FieldDescription>
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="username">
-                      {t("modifierInfo.fields.username.label")}
+                      {t("modifierInfo.sheet.fields.username.label")}
                     </FieldLabel>
                     <div className="relative">
                       <Lock
@@ -287,7 +297,7 @@ export function ProfilPage() {
                       />
                     </div>
                     <FieldDescription>
-                      {t("modifierInfo.fields.username.description")}{" "}
+                      {t("modifierInfo.sheet.fields.username.description")}{" "}
                     </FieldDescription>
                   </Field>
                 </FieldGroup>
