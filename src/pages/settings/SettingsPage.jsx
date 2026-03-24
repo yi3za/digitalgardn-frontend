@@ -14,17 +14,18 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui";
+import { UserPen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // Configuration des parametres disponibles dans la page de gestion des parametres du compte utilisateur
 const settingsItems = [
   {
-    id: null,
-    icon: null,
-    title: null,
-    description: null,
-    link: null,
+    id: "personal_info",
+    icon: UserPen,
+    title: "items.personal_info.title",
+    description: "items.personal_info.description",
+    link: "/settings/personal-info",
   },
 ];
 
@@ -42,9 +43,9 @@ export function SettingsPage() {
         <CardTitle>{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>
         <CardAction>
-          <Link to="/profil">
-            <Button variant="link">{t("action")}</Button>
-          </Link>
+          <Button variant="link" asChild>
+            <Link to="/profil">{t("action.go_to_profil")}</Link>
+          </Button>
         </CardAction>
       </CardHeader>
       <CardContent>
