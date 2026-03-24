@@ -134,7 +134,7 @@ export function ProfilPage() {
         <ItemActions>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="secondary">
+              <Button variant="outline" className="shadow-none">
                 <Eye />
                 {t("voirInfo.action")}
               </Button>
@@ -206,7 +206,9 @@ export function ProfilPage() {
         <ItemActions className="self-start">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="link">{t("actions.edit")}</Button>
+              <Button variant="link" className="pt-0 h-fit">
+                {t("actions.edit")}
+              </Button>
             </SheetTrigger>
             <SheetContent showCloseButton={false} className="overflow-x-auto">
               <SheetHeader>
