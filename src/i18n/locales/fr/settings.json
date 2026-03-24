@@ -1,6 +1,25 @@
 {
   "title": "Paramètres du compte",
-  "description": "Gérez et mettez à jour les informations de votre compte, y compris votre adresse e-mail, vos préférences et vos paramètres de sécurité",
-  "action": "Aller au profil",
-  "items": {}
+  "description": "Gérez et mettez à jour les informations de votre compte, y compris votre adresse e-mail, vos préférences et vos paramètres de sécurité.",
+  "action": {
+    "go_to_profil": "Accéder au profil",
+    "back": "Retour aux paramètres",
+    "edit": "Modifier",
+    "cancel": "Annuler",
+    "save": "Enregistrer {field}"
+  },
+  "items": {
+    "personal_info": {
+      "title": "Informations personnelles",
+      "description": "Gérez et mettez à jour vos informations personnelles afin de garder votre profil complet, précis et à jour.",
+      "fields": {
+        "labels": {
+          "name": "Nom complet",
+          "username": "Nom d'utilisateur",
+          "email": "Adresse e-mail"
+        },
+        "placeholder": "Entrez votre {field}"
+      }
+    }
+  }
 }
