@@ -17,6 +17,7 @@ import {
   ItemGroup,
   ItemHeader,
   ItemMedia,
+  ItemSeparator,
   ItemTitle,
   Separator,
   Sheet,
@@ -146,8 +147,8 @@ export function ProfilPage() {
                 </SheetDescription>
               </SheetHeader>
               <Separator />
-              <ItemGroup className="p-4">
-                <Item>
+              <ItemGroup className="px-4">
+                <Item className="mb-4">
                   <ItemHeader className="justify-center">
                     <Avatar className="size-30">
                       <AvatarImage
@@ -162,7 +163,7 @@ export function ProfilPage() {
                     <ItemDescription>{"@" + user?.username}</ItemDescription>
                   </ItemContent>
                 </Item>
-                <Separator />
+                <ItemSeparator />
                 <Item>
                   <ItemMedia>
                     <UserRound className="text-muted-foreground" size={16} />
@@ -173,7 +174,6 @@ export function ProfilPage() {
                     </ItemDescription>
                   </ItemContent>
                 </Item>
-                <Separator />
               </ItemGroup>
               <SheetFooter>
                 <SheetClose asChild>
