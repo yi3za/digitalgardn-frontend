@@ -6,7 +6,7 @@
     "back": "Retour aux paramètres",
     "edit": "Modifier",
     "cancel": "Annuler",
-    "save": "Enregistrer {field}"
+    "save": "Enregistrer {{field}}"
   },
   "items": {
     "personal_info": {
@@ -18,7 +18,7 @@
           "username": "Nom d'utilisateur",
           "email": "Adresse e-mail"
         },
-        "placeholder": "Entrez votre {field}"
+        "placeholder": "Entrez votre {{field}}"
       }
     }
   }
