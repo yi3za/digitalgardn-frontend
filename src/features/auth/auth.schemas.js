@@ -3,6 +3,18 @@ import { z } from "zod";
 /**
  * Champs reutilisables pour la validation
  */
+const nameField = z
+  .string("validation.string")
+  .trim()
+  .min(1, "validation.required")
+  .max(255, "validation.max.string");
+const usernameField = z
+  .string("validation.string")
+  .trim()
+  .min(1, "validation.required")
+  .min(3, "validation.min.string")
+  .max(30, "validation.max.string")
+  .regex(/^[a-zA-Z0-9_-]+$/, "validation.alpha_dash");
 const emailField = z
   .string("validation.string")
   .trim()
@@ -43,18 +55,8 @@ export const loginSchema = z.object({
  */
 export const registerSchema = withPasswordConfirmation(
   z.object({
-    name: z
-      .string("validation.string")
-      .trim()
-      .min(1, "validation.required")
-      .max(255, "validation.max.string"),
-    username: z
-      .string("validation.string")
-      .trim()
-      .min(1, "validation.required")
-      .min(3, "validation.min.string")
-      .max(30, "validation.max.string")
-      .regex(/^[a-zA-Z0-9_-]+$/, "validation.alpha_dash"),
+    name: nameField,
+    username: usernameField,
     email: emailField,
     password: passwordField,
     password_confirmation: passwordConfirmationField,
