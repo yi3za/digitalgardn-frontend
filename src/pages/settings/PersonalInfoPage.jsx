@@ -19,9 +19,11 @@ import {
   FormMessage,
   Spinner,
 } from "@/components/ui";
+import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { updateInfoThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -51,6 +53,7 @@ export function PersonalInfoPage() {
       username: user?.username ?? "",
       email: user?.email ?? "",
     },
+    resolver: zodResolver(updateInfoSchema),
   });
   // Etat local pour suivre les champs en cours d'edition
   const [editingFields, setEditingFields] = useState([]);
@@ -70,17 +73,22 @@ export function PersonalInfoPage() {
     );
   };
   // Fonction d'envoie des modifications d'un champ
-  const handleSave = (field) => {
-    const value = form.getValues(field);
-    // Ajouter le champ a la liste des champs en cours de soumission
-    setSubmittingFields((prev) => [...prev, field]);
-    submit({ [field]: value });
+  const handleSave = async (field) => {
+    // Valider le champ avant de l'envoyer
+    if (await form.trigger(field)) {
+      // Recuperer la valeur du champ a envoyer
+      const value = form.getValues(field);
+      // Envoyer la modification du champ
+      return submit({ [field]: value });
+    }
   };
   // Fonction de soumission du formulaire
   const submit = async (data) => {
     // Recuperer le nom du champ modifie
     const field = Object.keys(data)[0];
     try {
+      // Ajouter le champ a la liste des champs en cours de soumission
+      setSubmittingFields((prev) => [...prev, field]);
       // Envoyer les modifications
       const UpdateUser = await dispatch(updateInfoThunk(data)).unwrap();
       // Basculer le champ en mode non edition et mettre a jour sa valeur

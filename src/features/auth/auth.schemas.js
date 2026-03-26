@@ -85,3 +85,12 @@ export const resetPasswordSchema = withPasswordConfirmation(
     password_confirmation: passwordConfirmationField,
   }),
 );
+
+/**
+ * Schema de validation pour la mise a jour des informations personnelles
+ */
+export const updateInfoSchema = z.object({
+  name: nameField,
+  username: usernameField,
+  email: emailField,
+});
