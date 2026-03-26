@@ -12,61 +12,95 @@ import {
   ItemActions,
   ItemSeparator,
   Input,
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+  Spinner,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
-import { Fragment, useReducer } from "react";
+import { updateInfoThunk } from "@/features/auth/auth.thunks";
+import { setServerErrors } from "@/lib/utils";
+import { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-
-// Etat initial pour la gestion de l'edition des champs
-const initialState = (user) => ({
-  name: { edit: false, value: user?.name ?? "" },
-  username: { edit: false, value: user?.username ?? "" },
-  email: { edit: false, value: user?.email ?? "" },
-});
-
-// Reducer pour la gestion de l'etat d'edition des champs
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case "ACTIVATE_EDIT":
-      return {
-        ...state,
-        [payload.field]: {
-          ...state[payload.field],
-          edit: true,
-        },
-      };
-    case "FIELD_CHANGE":
-      return {
-        ...state,
-        [payload.field]: {
-          ...state[payload.field],
-          value: payload.value,
-        },
-      };
-    case "RESET_FIELD":
-      return {
-        ...state,
-        [payload.field]: {
-          edit: false,
-          value: payload.value,
-        },
-      };
-    default:
-      return state;
-  }
-};
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 /**
  * Page de gestion des informations personnelles de l'utilisateur
  */
 export function PersonalInfoPage() {
+  // Definition des champs du formulaire avec leurs regles de validation
+  const fields = [
+    { name: "name", rules: { max: 255 } },
+    { name: "username", rules: { min: 3, max: 30 } },
+    { name: "email", rules: { max: 255 } },
+  ];
   // Hook de traduction
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "codes"]);
+  // Dispatcher pour les actions
+  const dispatch = useDispatch();
   // Recuperation des informations de l'utilisateur
   const { user } = useSelector(authSelector);
-  // Etat local pour la gestion de l'edition des champs
-  const [state, dispatch] = useReducer(reducer, user, initialState);
+  // Hook de formulaire
+  const form = useForm({
+    defaultValues: {
+      name: user?.name ?? "",
+      username: user?.username ?? "",
+      email: user?.email ?? "",
+    },
+  });
+  // Etat local pour suivre les champs en cours d'edition
+  const [editingFields, setEditingFields] = useState([]);
+  // Etat local pour suivre les champs en cours de soumission
+  const [submittingFields, setSubmittingFields] = useState([]);
+  // Fonction pour verifier si un champ est en mode edition
+  const isEditing = (field) => editingFields.includes(field);
+  // Fonction pour verifier si un champ est en cours de soumission
+  const isSubmitting = (field) => submittingFields.includes(field);
+  // Fonction pour basculer le mode edition d'un champ
+  const toggleField = (field, newValue = null) => {
+    // Si on desactive le mode edition, reset le champ pour annuler les modifications
+    if (isEditing(field))
+      form.resetField(field, { defaultValue: newValue ?? user?.[field] ?? "" });
+    setEditingFields((prev) =>
+      isEditing(field) ? prev.filter((f) => f !== field) : [...prev, field],
+    );
+  };
+  // Fonction d'envoie des modifications d'un champ
+  const handleSave = (field) => {
+    const value = form.getValues(field);
+    // Ajouter le champ a la liste des champs en cours de soumission
+    setSubmittingFields((prev) => [...prev, field]);
+    submit({ [field]: value });
+  };
+  // Fonction de soumission du formulaire
+  const submit = async (data) => {
+    // Recuperer le nom du champ modifie
+    const field = Object.keys(data)[0];
+    try {
+      // Envoyer les modifications
+      const UpdateUser = await dispatch(updateInfoThunk(data)).unwrap();
+      // Basculer le champ en mode non edition et mettre a jour sa valeur
+      toggleField(field, UpdateUser?.[field]);
+      // Afficher message de succes
+      toast.success(
+        t("toast.update_success", {
+          field: t(`items.personal_info.fields.labels.${field}`),
+        }),
+      );
+    } catch ({ code, details: errors }) {
+      // Afficher les erreurs du serveur dans le formulaire
+      setServerErrors(errors, form.setError);
+      // Afficher notification d'erreur
+      toast.error(t(`codes:${code}`));
+    } finally {
+      // Retirer le champ de la liste des champs en cours de soumission
+      setSubmittingFields((prev) => prev.filter((f) => f !== field));
+    }
+  };
 
   return (
     <>
@@ -77,66 +111,77 @@ export function PersonalInfoPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ItemGroup>
-          {["name", "username", "email"].map((field, index, array) => (
-            <Fragment key={field}>
-              <Item>
-                <ItemContent>
-                  <ItemTitle>
-                    {t(`items.personal_info.fields.labels.${field}`)}
-                  </ItemTitle>
-                  {state[field]?.edit ? (
-                    <>
-                      <Input
-                        className="my-3"
-                        value={state[field]?.value}
-                        onChange={(e) =>
-                          dispatch({
-                            type: "FIELD_CHANGE",
-                            payload: { field, value: e.target.value },
-                          })
-                        }
-                      />
+        <Form {...form}>
+          <ItemGroup>
+            {fields.map(({ name, rules }, index, array) => {
+              const fieldIsEditing = isEditing(name);
+              const fieldIsSubmitting = isSubmitting(name);
+              const isNotDirty = !form.formState.dirtyFields?.[name];
+              const label = t(`items.personal_info.fields.labels.${name}`);
+              const placeholder = t("items.personal_info.fields.placeholder", {
+                field: label.toLowerCase(),
+              });
+
+              return (
+                <Fragment key={name}>
+                  <Item>
+                    <ItemContent>
+                      <ItemTitle>{label}</ItemTitle>
+                      {fieldIsEditing ? (
+                        <>
+                          <FormField
+                            name={name}
+                            control={form.control}
+                            render={({ field: formField }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    {...formField}
+                                    className="mt-3"
+                                    placeholder={placeholder}
+                                  />
+                                </FormControl>
+                                <FormMessage
+                                  rules={{ attribute: label, ...rules }}
+                                />
+                              </FormItem>
+                            )}
+                          />
+                          <Button
+                            className="w-fit mt-3"
+                            disabled={isNotDirty || fieldIsSubmitting}
+                            onClick={() => handleSave(name)}
+                          >
+                            {fieldIsSubmitting && <Spinner />}
+                            {t("action.save", {
+                              field: label.toLowerCase(),
+                            })}
+                          </Button>
+                        </>
+                      ) : (
+                        <ItemDescription>
+                          {name === "username"
+                            ? `@${user?.[name] ?? ""}`
+                            : (user?.[name] ?? "")}
+                        </ItemDescription>
+                      )}
+                    </ItemContent>
+                    <ItemActions className="self-start">
                       <Button
-                        className="w-fit"
-                        disabled={state[field]?.value === user?.[field]}
+                        variant="link"
+                        className="pt-0 h-fit"
+                        onClick={() => toggleField(name)}
                       >
-                        {t("action.save", { field })}
+                        {t(fieldIsEditing ? "action.cancel" : "action.edit")}
                       </Button>
-                    </>
-                  ) : (
-                    <ItemDescription>
-                      {field === "username" && "@"}
-                      {user?.[field] ?? ""}
-                    </ItemDescription>
-                  )}
-                </ItemContent>
-                <ItemActions className="self-start">
-                  <Button
-                    variant="link"
-                    className="pt-0 h-fit"
-                    onClick={() =>
-                      dispatch(
-                        state[field]?.edit
-                          ? {
-                              type: "RESET_FIELD",
-                              payload: { field, value: user?.[field] },
-                            }
-                          : {
-                              type: "ACTIVATE_EDIT",
-                              payload: { field },
-                            },
-                      )
-                    }
-                  >
-                    {t(state[field]?.edit ? "action.cancel" : "action.edit")}
-                  </Button>
-                </ItemActions>
-              </Item>
-              {index !== array.length - 1 && <ItemSeparator />}
-            </Fragment>
-          ))}
-        </ItemGroup>
+                    </ItemActions>
+                  </Item>
+                  {index !== array.length - 1 && <ItemSeparator />}
+                </Fragment>
+              );
+            })}
+          </ItemGroup>
+        </Form>
       </CardContent>
     </>
   );

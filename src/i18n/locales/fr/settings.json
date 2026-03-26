@@ -21,5 +21,8 @@
         "placeholder": "Entrez votre {{field}}"
       }
     }
+  },
+  "toast": {
+    "update_success": "{{field}} mis à jour avec succès"
   }
 }
