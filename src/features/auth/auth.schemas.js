@@ -93,4 +93,11 @@ export const updateInfoSchema = z.object({
   name: nameField,
   username: usernameField,
   email: emailField,
+  avatar: z
+    .instanceof(File, "validation.file")
+    .refine((file) => file.size <= 2 * 1024 * 1024, "validation.max.file")
+    .refine((file) => {
+      const types = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+      return types.includes(file.type);
+    }, "validation.mimes"),
 });
