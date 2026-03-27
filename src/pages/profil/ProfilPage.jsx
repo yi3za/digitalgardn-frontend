@@ -3,12 +3,15 @@ import {
   AvatarFallback,
   AvatarImage,
   Button,
-  Field,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  FieldLabel,
   FieldSet,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
   Item,
   ItemActions,
@@ -30,14 +33,16 @@ import {
   SheetTrigger,
   Spinner,
 } from "@/components/ui";
+import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
 import {
   updateInfoThunk,
   uploadAvatarThunk,
 } from "@/features/auth/auth.thunks";
-import { formatDate, getFallbackName } from "@/lib/utils";
+import { formatDate, getFallbackName, setServerErrors } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -59,67 +64,49 @@ export function ProfilPage() {
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Fonction de traduction
-  const { t } = useTranslation(["profil", "codes", "validation"]);
-  // Etat local pour le nom de l'utilisateur
-  const [name, setName] = useState(user?.name ?? "");
-  // Etat local pour les erreurs de validation
-  const [errors, setErrors] = useState({});
-  // Fonction de validation des donnees avant de dispatch l'action de mise a jour
-  const validate = (fieldName, file) => {
-    // Validation du fichier de l'avatar : taille maximale de 2Mo
-    if (fieldName === "avatar" && file instanceof File) {
-      // Types de fichiers acceptes pour l'avatar
-      const types = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-      // Validation du type de fichier de l'avatar
-      if (!types.includes(file.type)) {
-        setErrors({ avatar: ["validation.mimes"] });
-        return false;
-      }
-      // Validation de la taille du fichier de l'avatar
-      if (file.size > 2048 * 1024) {
-        setErrors({ avatar: ["validation.max.file"] });
-        return false;
-      }
-    }
-    // Validation du nom de l'utilisateur : requis et longueur maximale de 255 caracteres
-    if (fieldName === "name") {
-      // Validation de la presence du nom de l'utilisateur
-      if (!name.trim()) {
-        setErrors({ name: ["validation.required"] });
-        return false;
-      }
-      // Validation de la longueur du nom de l'utilisateur
-      if (name.length > 255) {
-        setErrors({ name: ["validation.max.string"] });
-        return false;
-      }
-    }
-    // Reinitialisation des erreurs avant de dispatch l'action
-    setErrors({});
-    return true;
+  const { t } = useTranslation(["profil", "codes"]);
+  // Hook de formulaire
+  const form = useForm({
+    defaultValues: { name: user?.name ?? "", avatar: undefined },
+    resolver: zodResolver(updateInfoSchema),
+  });
+  // Gestion du changement de l'avatar pour le mettre a jour
+  const handleAvatarChange = (e) => {
+    // Recuperer le fichier de l'avatar selectionne
+    const avatarFile = e.target.files?.[0];
+    // Mettre a jour la valeur du champ avatar du formulaire avec le fichier selectionne
+    form.setValue("avatar", avatarFile);
+    handleAccountChanges(e);
   };
-  // Fonction de gestion des changements d'informations du compte
+  // Fonction de gestion des modifications du profil
   const handleAccountChanges = async (e) => {
-    // Determine le champ modifie (avatar ou name) et le fichier de l'avatar si applicable
-    const fieldName = e.target.name === "avatar" ? "avatar" : "name";
-    // Recuperation du fichier de l'avatar si le champ modifie est l'avatar
-    const file = e.target.files?.[0] ?? null;
-    // Validation des donnees avant de dispatch l'action
-    if (!validate(fieldName, file)) return;
-    // Determine l'action a dispatcher en fonction du champ modifie (avatar ou name)
-    const action =
-      e.target.name === "avatar"
-        ? uploadAvatarThunk({ avatar: file })
-        : updateInfoThunk({ name });
-    // Dispatch de l'action et gestion des erreurs
+    // Recupere les valeurs du formulaire
+    const { avatar, ...rest } = form.getValues();
+    // Determiner le champ modifie (avatar ou (name, ...))
+    const data = e.target.type === "file" ? { avatar } : rest;
+    // Recuperer les cles des champs modifies pour les valider avant de les soumettre
+    const dataKeys = Object.keys(data);
+    // Valider les champs modifies
+    if (await form.trigger(dataKeys)) {
+      // Soumet les modifications du profil
+      return submit(data);
+    }
+  };
+  // Fonction de soumission des modifications du profil
+  const submit = async (data) => {
+    // Verifier si c'est une mise a jour de l'avatar ou des informations personnelles
+    const isAvatarUpdate = !!data?.avatar;
+    // Choisir le thunk selon si c'est une modification d'avatar ou d'informations personnelles
+    const action = isAvatarUpdate ? uploadAvatarThunk : updateInfoThunk;
     try {
-      await dispatch(action).unwrap();
-      setErrors({});
-      toast.success(
-        t(`toast.${fieldName === "avatar" ? "successAvatar" : "successName"}`),
-      );
-    } catch ({ code, details }) {
-      setErrors(details ?? {});
+      // Envoyer la requete de modification du profil
+      await dispatch(action(data)).unwrap();
+      // Afficher un toast de succes
+      const messageKey = isAvatarUpdate ? "successAvatar" : "successName";
+      toast.success(t(`toast.${messageKey}`));
+    } catch ({ code, details: errors }) {
+      // Afficher les erreurs de validation ou une erreur generique
+      setServerErrors(errors, form.setError);
       toast.error(t(`codes:${code}`));
     }
   };
@@ -219,97 +206,115 @@ export function ProfilPage() {
               </SheetHeader>
               <Separator />
               <FieldSet disabled={loading.updateInfo} className="p-5">
-                <FieldGroup>
-                  <Field className="w-fit mx-auto rounded-full">
-                    <FieldLabel className="pt-0 rounded-full">
-                      <Avatar className="cursor-pointer mx-auto size-20 bg-accent flex items-center justify-center">
-                        {loading.uploadAvatar ? (
-                          <Spinner className="size-6" />
-                        ) : (
-                          <>
-                            <CameraIcon
-                              size="35"
-                              color="white"
-                              className="absolute p-5 w-full h-full bg-black opacity-0 hover:opacity-60 transition duration-400"
+                <Form {...form}>
+                  <FieldGroup>
+                    <FormField
+                      control={form.control}
+                      name="avatar"
+                      render={({ field }) => {
+                        const { value, onChange, ...rest } = field;
+                        return (
+                          <FormItem className="w-fit mx-auto rounded-full">
+                            <FormLabel className="pt-0 rounded-full cursor-pointer">
+                              <Avatar className="mx-auto size-20 bg-accent flex items-center justify-center">
+                                {loading.uploadAvatar ? (
+                                  <Spinner className="size-6" />
+                                ) : (
+                                  <>
+                                    <CameraIcon
+                                      size="35"
+                                      color="white"
+                                      className="absolute p-5 w-full h-full bg-black opacity-0 hover:opacity-60 transition duration-400"
+                                    />
+                                    <AvatarImage
+                                      src={user?.avatar_url}
+                                      alt={user?.username}
+                                    />
+                                  </>
+                                )}
+                                <AvatarFallback>
+                                  {avatarFallback}
+                                </AvatarFallback>
+                              </Avatar>
+                              <FormControl>
+                                <Input
+                                  type="file"
+                                  accept="image/*"
+                                  hidden
+                                  {...rest}
+                                  onChange={handleAvatarChange}
+                                  disabled={loading.uploadAvatar}
+                                />
+                              </FormControl>
+                            </FormLabel>
+                            <FormMessage
+                              rules={{
+                                attribute: t(
+                                  "modifierInfo.sheet.fields.avatar.label",
+                                ),
+                                values: "jpeg,jpg,png,webp",
+                                max: 2048,
+                              }}
+                              className="text-center"
                             />
-                            <AvatarImage
-                              src={user?.avatar_url}
-                              alt={user?.username}
-                            />
-                          </>
-                        )}
-                        <AvatarFallback>{avatarFallback}</AvatarFallback>
-                      </Avatar>
-                      <Input
-                        type="file"
-                        name="avatar"
-                        onChange={handleAccountChanges}
-                        accept="image/*"
-                        hidden
-                      />
-                    </FieldLabel>
-                    <FieldError className="text-center">
-                      {errors?.avatar &&
-                        t(`validation:${errors.avatar[0]}`, {
-                          attribute: t(
-                            "modifierInfo.sheet.fields.avatar.label",
-                          ),
-                          values: "jpeg,jpg,png,webp",
-                          max: 2048,
-                        })}
-                    </FieldError>
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="name">
-                      {t("modifierInfo.sheet.fields.name.label")}
-                    </FieldLabel>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder={t(
-                        "modifierInfo.sheet.fields.name.placeholder",
-                      )}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                          </FormItem>
+                        );
+                      }}
                     />
-                    <FieldError>
-                      {errors?.name &&
-                        t(`validation:${errors.name[0]}`, {
-                          attribute: t("modifierInfo.sheet.fields.name.label"),
-                          max: 255,
-                        })}
-                    </FieldError>
-                    <FieldDescription>
-                      {t("modifierInfo.sheet.fields.name.description")}
-                    </FieldDescription>
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="username">
-                      {t("modifierInfo.sheet.fields.username.label")}
-                    </FieldLabel>
-                    <div className="relative">
-                      <Lock
-                        className="absolute -translate-1/2 right-0 top-1/2 mx-1 text-gray-400"
-                        size={16}
-                      />
-                      <Input
-                        id="username"
-                        disabled
-                        defaultValue={"@" + user?.username}
-                      />
-                    </div>
-                    <FieldDescription>
-                      {t("modifierInfo.sheet.fields.username.description")}{" "}
-                    </FieldDescription>
-                  </Field>
-                </FieldGroup>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => {
+                        const label = t("modifierInfo.sheet.fields.name.label");
+                        return (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            <FormControl>
+                              <Input
+                                disabled={loading.updateInfo}
+                                placeholder={t(
+                                  "modifierInfo.sheet.fields.name.placeholder",
+                                )}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage
+                              rules={{ attribute: label, max: 255 }}
+                            />
+                            <FormDescription>
+                              {t("modifierInfo.sheet.fields.name.description")}
+                            </FormDescription>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                    <FormItem>
+                      <FormLabel>
+                        {t("modifierInfo.sheet.fields.username.label")}
+                      </FormLabel>
+                      <div className="relative">
+                        <Lock
+                          className="absolute -translate-1/2 right-0 top-1/2 mx-1 text-gray-400"
+                          size={16}
+                        />
+                        <Input
+                          disabled
+                          defaultValue={`@${user?.username ?? ""}`}
+                        />
+                      </div>
+                      <FormDescription>
+                        {t("modifierInfo.sheet.fields.username.description")}
+                      </FormDescription>
+                    </FormItem>
+                  </FieldGroup>
+                </Form>
               </FieldSet>
               <Separator />
               <SheetFooter>
-                {user?.name !== name && (
+                {form.formState.dirtyFields?.name && (
                   <Button
                     size="lg"
-                    onClick={handleAccountChanges}
+                    onClick={(e) => handleAccountChanges(e)}
                     disabled={loading.updateInfo}
                   >
                     {loading.updateInfo && <Spinner />}
@@ -318,10 +323,11 @@ export function ProfilPage() {
                 )}
                 <SheetClose asChild>
                   <Button
-                    onClick={() => {
-                      setErrors({});
-                      setName(user?.name);
-                    }}
+                    onClick={() =>
+                      form.resetField("name", {
+                        defaultValue: user?.name ?? "",
+                      })
+                    }
                     variant="outline"
                   >
                     {t("actions.close")}
