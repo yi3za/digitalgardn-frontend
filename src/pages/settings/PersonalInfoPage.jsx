@@ -147,6 +147,7 @@ export function PersonalInfoPage() {
                                     {...formField}
                                     className="mt-3"
                                     placeholder={placeholder}
+                                    disabled={fieldIsSubmitting}
                                   />
                                 </FormControl>
                                 <FormMessage
