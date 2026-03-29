@@ -110,12 +110,14 @@ export function PersonalInfoPage() {
 
   return (
     <>
+      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("items.personal_info.title")}</CardTitle>
         <CardDescription>
           {t("items.personal_info.description")}
         </CardDescription>
       </CardHeader>
+      {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
           <ItemGroup>

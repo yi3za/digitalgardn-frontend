@@ -61,10 +61,12 @@ export function SecurityPage() {
 
   return (
     <>
+      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("items.security.title")}</CardTitle>
         <CardDescription>{t("items.security.description")}</CardDescription>
       </CardHeader>
+      {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
           <FieldSet disabled={loading.changePassword}>
@@ -117,6 +119,7 @@ export function SecurityPage() {
           </FieldSet>
         </Form>
       </CardContent>
+      {/* Pied de carte */}
       <CardFooter className="gap-2">
         <Button
           onClick={form.handleSubmit(submit)}

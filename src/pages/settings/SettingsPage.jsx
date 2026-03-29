@@ -53,6 +53,7 @@ export function SettingsPage() {
 
   return (
     <Card className="shadow-none border-none">
+      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>
@@ -62,6 +63,7 @@ export function SettingsPage() {
           </Button>
         </CardAction>
       </CardHeader>
+      {/* Contenu de la carte */}
       <CardContent>
         <ItemGroup className="grid grid-cols-3 gap-5">
           {settingsItems.map(({ id, icon: Icon, title, description, link }) => (
