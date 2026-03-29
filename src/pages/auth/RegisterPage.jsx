@@ -25,6 +25,8 @@ import {
   Spinner,
   FieldSet,
   FieldGroup,
+  Checkbox,
+  FormDescription,
 } from "@/components/ui";
 import { registerSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -52,6 +54,7 @@ export function RegisterPage() {
       password: "",
       password_confirmation: "",
       role: "client",
+      remember: false,
     },
     resolver: zodResolver(registerSchema),
   });
@@ -220,6 +223,31 @@ export function RegisterPage() {
                   }}
                 />
               )}
+              <FormField
+                name="remember"
+                control={form.control}
+                render={({ field }) => {
+                  const { value, onChange, ...rest } = field;
+                  const label = t("register.fields.remember.label");
+                  return (
+                    <FormItem className="grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                      <FormControl>
+                        <Checkbox
+                          checked={value}
+                          onCheckedChange={onChange}
+                          {...rest}
+                          className="row-span-2"
+                        />
+                      </FormControl>
+                      <FormLabel>{label}</FormLabel>
+                      <FormDescription>
+                        {t("register.fields.remember.description")}
+                      </FormDescription>
+                      <FormMessage rules={{ attribute: label }} />
+                    </FormItem>
+                  );
+                }}
+              />
             </FieldGroup>
           </FieldSet>
         </Form>

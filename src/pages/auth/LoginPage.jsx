@@ -11,6 +11,13 @@ import {
   Spinner,
   FieldSet,
   FieldGroup,
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormMessage,
+  Checkbox,
+  FormDescription,
 } from "@/components/ui";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -35,7 +42,11 @@ export function LoginPage() {
   // Initialisation du formulaire
   // Validation des champs basee sur loginSchema
   const form = useForm({
-    defaultValues: { email: state?.email ?? "", password: "" },
+    defaultValues: {
+      email: state?.email ?? "",
+      password: "",
+      remember: false,
+    },
     resolver: zodResolver(loginSchema),
   });
   // Hook pour la traduction
@@ -49,6 +60,7 @@ export function LoginPage() {
    */
   const submit = async (data) => {
     try {
+      console.log(data);
       // Envoyer les donnees
       await dispatch(loginThunk(data)).unwrap();
       // Afficher message de succes
@@ -100,6 +112,31 @@ export function LoginPage() {
                 control={form.control}
                 icon={Lock}
                 rules={{ min: 8, max: 72 }}
+              />
+              <FormField
+                name="remember"
+                control={form.control}
+                render={({ field }) => {
+                  const { value, onChange, ...rest } = field;
+                  const label = t("login.fields.remember.label");
+                  return (
+                    <FormItem className="grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                      <FormControl>
+                        <Checkbox
+                          checked={value}
+                          onCheckedChange={onChange}
+                          {...rest}
+                          className="row-span-2"
+                        />
+                      </FormControl>
+                      <FormLabel>{label}</FormLabel>
+                      <FormDescription>
+                        {t("login.fields.remember.description")}
+                      </FormDescription>
+                      <FormMessage rules={{ attribute: label }} />
+                    </FormItem>
+                  );
+                }}
               />
             </FieldGroup>
           </FieldSet>
