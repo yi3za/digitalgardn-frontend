@@ -157,8 +157,9 @@ export function PasswordResetPage() {
               <CustomFormField
                 autoFocus
                 name="email"
+                label={t("passwordReset.fields.email.label")}
+                placeholder={t("passwordReset.fields.email.placeholder")}
                 type="email"
-                page="passwordReset"
                 control={form.control}
                 icon={Mail}
                 rules={{ max: 255 }}
@@ -208,13 +209,23 @@ export function PasswordResetPage() {
                     <CustomFormField
                       autoFocus
                       name="password"
+                      label={t("passwordReset.fields.password.label")}
+                      placeholder={t(
+                        "passwordReset.fields.password.placeholder",
+                      )}
                       type="password"
                       control={form.control}
                       icon={Lock}
-                      rules={{ min: 8 }}
+                      rules={{ min: 8, max: 72 }}
                     />
                     <CustomFormField
                       name="password_confirmation"
+                      label={t(
+                        "passwordReset.fields.password_confirmation.label",
+                      )}
+                      placeholder={t(
+                        "passwordReset.fields.password_confirmation.placeholder",
+                      )}
                       type="password"
                       control={form.control}
                       icon={Lock}

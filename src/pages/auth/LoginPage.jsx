@@ -82,19 +82,21 @@ export function LoginPage() {
             <CustomFormField
               autoFocus
               name="email"
+              label={t("login.fields.email.label")}
+              placeholder={t("login.fields.email.placeholder")}
               type="email"
-              page="login"
               control={form.control}
               icon={Mail}
               rules={{ max: 255 }}
             />
             <CustomFormField
               name="password"
+              label={t("login.fields.password.label")}
+              placeholder={t("login.fields.password.placeholder")}
               type="password"
-              page="login"
               control={form.control}
               icon={Lock}
-              rules={{ min: 8 }}
+              rules={{ min: 8, max: 72 }}
             />
           </fieldset>
         </Form>

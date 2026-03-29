@@ -11,13 +11,9 @@ import {
   ItemContent,
   ItemActions,
   ItemSeparator,
-  Input,
   Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
   Spinner,
+  CustomFormField,
 } from "@/components/ui";
 import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -137,24 +133,13 @@ export function PersonalInfoPage() {
                       <ItemTitle>{label}</ItemTitle>
                       {fieldIsEditing ? (
                         <>
-                          <FormField
+                          <CustomFormField
                             name={name}
                             control={form.control}
-                            render={({ field: formField }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input
-                                    {...formField}
-                                    className="mt-3"
-                                    placeholder={placeholder}
-                                    disabled={fieldIsSubmitting}
-                                  />
-                                </FormControl>
-                                <FormMessage
-                                  rules={{ attribute: label, ...rules }}
-                                />
-                              </FormItem>
-                            )}
+                            placeholder={placeholder}
+                            disabled={fieldIsSubmitting}
+                            rules={{ ...rules }}
+                            className="mt-3"
                           />
                           <Button
                             className="w-fit mt-3"

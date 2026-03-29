@@ -3,6 +3,7 @@ import {
   AvatarFallback,
   AvatarImage,
   Button,
+  CustomFormField,
   FieldGroup,
   FieldSet,
   Form,
@@ -263,32 +264,18 @@ export function ProfilPage() {
                         );
                       }}
                     />
-                    <FormField
+                    <CustomFormField
                       control={form.control}
                       name="name"
-                      render={({ field }) => {
-                        const label = t("modifierInfo.sheet.fields.name.label");
-                        return (
-                          <FormItem>
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                              <Input
-                                disabled={loading.updateInfo}
-                                placeholder={t(
-                                  "modifierInfo.sheet.fields.name.placeholder",
-                                )}
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage
-                              rules={{ attribute: label, max: 255 }}
-                            />
-                            <FormDescription>
-                              {t("modifierInfo.sheet.fields.name.description")}
-                            </FormDescription>
-                          </FormItem>
-                        );
-                      }}
+                      label={t("modifierInfo.sheet.fields.name.label")}
+                      placeholder={t(
+                        "modifierInfo.sheet.fields.name.placeholder",
+                      )}
+                      description={t(
+                        "modifierInfo.sheet.fields.name.description",
+                      )}
+                      rules={{ max: 255 }}
+                      disabled={loading.updateInfo}
                     />
                     <FormItem>
                       <FormLabel>

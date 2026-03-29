@@ -127,12 +127,16 @@ export function RegisterPage() {
                 <CustomFormField
                   autoFocus
                   name="name"
+                  label={t("register.fields.name.label")}
+                  placeholder={t("register.fields.name.placeholder")}
                   control={form.control}
                   icon={User}
                   rules={{ max: 255 }}
                 />
                 <CustomFormField
                   name="username"
+                  label={t("register.fields.username.label")}
+                  placeholder={t("register.fields.username.placeholder")}
                   control={form.control}
                   icon={AtSign}
                   rules={{ min: 3, max: 30 }}
@@ -140,6 +144,8 @@ export function RegisterPage() {
                 <CustomFormField
                   name="email"
                   type="email"
+                  label={t("register.fields.email.label")}
+                  placeholder={t("register.fields.email.placeholder")}
                   control={form.control}
                   icon={Mail}
                   rules={{ max: 255 }}
@@ -152,13 +158,19 @@ export function RegisterPage() {
                   autoFocus
                   name="password"
                   type="password"
+                  label={t("register.fields.password.label")}
+                  placeholder={t("register.fields.password.placeholder")}
                   control={form.control}
                   icon={Lock}
-                  rules={{ min: 8 }}
+                  rules={{ min: 8, max: 72 }}
                 />
                 <CustomFormField
                   name="password_confirmation"
                   type="password"
+                  label={t("register.fields.password_confirmation.label")}
+                  placeholder={t(
+                    "register.fields.password_confirmation.placeholder",
+                  )}
                   control={form.control}
                   icon={Lock}
                 />
