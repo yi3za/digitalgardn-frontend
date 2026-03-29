@@ -14,7 +14,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui";
-import { UserPen } from "lucide-react";
+import { Lock, UserPen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -26,6 +26,13 @@ const settingsItems = [
     title: "items.personal_info.title",
     description: "items.personal_info.description",
     link: "/settings/personal-info",
+  },
+  {
+    id: "security",
+    icon: Lock,
+    title: "items.security.title",
+    description: "items.security.description",
+    link: "/settings/security",
   },
 ];
 

@@ -1,5 +1,6 @@
 import { SettingsItemsLayout } from "@/components/layout/SettingsItemsLayout";
 import { PersonalInfoPage } from "@/pages/settings/PersonalInfoPage";
+import { SecurityPage } from "@/pages/settings/SecurityPage";
 import { SettingsPage } from "@/pages/settings/settingsPage";
 
 /**
@@ -9,6 +10,7 @@ import { SettingsPage } from "@/pages/settings/settingsPage";
  *
  * settings : page principale des parametres du compte utilisateur
  * personal-info : page de gestion des informations personnelles de l'utilisateur
+ * security : page de gestion de la securite du compte utilisateur
  */
 export const settingsRoutes = {
   path: "settings",
@@ -16,7 +18,10 @@ export const settingsRoutes = {
     { index: true, element: <SettingsPage /> },
     {
       element: <SettingsItemsLayout />,
-      children: [{ path: "personal-info", element: <PersonalInfoPage /> }],
+      children: [
+        { path: "personal-info", element: <PersonalInfoPage /> },
+        { path: "security", element: <SecurityPage /> },
+      ],
     },
   ],
 };
