@@ -101,6 +101,8 @@ export function ProfilPage() {
     try {
       // Envoyer la requete de modification du profil
       await dispatch(action(data)).unwrap();
+      // Reinitialiser le formulaire avec les nouvelles valeurs et marquer les champs comme non modifies
+      form.reset(data);
       // Afficher un toast de succes
       const messageKey = isAvatarUpdate ? "successAvatar" : "successName";
       toast.success(t(`toast.${messageKey}`));
