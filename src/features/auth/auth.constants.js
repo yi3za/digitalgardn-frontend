@@ -10,3 +10,16 @@ export const AUTH_STATUS = {
   AUTHENTICATED: "AUTHENTICATED",
   UNAUTHENTICATED: "UNAUTHENTICATED",
 };
+
+/**
+ * Enumeration des differents statuts possibles du compte utilisateur
+ *
+ * ACTIF : compte actif et fonctionnel
+ * INACTIF : compte desactive
+ * BANNI : compte banni
+ */
+export const ACCOUNT_STATUS = {
+  ACTIF: "actif",
+  INACTIF: "inactif",
+  BANNI: "banni",
+};
