@@ -43,7 +43,7 @@ const authSlice = createSlice({
     builder
       .addCase(
         registerThunk.fulfilled,
-        (state, { payload: { details: user } }) => {
+        (state, { payload: { details: { user } } }) => {
           state.user = user;
           state.status = AUTH_STATUS.AUTHENTICATED;
         },
@@ -55,7 +55,7 @@ const authSlice = createSlice({
     builder
       .addCase(
         loginThunk.fulfilled,
-        (state, { payload: { details: user } }) => {
+        (state, { payload: { details: { user } } }) => {
           state.user = user;
           state.status = AUTH_STATUS.AUTHENTICATED;
         },
@@ -72,7 +72,7 @@ const authSlice = createSlice({
     builder
       .addCase(
         getMeThunk.fulfilled,
-        (state, { payload: { details: user } }) => {
+        (state, { payload: { details: { user } } }) => {
           state.user = user;
           state.status = AUTH_STATUS.AUTHENTICATED;
         },
@@ -83,28 +83,28 @@ const authSlice = createSlice({
     // Gestion de l'upload de l'avatar de l'utilisateur
     builder.addCase(
       uploadAvatarThunk.fulfilled,
-      (state, { payload: { details: user } }) => {
+      (state, { payload: { details: { user } } }) => {
         state.user = user;
       },
     );
     // Gestion de la mise a jour des informations de l'utilisateur
     builder.addCase(
       updateInfoThunk.fulfilled,
-      (state, { payload: { details: user } }) => {
+      (state, { payload: { details: { user } } }) => {
         state.user = user;
       },
     );
     // Gestion de l'activation du compte de l'utilisateur
     builder.addCase(
       activateAccountThunk.fulfilled,
-      (state, { payload: { details: user } }) => {
+      (state, { payload: { details: { user } } }) => {
         state.user = user;
       },
     );
     // Gestion de la desactivation du compte de l'utilisateur
     builder.addCase(
       deactivateAccountThunk.fulfilled,
-      (state, { payload: { details: user } }) => {
+      (state, { payload: { details: { user } } }) => {
         state.user = user;
       },
     );
