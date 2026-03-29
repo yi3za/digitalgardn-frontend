@@ -210,7 +210,7 @@ export function ProfilPage() {
               <Separator />
               <Form {...form}>
                 <FieldSet disabled={loading.updateInfo} className="p-5">
-                  <FieldGroup>
+                  <FieldGroup className="gap-10">
                     <FormField
                       control={form.control}
                       name="avatar"
