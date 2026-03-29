@@ -21,3 +21,5 @@ export const uploadAvatar = (data) =>
   });
 // Mettre a jour les informations de l'utilisateur 
 export const updateInfo = (data) => client.patch("/api/me", data);
+// Changer le mot de passe de l'utilisateur
+export const changePassword = (data) => client.post("/api/me/change-password", data);

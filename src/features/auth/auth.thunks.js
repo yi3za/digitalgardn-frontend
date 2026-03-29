@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  changePassword,
   getCsrfCookie,
   getMe,
   login,
@@ -182,6 +183,28 @@ export const updateInfoThunk = createAsyncThunk(
       const response = await updateInfo(_data);
       const { user } = response?.data?.details ?? {};
       return user;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable du changement de mot de passe de l'utilisateur
+ *
+ * Envoie l'ancien mot de passe et le nouveau mot de passe au backend
+ * Le backend verifie l'ancien mot de passe et met a jour le mot de passe si la verification reussit
+ * Retourne une reponse succes en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const changePasswordThunk = createAsyncThunk(
+  "auth/changePassword",
+  async (_data, { rejectWithValue }) => {
+    try {
+      const response = await changePassword(_data);
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
