@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "./auth.constants";
 import { withLoadingAndError } from "./auth.matchers";
 import {
+  activateAccountThunk,
+  deactivateAccountThunk,
+  deleteAccountThunk,
   getMeThunk,
   loginThunk,
   logoutThunk,
@@ -75,6 +78,25 @@ const authSlice = createSlice({
     // Gestion de la mise a jour des informations de l'utilisateur
     builder.addCase(updateInfoThunk.fulfilled, (state, { payload }) => {
       state.user = payload;
+    });
+    // Gestion de l'activation du compte de l'utilisateur
+    builder.addCase(
+      activateAccountThunk.fulfilled,
+      (state, { payload: { details: user } }) => {
+        state.user = user;
+      },
+    );
+    // Gestion de la desactivation du compte de l'utilisateur
+    builder.addCase(
+      deactivateAccountThunk.fulfilled,
+      (state, { payload: { details: user } }) => {
+        state.user = user;
+      },
+    );
+    // Gestion de la suppression du compte de l'utilisateur
+    builder.addCase(deleteAccountThunk.fulfilled, (state) => {
+      state.user = null;
+      state.status = AUTH_STATUS.UNAUTHENTICATED;
     });
     // Ajout des matchers pour gerer les etats de chargement et d'erreur de toutes les actions du slice
     withLoadingAndError(builder);
