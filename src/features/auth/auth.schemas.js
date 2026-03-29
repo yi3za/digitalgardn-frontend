@@ -33,6 +33,7 @@ const passwordField = z
 const passwordConfirmationField = z
   .string("validation.string")
   .min(1, "validation.required");
+const rememberField = z.boolean("validation.boolean").default(false);
 
 /**
  * Utility pour valider la confirmation du mot de passe
@@ -49,6 +50,7 @@ const withPasswordConfirmation = (schema) =>
 export const loginSchema = z.object({
   email: emailField,
   password: passwordField,
+  remember: rememberField,
 });
 
 /**
@@ -62,6 +64,7 @@ export const registerSchema = withPasswordConfirmation(
     password: passwordField,
     password_confirmation: passwordConfirmationField,
     role: z.enum(["freelance", "client"], { message: "validation.in" }),
+    remember: rememberField,
   }),
 );
 
