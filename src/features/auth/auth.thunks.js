@@ -1,5 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  activateAccount,
+  deactivateAccount,
+  deleteAccount,
   changePassword,
   getCsrfCookie,
   getMe,
@@ -203,6 +206,69 @@ export const changePasswordThunk = createAsyncThunk(
   async (_data, { rejectWithValue }) => {
     try {
       const response = await changePassword(_data);
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de l'activation du compte utilisateur
+ *
+ * Appelle l'API d'activation du compte
+ * Retourne une reponse succes en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const activateAccountThunk = createAsyncThunk(
+  "auth/activateAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await activateAccount();
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la desactivation du compte utilisateur
+ *
+ * Appelle l'API de desactivation du compte
+ * Retourne une reponse succes en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const deactivateAccountThunk = createAsyncThunk(
+  "auth/deactivateAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await deactivateAccount();
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable de la suppression du compte utilisateur
+ *
+ * Appelle l'API de suppression du compte
+ * Retourne une reponse succes en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const deleteAccountThunk = createAsyncThunk(
+  "auth/deleteAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await deleteAccount();
       const { data } = response ?? {};
       return data;
     } catch ({ response }) {
