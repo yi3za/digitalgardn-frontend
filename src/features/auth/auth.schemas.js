@@ -102,3 +102,19 @@ export const updateInfoSchema = z.object({
       return types.includes(file.type);
     }, "validation.mimes"),
 });
+
+/**
+ * Schema de validation pour la mise a jour du mot de passe
+ */
+export const changePasswordSchema = withPasswordConfirmation(
+  z
+    .object({
+      old_password: passwordField,
+      new_password: passwordField,
+      new_password_confirmation: passwordConfirmationField,
+    })
+    .refine((data) => data.new_password === data.new_password_confirmation, {
+      message: "validation.confirmed",
+      path: ["new_password_confirmation"],
+    }),
+);
