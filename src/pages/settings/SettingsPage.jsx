@@ -14,7 +14,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui";
-import { Lock, UserPen } from "lucide-react";
+import { AlertTriangle, Lock, UserPen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -33,6 +33,13 @@ const settingsItems = [
     title: "items.security.title",
     description: "items.security.description",
     link: "/settings/security",
+  },
+  {
+    id: "danger_zone",
+    icon: AlertTriangle,
+    title: "items.danger_zone.title",
+    description: "items.danger_zone.description",
+    link: "/settings/danger-zone",
   },
 ];
 
@@ -60,7 +67,7 @@ export function SettingsPage() {
           {settingsItems.map(({ id, icon: Icon, title, description, link }) => (
             <Link to={link} key={id}>
               <Item
-                variant="outline"
+                variant={`${id === "danger_zone" ? "destructive" : "outline"}`}
                 className="col-span-1 hover:shadow-sm transition duration-300"
               >
                 <ItemHeader>

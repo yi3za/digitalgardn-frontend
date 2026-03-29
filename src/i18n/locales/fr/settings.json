@@ -36,6 +36,23 @@
         "reset_password": "Réinitialiser le mot de passe",
         "cancel": "Réinitialiser"
       }
+    },
+    "danger_zone": {
+      "title": "Zone dangereuse",
+      "description": "Gérez l'état de votre compte. Vous pouvez activer ou désactiver votre compte à tout moment.",
+      "status": {
+        "title": "État du compte",
+        "description": "Activez ou désactivez votre compte selon votre besoin.",
+        "actions": {
+          "deactivate": "Désactiver le compte",
+          "activate": "Réactiver le compte"
+        }
+      },
+      "delete": {
+        "title": "Supprimer le compte",
+        "description": "Supprime définitivement votre compte et toutes vos données. Cette action est irréversible.",
+        "action": "Supprimer le compte"
+      }
     }
   },
   "toast": {
