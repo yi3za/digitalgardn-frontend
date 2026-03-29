@@ -41,19 +41,25 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     // Gestion de l'inscription de l'utilisateur
     builder
-      .addCase(registerThunk.fulfilled, (state, { payload }) => {
-        state.user = payload;
-        state.status = AUTH_STATUS.AUTHENTICATED;
-      })
+      .addCase(
+        registerThunk.fulfilled,
+        (state, { payload: { details: user } }) => {
+          state.user = user;
+          state.status = AUTH_STATUS.AUTHENTICATED;
+        },
+      )
       .addCase(registerThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
       });
     // Gestion de la connexion de l'utilisateur
     builder
-      .addCase(loginThunk.fulfilled, (state, { payload }) => {
-        state.user = payload;
-        state.status = AUTH_STATUS.AUTHENTICATED;
-      })
+      .addCase(
+        loginThunk.fulfilled,
+        (state, { payload: { details: user } }) => {
+          state.user = user;
+          state.status = AUTH_STATUS.AUTHENTICATED;
+        },
+      )
       .addCase(loginThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
       });
@@ -64,21 +70,30 @@ const authSlice = createSlice({
     });
     // Gestion de la recuperation de l'utilisateur authentifie
     builder
-      .addCase(getMeThunk.fulfilled, (state, { payload }) => {
-        state.user = payload;
-        state.status = AUTH_STATUS.AUTHENTICATED;
-      })
+      .addCase(
+        getMeThunk.fulfilled,
+        (state, { payload: { details: user } }) => {
+          state.user = user;
+          state.status = AUTH_STATUS.AUTHENTICATED;
+        },
+      )
       .addCase(getMeThunk.rejected, (state) => {
         state.status = AUTH_STATUS.UNAUTHENTICATED;
       });
     // Gestion de l'upload de l'avatar de l'utilisateur
-    builder.addCase(uploadAvatarThunk.fulfilled, (state, { payload }) => {
-      state.user = payload;
-    });
+    builder.addCase(
+      uploadAvatarThunk.fulfilled,
+      (state, { payload: { details: user } }) => {
+        state.user = user;
+      },
+    );
     // Gestion de la mise a jour des informations de l'utilisateur
-    builder.addCase(updateInfoThunk.fulfilled, (state, { payload }) => {
-      state.user = payload;
-    });
+    builder.addCase(
+      updateInfoThunk.fulfilled,
+      (state, { payload: { details: user } }) => {
+        state.user = user;
+      },
+    );
     // Gestion de l'activation du compte de l'utilisateur
     builder.addCase(
       activateAccountThunk.fulfilled,

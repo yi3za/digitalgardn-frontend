@@ -26,12 +26,12 @@ import { normalizeError } from "./auth.utils";
  */
 export const registerThunk = createAsyncThunk(
   "auth/register",
-  async (data, { rejectWithValue }) => {
+  async (_data, { rejectWithValue }) => {
     try {
       await getCsrfCookie();
-      const response = await register(data);
-      const { user } = response?.data?.details ?? {};
-      return user;
+      const response = await register(_data);
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
@@ -49,12 +49,12 @@ export const registerThunk = createAsyncThunk(
  */
 export const loginThunk = createAsyncThunk(
   "auth/login",
-  async (data, { rejectWithValue }) => {
+  async (_data, { rejectWithValue }) => {
     try {
       await getCsrfCookie();
-      const response = await login(data);
-      const { user } = response?.data?.details ?? {};
-      return user;
+      const response = await login(_data);
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
@@ -75,8 +75,8 @@ export const getMeThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getMe();
-      const { user } = response?.data?.details ?? {};
-      return user;
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
@@ -162,8 +162,8 @@ export const uploadAvatarThunk = createAsyncThunk(
   async (_data, { rejectWithValue }) => {
     try {
       const response = await uploadAvatar(_data);
-      const { user } = response?.data?.details ?? {};
-      return user;
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
@@ -184,8 +184,8 @@ export const updateInfoThunk = createAsyncThunk(
   async (_data, { rejectWithValue }) => {
     try {
       const response = await updateInfo(_data);
-      const { user } = response?.data?.details ?? {};
-      return user;
+      const { data } = response ?? {};
+      return data;
     } catch ({ response }) {
       const normalisedError = normalizeError(response);
       return rejectWithValue(normalisedError);
