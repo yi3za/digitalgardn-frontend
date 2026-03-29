@@ -208,8 +208,8 @@ export function ProfilPage() {
                 </SheetDescription>
               </SheetHeader>
               <Separator />
-              <FieldSet disabled={loading.updateInfo} className="p-5">
-                <Form {...form}>
+              <Form {...form}>
+                <FieldSet disabled={loading.updateInfo} className="p-5">
                   <FieldGroup>
                     <FormField
                       control={form.control}
@@ -296,8 +296,8 @@ export function ProfilPage() {
                       </FormDescription>
                     </FormItem>
                   </FieldGroup>
-                </Form>
-              </FieldSet>
+                </FieldSet>
+              </Form>
               <Separator />
               <SheetFooter>
                 {form.formState.dirtyFields?.name && (

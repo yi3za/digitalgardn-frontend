@@ -9,6 +9,8 @@ import {
   Form,
   CustomFormField,
   Spinner,
+  FieldSet,
+  FieldGroup,
 } from "@/components/ui";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -78,27 +80,29 @@ export function LoginPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <fieldset disabled={loading.login}>
-            <CustomFormField
-              autoFocus
-              name="email"
-              label={t("login.fields.email.label")}
-              placeholder={t("login.fields.email.placeholder")}
-              type="email"
-              control={form.control}
-              icon={Mail}
-              rules={{ max: 255 }}
-            />
-            <CustomFormField
-              name="password"
-              label={t("login.fields.password.label")}
-              placeholder={t("login.fields.password.placeholder")}
-              type="password"
-              control={form.control}
-              icon={Lock}
-              rules={{ min: 8, max: 72 }}
-            />
-          </fieldset>
+          <FieldSet disabled={loading.login}>
+            <FieldGroup>
+              <CustomFormField
+                autoFocus
+                name="email"
+                label={t("login.fields.email.label")}
+                placeholder={t("login.fields.email.placeholder")}
+                type="email"
+                control={form.control}
+                icon={Mail}
+                rules={{ max: 255 }}
+              />
+              <CustomFormField
+                name="password"
+                label={t("login.fields.password.label")}
+                placeholder={t("login.fields.password.placeholder")}
+                type="password"
+                control={form.control}
+                icon={Lock}
+                rules={{ min: 8, max: 72 }}
+              />
+            </FieldGroup>
+          </FieldSet>
         </Form>
       </CardContent>
       {/* Pied de carte */}
