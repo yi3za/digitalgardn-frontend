@@ -20,22 +20,24 @@ import { authSelector } from "@/features/auth/auth.selectors";
 import { updateInfoThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AtSign, Mail, User } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
+// Definition des champs du formulaire avec leurs regles de validation
+const fields = [
+  { name: "name", rules: { max: 255 }, icon: User },
+  { name: "username", rules: { min: 3, max: 30 }, icon: AtSign },
+  { name: "email", rules: { max: 255 }, icon: Mail },
+];
+
 /**
  * Page de gestion des informations personnelles de l'utilisateur
  */
 export function PersonalInfoPage() {
-  // Definition des champs du formulaire avec leurs regles de validation
-  const fields = [
-    { name: "name", rules: { max: 255 } },
-    { name: "username", rules: { min: 3, max: 30 } },
-    { name: "email", rules: { max: 255 } },
-  ];
   // Hook de traduction
   const { t } = useTranslation(["settings", "codes"]);
   // Dispatcher pour les actions
@@ -117,7 +119,7 @@ export function PersonalInfoPage() {
       <CardContent>
         <Form {...form}>
           <ItemGroup>
-            {fields.map(({ name, rules }, index, array) => {
+            {fields.map(({ name, rules, icon }, index, array) => {
               const fieldIsEditing = isEditing(name);
               const fieldIsSubmitting = isSubmitting(name);
               const isNotDirty = !form.formState.dirtyFields?.[name];
@@ -139,7 +141,7 @@ export function PersonalInfoPage() {
                             placeholder={placeholder}
                             disabled={fieldIsSubmitting}
                             rules={{ ...rules }}
-                            className="mt-3"
+                            icon={icon}
                           />
                           <Button
                             className="w-fit mt-3"

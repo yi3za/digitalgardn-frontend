@@ -42,7 +42,7 @@ import {
 } from "@/features/auth/auth.thunks";
 import { formatDate, getFallbackName, setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CameraIcon, Eye, Lock, UserRound } from "lucide-react";
+import { CameraIcon, Eye, Lock, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -156,7 +156,7 @@ export function ProfilPage() {
                 <ItemSeparator />
                 <Item>
                   <ItemMedia>
-                    <UserRound className="text-muted-foreground" size={16} />
+                    <User className="text-muted-foreground" size={16} />
                   </ItemMedia>
                   <ItemContent>
                     <ItemDescription>
@@ -189,7 +189,7 @@ export function ProfilPage() {
           <ItemTitle>{user_name}</ItemTitle>
           <ItemDescription>{"@" + user?.username}</ItemDescription>
           <ItemDescription className="flex items-center gap-2 mt-5">
-            <UserRound size={16} />
+            <User size={16} />
             {t("meta.joined", { date: date_incription })}
           </ItemDescription>
         </ItemContent>
@@ -275,6 +275,7 @@ export function ProfilPage() {
                         "modifierInfo.sheet.fields.name.description",
                       )}
                       rules={{ max: 255 }}
+                      icon={User}
                       disabled={loading.updateInfo}
                     />
                     <FormItem>
