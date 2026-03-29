@@ -28,7 +28,8 @@ const emailField = z
 const passwordField = z
   .string("validation.string")
   .min(1, "validation.required")
-  .min(8, "validation.min.string");
+  .min(8, "validation.min.string")
+  .max(72, "validation.max.string");
 const passwordConfirmationField = z
   .string("validation.string")
   .min(1, "validation.required");
