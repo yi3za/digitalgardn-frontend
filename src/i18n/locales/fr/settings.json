@@ -33,7 +33,8 @@
         "placeholder": "Entrez votre {{field}}"
       },
       "actions": {
-        "reset_password": "Réinitialiser le mot de passe"
+        "reset_password": "Réinitialiser le mot de passe",
+        "cancel": "Réinitialiser"
       }
     }
   },
