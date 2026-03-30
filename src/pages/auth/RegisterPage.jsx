@@ -197,7 +197,10 @@ export function RegisterPage() {
                             onValueChange={field.onChange}
                           >
                             {["freelance", "client"].map((r) => (
-                              <FieldLabel key={r} className="pt-0">
+                              <FieldLabel
+                                key={r}
+                                className="pt-0 cursor-pointer hover:bg-secondary"
+                              >
                                 <Field>
                                   <FieldContent>
                                     <FieldTitle>

@@ -116,7 +116,6 @@ export const sendResetCodeThunk = createAsyncThunk(
   "auth/sendResetCode",
   async (_data, { rejectWithValue }) => {
     try {
-      await getCsrfCookie();
       const response = await sendResetCode(_data);
       const { data } = response ?? {};
       return data;
