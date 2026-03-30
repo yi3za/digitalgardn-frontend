@@ -119,5 +119,9 @@ export const changePasswordSchema = withPasswordConfirmation(
     .refine((data) => data.new_password === data.new_password_confirmation, {
       message: "validation.confirmed",
       path: ["new_password_confirmation"],
+    })
+    .refine((data) => data.old_password !== data.new_password, {
+      message: "validation.different",
+      path: ["new_password"],
     }),
 );
