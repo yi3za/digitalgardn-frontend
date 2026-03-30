@@ -86,12 +86,10 @@ export function PasswordResetPage() {
       const action = !isCodeSent
         ? sendResetCodeThunk({ email })
         : resetPasswordThunk(data);
-      // Definir la cle du message de succes
-      const messageKey = !isCodeSent ? "successSendCode" : "successReset";
       // Envoyer la requete
-      await dispatch(action).unwrap();
+      const { code } = await dispatch(action).unwrap();
       // Afficher un toast de succes
-      toast.success(t(`passwordReset.toast.${messageKey}`));
+      toast.success(t(`codes:${code}`));
       // Mettre a jour l'etat ou naviguer vers login
       if (!isCodeSent) setIsCodeSent(true);
       else navigate("/login", { state: { email } });

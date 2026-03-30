@@ -16,10 +16,6 @@
           "label": "Nom d'utilisateur",
           "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
         }
-      },
-      "toast": {
-        "successAvatar": "Photo de profil mise à jour avec succès !",
-        "successName": "Nom mis à jour avec succès !"
       }
     }
   },
@@ -39,9 +35,5 @@
     "edit": "Modifier",
     "save": "Enregistrer les modifications",
     "close": "Fermer"
-  },
-  "toast": {
-    "successAvatar": "Photo de profil mise à jour avec succès !",
-    "successName": "Nom mis à jour avec succès !"
   }
 }

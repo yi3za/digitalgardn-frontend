@@ -18,7 +18,7 @@ import { AuthButtons } from "./AuthButtons";
  */
 export function Header() {
   // Hook pour la traduction
-  const { t } = useTranslation(["sections", "codes", "auth"]);
+  const { t } = useTranslation(["sections", "codes"]);
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
   return (

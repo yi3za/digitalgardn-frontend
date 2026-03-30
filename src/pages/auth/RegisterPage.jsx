@@ -82,9 +82,9 @@ export function RegisterPage() {
   const submit = async (data) => {
     try {
       // Envoyer les donnees
-      await dispatch(registerThunk(data)).unwrap();
+      const { code } = await dispatch(registerThunk(data)).unwrap();
       // Afficher message de succes
-      toast.success(t("register.toast.success"));
+      toast.success(t(`codes:${code}`));
     } catch ({ code, details: errors }) {
       // Mettre le formulaire a l'etape correspondant aux champs en erreur
       onError(errors);

@@ -35,9 +35,9 @@ export function UserMenu({ user, t }) {
   const logout = async () => {
     try {
       // Appeler le thunk de logout pour deconnecter l'utilisateur
-      await dispatch(logoutThunk()).unwrap();
+      const { code } = await dispatch(logoutThunk()).unwrap();
       // Afficher message de succes
-      toast.success(t("auth:logout.toast.success"));
+      toast.success(t(`codes:${code}`));
     } catch ({ code }) {
       // Afficher notification d'erreur en fonction du code retourne
       toast.error(t(`codes:${code}`));

@@ -46,13 +46,11 @@ export function SecurityPage() {
   const submit = async (data) => {
     try {
       // Envoyer les donnees de changement de mot de passe
-      await dispatch(changePasswordThunk(data)).unwrap();
+      const { code } = await dispatch(changePasswordThunk(data)).unwrap();
       // Afficher message de succes
-      toast.success(
-        t("toast.update_success", {
-          field: t("items.security.fields.labels.password").toLowerCase(),
-        }),
-      );
+      toast.success(t(`codes:${code}`));
+      // Reinitialiser le formulaire
+      form.reset();
     } catch ({ code, details: errors }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);

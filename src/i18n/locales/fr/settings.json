@@ -54,8 +54,5 @@
         "action": "Supprimer le compte"
       }
     }
-  },
-  "toast": {
-    "update_success": "{{field}} mis à jour avec succès"
   }
 }

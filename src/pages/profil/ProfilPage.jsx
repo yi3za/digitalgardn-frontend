@@ -101,12 +101,11 @@ export function ProfilPage() {
     const action = isAvatarUpdate ? uploadAvatarThunk : updateInfoThunk;
     try {
       // Envoyer la requete de modification du profil
-      await dispatch(action(data)).unwrap();
+      const { code } = await dispatch(action(data)).unwrap();
       // Reinitialiser le formulaire avec les nouvelles valeurs et marquer les champs comme non modifies
       form.reset(data);
       // Afficher un toast de succes
-      const messageKey = isAvatarUpdate ? "successAvatar" : "successName";
-      toast.success(t(`toast.${messageKey}`));
+      toast.success(t(`codes:${code}`));
     } catch ({ code, details: errors }) {
       // Afficher les erreurs de validation ou une erreur generique
       setServerErrors(errors, form.setError);

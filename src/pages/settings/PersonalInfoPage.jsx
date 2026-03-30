@@ -88,15 +88,14 @@ export function PersonalInfoPage() {
       // Ajouter le champ a la liste des champs en cours de soumission
       setSubmittingFields((prev) => [...prev, field]);
       // Envoyer les modifications
-      const UpdateUser = await dispatch(updateInfoThunk(data)).unwrap();
+      const {
+        code,
+        details: { user: UpdateUser },
+      } = await dispatch(updateInfoThunk(data)).unwrap();
       // Basculer le champ en mode non edition et mettre a jour sa valeur
       toggleField(field, UpdateUser?.[field]);
       // Afficher message de succes
-      toast.success(
-        t("toast.update_success", {
-          field: t(`items.personal_info.fields.labels.${field}`),
-        }),
-      );
+      toast.success(t(`codes:${code}`));
     } catch ({ code, details: errors }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);

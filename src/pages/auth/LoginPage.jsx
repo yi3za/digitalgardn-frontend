@@ -62,9 +62,9 @@ export function LoginPage() {
   const submit = async (data) => {
     try {
       // Envoyer les donnees
-      await dispatch(loginThunk(data)).unwrap();
+      const { code } = await dispatch(loginThunk(data)).unwrap();
       // Afficher message de succes
-      toast.success(t("login.toast.success"));
+      toast.success(t(`codes:${code}`));
     } catch ({ code, details: errors }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);
