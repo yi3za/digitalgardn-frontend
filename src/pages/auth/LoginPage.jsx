@@ -18,6 +18,7 @@ import {
   FormMessage,
   Checkbox,
   FormDescription,
+  Input,
 } from "@/components/ui";
 import { loginThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
@@ -103,14 +104,44 @@ export function LoginPage() {
                 icon={Mail}
                 rules={{ max: 255 }}
               />
-              <CustomFormField
+              <FormField
                 name="password"
-                label={t("login.fields.password.label")}
-                placeholder={t("login.fields.password.placeholder")}
-                type="password"
                 control={form.control}
-                icon={Lock}
-                rules={{ min: 8, max: 72 }}
+                render={({ field }) => {
+                  const label = t("login.fields.password.label");
+                  return (
+                    <FormItem>
+                      <div className="flex justify-between items-center">
+                        <FormLabel>{label}</FormLabel>
+                        <Button
+                          onClick={() => navigate("/password-reset")}
+                          variant="link"
+                          disabled={loading.login}
+                          className="p-0 h-fit leading-none text-muted-foreground"
+                        >
+                          {t("login.actions.forgotPassword")}
+                        </Button>
+                      </div>
+                      <div className="relative">
+                        <Lock
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/60"
+                          size={16}
+                        />
+                        <FormControl>
+                          <Input
+                            type="password"
+                            {...field}
+                            placeholder={t("login.fields.password.placeholder")}
+                            className="pl-10"
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage
+                        rules={{ attribute: label, min: 8, max: 72 }}
+                      />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 name="remember"
@@ -128,7 +159,7 @@ export function LoginPage() {
                           className="row-span-2"
                         />
                       </FormControl>
-                      <FormLabel>{label}</FormLabel>
+                      <FormLabel className="cursor-pointer">{label}</FormLabel>
                       <FormDescription>
                         {t("login.fields.remember.description")}
                       </FormDescription>
@@ -159,14 +190,6 @@ export function LoginPage() {
           disabled={loading.login}
         >
           {t("login.actions.reset")}
-        </Button>
-        <Button
-          onClick={() => navigate("/password-reset")}
-          variant="link"
-          className="w-full"
-          disabled={loading.login}
-        >
-          {t("login.actions.forgotPassword")}
         </Button>
       </CardFooter>
     </>
