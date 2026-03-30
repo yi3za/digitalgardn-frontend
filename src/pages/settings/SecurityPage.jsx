@@ -33,6 +33,7 @@ export function SecurityPage() {
   // Etat de store indiquant si une requete est en cours
   const { loading } = useSelector(authSelector);
   // Initialisation du formulaire de changement de mot de passe
+  // Validation des champs basee sur changePasswordSchema
   const form = useForm({
     defaultValues: {
       old_password: "",

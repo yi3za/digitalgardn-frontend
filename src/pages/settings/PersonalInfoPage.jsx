@@ -44,7 +44,7 @@ export function PersonalInfoPage() {
   const dispatch = useDispatch();
   // Recuperation des informations de l'utilisateur
   const { user } = useSelector(authSelector);
-  // Hook de formulaire
+  // Initialisation du formulaire avec les valeurs de l'utilisateur et validation basee sur updateInfoSchema
   const form = useForm({
     defaultValues: {
       name: user?.name ?? "",

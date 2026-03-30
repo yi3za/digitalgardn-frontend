@@ -60,7 +60,6 @@ export function LoginPage() {
    */
   const submit = async (data) => {
     try {
-      console.log(data);
       // Envoyer les donnees
       await dispatch(loginThunk(data)).unwrap();
       // Afficher message de succes

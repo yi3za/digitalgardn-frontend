@@ -66,7 +66,7 @@ export function ProfilPage() {
   const dispatch = useDispatch();
   // Fonction de traduction
   const { t } = useTranslation(["profil", "codes"]);
-  // Hook de formulaire
+  // Initialisation du formulaire avec les valeurs de l'utilisateur et validation basee sur updateInfoSchema
   const form = useForm({
     defaultValues: { name: user?.name ?? "", avatar: undefined },
     resolver: zodResolver(updateInfoSchema),
