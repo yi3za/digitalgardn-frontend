@@ -38,10 +38,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export function PasswordResetPage() {
+  // Recuperation des donnees passees via navigate (state) depuis la page precedente
+  const { state } = useLocation();
   // Etat de store indiquant si une requete auth est en cours
   const { loading } = useSelector(authSelector);
   // Indique c'est le code a ete envoye
@@ -52,7 +54,7 @@ export function PasswordResetPage() {
   // Validation des champs basee sur resetPasswordSchema si isCodeSent sinon sendResetCodeSchema
   const form = useForm({
     defaultValues: {
-      email: "",
+      email: state?.email ?? "",
       code: "",
       password: "",
       password_confirmation: "",
@@ -81,7 +83,7 @@ export function PasswordResetPage() {
    */
   const processPasswordReset = async (data) => {
     try {
-      const email = data?.email;
+      const email = data?.email ?? "";
       // Choisir le thunk selon si le code a deja ete envoye ou non
       const action = !isCodeSent
         ? sendResetCodeThunk({ email })

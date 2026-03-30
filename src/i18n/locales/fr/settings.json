@@ -34,7 +34,8 @@
       },
       "actions": {
         "reset_password": "Réinitialiser le mot de passe",
-        "cancel": "Réinitialiser"
+        "cancel": "Réinitialiser",
+        "forgotPassword": "Mot de passe oublié ?"
       }
     },
     "danger_zone": {
