@@ -6,6 +6,14 @@ import {
   CardHeader,
   CardTitle,
   CustomFormField,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   FieldGroup,
   FieldSet,
   Form,
@@ -23,6 +31,7 @@ import { changePasswordThunk, logoutThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound, Lock, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +50,10 @@ export function SecurityPage() {
   const navigate = useNavigate();
   // Etat de store indiquant si une requete est en cours
   const { user, loading } = useSelector(authSelector);
+  // Etat local pour gerer l'ouverture du dialog
+  const [activeDialog, setActiveDialog] = useState(null);
+  // Fonction pour fermer le dialog
+  const closeDialog = () => setActiveDialog(null);
   // Initialisation du formulaire de changement de mot de passe
   // Validation des champs basee sur changePasswordSchema
   const form = useForm({
@@ -73,6 +86,8 @@ export function SecurityPage() {
       const email = user?.email ?? "";
       // Deconnecter l'utilisateur avant de le rediriger vers la page de mot de passe oublie
       await dispatch(logoutThunk()).unwrap();
+      // Fermer le dialog de confirmation
+      closeDialog();
       // Rediriger vers la page de mot de passe oublie
       navigate("/password-reset", { state: { email } });
     } catch ({ code }) {
@@ -102,14 +117,60 @@ export function SecurityPage() {
                     <FormItem>
                       <div className="flex justify-between items-center">
                         <FormLabel>{label}</FormLabel>
-                        <Button
-                          onClick={forgetPassword}
-                          variant="link"
-                          disabled={loading.changePassword || loading.logout}
-                          className="p-0 h-fit leading-none text-muted-foreground"
+                        <Dialog
+                          open={activeDialog === field.name}
+                          onOpenChange={(open) => !open && closeDialog()}
                         >
-                          {t("items.security.actions.forgotPassword")}
-                        </Button>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="link"
+                              disabled={
+                                loading.changePassword || loading.logout
+                              }
+                              className="p-0 h-fit leading-none text-muted-foreground"
+                              onClick={() => setActiveDialog(field.name)}
+                            >
+                              {t("items.security.actions.forgotPassword")}
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                {t(
+                                  "items.security.dialog.forgot_password.title",
+                                )}
+                              </DialogTitle>
+                              <DialogDescription>
+                                {t(
+                                  "items.security.dialog.forgot_password.description",
+                                )}
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <DialogClose asChild>
+                                <Button
+                                  variant="outline"
+                                  disabled={
+                                    loading.changePassword || loading.logout
+                                  }
+                                >
+                                  {t("action.cancel")}
+                                </Button>
+                              </DialogClose>
+                              <Button
+                                disabled={
+                                  loading.changePassword || loading.logout
+                                }
+                                onClick={forgetPassword}
+                              >
+                                {(loading.changePassword || loading.logout) && (
+                                  <Spinner />
+                                )}
+                                {t("action.confirm")}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                       <div className="relative">
                         <Lock
@@ -186,7 +247,7 @@ export function SecurityPage() {
           onClick={() => form.reset()}
           disabled={loading.changePassword || loading.logout}
         >
-          {t("items.security.actions.cancel")}
+          {t("action.cancel")}
         </Button>
       </CardFooter>
     </>

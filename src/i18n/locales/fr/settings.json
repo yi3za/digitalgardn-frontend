@@ -6,7 +6,9 @@
     "back": "Retour aux paramètres",
     "edit": "Modifier",
     "cancel": "Annuler",
-    "save": "Enregistrer {{field}}"
+    "confirm": "Confirmer",
+    "save": "Enregistrer {{field}}",
+    "reset": "Réinitialiser"
   },
   "items": {
     "personal_info": {
@@ -34,8 +36,13 @@
       },
       "actions": {
         "reset_password": "Réinitialiser le mot de passe",
-        "cancel": "Réinitialiser",
         "forgotPassword": "Mot de passe oublié ?"
+      },
+      "dialog": {
+        "forgot_password": {
+          "title": "Réinitialisation externe",
+          "description": "Pour utiliser cette option, vous allez être déconnecté afin de réinitialiser votre mot de passe via e-mail. Voulez-vous continuer ?"
+        }
       }
     },
     "danger_zone": {
@@ -47,12 +54,20 @@
         "actions": {
           "deactivate": "Désactiver le compte",
           "activate": "Réactiver le compte"
+        },
+        "dialog": {
+          "title": "Changer l'état du compte",
+          "description": "Êtes-vous sûr de vouloir {{action}} votre compte ? Cette action affectera l'accès à vos données."
         }
       },
       "delete": {
         "title": "Supprimer le compte",
-        "description": "Supprime définitivement votre compte et toutes vos données. Cette action est irréversible.",
-        "action": "Supprimer le compte"
+        "description": "Supprime définitivement votre compte et toutes vos بيانات. Cette action est irréversible.",
+        "action": "Supprimer le compte",
+        "dialog": {
+          "title": "Suppression irréversible",
+          "description": "Attention ! Vous êtes sur le point de supprimer votre compte définitivement. Cette action ne peut pas être annulée."
+        }
       }
     }
   }

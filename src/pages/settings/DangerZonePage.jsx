@@ -4,12 +4,21 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   Item,
   ItemActions,
   ItemContent,
   ItemDescription,
   ItemGroup,
   ItemTitle,
+  Spinner,
 } from "@/components/ui";
 import { ACCOUNT_STATUS } from "@/features/auth/auth.constants";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -18,6 +27,7 @@ import {
   deactivateAccountThunk,
   deleteAccountThunk,
 } from "@/features/auth/auth.thunks";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -47,7 +57,11 @@ export function DangerZonePage() {
   // Dispatch pour les actions redux
   const dispatch = useDispatch();
   // Recuperation des informations de l'utilisateur connecte
-  const { user } = useSelector(authSelector);
+  const { user, loading } = useSelector(authSelector);
+  // Etat local pour gerer l'ouverture du dialog de confirmation
+  const [activeDialog, setActiveDialog] = useState(null);
+  // Fonction pour fermer le dialog
+  const closeDialog = () => setActiveDialog(null);
   // Gestion des actions dangereuses
   const handleAccountAction = async (actionId) => {
     // Determination de l'action a effectuer en fonction de l'action demandee et du status actuel de l'utilisateur
@@ -60,7 +74,10 @@ export function DangerZonePage() {
     try {
       // Execution de l'action et attente de sa resolution
       const { code } = await dispatch(action()).unwrap();
+      // Afficher message de succes
       toast.success(t(`codes:${code}`));
+      // Fermer le dialog de confirmation
+      closeDialog();
     } catch ({ code, details: errors }) {
       // Affichage d'une notification d'erreur en cas d'echec de l'action
       toast.error(t(`codes:${code}`));
@@ -79,6 +96,16 @@ export function DangerZonePage() {
         <ItemGroup className="gap-5">
           {dangerousItems.map(({ id, title, description }) => {
             const isDeleteAction = id === "delete";
+            const isDisabled =
+              loading.deleteAccount ||
+              loading.activateAccount ||
+              loading.deactivateAccount;
+            const actionLabel = isDeleteAction
+              ? t("items.danger_zone.delete.action")
+              : t(
+                  `items.danger_zone.status.actions.${user?.status === ACCOUNT_STATUS.ACTIF ? "deactivate" : "activate"}`,
+                );
+
             return (
               <Item
                 key={id}
@@ -90,16 +117,51 @@ export function DangerZonePage() {
                   <ItemDescription>{t(description)}</ItemDescription>
                 </ItemContent>
                 <ItemActions>
-                  <Button
-                    variant="link"
-                    onClick={() => handleAccountAction(id)}
+                  <Dialog
+                    open={activeDialog === id}
+                    onOpenChange={(open) => !open && closeDialog()}
                   >
-                    {isDeleteAction
-                      ? t("items.danger_zone.delete.action")
-                      : t(
-                          `items.danger_zone.status.actions.${user?.status === ACCOUNT_STATUS.ACTIF ? "deactivate" : "activate"}`,
-                        )}
-                  </Button>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="link"
+                        disabled={isDisabled}
+                        onClick={() => setActiveDialog(id)}
+                      >
+                        {actionLabel}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          {isDeleteAction
+                            ? t("items.danger_zone.delete.dialog.title")
+                            : t(`items.danger_zone.status.dialog.title`)}
+                        </DialogTitle>
+                        <DialogDescription>
+                          {isDeleteAction
+                            ? t("items.danger_zone.delete.dialog.description")
+                            : t(`items.danger_zone.status.dialog.description`, {
+                                action: actionLabel.toLowerCase(),
+                              })}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button variant="outline" disabled={isDisabled}>
+                            {t("action.cancel")}
+                          </Button>
+                        </DialogClose>
+                        <Button
+                          onClick={() => handleAccountAction(id)}
+                          variant={isDeleteAction ? "destructive" : "default"}
+                          disabled={isDisabled}
+                        >
+                          {isDisabled && <Spinner />}
+                          {t("action.confirm")}
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </ItemActions>
               </Item>
             );
