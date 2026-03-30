@@ -160,7 +160,7 @@ function CustomFormField({
           <div className="relative">
             {Icon && (
               <Icon
-                className="absolute top-1/2 left-5 -translate-1/2 text-gray-400 "
+                className="absolute top-1/2 left-5 -translate-1/2 text-muted-foreground/60 "
                 size={16}
               />
             )}
