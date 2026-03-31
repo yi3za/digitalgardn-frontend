@@ -135,3 +135,4 @@ export {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
+export { WaitButton } from "./wait-button";
