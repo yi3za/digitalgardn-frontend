@@ -242,7 +242,7 @@ export function RegisterPage() {
                           className="row-span-2"
                         />
                       </FormControl>
-                      <FormLabel>{label}</FormLabel>
+                      <FormLabel className="cursor-pointer">{label}</FormLabel>
                       <FormDescription>
                         {t("register.fields.remember.description")}
                       </FormDescription>
