@@ -62,7 +62,7 @@
       },
       "delete": {
         "title": "Supprimer le compte",
-        "description": "Supprime définitivement votre compte et toutes vos بيانات. Cette action est irréversible.",
+        "description": "Supprime définitivement votre compte et toutes vos données. Cette action est irréversible.",
         "action": "Supprimer le compte",
         "dialog": {
           "title": "Suppression irréversible",
