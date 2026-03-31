@@ -43,10 +43,18 @@ import {
 import { formatDate, getFallbackName, setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CameraIcon, Eye, Lock, User } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+
+const SHEET = {
+  PROFIL: {
+    SHOW: "profile-show",
+    EDIT_NAME_AVATAR: "profile-edit-name-avatar",
+  },
+};
 
 /**
  * Composant de la page de profil
@@ -71,6 +79,10 @@ export function ProfilPage() {
     defaultValues: { name: user?.name ?? "", avatar: undefined },
     resolver: zodResolver(updateInfoSchema),
   });
+  // Sheet actuellement ouvert
+  const [activeSheet, setActiveSheet] = useState(null);
+  // Fermer le sheet actif
+  const closeSheet = () => setActiveSheet(null);
   // Gestion du changement de l'avatar pour le mettre a jour
   const handleAvatarChange = (e) => {
     // Recuperer le fichier de l'avatar selectionne
@@ -121,14 +133,22 @@ export function ProfilPage() {
           <ItemDescription>{t("voirInfo.description")}</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <Sheet>
+          <Sheet
+            showCloseButton={false}
+            open={activeSheet === SHEET.PROFIL.SHOW}
+            onOpenChange={(open) => !open && closeSheet()}
+          >
             <SheetTrigger asChild>
-              <Button variant="outline" className="shadow-none">
+              <Button
+                variant="outline"
+                className="shadow-none"
+                onClick={() => setActiveSheet(SHEET.PROFIL.SHOW)}
+              >
                 <Eye />
                 {t("voirInfo.action")}
               </Button>
             </SheetTrigger>
-            <SheetContent showCloseButton={false} className="overflow-x-auto">
+            <SheetContent className="overflow-x-auto">
               <SheetHeader>
                 <SheetTitle>{t("voirInfo.sheet.title")}</SheetTitle>
                 <SheetDescription>
@@ -193,13 +213,26 @@ export function ProfilPage() {
           </ItemDescription>
         </ItemContent>
         <ItemActions className="self-start">
-          <Sheet>
+          <Sheet
+            showCloseButton={false}
+            open={activeSheet === SHEET.PROFIL.EDIT_NAME_AVATAR}
+            onOpenChange={(open) => {
+              if (!open) {
+                closeSheet();
+                form.reset();
+              }
+            }}
+          >
             <SheetTrigger asChild>
-              <Button variant="link" className="pt-0 h-fit">
+              <Button
+                variant="link"
+                className="pt-0 h-fit"
+                onClick={() => setActiveSheet(SHEET.PROFIL.EDIT_NAME_AVATAR)}
+              >
                 {t("actions.edit")}
               </Button>
             </SheetTrigger>
-            <SheetContent showCloseButton={false} className="overflow-x-auto">
+            <SheetContent className="overflow-x-auto">
               <SheetHeader>
                 <SheetTitle>{t("modifierInfo.sheet.title")}</SheetTitle>
                 <SheetDescription>
@@ -311,16 +344,7 @@ export function ProfilPage() {
                   </Button>
                 )}
                 <SheetClose asChild>
-                  <Button
-                    onClick={() =>
-                      form.resetField("name", {
-                        defaultValue: user?.name ?? "",
-                      })
-                    }
-                    variant="outline"
-                  >
-                    {t("actions.close")}
-                  </Button>
+                  <Button variant="outline">{t("actions.close")}</Button>
                 </SheetClose>
               </SheetFooter>
             </SheetContent>
