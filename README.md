@@ -10,11 +10,12 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
 | ------------------------ | ------------------------------------------------------------- |
 | **Framework & Build**    | React 19, Vite                                                |
 | **Gestion d'etat**       | Redux Toolkit, React-Redux                                    |
+| **Gestion des Donnees**  | TanStack Query (v5)                                           |
 | **Routage**              | React Router DOM                                              |
 | **Formulaires**          | React Hook Form                                               |
 | **Validation de Schema** | Zod                                                           |
-| **Appels API**           | Axios                                                         |
-| **UI & Style**           | Tailwind CSS, Shadcn/UI                                       |
+| **Appels API**           | Axios (Intercepteurs & Gestion centralisee)                   |
+| **UI & Style**           | Tailwind CSS, Shadcn/UI, Lucide React                         |
 | **Notifications**        | Sonner                                                        |
 | **Internationalisation** | i18next, react-i18next                                        |
 | **Environnement**        | Node.js v22.17.1, npm 10.9.2                                  |
@@ -45,6 +46,19 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
 
 - ✅ **Internationalisation (i18n)**
     - Application entierement traduisible avec gestion des textes de l'interface et des messages d'erreur.
+
+- ✅ **Gestion des Donnees Asynchrones (TanStack Query)**
+    - Utilisation de React Query pour la recuperation et la mise en cache des donnees.
+    - Optimisation des performances avec gestion automatique des etats loading et error.
+
+- ✅ **Espace Profil & Parametres Utilisateur**
+    - Gestion de Profil : Mise a jour des informations et upload d'avatar.
+    - Interface Controlee : Utilisation de Sheet (Shadcn) avec etat controle (activeSheet).
+    - Zone de Danger : Actions sensibles avec dialogues de confirmation et gestion des erreurs.
+
+- ✅ **Composants UI Avances & UX**
+    - WaitButton & useWait : Hook personnalise pour gerer les delais sur les actions critiques.
+    - CustomFormField : Standardisation des entrees avec validation Zod integree.
 
 ---
 
