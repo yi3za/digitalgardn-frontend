@@ -24,6 +24,7 @@ import {
   FormMessage,
   Input,
   Spinner,
+  WaitButton
 } from "@/components/ui";
 import { changePasswordSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -157,7 +158,7 @@ export function SecurityPage() {
                                   {t("action.cancel")}
                                 </Button>
                               </DialogClose>
-                              <Button
+                              <WaitButton
                                 disabled={
                                   loading.changePassword || loading.logout
                                 }
@@ -167,7 +168,7 @@ export function SecurityPage() {
                                   <Spinner />
                                 )}
                                 {t("action.confirm")}
-                              </Button>
+                              </WaitButton>
                             </DialogFooter>
                           </DialogContent>
                         </Dialog>

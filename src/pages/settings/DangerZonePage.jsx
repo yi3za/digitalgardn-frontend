@@ -19,6 +19,7 @@ import {
   ItemGroup,
   ItemTitle,
   Spinner,
+  WaitButton,
 } from "@/components/ui";
 import { ACCOUNT_STATUS } from "@/features/auth/auth.constants";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -151,14 +152,14 @@ export function DangerZonePage() {
                             {t("action.cancel")}
                           </Button>
                         </DialogClose>
-                        <Button
+                        <WaitButton
                           onClick={() => handleAccountAction(id)}
                           variant={isDeleteAction ? "destructive" : "default"}
                           disabled={isDisabled}
                         >
                           {isDisabled && <Spinner />}
                           {t("action.confirm")}
-                        </Button>
+                        </WaitButton>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
