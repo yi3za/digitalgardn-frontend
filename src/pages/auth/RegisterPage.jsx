@@ -48,11 +48,11 @@ export function RegisterPage() {
   // Validation des champs basee sur registerSchema
   const form = useForm({
     defaultValues: {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
+      name: "yaazaaitbah",
+      username: "yaazaaitbah" + Date.now(),
+      email: "yaazaaitbah" + Date.now() + "@example.com",
+      password: "yaazaaitbah",
+      password_confirmation: "yaazaaitbah",
       role: "client",
       remember: false,
     },
