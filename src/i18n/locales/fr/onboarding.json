@@ -1,0 +1,40 @@
+{
+  "title": "Compléter votre profil",
+  "description": "Ces informations permettront de personnaliser votre expérience sur DigitalGarden.",
+  "role": {
+    "title": "Quel est votre objectif ?",
+    "options": {
+      "client": {
+        "title": "Client",
+        "description": "Je souhaite recruter des talents pour mes projets."
+      },
+      "freelance": {
+        "title": "Freelance",
+        "description": "Je souhaite proposer mes services professionnels."
+      }
+    }
+  },
+  "fields": {
+    "titre": {
+      "label": "Titre professionnel",
+      "placeholder": "Ex: Développeur Fullstack, Designer UI/UX..."
+    },
+    "biographie": {
+      "label": "Biographie",
+      "placeholder": "Parlez-nous de votre parcours et de votre expertise..."
+    },
+    "site_web": {
+      "label": "Site web personnel",
+      "placeholder": "https://votre-portfolio.com"
+    },
+    "liens_sociaux": {
+      "label": "Réseaux sociaux",
+      "placeholder": "Lien vers LinkedIn, GitHub, etc."
+    }
+  },
+  "actions": {
+    "next": "Continuer",
+    "back": "Retour",
+    "submit": "Finaliser mon profil"
+  }
+}

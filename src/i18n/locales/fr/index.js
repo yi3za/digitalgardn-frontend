@@ -4,6 +4,7 @@ import validation from "./validation.json";
 import sections from "./sections.json";
 import profil from "./profil.json";
 import settings from "./settings.json";
+import onboarding from "./onboarding.json";
 
 /**
  * Ce fichier regroupe toutes les traductions pour la langue française
@@ -15,4 +16,5 @@ export const fr = {
   sections,
   profil,
   settings,
+  onboarding,
 };
