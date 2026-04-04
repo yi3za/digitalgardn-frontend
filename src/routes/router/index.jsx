@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { authRoutes } from "./auth.routes";
 import { HomePage } from "@/pages/HomePage";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -38,5 +38,9 @@ export const router = createBrowserRouter([
         children: [profilRoutes, settingsRoutes],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
