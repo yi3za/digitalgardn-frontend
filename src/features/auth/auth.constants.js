@@ -23,3 +23,16 @@ export const ACCOUNT_STATUS = {
   INACTIF: "inactif",
   BANNI: "banni",
 };
+
+/**
+ * Enumeration des roles utilisateur
+ *
+ * ADMIN : acces complet (gestion globale)
+ * FREELANCE : prestataire de services
+ * CLIENT : utilisateur qui demande des services
+ */
+export const AUTH_ROLE = {
+  ADMIN: "admin",
+  FREELANCE: "freelance",
+  CLIENT: "client",
+};
