@@ -3,12 +3,14 @@ import { AUTH_STATUS } from "./auth.constants";
 import { withLoadingAndError } from "./auth.matchers";
 import {
   activateAccountThunk,
+  completeOnboardingThunk,
   deactivateAccountThunk,
   deleteAccountThunk,
   getMeThunk,
   loginThunk,
   logoutThunk,
   registerThunk,
+  switchToFreelanceThunk,
   updateInfoThunk,
   uploadAvatarThunk,
 } from "./auth.thunks";
@@ -97,6 +99,13 @@ const authSlice = createSlice({
     // Gestion de la finalisation de l'onboarding utilisateur
     builder.addCase(
       completeOnboardingThunk.fulfilled,
+      (state, { payload: { details: { user } } }) => {
+        state.user = user;
+      },
+    );
+    // Gestion du changement de role vers freelance
+    builder.addCase(
+      switchToFreelanceThunk.fulfilled,
       (state, { payload: { details: { user } } }) => {
         state.user = user;
       },

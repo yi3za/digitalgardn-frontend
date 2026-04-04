@@ -13,6 +13,8 @@ import {
   sendResetCode,
   updateInfo,
   uploadAvatar,
+  completeOnboarding,
+  switchToFreelance,
 } from "./auth.api";
 import { normalizeError } from "./auth.utils";
 
@@ -288,6 +290,27 @@ export const deleteAccountThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await deleteAccount();
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
+
+/**
+ * Thunk responsable du changement de role vers freelance
+ *
+ * Appelle l'API pour modifier le role et creer le profil
+ * Retourne les donnees utilisateur mises a jour (avec profil)
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const switchToFreelanceThunk = createAsyncThunk(
+  "auth/switchToFreelance",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await switchToFreelance();
       const { data } = response ?? {};
       return data;
     } catch ({ response }) {
