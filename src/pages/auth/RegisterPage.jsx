@@ -14,13 +14,6 @@ import {
   CardFooter,
   ButtonGroup,
   ButtonGroupSeparator,
-  RadioGroup,
-  FieldLabel,
-  Field,
-  FieldContent,
-  FieldTitle,
-  FieldDescription,
-  RadioGroupItem,
   CustomFormField,
   Spinner,
   FieldSet,
@@ -41,6 +34,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+/**
+ * Composant de la page de l'inscription
+ */
 export function RegisterPage() {
   // Etat de store indiquant si une requete auth est en cours
   const { loading } = useSelector(authSelector);
@@ -53,7 +49,6 @@ export function RegisterPage() {
       email: "yaazaaitbah" + Date.now() + "@example.com",
       password: "yaazaaitbah",
       password_confirmation: "yaazaaitbah",
-      role: "client",
       remember: false,
     },
     resolver: zodResolver(registerSchema),
@@ -77,7 +72,7 @@ export function RegisterPage() {
     else if (errors?.password || errors?.password_confirmation) setStep(2);
   };
   /**
-   * Fonction de soumission du formulaire : dispatch de l'action login
+   * Fonction de soumission du formulaire : dispatch de l'action register
    */
   const submit = async (data) => {
     try {
@@ -101,9 +96,7 @@ export function RegisterPage() {
     const fieldsResetByStep =
       step === 1
         ? ["name", "username", "email"]
-        : step === 2
-          ? ["password", "password_confirmation"]
-          : ["role"];
+        : ["password", "password_confirmation"];
     fieldsResetByStep.forEach((field) => form.resetField(field));
   };
 
@@ -182,50 +175,6 @@ export function RegisterPage() {
                   />
                 </>
               )}
-              {step === 3 && (
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => {
-                    const label = t("register.fields.role.label");
-                    return (
-                      <FormItem>
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            {["freelance", "client"].map((r) => (
-                              <FieldLabel
-                                key={r}
-                                className="pt-0 cursor-pointer hover:bg-secondary"
-                              >
-                                <Field>
-                                  <FieldContent>
-                                    <FieldTitle>
-                                      {t(
-                                        `register.fields.role.options.${r}.title`,
-                                      )}
-                                    </FieldTitle>
-                                    <FieldDescription>
-                                      {t(
-                                        `register.fields.role.options.${r}.description`,
-                                      )}
-                                    </FieldDescription>
-                                  </FieldContent>
-                                  <RadioGroupItem hidden value={r} />
-                                </Field>
-                              </FieldLabel>
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage rules={{ attribute: label }} />
-                      </FormItem>
-                    );
-                  }}
-                />
-              )}
               <FormField
                 name="remember"
                 control={form.control}
@@ -270,11 +219,11 @@ export function RegisterPage() {
           <Button
             disabled={loading.register}
             className="flex-1"
-            variant={step === 3 ? "" : "ghost"}
-            onClick={step === 3 ? form.handleSubmit(submit, onError) : next}
+            variant={step === 2 ? "" : "ghost"}
+            onClick={step === 2 ? form.handleSubmit(submit, onError) : next}
           >
             {loading.register && <Spinner />}
-            {t(`register.actions.${step === 3 ? "submit" : "next"}`)}
+            {t(`register.actions.${step === 2 ? "submit" : "next"}`)}
           </Button>
         </ButtonGroup>
         <Button
