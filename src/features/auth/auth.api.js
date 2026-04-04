@@ -41,6 +41,9 @@ export const updateInfo = (data) =>
 // Changer le mot de passe de l'utilisateur
 export const changePassword = (data) =>
   client.post("/api/me/change-password", data, contentTypeJson);
+// Finalise l'onboarding de l'utilisateur
+export const completeOnboarding = () =>
+  client.patch("/api/me/complete-onboarding");
 // Activer le compte utilisateur
 export const activateAccount = () => client.patch("/api/me/activate-account");
 // Desactiver le compte utilisateur

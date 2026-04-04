@@ -94,6 +94,13 @@ const authSlice = createSlice({
         state.user = user;
       },
     );
+    // Gestion de la finalisation de l'onboarding utilisateur
+    builder.addCase(
+      completeOnboardingThunk.fulfilled,
+      (state, { payload: { details: { user } } }) => {
+        state.user = user;
+      },
+    );
     // Gestion de l'activation du compte de l'utilisateur
     builder.addCase(
       activateAccountThunk.fulfilled,

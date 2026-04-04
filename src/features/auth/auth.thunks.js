@@ -213,6 +213,26 @@ export const changePasswordThunk = createAsyncThunk(
     }
   },
 );
+/**
+ * Thunk responsable de la finalisation de l'onboarding utilisateur
+ *
+ * Appelle l'API pour marquer l'onboarding comme termine
+ * Retourne une reponse succes en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const completeOnboardingThunk = createAsyncThunk(
+  "auth/completeOnboarding",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await completeOnboarding();
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  },
+);
 
 /**
  * Thunk responsable de l'activation du compte utilisateur
