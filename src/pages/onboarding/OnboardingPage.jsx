@@ -78,9 +78,9 @@ export function OnboardingPage() {
           <Button
             onClick={() => handleOnboardingCompletion(role === CLIENT)}
             variant={role === CLIENT ? "default" : "outline"}
-            disabled={loading.completeOnboarding}
+            disabled={loading.completeOnboarding || loading.switchToFreelance}
           >
-            {loading.completeOnboarding && <Spinner />}
+            {loading.completeOnboarding || loading.switchToFreelance && <Spinner />}
             {t(`actions.${role === CLIENT ? "submit" : "next"}`)}
           </Button>
         )}
