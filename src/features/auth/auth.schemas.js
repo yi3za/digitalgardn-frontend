@@ -34,7 +34,22 @@ const passwordConfirmationField = z
   .string("validation.string")
   .min(1, "validation.required");
 const rememberField = z.boolean("validation.boolean").default(false);
-const roleField = z.enum(["freelance", "client"], { message: "validation.in" });
+const titreField = z
+  .string("validation.string")
+  .min(10, "validation.min.string")
+  .max(255, "validation.max.string");
+const biographieField = z
+  .string("validation.string")
+  .min(150, "validation.min.string")
+  .max(600, "validation.max.string");
+const siteWebField = z
+  .string("validation.string")
+  .max(255, "validation.max.string")
+  .optional()
+  .or(z.literal(""))
+  .refine((val) => !val || /^https?:\/\/.+/.test(val), {
+    message: "validation.url",
+  });
 
 /**
  * Utility pour valider la confirmation du mot de passe
@@ -104,6 +119,9 @@ export const updateInfoSchema = z.object({
       const types = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
       return types.includes(file.type);
     }, "validation.mimes"),
+  titre: titreField,
+  biographie: biographieField,
+  site_web: siteWebField,
 });
 
 /**
