@@ -1,36 +1,34 @@
 {
   "modifierInfo": {
-    "sheet": {
-      "title": "Modifier le profil",
-      "description": "Gérez les informations de votre compte et votre photo de profil pour personnaliser votre expérience.",
-      "fields": {
-        "avatar": {
-          "label": "Photo de profil"
-        },
-        "name": {
-          "label": "Nom complet",
-          "placeholder": "Entrez votre nom",
-          "description": "Ce nom sera affiché sur votre profil public."
-        },
-        "titre": {
-          "label": "Titre professionnel",
-          "placeholder": "Entrez votre titre professionnel",
-          "description": "Ce titre apparaitra sous votre nom et decrira votre specialite."
-        },
-        "biographie": {
-          "label": "Biographie",
-          "placeholder": "Entrez votre biographie",
-          "description": "Decrivez votre parcours et votre expertise."
-        },
-        "site_web": {
-          "label": "Site web personnel",
-          "placeholder": "https://votre-site-web.com",
-          "description": "Lien vers votre site web personnel."
-        },
-        "username": {
-          "label": "Nom d'utilisateur",
-          "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
-        }
+    "title": "Modifier le profil",
+    "description": "Gérez les informations de votre compte et votre photo de profil pour personnaliser votre expérience.",
+    "fields": {
+      "avatar": {
+        "label": "Photo de profil"
+      },
+      "name": {
+        "label": "Nom complet",
+        "placeholder": "Entrez votre nom",
+        "description": "Ce nom sera affiché sur votre profil public."
+      },
+      "titre": {
+        "label": "Titre professionnel",
+        "placeholder": "Entrez votre titre professionnel",
+        "description": "Ce titre apparaitra sous votre nom et decrira votre specialite."
+      },
+      "site_web": {
+        "label": "Site web personnel",
+        "placeholder": "https://votre-site-web.com",
+        "description": "Lien vers votre site web personnel."
+      },
+      "username": {
+        "label": "Nom d'utilisateur",
+        "description": "Votre identifiant unique. Pour le modifier, rendez-vous dans les paramètres du compte."
+      },
+      "biographie": {
+        "label": "Présentation professionnelle",
+        "placeholder": "Rédigez une courte présentation de votre parcours",
+        "description": "Décrivez votre expérience, vos compétences et votre domaine d’expertise."
       }
     }
   },
@@ -48,7 +46,8 @@
   },
   "actions": {
     "edit": "Modifier",
-    "save": "Enregistrer les modifications",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
     "close": "Fermer"
   }
 }
