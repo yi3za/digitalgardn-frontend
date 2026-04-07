@@ -1,13 +1,12 @@
 import {
-  Button,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui";
 import { ProfilPage } from "../profil/ProfilPage";
 import { useTranslation } from "react-i18next";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 /**
  * La page de configuration (setup) pour les freelances
@@ -15,6 +14,8 @@ import { useTranslation } from "react-i18next";
 export function FreelancerSetupPage() {
   // Hook de traduction
   const { t } = useTranslation("onboarding");
+  // Recuperation des donnees du context
+  const { handleOnboardingCompletion } = useOutletContext();
 
   return (
     <>
@@ -23,11 +24,8 @@ export function FreelancerSetupPage() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ProfilPage />
+        <ProfilPage handleOnboardingCompletion={handleOnboardingCompletion} />
       </CardContent>
-      <CardFooter className="justify-end">
-        <Button>{t("actions.submit")}</Button>
-      </CardFooter>
     </>
   );
 }
