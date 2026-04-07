@@ -136,3 +136,4 @@ export {
   DialogTrigger,
 } from "./dialog";
 export { WaitButton } from "./wait-button";
+export { Textarea } from "./textarea";
