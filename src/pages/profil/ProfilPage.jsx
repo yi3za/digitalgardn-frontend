@@ -64,11 +64,11 @@ const SHEET = { PROFIL: { SHOW: "profile-show", EDIT: "profile-edit" } };
  * Composant de la page de profil
  * Affiche les informations de l'utilisateur
  */
-export function ProfilPage() {
+export function ProfilPage({ handleOnboardingCompletion }) {
   // Recupere les donnees de l'utilisateur authentifie
   const { user, loading } = useSelector(authSelector);
   // Fonction de traduction
-  const { t } = useTranslation(["profil", "codes"]);
+  const { t } = useTranslation(["profil", "codes", "onboarding"]);
   // Etat local pour control l'edition de biographie
   const [biographieEdit, setBiographieEdit] = useState(false);
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
@@ -94,6 +94,8 @@ export function ProfilPage() {
       biographie: user?.profil?.biographie ?? "",
       avatar: undefined,
     },
+    mode: "onChange",
+    reValidateMode: "onChange",
     resolver: zodResolver(updateInfoSchema),
   });
   // Sheet actuellement ouvert
@@ -108,6 +110,7 @@ export function ProfilPage() {
       try {
         const { code } = await dispatch(uploadAvatarThunk({ avatar })).unwrap();
         toast.success(t(`codes:${code}`));
+        form.resetField("avatar", { defaultValue: avatar });
       } catch ({ code, details: errors }) {
         setServerErrors(errors, form.setError);
         toast.error(t(`codes:${code}`));
@@ -163,10 +166,22 @@ export function ProfilPage() {
       setBiographieEdit(true);
     }
   };
+  // Verifier que les champs obligatoires de freelance sont remplirent
+  const isOnboardingTermine = async () => {
+    if (!(await form.trigger(["titre", "avatar"]))) {
+      setActiveSheet(SHEET.PROFIL.EDIT);
+      return;
+    }
+    if (!(await form.trigger("biographie"))) {
+      setBiographieEdit(true);
+      return;
+    }
+    return handleOnboardingCompletion(true);
+  };
 
   return (
-    <Form {...form}>
-      <ItemGroup className="gap-5">
+    <ItemGroup className="gap-5">
+      <Form {...form}>
         {user?.onboarding_termine && (
           <Item className="px-0">
             <ItemContent>
@@ -278,6 +293,7 @@ export function ProfilPage() {
               showCloseButton={false}
               open={activeSheet === SHEET.PROFIL.EDIT}
               onOpenChange={(open) => {
+                setBiographieEdit(false);
                 if (!open) {
                   closeSheet();
                   form.reset();
@@ -309,40 +325,42 @@ export function ProfilPage() {
                       render={({ field }) => {
                         const { value, onChange, ...rest } = field;
                         return (
-                          <FormItem className="w-fit mx-auto rounded-full">
-                            <FormLabel className="relative pt-0 rounded-full cursor-pointer">
-                              <Avatar className="relative mx-auto size-20 bg-accent flex items-center justify-center">
-                                {loading.uploadAvatar ? (
-                                  <Spinner className="size-6" />
-                                ) : (
-                                  <>
-                                    <CameraIcon
-                                      size="35"
-                                      color="white"
-                                      className="absolute p-5 w-full h-full bg-black opacity-0 hover:opacity-60 transition duration-400"
-                                    />
-                                    <AvatarImage
-                                      src={user?.avatar_url}
-                                      alt={user?.username}
-                                    />
-                                  </>
-                                )}
-                                <AvatarFallback>
-                                  {avatarFallback}
-                                </AvatarFallback>
-                              </Avatar>
-                              <CameraIcon className="absolute bottom-0 right-0 border size-6 rounded-full bg-muted p-1" />
-                              <FormControl>
-                                <Input
-                                  type="file"
-                                  accept="image/*"
-                                  hidden
-                                  {...rest}
-                                  onChange={handleUploadAvatar}
-                                  disabled={loading.uploadAvatar}
-                                />
-                              </FormControl>
-                            </FormLabel>
+                          <FormItem>
+                            <div className="relative w-fit mx-auto">
+                              <FormLabel className="pt-0 rounded-full cursor-pointer">
+                                <Avatar className="flex items-center justify-center size-20 bg-accent">
+                                  {loading.uploadAvatar ? (
+                                    <Spinner className="size-6" />
+                                  ) : (
+                                    <>
+                                      <CameraIcon
+                                        size="35"
+                                        color="white"
+                                        className="absolute p-5 w-full h-full bg-black opacity-0 hover:opacity-60 transition duration-400"
+                                      />
+                                      <AvatarImage
+                                        src={user?.avatar_url}
+                                        alt={user?.username}
+                                      />
+                                    </>
+                                  )}
+                                  <AvatarFallback>
+                                    {avatarFallback}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <FormControl>
+                                  <Input
+                                    type="file"
+                                    accept="image/*"
+                                    hidden
+                                    {...rest}
+                                    onChange={handleUploadAvatar}
+                                    disabled={loading.uploadAvatar}
+                                  />
+                                </FormControl>
+                                <CameraIcon className="absolute bottom-0 right-0 border size-6 rounded-full bg-muted p-1" />
+                              </FormLabel>
+                            </div>
                             <FormMessage
                               rules={{
                                 attribute: t(
@@ -489,7 +507,7 @@ export function ProfilPage() {
                   );
                 }}
               />
-              {form.formState.dirtyFields?.biographie && (
+              {biographieEdit && form.formState.dirtyFields?.biographie && (
                 <Button
                   onClick={handleUpdateFreelanceProfil}
                   disabled={loading.updateFreelanceProfil}
@@ -511,7 +529,19 @@ export function ProfilPage() {
             </ItemActions>
           </Item>
         )}
-      </ItemGroup>
-    </Form>
+      </Form>
+      {user?.role === AUTH_ROLE.FREELANCE &&
+        !user?.onboarding_termine &&
+        !biographieEdit && (
+          <Button
+            onClick={isOnboardingTermine}
+            disabled={loading.completeOnboarding}
+            className="mt-3 w-fit self-end"
+          >
+            {loading.completeOnboarding && <Spinner />}
+            {t("onboarding:actions.submit")}
+          </Button>
+        )}
+    </ItemGroup>
   );
 }
