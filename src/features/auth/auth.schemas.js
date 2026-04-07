@@ -36,10 +36,14 @@ const passwordConfirmationField = z
 const rememberField = z.boolean("validation.boolean").default(false);
 const titreField = z
   .string("validation.string")
+  .trim()
+  .min(1, "validation.required")
   .min(10, "validation.min.string")
   .max(255, "validation.max.string");
 const biographieField = z
   .string("validation.string")
+  .trim()
+  .min(1, "validation.required")
   .min(150, "validation.min.string")
   .max(600, "validation.max.string");
 const siteWebField = z
