@@ -74,3 +74,11 @@ export const createApiThunk = (type, apiFn) =>
       return rejectWithValue(normalisedError);
     }
   });
+
+/**
+ * Met en majuscule la premiere lettre d'une chaine de caracteres.
+ * Exemple: "hello" → "Hello"
+ */
+export const toCapitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
