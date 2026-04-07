@@ -14,24 +14,6 @@
       }
     }
   },
-  "fields": {
-    "titre": {
-      "label": "Titre professionnel",
-      "placeholder": "Ex: Développeur Fullstack, Designer UI/UX..."
-    },
-    "biographie": {
-      "label": "Biographie",
-      "placeholder": "Parlez-nous de votre parcours et de votre expertise..."
-    },
-    "site_web": {
-      "label": "Site web personnel",
-      "placeholder": "https://votre-portfolio.com"
-    },
-    "liens_sociaux": {
-      "label": "Réseaux sociaux",
-      "placeholder": "Lien vers LinkedIn, GitHub, etc."
-    }
-  },
   "actions": {
     "next": "Continuer",
     "back": "Retour",
