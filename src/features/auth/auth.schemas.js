@@ -48,6 +48,7 @@ const biographieField = z
   .max(600, "validation.max.string");
 const siteWebField = z
   .string("validation.string")
+  .trim()
   .max(255, "validation.max.string")
   .optional()
   .or(z.literal(""))
