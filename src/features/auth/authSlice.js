@@ -110,6 +110,13 @@ const authSlice = createSlice({
         state.user = user;
       },
     );
+    // Gestion de la mise a jour du profil freelance de l'utilisateur
+    builder.addCase(
+      updateFreelanceProfilThunk.fulfilled,
+      (state, { payload: { details: { profil } } }) => {
+        state.user.profil = profil;
+      },
+    );
     // Gestion de l'activation du compte de l'utilisateur
     builder.addCase(
       activateAccountThunk.fulfilled,

@@ -1,4 +1,6 @@
+import { normalizeError } from "@/features/auth/auth.utils";
 import i18n from "@/i18n";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -52,3 +54,23 @@ export const getFallbackName = (name) =>
         .split(" ")
         .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
         .join("");
+
+/**
+ * Creer un thunk pour une fonction API
+ *
+ * type : type du thunk
+ * apiFn : fonction API a executer
+ * Retourne le resultat de la fonction API en cas de succes
+ * Retourne une erreur normalisee en cas d'echec
+ */
+export const createApiThunk = (type, apiFn) =>
+  createAsyncThunk(type, async (data, { rejectWithValue }) => {
+    try {
+      const response = await apiFn(data);
+      const { data } = response ?? {};
+      return data;
+    } catch ({ response }) {
+      const normalisedError = normalizeError(response);
+      return rejectWithValue(normalisedError);
+    }
+  });

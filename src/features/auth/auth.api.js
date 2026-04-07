@@ -47,6 +47,9 @@ export const completeOnboarding = () =>
 // Changer le role de l'utilisateur vers freelance
 export const switchToFreelance = () =>
   client.patch("/api/me/switch-to-freelance");
+// Mettre a jour le profil freelance de l'utilisateur
+export const updateFreelanceProfil = (data) =>
+  client.patch("/api/me/profil", data, contentTypeJson);
 // Activer le compte utilisateur
 export const activateAccount = () => client.patch("/api/me/activate-account");
 // Desactiver le compte utilisateur
