@@ -48,7 +48,7 @@ export function OnboardingLayout() {
         // Changer le role de l'utilisateur vers freelance
         await dispatch(switchToFreelanceThunk()).unwrap();
         // Rediriger vers la page de setup
-        navigate("/onboarding/setup");
+        navigate("/onboarding/setup", { state: { from }, replace: true });
         return;
       }
       // Marquer l'onboarding comme termine via le thunk
