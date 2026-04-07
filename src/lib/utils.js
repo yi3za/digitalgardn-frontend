@@ -64,9 +64,9 @@ export const getFallbackName = (name) =>
  * Retourne une erreur normalisee en cas d'echec
  */
 export const createApiThunk = (type, apiFn) =>
-  createAsyncThunk(type, async (data, { rejectWithValue }) => {
+  createAsyncThunk(type, async (_data, { rejectWithValue }) => {
     try {
-      const response = await apiFn(data);
+      const response = await apiFn(_data);
       const { data } = response ?? {};
       return data;
     } catch ({ response }) {

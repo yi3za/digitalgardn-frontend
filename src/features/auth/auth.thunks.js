@@ -1,5 +1,6 @@
 import { createApiThunk } from "@/lib/utils";
 import {
+  getCsrfCookie,
   login,
   register,
   getMe,
@@ -17,10 +18,17 @@ import {
   deleteAccount,
 } from "./auth.api";
 
+// Fonction utilitaire: recupere le cookie CSRF avant d'executer une requete API
+const createApiThunkWithCsrf = (type, apiFn) =>
+  createApiThunk(type, async (data) => {
+    await getCsrfCookie();
+    return apiFn(data);
+  });
+
 // thunk pour la connexion de l'utilisateur
-export const loginThunk = createApiThunk("auth/login", login);
+export const loginThunk = createApiThunkWithCsrf("auth/login", login);
 // thunk pour l'inscription de l'utilisateur
-export const registerThunk = createApiThunk("auth/register", register);
+export const registerThunk = createApiThunkWithCsrf("auth/register", register);
 // thunk pour la recuperation de l'utilisateur authentifie
 export const getMeThunk = createApiThunk("auth/getMe", getMe);
 // thunk pour la deconnexion de l'utilisateur
