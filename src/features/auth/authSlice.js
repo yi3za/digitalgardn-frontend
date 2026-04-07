@@ -11,6 +11,7 @@ import {
   logoutThunk,
   registerThunk,
   switchToFreelanceThunk,
+  updateFreelanceProfilThunk,
   updateInfoThunk,
   uploadAvatarThunk,
 } from "./auth.thunks";

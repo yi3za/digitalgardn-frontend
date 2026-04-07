@@ -7,6 +7,8 @@ import {
   uploadAvatar,
   updateInfo,
   changePassword,
+  resetPassword,
+  sendResetCode,
   completeOnboarding,
   switchToFreelance,
   updateFreelanceProfil,
