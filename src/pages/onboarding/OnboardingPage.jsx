@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   CardContent,
   CardHeader,
@@ -19,6 +19,7 @@ import { Briefcase, User } from "lucide-react";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
+import { useEffect } from "react";
 
 // Roles disponibles
 const { FREELANCE, CLIENT } = AUTH_ROLE;
@@ -27,12 +28,21 @@ const { FREELANCE, CLIENT } = AUTH_ROLE;
  * Page de selection du role initial
  */
 export function OnboardingPage() {
+  // Recuperation de l'utilisateur connecte
+  const { user } = useSelector(authSelector);
+  // Hook de navigation
+  const navigate = useNavigate();
   // Traduction
   const { t } = useTranslation(["onboarding"]);
   // Recuperation des donnees du context
   const { role, setRole, handleOnboardingCompletion } = useOutletContext();
   // Etat de store indiquant si une requete auth est en cours
   const { loading } = useSelector(authSelector);
+  // Redirection
+  useEffect(() => {
+    if (user?.role === FREELANCE && !user?.onboarding_termine)
+      navigate("/onboarding/setup", { replace: true });
+  }, []);
 
   return (
     <>

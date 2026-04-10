@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -17,12 +17,21 @@ const { FREELANCE } = AUTH_ROLE;
 export function OnboardingLayout() {
   // Etat du role selectionne
   const [role, setRole] = useState(null);
+  // Etat local du redirection apres l'onboarding
+  const [redirectUrl, setRedirectUrl] = useState("/");
   // Dispatch des actions
   const dispatch = useDispatch();
   // Traduction
   const { t } = useTranslation(["codes"]);
   // Gestion de la navigation
   const navigate = useNavigate();
+  // Recuperation le state de navigation
+  const location = useLocation();
+  const form = location.state?.from;
+  // Change l'etat de redirection
+  useEffect(() => {
+    setRedirectUrl(form || "/");
+  }, []);
   // Redirection selon le choix
   const handleOnboardingCompletion = async (onboarding_termine = false) => {
     try {
@@ -39,7 +48,7 @@ export function OnboardingLayout() {
       // Afficher une notification en cas de succes
       toast.success(t(`codes:${code}`));
       // Rediriger l'utilisateur vers sa page destination
-      navigate("/", { replace: true });
+      navigate(redirectUrl, { replace: true });
     } catch ({ code }) {
       // Afficher une notification en cas d'erreur
       toast.error(t(`codes:${code}`));

@@ -18,7 +18,9 @@ export function ProtectedRoute() {
     return <Navigate to="/login" replace />;
   // Rediriger l'utilisateur vers la page d'onboarding s'il n'a pas encore termine l'onboarding
   if (!user?.onboarding_termine && !isOnboardingRoute)
-    return <Navigate to="/onboarding" replace />;
+    return (
+      <Navigate to="/onboarding" state={{ from: location?.pathname }} replace />
+    );
   // Si l'onboarding est termine
   if (user?.onboarding_termine && isOnboardingRoute)
     return <Navigate to="/" replace />;

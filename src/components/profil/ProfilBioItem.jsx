@@ -93,6 +93,7 @@ export default function ProfilBioItem({
           <Button
             onClick={handleUpdateFreelanceProfil}
             disabled={loading.updateFreelanceProfil}
+            className="mt-3"
           >
             {loading.updateFreelanceProfil && <Spinner />}
             {t("actions.save")}
