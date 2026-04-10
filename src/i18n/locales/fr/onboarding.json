@@ -2,7 +2,6 @@
   "title": "Compléter votre profil",
   "description": "Ces informations permettront de personnaliser votre expérience sur DigitalGarden.",
   "role": {
-    "title": "Quel est votre objectif ?",
     "options": {
       "client": {
         "title": "Client",
@@ -17,6 +16,7 @@
   "actions": {
     "next": "Continuer",
     "back": "Retour",
-    "submit": "Finaliser mon profil"
+    "submit": "Finaliser mon profil",
+    "exit": "Quitter"
   }
 }

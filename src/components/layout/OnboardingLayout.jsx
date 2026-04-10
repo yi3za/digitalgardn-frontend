@@ -8,7 +8,14 @@ import {
   completeOnboardingThunk,
   switchToFreelanceThunk,
 } from "@/features/auth/auth.thunks";
-import { Card } from "../ui";
+import {
+  Button,
+  Card,
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui";
 const { FREELANCE } = AUTH_ROLE;
 
 /**
@@ -22,7 +29,7 @@ export function OnboardingLayout() {
   // Dispatch des actions
   const dispatch = useDispatch();
   // Traduction
-  const { t } = useTranslation(["codes"]);
+  const { t } = useTranslation(["onboarding", "codes"]);
   // Gestion de la navigation
   const navigate = useNavigate();
   // Recuperation le state de navigation
@@ -57,7 +64,19 @@ export function OnboardingLayout() {
 
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <Card className="w-3xl">
+      <Card className="w-3xl shadow-none rounded-none border-none">
+        <CardHeader>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
+          <CardAction>
+            <Button
+              onClick={() => navigate("/", { replace: true })}
+              variant="link"
+            >
+              {t("actions.exit")}
+            </Button>
+          </CardAction>
+        </CardHeader>
         <Outlet context={{ role, setRole, handleOnboardingCompletion }} />
       </Card>
     </div>

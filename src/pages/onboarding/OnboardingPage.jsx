@@ -46,9 +46,6 @@ export function OnboardingPage() {
 
   return (
     <>
-      <CardHeader>
-        <CardTitle>{t("role.title")}</CardTitle>
-      </CardHeader>
       <CardContent className="flex-1">
         <RadioGroup
           value={role}
@@ -90,8 +87,9 @@ export function OnboardingPage() {
             variant={role === CLIENT ? "default" : "outline"}
             disabled={loading.completeOnboarding || loading.switchToFreelance}
           >
-            {loading.completeOnboarding ||
-              (loading.switchToFreelance && <Spinner />)}
+            {(loading.completeOnboarding || loading.switchToFreelance) && (
+              <Spinner />
+            )}
             {t(`actions.${role === CLIENT ? "submit" : "next"}`)}
           </Button>
         )}
