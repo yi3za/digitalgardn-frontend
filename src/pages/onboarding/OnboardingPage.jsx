@@ -80,7 +80,8 @@ export function OnboardingPage() {
             variant={role === CLIENT ? "default" : "outline"}
             disabled={loading.completeOnboarding || loading.switchToFreelance}
           >
-            {loading.completeOnboarding || loading.switchToFreelance && <Spinner />}
+            {loading.completeOnboarding ||
+              (loading.switchToFreelance && <Spinner />)}
             {t(`actions.${role === CLIENT ? "submit" : "next"}`)}
           </Button>
         )}

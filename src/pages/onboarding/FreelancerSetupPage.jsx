@@ -6,7 +6,7 @@ import {
 } from "@/components/ui";
 import { ProfilPage } from "../profil/ProfilPage";
 import { useTranslation } from "react-i18next";
-import { useLocation, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 /**
  * La page de configuration (setup) pour les freelances
