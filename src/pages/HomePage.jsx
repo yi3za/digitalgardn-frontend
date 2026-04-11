@@ -1,29 +1,33 @@
-import { ItemsSection } from "@/components/sections/ItemsSection";
-import { AUTH_STATUS } from "@/features/auth/auth.constants";
-import { authSelector } from "@/features/auth/auth.selectors";
+import { ItemsCatalog } from "@/components/sections/catalog/ItemsCatalog";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
-import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 /**
- * Page d'accueil de l'application avec message de bienvenue
- * Affiche "(authentifie)" si l'utilisateur est connecte
+ * Page d'accueil de l'application
  */
 export function HomePage() {
-  const { status } = useSelector(authSelector);
+  // Hook de traduction
+  const { t } = useTranslation(["sections"]);
+  // CategoriesQuery contient generalement : data, isLoading, isError, etc.
   const categoriesQuery = useCategories();
+  // competencesQuery contient generalement : data, isLoading, isError, etc.
   const competencesQuery = useCompetences();
+
   return (
     <>
-      <p className="text-center p-5 bg-green-500 text-white">
-        Bienvenue sur DigitalGardn Une plateforme qui connecte les clients et
-        les freelances.
-        {status === AUTH_STATUS.AUTHENTICATED && (
-          <span className="mx-3">(authentifie)</span>
-        )}
-      </p>
-      <ItemsSection itemsQuery={categoriesQuery} name="categories" />
-      <ItemsSection itemsQuery={competencesQuery} name="competences" />
+      <ItemsCatalog
+        itemsQuery={categoriesQuery}
+        title={t("categories.title")}
+        description={t("categories.description")}
+        linkTo="/categories"
+      />
+      <ItemsCatalog
+        itemsQuery={competencesQuery}
+        title={t("competences.title")}
+        description={t("competences.description")}
+        linkTo="/competences"
+      />
     </>
   );
 }
