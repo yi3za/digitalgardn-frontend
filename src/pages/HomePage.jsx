@@ -1,6 +1,7 @@
 import { ItemsCatalog } from "@/components/sections/catalog/ItemsCatalog";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
+import { useServices } from "@/features/public/catalog/services/services.query";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -13,6 +14,8 @@ export function HomePage() {
   const categoriesQuery = useCategories();
   // competencesQuery contient generalement : data, isLoading, isError, etc.
   const competencesQuery = useCompetences();
+  // servicesQuery contient generalement : data, isLoading, isError, etc.
+  const servicesQuery = useServices();
 
   return (
     <>
@@ -27,6 +30,12 @@ export function HomePage() {
         title={t("competences.title")}
         description={t("competences.description")}
         linkTo="/competences"
+      />
+      <ItemsCatalog
+        itemsQuery={servicesQuery}
+        title={t("services.title")}
+        description={t("services.description")}
+        linkTo="/services"
       />
     </>
   );

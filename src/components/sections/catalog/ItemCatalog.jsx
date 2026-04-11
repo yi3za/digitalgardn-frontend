@@ -25,7 +25,7 @@ export function ItemCatalog({ linkTo, item }) {
         />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>{item.nom}</ItemTitle>
+        <ItemTitle>{item.slug}</ItemTitle>
       </ItemContent>
     </Item>
   );
