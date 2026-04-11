@@ -75,7 +75,11 @@ function CustomAlert({
       <Icon />
       <AlertTitle className="flex justify-between items-center">
         {header}
-        <Button variant="link" onClick={onRefetch} size="sm">
+        <Button
+          variant="link"
+          className={variant === "destructive" ? "text-destructive" : ""}
+          onClick={onRefetch}
+        >
           <RefreshCcw />
           {refreshText}
         </Button>
