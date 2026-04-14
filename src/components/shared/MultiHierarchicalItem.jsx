@@ -19,10 +19,12 @@ import {
   Spinner,
   Button,
   Skeleton,
+  CustomAlert,
 } from "../ui";
 import { Fragment, useMemo, useState } from "react";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { arraysEqual } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
 
 /**
  * Composant de selection multiple hierarchique permettant de choisir
@@ -31,16 +33,14 @@ export function MultiHierarchicalItem({
   t,
   title = "",
   description = "",
-  dataQuery = [],
+  dataQuery = {},
   placeholder = "",
   emptyMessage = "",
 }) {
   // Utilisateur connecte
   const { user } = useSelector(authSelector);
   // Destructuration des donnees et etats de la requete
-  const { data, isSuccess, isLoading, isFetching, isError, error } = dataQuery;
-  // Code d'error
-  const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+  const { data, isSuccess, isLoading, isFetching } = dataQuery ?? {};
   // Etat local pour stocker les IDs selectionnes
   const [selectedIds, setSelectedIds] = useState(user?.competences || []);
   // Indique si les competences ont change
@@ -70,17 +70,7 @@ export function MultiHierarchicalItem({
         </ItemTitle>
         <ItemDescription>{description}</ItemDescription>
         <div className="my-3 min-h-10 flex items-center">
-          {isLoading && <Skeleton className="h-full" />}
-          {isError && (
-            <CustomAlert
-              header={code}
-              body={t(`codes:${code}`)}
-              onRefetch={refetch}
-              refreshText={t("common.refresh")}
-              icon={AlertCircle}
-              variant="destructive"
-            />
-          )}
+          {isLoading && <Skeleton className="min-h-10" />}
           {isSuccess && (
             <Combobox
               open={isOpen}
@@ -141,7 +131,7 @@ export function MultiHierarchicalItem({
         {competencesChanged && (
           <Button
             className="w-fit"
-            // onClick={}
+            onClick={()=>{}}
           >
             {t("taxonomy:actions.save")}
           </Button>
