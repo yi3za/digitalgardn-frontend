@@ -82,3 +82,10 @@ export const createApiThunk = (type, apiFn) =>
 export const toCapitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+/**
+ * Compare deux arrays (ordre important)
+ */
+export function arraysEqual(a = [], b = []) {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}

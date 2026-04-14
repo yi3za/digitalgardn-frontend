@@ -1,11 +1,13 @@
 import ProfilBioItem from "@/components/profil/ProfilBioItem";
 import ProfilEditItem from "@/components/profil/ProfilEditItem";
 import ProfilViewItem from "@/components/profil/ProfilViewItem";
+import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
 import { Button, Form, ItemGroup, Spinner } from "@/components/ui";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { updateFreelanceProfilThunk } from "@/features/auth/auth.thunks";
+import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import {
   formatDate,
   getFallbackName,
@@ -27,10 +29,12 @@ const SHEET = { PROFIL: { SHOW: "profile-show", EDIT: "profile-edit" } };
  * Affiche les informations de l'utilisateur
  */
 export function ProfilPage({ handleOnboardingCompletion }) {
+  // competencesQuery contient generalement : data, isLoading, isError, etc.
+  const competencesQuery = useCompetences();
   // Recupere les donnees de l'utilisateur authentifie
   const { user, loading } = useSelector(authSelector);
   // Fonction de traduction
-  const { t } = useTranslation(["profil", "codes", "onboarding"]);
+  const { t } = useTranslation(["profil", "codes", "onboarding", "taxonomy"]);
   // Etat local pour control l'edition de biographie
   const [biographieEdit, setBiographieEdit] = useState(false);
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
@@ -55,6 +59,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       site_web: user?.profil?.site_web ?? "",
       biographie: user?.profil?.biographie ?? "",
       avatar: undefined,
+      competences: user?.competences ?? [],
     },
     mode: "onChange",
     reValidateMode: "onChange",
@@ -134,15 +139,25 @@ export function ProfilPage({ handleOnboardingCompletion }) {
           SHEET={SHEET}
         />
         {user?.role === AUTH_ROLE.FREELANCE && (
-          <ProfilBioItem
-            t={t}
-            user={user}
-            biographieEdit={biographieEdit}
-            setBiographieEdit={setBiographieEdit}
-            form={form}
-            loading={loading}
-            handleUpdateFreelanceProfil={handleUpdateFreelanceProfil}
-          />
+          <>
+            <ProfilBioItem
+              t={t}
+              user={user}
+              biographieEdit={biographieEdit}
+              setBiographieEdit={setBiographieEdit}
+              form={form}
+              loading={loading}
+              handleUpdateFreelanceProfil={handleUpdateFreelanceProfil}
+            />
+            <MultiHierarchicalItem
+              title={t("taxonomy:competences.title")}
+              description={t("taxonomy:competences.description")}
+              t={t}
+              dataQuery={competencesQuery}
+              placeholder={t("taxonomy:competences.placeholder")}
+              emptyMessage={t("taxonomy:competences.empty")}
+            />
+          </>
         )}
       </Form>
       {user?.role === AUTH_ROLE.FREELANCE &&
