@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import {
   Combobox,
   ComboboxChip,
@@ -19,12 +18,11 @@ import {
   Spinner,
   Button,
   Skeleton,
-  CustomAlert,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "../ui";
 import { Fragment, useMemo, useState } from "react";
-import { authSelector } from "@/features/auth/auth.selectors";
-import { arraysEqual } from "@/lib/utils";
-import { AlertCircle } from "lucide-react";
 
 /**
  * Composant de selection multiple hierarchique permettant de choisir
@@ -36,15 +34,15 @@ export function MultiHierarchicalItem({
   dataQuery = {},
   placeholder = "",
   emptyMessage = "",
+  name = "",
+  control = "",
+  onSave = () => {},
+  onReset = () => {},
+  saveIsLoading = false,
+  competencesChanged = false,
 }) {
-  // Utilisateur connecte
-  const { user } = useSelector(authSelector);
   // Destructuration des donnees et etats de la requete
   const { data, isSuccess, isLoading, isFetching } = dataQuery ?? {};
-  // Etat local pour stocker les IDs selectionnes
-  const [selectedIds, setSelectedIds] = useState(user?.competences || []);
-  // Indique si les competences ont change
-  const competencesChanged = !arraysEqual(user?.competences || [], selectedIds);
   // Etat local pour le combobox
   const [isOpen, setIsOpen] = useState(false);
   // Hook pour gerer l’ancrage du composant Combobox (positionnement UI)
@@ -53,14 +51,6 @@ export function MultiHierarchicalItem({
   const flatItems = useMemo(() => {
     return (data || []).flatMap((parent) => parent.enfants || []);
   }, [data]);
-  // Fonction appelee lors d’un changement (selection d’un item)
-  const onChange = (ids) => {
-    if (ids.length <= 5) {
-      setSelectedIds(ids);
-      return;
-    }
-    setIsOpen(false);
-  };
 
   return (
     <Item variant="outline">
@@ -72,69 +62,92 @@ export function MultiHierarchicalItem({
         <div className="my-3 min-h-10 flex items-center">
           {isLoading && <Skeleton className="min-h-10" />}
           {isSuccess && (
-            <Combobox
-              open={isOpen}
-              onOpenChange={setIsOpen}
-              multiple
-              autoHighlight
-              items={data}
-              value={selectedIds}
-              onValueChange={onChange}
-              filter={(item, search) => {
-                const s = search.toLowerCase();
-                const parentMatch = item.nom?.toLowerCase().includes(s);
-                const childrenMatch = item.enfants?.some((child) =>
-                  child.nom?.toLowerCase().includes(s),
-                );
-                return parentMatch || childrenMatch;
-              }}
-            >
-              <ComboboxChips ref={anchor} className="w-full">
-                <ComboboxValue>
-                  {(selectedIds) => (
-                    <Fragment>
-                      {selectedIds.map((id) => {
-                        const item = flatItems.find((i) => i.id === id);
-                        return (
-                          <ComboboxChip key={id} value={id}>
-                            {item?.nom ? item.nom : <Spinner />}
-                          </ComboboxChip>
-                        );
-                      })}
-                      <ComboboxChipsInput placeholder={placeholder} />
-                    </Fragment>
-                  )}
-                </ComboboxValue>
-              </ComboboxChips>
-              <ComboboxContent anchor={anchor}>
-                <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
-                <ComboboxList>
-                  {(parent) => (
-                    <ComboboxGroup key={parent.id} label={parent.nom}>
-                      <ComboboxLabel>{parent.nom}</ComboboxLabel>
-                      {parent.enfants.map((enfant) => (
-                        <ComboboxItem
-                          key={enfant.id}
-                          value={enfant.id}
-                          className="cursor-pointer"
-                        >
-                          {enfant.nom}
-                        </ComboboxItem>
-                      ))}
-                    </ComboboxGroup>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
+            <FormField
+              control={control}
+              name={name}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <Combobox
+                    open={isOpen}
+                    onOpenChange={setIsOpen}
+                    multiple
+                    autoHighlight
+                    items={data}
+                    value={field.value}
+                    onValueChange={(ids) => {
+                      if (ids.length <= 5) {
+                        field.onChange(ids);
+                        return;
+                      }
+                      setIsOpen(false);
+                    }}
+                    filter={(item, search) => {
+                      const s = search.toLowerCase();
+                      const parentMatch = item.nom?.toLowerCase().includes(s);
+                      const childrenMatch = item.enfants?.some((child) =>
+                        child.nom?.toLowerCase().includes(s),
+                      );
+                      return parentMatch || childrenMatch;
+                    }}
+                  >
+                    <ComboboxChips ref={anchor} className="w-full">
+                      <ComboboxValue>
+                        {(selectedIds) => (
+                          <Fragment>
+                            {selectedIds.map((id) => {
+                              const item = flatItems.find((i) => i.id === id);
+                              return (
+                                <ComboboxChip key={id} value={id}>
+                                  {item?.nom ? item.nom : <Spinner />}
+                                </ComboboxChip>
+                              );
+                            })}
+                            <ComboboxChipsInput placeholder={placeholder} />
+                          </Fragment>
+                        )}
+                      </ComboboxValue>
+                    </ComboboxChips>
+                    <ComboboxContent anchor={anchor}>
+                      <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+                      <ComboboxList>
+                        {(parent) => (
+                          <ComboboxGroup key={parent.id} label={parent.nom}>
+                            <ComboboxLabel>{parent.nom}</ComboboxLabel>
+                            {parent.enfants.map((enfant) => (
+                              <ComboboxItem
+                                key={enfant.id}
+                                value={enfant.id}
+                                className="cursor-pointer"
+                              >
+                                {enfant.nom}
+                              </ComboboxItem>
+                            ))}
+                          </ComboboxGroup>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                  <FormMessage rules={{ attribute: title, min: 1, max: 5 }} />
+                </FormItem>
+              )}
+            />
           )}
         </div>
         {competencesChanged && (
-          <Button
-            className="w-fit"
-            onClick={()=>{}}
-          >
-            {t("taxonomy:actions.save")}
-          </Button>
+          <div className="w-full flex gap-2">
+            <Button className="w-fit" onClick={onSave} disabled={saveIsLoading}>
+              {saveIsLoading && <Spinner />}
+              {t("taxonomy:actions.save")}
+            </Button>
+            <Button
+              className="w-fit"
+              variant="outline"
+              onClick={onReset}
+              disabled={saveIsLoading}
+            >
+              {t("taxonomy:actions.reset")}
+            </Button>
+          </div>
         )}
       </ItemContent>
     </Item>
