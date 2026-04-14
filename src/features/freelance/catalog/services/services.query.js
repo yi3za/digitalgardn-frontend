@@ -1,58 +1,102 @@
-import { client } from "@/api/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getMyServices,
+  getMyServiceBySlug,
+  createService,
+  updateService,
+  deleteService,
+  syncCategories,
+  syncCompetences,
+  syncFichiers,
+} from "./services.api";
 
-// Recupere tous les services du freelance connecte
-export const getMyServices = async () => {
-  const { data } = await client.get("/api/me/services");
-  return data?.details?.services;
+// Hook pour recuperer tous les services du freelance
+export const useMyServices = () =>
+  useQuery({
+    queryKey: ["my-services"],
+    queryFn: getMyServices,
+  });
+
+// Hook pour recuperer un service specifique par son slug
+export const useMyService = (slug) =>
+  useQuery({
+    queryKey: ["my-service", slug],
+    queryFn: () => getMyServiceBySlug(slug),
+    enabled: !!slug,
+  });
+
+// Hook pour la creation d un service
+export const useCreateService = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => createService(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+    },
+  });
 };
 
-// Recupere un service specifique par son slug
-export const getMyServiceBySlug = async (slug) => {
-  const { data } = await client.get(`/api/me/services/${slug}`);
-  return data?.details?.service;
+// Hook pour la mise a jour via slug
+export const useUpdateService = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ slug, data }) => updateService(slug, data),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      queryClient.invalidateQueries({
+        queryKey: ["my-service", variables.slug],
+      });
+    },
+  });
 };
 
-// Cree un nouveau service
-export const createService = async (payload) => {
-  const { data } = await client.post("/api/me/services", payload);
-  return data;
+// Hook pour la suppression via slug
+export const useDeleteService = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (slug) => deleteService(slug),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+    },
+  });
 };
 
-// Met a jour un service existant
-export const updateService = async (slug, payload) => {
-  const { data } = await client.patch(`/api/me/services/${slug}`, payload);
-  return data;
+// Hook pour synchroniser les categories via slug
+export const useSyncCategories = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ slug, data }) => syncCategories(slug, data),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["my-service", variables.slug],
+      });
+    },
+  });
 };
 
-// Supprime un service
-export const deleteService = async (slug) => {
-  const { data } = await client.delete(`/api/me/services/${slug}`);
-  return data;
+// Hook pour synchroniser les competences via slug
+export const useSyncCompetences = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ slug, data }) => syncCompetences(slug, data),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["my-service", variables.slug],
+      });
+    },
+  });
 };
 
-// Synchronise les categories d’un service
-export const syncCategories = async (slug, payload) => {
-  const { data } = await client.put(
-    `/api/me/services/${slug}/categories`,
-    payload,
-  );
-  return data;
-};
-
-// Synchronise les competences d’un service
-export const syncCompetences = async (slug, payload) => {
-  const { data } = await client.put(
-    `/api/me/services/${slug}/competences`,
-    payload,
-  );
-  return data;
-};
-
-// Synchronise les fichiers d’un service
-export const syncFichiers = async (slug, payload) => {
-  const { data } = await client.put(
-    `/api/me/services/${slug}/fichiers`,
-    payload,
-  );
-  return data;
+// Hook pour synchroniser les fichiers via slug
+export const useSyncFichiers = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ slug, data }) => syncFichiers(slug, data),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["my-service", variables.slug],
+      });
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+    },
+  });
 };
