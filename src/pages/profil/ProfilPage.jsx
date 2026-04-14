@@ -10,19 +10,14 @@ import {
   syncCompetencesThunk,
   updateFreelanceProfilThunk,
 } from "@/features/auth/auth.thunks";
+import { useFormUpdate } from "@/features/auth/useFormUpdate";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
-import {
-  formatDate,
-  getFallbackName,
-  setServerErrors,
-  toCapitalize,
-} from "@/lib/utils";
+import { formatDate, getFallbackName, toCapitalize } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 // Definition des sheets disponibles
 const SHEET = { PROFIL: { SHOW: "profile-show", EDIT: "profile-edit" } };
@@ -52,8 +47,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
   }`;
   // Formatage de la date d'inscription de l'utilisateur pour l'affichage dans le profil
   const date_incription = formatDate(user?.created_at);
-  // Dispatcher pour les actions
-  const dispatch = useDispatch();
   // Initialisation du formulaire avec les valeurs de l'utilisateur et validation basee sur updateInfoSchema
   const form = useForm({
     defaultValues: {
@@ -68,63 +61,70 @@ export function ProfilPage({ handleOnboardingCompletion }) {
     reValidateMode: "onChange",
     resolver: zodResolver(updateInfoSchema),
   });
+  // Hook pour les mises a jour de formulaire
+  const { executeUpdate } = useFormUpdate(form);
+
+  // Helper pour verifier si un champ est modifie
+  const isFieldDirty = (fieldName) => form.formState.dirtyFields?.[fieldName];
+
+  // Helper pour obtenir les champs modifies du profil freelance
+  const getDirtyFreelanceFields = () => {
+    const freelanceFields = ["titre", "site_web", "biographie"];
+    return freelanceFields.filter(isFieldDirty);
+  };
+
   // Sheet actuellement ouvert
   const [activeSheet, setActiveSheet] = useState(null);
   // Fermer le actif
   const closeSheet = () => setActiveSheet(null);
-  // Function pour mise a jour du profil freelance
-  const handleUpdateFreelanceProfil = async () => {
-    const values = form.getValues();
-    const { name, avatar, competences, ...rest } = values;
-    const dataKeys = Object.keys(rest).filter(
-      (f) => form.formState.dirtyFields[f],
-    );
-    const data = Object.fromEntries(
-      dataKeys.map((key) => [key, values[key].trim()]),
-    );
-    if (await form.trigger(dataKeys)) {
-      try {
-        const { code } = await dispatch(
-          updateFreelanceProfilThunk(data),
-        ).unwrap();
-        toast.success(t(`codes:${code}`));
-        form.reset({ ...values, ...data });
-        if (data?.biographie) setBiographieEdit(false);
-      } catch ({ code, details: errors }) {
-        setServerErrors(errors, form.setError);
-        toast.error(t(`codes:${code}`));
-      }
-    }
-  };
-  // Verifier que les champs obligatoires de freelance sont remplirent
+  // Verifier que les champs obligatoires de freelance sont remplis
   const isOnboardingTermine = async () => {
-    if (!(await form.trigger(["titre", "avatar"]))) {
-      setActiveSheet(SHEET.PROFIL.EDIT);
-      return;
-    }
-    if (!(await form.trigger("biographie"))) {
-      setBiographieEdit(true);
-      return;
+    const requiredFields = ["titre", "biographie", "competences"];
+    for (const field of requiredFields) {
+      if (!(await form.trigger(field))) {
+        // Ouvrir le sheet d'edition si c'est titre
+        if (field === "titre") {
+          setActiveSheet(SHEET.PROFIL.EDIT);
+        }
+        // Activer l'edition de biographie si c'est biographie
+        else if (field === "biographie") {
+          setBiographieEdit(true);
+        }
+        // Auto-focus
+        setTimeout(() => {
+          form.setFocus(field);
+        }, 0);
+        // Pour competences, rien de special a faire
+        return;
+      }
     }
     return handleOnboardingCompletion(true);
   };
-  // Function pour mise a jour des competences
-  const handleUpdateCompetences = async () => {
-    const values = form.getValues();
-    const { competences } = values;
-    if (await form.trigger("competences")) {
-      try {
-        const { code } = await dispatch(
-          syncCompetencesThunk({ competences }),
-        ).unwrap();
-        toast.success(t(`codes:${code}`));
-        form.reset({ ...values, competences });
-      } catch ({ code, details: errors }) {
-        setServerErrors(errors, form.setError);
-        toast.error(t(`codes:${code}`));
+
+  // Function pour mise a jour du profil freelance
+  const handleUpdateFreelanceProfil = async () => {
+    const dataKeys = getDirtyFreelanceFields();
+    if (dataKeys.length === 0) return; // Pas de changements
+    if (await form.trigger(dataKeys)) {
+      const success = await executeUpdate({
+        thunk: updateFreelanceProfilThunk,
+        fieldNames: dataKeys,
+        resetFields: dataKeys,
+      });
+      if (success && dataKeys.includes("biographie")) {
+        setBiographieEdit(false);
       }
     }
   };
+
+  // Function pour mise a jour des competences
+  const handleUpdateCompetences = () =>
+    executeUpdate({
+      fieldNames: "competences",
+      thunk: syncCompetencesThunk,
+      resetFields: "competences",
+    });
+
   // Function pour reinitialiser les competences
   const handleResetCompetences = () => {
     form.resetField("competences", { defaultValue: user?.competences ?? [] });
@@ -171,7 +171,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
               setBiographieEdit={setBiographieEdit}
               form={form}
               loading={loading}
-              handleUpdateFreelanceProfil={handleUpdateFreelanceProfil}
             />
             <MultiHierarchicalItem
               name="competences"
@@ -192,7 +191,8 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       </Form>
       {user?.role === AUTH_ROLE.FREELANCE &&
         !user?.onboarding_termine &&
-        !biographieEdit && (
+        !biographieEdit &&
+        !isFieldDirty("competences") && (
           <Button
             onClick={isOnboardingTermine}
             disabled={loading.completeOnboarding}
