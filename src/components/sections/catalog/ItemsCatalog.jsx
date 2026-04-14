@@ -53,7 +53,7 @@ export function ItemsCatalog({ itemsQuery, title, description, linkTo }) {
         </CardAction>
       </CardHeader>
       <CardContent className="min-h-20">
-        {isLoading && <Skeleton className="h-full" />}
+        {isLoading && <Skeleton className="min-h-20" />}
         {isError && (
           <CustomAlert
             header={code}
