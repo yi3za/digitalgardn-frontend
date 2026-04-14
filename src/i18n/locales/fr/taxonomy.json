@@ -1,0 +1,18 @@
+{
+  "competences": {
+    "title": "Compétences",
+    "placeholder": "Rechercher une compétence...",
+    "description": "Sélectionnez les expertises techniques pertinentes.",
+    "empty": "Aucune compétence trouvée."
+  },
+  "categories": {
+    "title": "Catégories",
+    "placeholder": "Choisir une catégorie...",
+    "description": "Déterminez le domaine principal de ce service.",
+    "empty": "Aucune catégorie trouvée."
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "reset": "Réinitialiser"
+  }
+}
