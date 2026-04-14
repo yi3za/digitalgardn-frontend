@@ -13,6 +13,8 @@ import {
   Spinner,
   Textarea,
 } from "../ui";
+import { useFormUpdate } from "@/features/auth/useFormUpdate";
+import { updateFreelanceProfilThunk } from "@/features/auth/auth.thunks";
 
 /**
  * Composant de la page de profil
@@ -25,18 +27,16 @@ export function ProfilBioItem({
   setBiographieEdit,
   form,
   loading,
-  handleUpdateFreelanceProfil,
 }) {
-  // Functionne pour control l'edition de biographie
-  const handleBiographieEdit = () => {
-    if (biographieEdit) {
-      form.resetField("biographie", {
-        defaultValue: user?.profil?.biographie ?? "",
-      });
-      setBiographieEdit(false);
-    } else {
-      setBiographieEdit(true);
-    }
+  // Hook pour les mises a jour de formulaire
+  const { executeBioUpdate } = useFormUpdate(form);
+  // Function pour mise a jour de la biographie
+  const handleUpdateBio = async () => {
+    const success = await executeBioUpdate({
+      fieldName: "biographie",
+      thunk: updateFreelanceProfilThunk,
+    });
+    if (success) setBiographieEdit(false);
   };
 
   return (
@@ -63,7 +63,6 @@ export function ProfilBioItem({
                         placeholder={t(
                           "modifierInfo.fields.biographie.placeholder",
                         )}
-                        autoFocus
                         className="min-h-30"
                       />
                     </FormControl>
@@ -91,7 +90,7 @@ export function ProfilBioItem({
         />
         {biographieEdit && form.formState.dirtyFields?.biographie && (
           <Button
-            onClick={handleUpdateFreelanceProfil}
+            onClick={handleUpdateBio}
             disabled={loading.updateFreelanceProfil}
             className="mt-3 w-fit"
           >
@@ -104,7 +103,7 @@ export function ProfilBioItem({
         <Button
           variant="link"
           className="pt-0 h-fit"
-          onClick={handleBiographieEdit}
+          onClick={() => setBiographieEdit(!biographieEdit)}
         >
           {biographieEdit ? t("actions.cancel") : t("actions.edit")}
         </Button>
