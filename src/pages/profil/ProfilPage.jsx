@@ -1,12 +1,15 @@
-import ProfilBioItem from "@/components/profil/ProfilBioItem";
-import ProfilEditItem from "@/components/profil/ProfilEditItem";
-import ProfilViewItem from "@/components/profil/ProfilViewItem";
+import { ProfilBioItem } from "@/components/profil/ProfilBioItem";
+import { ProfilEditItem } from "@/components/profil/ProfilEditItem";
+import { ProfilViewItem } from "@/components/profil/ProfilViewItem";
 import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
 import { Button, Form, ItemGroup, Spinner } from "@/components/ui";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
-import { updateFreelanceProfilThunk } from "@/features/auth/auth.thunks";
+import {
+  syncCompetencesThunk,
+  updateFreelanceProfilThunk,
+} from "@/features/auth/auth.thunks";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import {
   formatDate,
@@ -72,7 +75,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
   // Function pour mise a jour du profil freelance
   const handleUpdateFreelanceProfil = async () => {
     const values = form.getValues();
-    const { name, avatar, ...rest } = values;
+    const { name, avatar, competences, ...rest } = values;
     const dataKeys = Object.keys(rest).filter(
       (f) => form.formState.dirtyFields[f],
     );
@@ -104,6 +107,27 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       return;
     }
     return handleOnboardingCompletion(true);
+  };
+  // Function pour mise a jour des competences
+  const handleUpdateCompetences = async () => {
+    const values = form.getValues();
+    const { competences } = values;
+    if (await form.trigger("competences")) {
+      try {
+        const { code } = await dispatch(
+          syncCompetencesThunk({ competences }),
+        ).unwrap();
+        toast.success(t(`codes:${code}`));
+        form.reset({ ...values, competences });
+      } catch ({ code, details: errors }) {
+        setServerErrors(errors, form.setError);
+        toast.error(t(`codes:${code}`));
+      }
+    }
+  };
+  // Function pour reinitialiser les competences
+  const handleResetCompetences = () => {
+    form.resetField("competences", { defaultValue: user?.competences ?? [] });
   };
 
   return (
@@ -150,12 +174,18 @@ export function ProfilPage({ handleOnboardingCompletion }) {
               handleUpdateFreelanceProfil={handleUpdateFreelanceProfil}
             />
             <MultiHierarchicalItem
+              name="competences"
+              control={form.control}
               title={t("taxonomy:competences.title")}
               description={t("taxonomy:competences.description")}
               t={t}
               dataQuery={competencesQuery}
               placeholder={t("taxonomy:competences.placeholder")}
               emptyMessage={t("taxonomy:competences.empty")}
+              saveIsLoading={loading.syncCompetences}
+              onSave={handleUpdateCompetences}
+              onReset={handleResetCompetences}
+              competencesChanged={form.formState.dirtyFields?.competences}
             />
           </>
         )}
