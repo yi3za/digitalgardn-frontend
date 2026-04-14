@@ -44,7 +44,7 @@ const { FREELANCE } = AUTH_ROLE;
  * Composant de la page de profil
  * Pour l'idition des informations de l'utilisateur
  */
-export default function ProfilEditItem({
+export function ProfilEditItem({
   t,
   user,
   user_name,

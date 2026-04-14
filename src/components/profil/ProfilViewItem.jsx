@@ -28,7 +28,7 @@ import {
  * Composant de la page de profil
  * Affiche les informations de l'utilisateur
  */
-export default function ProfilViewItem({
+export function ProfilViewItem({
   t,
   activeSheet,
   closeSheet,

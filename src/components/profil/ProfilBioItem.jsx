@@ -18,7 +18,7 @@ import {
  * Composant de la page de profil
  * Affiche le biographie de l'utilisateur
  */
-export default function ProfilBioItem({
+export function ProfilBioItem({
   t,
   user,
   biographieEdit,

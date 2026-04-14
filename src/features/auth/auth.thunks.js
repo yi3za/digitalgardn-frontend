@@ -72,7 +72,7 @@ export const updateFreelanceProfilThunk = createApiThunk(
   updateFreelanceProfil,
 );
 // thunk pour la synchronisation des competences freelance
-export const syncCompetencesThunk = createApiThunkWithCsrf(
+export const syncCompetencesThunk = createApiThunk(
   "auth/syncCompetences",
   syncCompetences,
 );
