@@ -13,6 +13,7 @@ import {
   completeOnboarding,
   switchToFreelance,
   updateFreelanceProfil,
+  syncCompetences,
   activateAccount,
   deactivateAccount,
   deleteAccount,
@@ -69,6 +70,11 @@ export const switchToFreelanceThunk = createApiThunk(
 export const updateFreelanceProfilThunk = createApiThunk(
   "auth/updateFreelanceProfil",
   updateFreelanceProfil,
+);
+// thunk pour la synchronisation des competences freelance
+export const syncCompetencesThunk = createApiThunkWithCsrf(
+  "auth/syncCompetences",
+  syncCompetences,
 );
 // thunk pour l'activation du compte utilisateur
 export const activateAccountThunk = createApiThunk(

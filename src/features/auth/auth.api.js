@@ -50,6 +50,9 @@ export const switchToFreelance = () =>
 // Mettre a jour le profil freelance de l'utilisateur
 export const updateFreelanceProfil = (data) =>
   client.patch("/api/me/profil", data, contentTypeJson);
+// Synchroniser les competences de l'utilisateur freelance
+export const syncCompetences = (data) =>
+  client.put("/api/me/competences", data, contentTypeJson);
 // Activer le compte utilisateur
 export const activateAccount = () => client.patch("/api/me/activate-account");
 // Desactiver le compte utilisateur
@@ -57,3 +60,4 @@ export const deactivateAccount = () =>
   client.patch("/api/me/deactivate-account");
 // Supprimer le compte utilisateur
 export const deleteAccount = () => client.delete("/api/me");
+//

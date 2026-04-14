@@ -11,6 +11,7 @@ import {
   logoutThunk,
   registerThunk,
   switchToFreelanceThunk,
+  syncCompetencesThunk,
   updateFreelanceProfilThunk,
   updateInfoThunk,
   uploadAvatarThunk,
@@ -114,6 +115,13 @@ const authSlice = createSlice({
     // Gestion de la mise a jour du profil freelance de l'utilisateur
     builder.addCase(
       updateFreelanceProfilThunk.fulfilled,
+      (state, { payload: { details: { user } } }) => {
+        state.user = user;
+      },
+    );
+    // Gestion de la synchronisation des competences de l'utilisateur freelance
+    builder.addCase(
+      syncCompetencesThunk.fulfilled,
       (state, { payload: { details: { user } } }) => {
         state.user = user;
       },

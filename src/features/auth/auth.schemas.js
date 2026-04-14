@@ -55,6 +55,20 @@ const siteWebField = z
   .refine((val) => !val || /^https?:\/\/.+/.test(val), {
     message: "validation.url",
   });
+const competenceId = z
+  .number({ invalid_type_error: "validation.integer" })
+  .int("validation.integer")
+  .positive("validation.integer");
+const competencesField = z
+  .array(competenceId, {
+    required_error: "validation.required",
+    invalid_type_error: "validation.array",
+  })
+  .min(1, "validation.required")
+  .max(5, "validation.max.array")
+  .refine((items) => new Set(items).size === items.length, {
+    message: "validation.distinct",
+  });
 
 /**
  * Utility pour valider la confirmation du mot de passe
@@ -127,6 +141,7 @@ export const updateInfoSchema = z.object({
   titre: titreField,
   biographie: biographieField,
   site_web: siteWebField,
+  competences: competencesField,
 });
 
 /**
