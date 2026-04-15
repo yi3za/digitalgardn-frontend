@@ -1,0 +1,39 @@
+{
+  "services": {
+    "title": "Mes services organisés",
+    "description": "Gérez, modifiez et suivez vos services de freelance depuis votre tableau de bord",
+    "actions": {
+      "create": "Créer un nouveau service"
+    },
+    "create": {
+      "title": "Créer un service",
+      "description": "Ajoutez un nouveau service pour proposer vos prestations aux clients.",
+      "fields": {
+        "titre": {
+          "label": "Titre",
+          "placeholder": "Ex: Création d'un site web moderne"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Décrivez en détail votre service, ce que vous proposez et votre valeur ajoutée..."
+        },
+        "prix_base": {
+          "label": "Prix de base",
+          "placeholder": "Ex: 100"
+        },
+        "delai_livraison": {
+          "label": "Délai de livraison (jours)",
+          "placeholder": "Ex: 3"
+        },
+        "revisions": {
+          "label": "Nombre de révisions",
+          "placeholder": "Ex: 2 (optionnel)"
+        }
+      },
+      "actions": {
+        "submit": "Créer le service",
+        "cancel": "Annuler"
+      }
+    }
+  }
+}
