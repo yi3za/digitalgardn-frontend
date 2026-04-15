@@ -3,6 +3,7 @@ import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ServiceCreatePage } from "@/pages/dashboard/services/ServiceCreatePage";
 import { ServiceEditPage } from "@/pages/dashboard/services/ServiceEditPage";
 import { ServicesPage } from "@/pages/dashboard/services/ServicesPage";
+import { ProfilPage } from "@/pages/profil/ProfilPage";
 
 /**
  * Definit les routes liees au dashboard freelance
@@ -19,6 +20,7 @@ export const dashboardRoutes = {
   element: <DashboardLayout />,
   children: [
     { index: true, element: <DashboardPage /> },
+    { path: "profil", element: <ProfilPage /> },
     {
       path: "services",
       children: [

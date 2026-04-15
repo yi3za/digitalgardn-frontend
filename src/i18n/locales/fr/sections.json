@@ -2,7 +2,11 @@
   "header": {
     "home": "Accueil",
     "login": "Se connecter",
-    "register": "S'inscrire"
+    "register": "S'inscrire",
+    "dashboard": "Dashboard",
+    "myBusiness": "Mon business",
+    "services": "Mes services",
+    "profil": "Mon profil"
   },
   "user_menu": {
     "label": "Mon compte",
