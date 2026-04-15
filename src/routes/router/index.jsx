@@ -7,6 +7,7 @@ import { GuestRoute } from "../guards/GuestRoute";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import { settingsRoutes } from "./settings.routes";
 import { onboardingRoutes } from "./onboarding.routes";
+import { dashboardRoutes } from "./dashboard.routes";
 
 /**
  * Creation du routeur principal de l'application
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
   },
   {
     element: <ProtectedRoute />,
-    children: [onboardingRoutes],
+    children: [onboardingRoutes, dashboardRoutes],
   },
   {
     path: "*",
