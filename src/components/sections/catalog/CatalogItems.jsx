@@ -11,6 +11,7 @@ import {
   ScrollArea,
   Spinner,
   CustomAlert,
+  ItemGroup,
 } from "../../ui";
 import { AlertCircle, ArrowRight, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -24,8 +25,9 @@ export function CatalogItems({
   title,
   description,
   linkTo,
-  item: Item,
+  item: Item = null,
   isScrollArea = false,
+  dashboard = false,
 }) {
   // Hook de traduction
   const { t } = useTranslation(["sections", "codes"]);
@@ -50,13 +52,15 @@ export function CatalogItems({
           {isFetching && <Spinner className="inline mx-5" />}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
-        <CardAction>
-          <Button asChild variant="link">
-            <Link to={linkTo}>
-              {t("common.viewAll")} <ArrowRight />
-            </Link>
-          </Button>
-        </CardAction>
+        {!dashboard && (
+          <CardAction>
+            <Button asChild variant="link">
+              <Link to={linkTo}>
+                {t("common.viewAll")} <ArrowRight />
+              </Link>
+            </Button>
+          </CardAction>
+        )}
       </CardHeader>
       <CardContent className="min-h-20">
         {isLoading && <Skeleton className="min-h-20" />}
@@ -81,6 +85,17 @@ export function CatalogItems({
                 </div>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
+            ) : dashboard ? (
+              <ItemGroup className="gap-5">
+                {items?.map((item) => (
+                  <Item
+                    key={item.id}
+                    linkTo={linkTo}
+                    item={item}
+                    dashboard={dashboard}
+                  />
+                ))}
+              </ItemGroup>
             ) : (
               <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-wrap">
                 {items?.map((item) => (
