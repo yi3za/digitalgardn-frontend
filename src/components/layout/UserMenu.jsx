@@ -1,4 +1,9 @@
-import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOutIcon,
+  SettingsIcon,
+  UserIcon,
+} from "lucide-react";
 import {
   Avatar,
   AvatarBadge,
@@ -18,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { Link } from "react-router-dom";
 import { getFallbackName } from "@/lib/utils";
+import { AUTH_ROLE } from "@/features/auth/auth.constants";
 
 /**
  * Composant affichant le menu utilisateur
@@ -74,6 +80,17 @@ export function UserMenu({ user, t }) {
             {t("user_menu.settings")}
           </Link>
         </DropdownMenuItem>
+        {user?.role === AUTH_ROLE.FREELANCE && user?.onboarding_termine && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link to="/dashboard">
+                <LayoutDashboard />
+                {t("user_menu.dashboard")}
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={logout}>
           <LogOutIcon />

@@ -1,4 +1,9 @@
-import { ItemsCatalog } from "@/components/sections/catalog/ItemsCatalog";
+import {
+  CatalogItems,
+  CategorieItem,
+  CompetenceItem,
+  ServiceItem,
+} from "@/components/sections/catalog";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useServices } from "@/features/public/catalog/services/services.query";
@@ -19,23 +24,28 @@ export function HomePage() {
 
   return (
     <>
-      <ItemsCatalog
+      <CatalogItems
         itemsQuery={categoriesQuery}
         title={t("categories.title")}
         description={t("categories.description")}
         linkTo="/categories"
+        item={CategorieItem}
+        isScrollArea={true}
       />
-      <ItemsCatalog
+      <CatalogItems
         itemsQuery={competencesQuery}
         title={t("competences.title")}
         description={t("competences.description")}
         linkTo="/competences"
+        item={CompetenceItem}
+        isScrollArea={true}
       />
-      <ItemsCatalog
+      <CatalogItems
         itemsQuery={servicesQuery}
         title={t("services.title")}
         description={t("services.description")}
         linkTo="/services"
+        item={ServiceItem}
       />
     </>
   );
