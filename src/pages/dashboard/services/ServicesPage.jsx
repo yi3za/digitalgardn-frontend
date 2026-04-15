@@ -17,7 +17,7 @@ export function ServicesPage() {
   const myServicesQuery = useMyServices();
 
   return (
-    <div className="py-5">
+    <div className="mt-5">
       <div className="flex justify-end items-center gap-3 mt-5">
         <Button onClick={() => navigate("/dashboard/services/create")}>
           {t("services.actions.create")}

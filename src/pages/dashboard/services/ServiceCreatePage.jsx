@@ -66,7 +66,7 @@ export function ServiceCreatePage() {
   };
 
   return (
-    <Card className="m-8">
+    <Card className="m-5 shadow-none rounded-none">
       {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("services.create.title")}</CardTitle>
