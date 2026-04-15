@@ -59,7 +59,7 @@ const competenceId = z
   .number({ invalid_type_error: "validation.integer" })
   .int("validation.integer")
   .positive("validation.integer");
-const competencesField = z
+export const competencesField = z
   .array(competenceId, {
     required_error: "validation.required",
     invalid_type_error: "validation.array",
