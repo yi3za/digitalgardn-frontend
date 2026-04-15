@@ -1,3 +1,10 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FileText, DollarSign, Clock, RotateCcw } from "lucide-react";
+import { toast } from "sonner";
 import {
   CardAction,
   CardContent,
@@ -18,58 +25,123 @@ import {
   FieldGroup,
   Textarea,
   Card,
+  ButtonGroup,
+  ButtonGroupSeparator,
 } from "@/components/ui";
+import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
+import { useCategories } from "@/features/public/catalog/categories/categories.query";
+import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { storeServiceSchema } from "@/features/freelance/catalog/services/services.schemas";
-import { useCreateService } from "@/features/freelance/catalog/services/services.mutations";
+import {
+  useCreateService,
+  useSyncCategories,
+  useSyncCompetences,
+} from "@/features/freelance/catalog/services/services.mutations";
+import { useSyncField } from "@/features/freelance/catalog/services/useSyncField";
 import { setServerErrors } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FileText, DollarSign, Clock, RotateCcw } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { useState } from "react";
+
+// Les champs par step
+const fieldsByStep = {
+  1: ["titre", "description", "prix_base", "delai_livraison", "revisions"],
+  2: ["categories", "competences"],
+};
 
 /**
  * Page de creation d'un service
  */
 export function ServiceCreatePage() {
-  // Hook pour la traduction
-  const { t } = useTranslation(["dashboard", "codes"]);
-  // Hook pour la creation de service
-  const createServiceMutation = useCreateService();
-  // Hook pour naviguer
+  // HOOKS
+  const { t } = useTranslation(["dashboard", "codes", "taxonomy"]);
   const navigate = useNavigate();
-  // Initialisation du formulaire
+  // Service mutations
+  const createServiceMutation = useCreateService();
+  const syncCategoriesMutation = useSyncCategories();
+  const syncCompetencesMutation = useSyncCompetences();
+  // Data queries
+  const categoriesQuery = useCategories();
+  const competencesQuery = useCompetences();
+  // FORM
   const form = useForm({
     defaultValues: {
       titre: "",
       description: "",
-      prix_base: 0,
+      prix_base: 1,
       delai_livraison: 1,
       revisions: 0,
+      categories: [],
+      competences: [],
     },
     resolver: zodResolver(storeServiceSchema),
+    mode: "onChange",
   });
-  // Gestion des etapes du formulaire d'inscription
+  // STATE
   const [step, setStep] = useState(1);
+  const [serviceSlug, setServiceSlug] = useState(null);
+  // SYNC HOOKS
+  const syncCategories = useSyncField(
+    syncCategoriesMutation,
+    "categories",
+    serviceSlug,
+    form,
+  );
+  const syncCompetences = useSyncField(
+    syncCompetencesMutation,
+    "competences",
+    serviceSlug,
+    form,
+  );
   // Passe a l'etape suivante
   const next = () => setStep((s) => s + 1);
   // Revenire a l'etape precedente
   const back = () => setStep((s) => s - 1);
-  /**
-   * Fonction de soumission du formulaire
-   */
-  const submit = async (data) => {
+  // COMPUTED VALUES
+  const isPending =
+    createServiceMutation.isPending ||
+    syncCategories.isPending ||
+    syncCompetences.isPending;
+  // Validation par step
+  const validateCurrentStep = () => {};
+  // HANDLERS
+  const submit = async () => {
+    if (serviceSlug) {
+      next();
+      return;
+    }
+    const fields = fieldsByStep?.[step] || [];
+    if (!(await form.trigger(fields))) return;
     try {
-      const { code } = await createServiceMutation.mutateAsync(data);
+      const valuesArray = form.getValues(fields);
+      const data = Object.fromEntries(
+        fields.map((field, index) => [field, valuesArray[index]]),
+      );
+      const response = await createServiceMutation.mutateAsync(data);
+      const { code, details } = response ?? {};
+      const slug = details?.service?.slug;
+      if (slug) {
+        setServiceSlug(slug);
+      }
       toast.success(t(`codes:${code}`));
       next();
-    } catch ({ code, details: errors }) {
+    } catch ({
+      response: {
+        data: { code, details: errors },
+      },
+    }) {
       // Afficher les erreurs du serveur dans le formulaire
       setServerErrors(errors, form.setError);
       toast.error(t(`codes:${code}`));
     }
+  };
+  // Finish la creation
+  const finish = async () => {
+    const fields = fieldsByStep?.[step] || [];
+    if (!(await form.trigger(fields))) return;
+    navigate("/dashboard/services");
+  };
+  // Reinitialiser la form par step
+  const handleFormResetByStep = () => {
+    const fieldsResetByStep = fieldsByStep?.[step] || [];
+    fieldsResetByStep.forEach((field) => form.resetField(field));
   };
 
   return (
@@ -91,7 +163,7 @@ export function ServiceCreatePage() {
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <FieldSet disabled={createServiceMutation.isPending}>
+          <FieldSet disabled={isPending || (step === 1 && serviceSlug)}>
             <FieldGroup>
               {step === 1 && (
                 <>
@@ -144,8 +216,8 @@ export function ServiceCreatePage() {
                     )}
                     control={form.control}
                     icon={DollarSign}
-                    rules={{ min: 0 }}
-                    min={0}
+                    rules={{ min: 1 }}
+                    min={1}
                   />
                   <CustomFormField
                     name="delai_livraison"
@@ -173,19 +245,76 @@ export function ServiceCreatePage() {
                   />
                 </>
               )}
+              {step === 2 && (
+                <>
+                  <MultiHierarchicalItem
+                    name="categories"
+                    control={form.control}
+                    title={t("taxonomy:categories.title")}
+                    description={t("taxonomy:categories.description")}
+                    t={t}
+                    dataQuery={categoriesQuery}
+                    placeholder={t("taxonomy:categories.placeholder")}
+                    emptyMessage={t("taxonomy:categories.empty")}
+                    saveIsLoading={syncCategories.isPending}
+                    onSave={syncCategories.sync}
+                    onReset={() => form.resetField("categories")}
+                    isChanged={form.formState.dirtyFields?.categories}
+                  />
+                  <MultiHierarchicalItem
+                    name="competences"
+                    control={form.control}
+                    title={t("taxonomy:competences.title")}
+                    description={t("taxonomy:competences.description")}
+                    t={t}
+                    dataQuery={competencesQuery}
+                    placeholder={t("taxonomy:competences.placeholder")}
+                    emptyMessage={t("taxonomy:competences.empty")}
+                    saveIsLoading={syncCompetences.isPending}
+                    onSave={syncCompetences.sync}
+                    onReset={() => form.resetField("competences")}
+                    isChanged={form.formState.dirtyFields?.competences}
+                  />
+                </>
+              )}
             </FieldGroup>
           </FieldSet>
         </Form>
       </CardContent>
       {/* Pied de carte */}
-      <CardFooter className="justify-end">
+      <CardFooter className="flex-col gap-2">
+        <ButtonGroup className="w-full flex">
+          <Button
+            disabled={step === 1 || isPending}
+            variant="ghost"
+            className="flex-1"
+            onClick={back}
+          >
+            {t("services.create.actions.back")}
+          </Button>
+          <ButtonGroupSeparator />
+          <Button
+            disabled={
+              isPending ||
+              form.formState.dirtyFields?.competences ||
+              form.formState.dirtyFields?.categories
+            }
+            className="flex-1"
+            onClick={step === 1 ? submit : finish}
+          >
+            {step === 1 && isPending && <Spinner />}
+            {t(
+              `services.create.actions.${step === 1 ? (serviceSlug ? "next" : "submit") : "finish"}`,
+            )}
+          </Button>
+        </ButtonGroup>
         <Button
-          onClick={form.handleSubmit(submit)}
-          disabled={createServiceMutation.isPending}
-          className="w-fit"
+          disabled={isPending}
+          onClick={handleFormResetByStep}
+          variant="secondary"
+          className="w-full"
         >
-          {createServiceMutation.isPending && <Spinner />}
-          {t("services.create.actions.submit")}
+          {t("services.create.actions.reset")}
         </Button>
       </CardFooter>
     </Card>

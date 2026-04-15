@@ -28,11 +28,22 @@
         "revisions": {
           "label": "Nombre de révisions",
           "placeholder": "Ex: 2 (optionnel)"
+        },
+        "fichiers": {
+          "label": "Images du service",
+          "description": "Ajoutez des images pour illustrer votre service.",
+          "placeholder": "Ajouter des images",
+          "empty": "Aucune image sélectionnée"
         }
       },
       "actions": {
         "submit": "Créer le service",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "upload": "Téléverser",
+        "next": "suivent",
+        "back": "Retour",
+        "finish": "Terminer",
+        "reset": "Réinitialiser"
       }
     }
   }
