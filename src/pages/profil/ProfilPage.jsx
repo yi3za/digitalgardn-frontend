@@ -184,7 +184,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
               saveIsLoading={loading.syncCompetences}
               onSave={handleUpdateCompetences}
               onReset={handleResetCompetences}
-              competencesChanged={form.formState.dirtyFields?.competences}
+              isChanged={form.formState.dirtyFields?.competences}
             />
           </>
         )}
