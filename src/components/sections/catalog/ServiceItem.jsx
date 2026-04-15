@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
  * Composant qui affiche un service individuel dans le catalogue
  */
 export function ServiceItem({ item, linkTo = "/services" }) {
+  // Hook de navigation
   const navigate = useNavigate();
-
+  // Fonction pour naviguer vers la page
   const handleClick = () => {
     navigate(`${linkTo}/${item.slug}`);
   };
@@ -26,7 +27,7 @@ export function ServiceItem({ item, linkTo = "/services" }) {
       <ItemHeader className="h-50">
         <img
           src={
-            // item?.fichier_principale?.chemin ||
+            item?.fichier_principale?.chemin ||
             "http://localhost:8000/storage/avatars/default.webp"
           }
           alt={item?.titre}
@@ -35,7 +36,7 @@ export function ServiceItem({ item, linkTo = "/services" }) {
         />
       </ItemHeader>
       <ItemContent>
-        <ItemTitle>{item?.titre}</ItemTitle>
+        <ItemTitle className="line-clamp-1">{item?.titre}</ItemTitle>
         <ItemDescription>{item?.description}</ItemDescription>
       </ItemContent>
     </Item>

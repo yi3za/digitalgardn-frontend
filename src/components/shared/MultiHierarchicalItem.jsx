@@ -39,7 +39,7 @@ export function MultiHierarchicalItem({
   onSave = () => {},
   onReset = () => {},
   saveIsLoading = false,
-  competencesChanged = false,
+  isChanged = false,
 }) {
   // Destructuration des donnees et etats de la requete
   const { data, isSuccess, isLoading, isFetching } = dataQuery ?? {};
@@ -133,7 +133,7 @@ export function MultiHierarchicalItem({
             />
           )}
         </div>
-        {competencesChanged && (
+        {isChanged && (
           <div className="w-full flex gap-2">
             <Button className="w-fit" onClick={onSave} disabled={saveIsLoading}>
               {saveIsLoading && <Spinner />}
