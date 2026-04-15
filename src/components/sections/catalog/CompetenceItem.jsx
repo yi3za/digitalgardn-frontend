@@ -4,15 +4,19 @@ import { useNavigate } from "react-router-dom";
 /**
  * Composant qui affiche un element du catalogue avec un lien de navigation
  */
-export function ItemCatalog({ linkTo, item }) {
+export function CompetenceItem({ item, linkTo = "/competences" }) {
   // Hook de navigation
   const navigate = useNavigate();
+  // Fonction pour naviguer vers la page de competence
+  const handleClick = () => {
+    navigate(`${linkTo}/${item.slug}`);
+  };
 
   return (
     <Item
-      className="min-w-50 cursor-pointer"
+      className="min-w-50 cursor-pointer overflow-hidden"
       variant="outline"
-      onClick={() => navigate(`${linkTo}/${item.slug}`)}
+      onClick={handleClick}
     >
       <ItemMedia>
         <img

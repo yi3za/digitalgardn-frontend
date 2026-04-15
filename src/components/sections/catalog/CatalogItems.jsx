@@ -15,12 +15,18 @@ import {
 import { AlertCircle, ArrowRight, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { ItemCatalog } from "./ItemCatalog";
 
 /**
  * Composant qui affiche une liste d'elements du catalogue
  */
-export function ItemsCatalog({ itemsQuery, title, description, linkTo }) {
+export function CatalogItems({
+  itemsQuery,
+  title,
+  description,
+  linkTo,
+  item: Item,
+  isScrollArea = false,
+}) {
   // Hook de traduction
   const { t } = useTranslation(["sections", "codes"]);
   // Destructuration des donnees et etats de la requete
@@ -37,7 +43,7 @@ export function ItemsCatalog({ itemsQuery, title, description, linkTo }) {
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
-    <Card className="my-10 shadow-none rounded-none">
+    <Card className="my-5 shadow-none rounded-none">
       <CardHeader>
         <CardTitle>
           {title}
@@ -66,14 +72,22 @@ export function ItemsCatalog({ itemsQuery, title, description, linkTo }) {
         )}
         {isSuccess &&
           (items?.length > 0 ? (
-            <ScrollArea>
-              <div className="flex gap-4 mb-8">
+            isScrollArea ? (
+              <ScrollArea>
+                <div className="flex gap-4 mb-8">
+                  {items?.map((item) => (
+                    <Item key={item.id} linkTo={linkTo} item={item} />
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            ) : (
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-wrap">
                 {items?.map((item) => (
-                  <ItemCatalog key={item.id} linkTo={linkTo} item={item} />
+                  <Item key={item.id} linkTo={linkTo} item={item} />
                 ))}
               </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
+            )
           ) : (
             <CustomAlert
               header={t("common.notAvailable.title")}
