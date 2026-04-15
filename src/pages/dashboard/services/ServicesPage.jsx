@@ -29,7 +29,7 @@ export function ServicesPage() {
         description={t("services.description")}
         linkTo="/dashboard/services"
         item={ServiceItem}
-        isScrollArea={false}
+        dashboard
       />
     </div>
   );
