@@ -5,9 +5,7 @@
     "actions": {
       "create": "Créer un nouveau service"
     },
-    "create": {
-      "title": "Créer un service",
-      "description": "Ajoutez un nouveau service pour proposer vos prestations aux clients.",
+    "form": {
       "fields": {
         "titre": {
           "label": "Titre",
@@ -33,17 +31,33 @@
           "label": "Images du service",
           "description": "Ajoutez des images pour illustrer votre service.",
           "placeholder": "Ajouter des images",
-          "empty": "Aucune image sélectionnée"
+          "empty": "Aucune image sélectionnée",
+          "remaining": "{{count}} restante(s) sur {{max}}",
+          "limitReached": "Limite de {{max}} images atteinte"
         }
       },
       "actions": {
-        "submit": "Créer le service",
         "cancel": "Annuler",
         "upload": "Téléverser",
-        "next": "suivent",
+        "next": "Suivant",
         "back": "Retour",
         "finish": "Terminer",
-        "reset": "Réinitialiser"
+        "reset": "Réinitialiser",
+        "refresh": "Réessayer"
+      }
+    },
+    "create": {
+      "title": "Créer un service",
+      "description": "Ajoutez un nouveau service pour proposer vos prestations aux clients.",
+      "actions": {
+        "submit": "Créer le service"
+      }
+    },
+    "edit": {
+      "title": "Modifier le service",
+      "description": "Modifiez les informations de votre service.",
+      "actions": {
+        "submit": "Enregistrer"
       }
     }
   }
