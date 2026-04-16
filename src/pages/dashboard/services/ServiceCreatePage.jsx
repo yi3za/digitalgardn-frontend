@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +28,7 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
 } from "@/components/ui";
+import { FichiersUploadItem } from "@/components/shared/FichiersUploadItem";
 import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
@@ -36,14 +37,26 @@ import {
   useCreateService,
   useSyncCategories,
   useSyncCompetences,
+  useSyncFichiers,
 } from "@/features/freelance/catalog/services/services.mutations";
 import { useSyncField } from "@/features/freelance/catalog/services/useSyncField";
 import { setServerErrors } from "@/lib/utils";
 
+const STEP_INFO = 1;
+const STEP_FICHIERS = 2;
+const STEP_TAXONOMY = 3;
+
 // Les champs par step
 const fieldsByStep = {
-  1: ["titre", "description", "prix_base", "delai_livraison", "revisions"],
-  2: ["categories", "competences"],
+  [STEP_INFO]: [
+    "titre",
+    "description",
+    "prix_base",
+    "delai_livraison",
+    "revisions",
+  ],
+  [STEP_FICHIERS]: ["fichiers"],
+  [STEP_TAXONOMY]: ["categories", "competences"],
 };
 
 /**
@@ -54,10 +67,11 @@ export function ServiceCreatePage() {
   const { t } = useTranslation(["dashboard", "codes", "taxonomy"]);
   // Hook de navigation pour rediriger l'utilisateur apres la creation du service
   const navigate = useNavigate();
-  // Mutations pour la creation du service et la synchronisation des categories et competences
+  // Mutations pour la creation du service et la synchronisation
   const createServiceMutation = useCreateService();
   const syncCategoriesMutation = useSyncCategories();
   const syncCompetencesMutation = useSyncCompetences();
+  const syncFichiersMutation = useSyncFichiers();
   // Queries pour recuperer les categories et competences disponibles pour les services
   const categoriesQuery = useCategories();
   const competencesQuery = useCompetences();
@@ -69,15 +83,17 @@ export function ServiceCreatePage() {
       prix_base: 1,
       delai_livraison: 1,
       revisions: 0,
+      fichiers: [],
       categories: [],
       competences: [],
     },
     resolver: zodResolver(storeServiceSchema),
     mode: "onChange",
   });
-  // Etats locaux pour gerer l'etape actuelle du processus de creation et le slug du service cree pour permettre la synchronisation des champs dans les etapes suivantes
-  const [step, setStep] = useState(1);
+  // Etats locaux pour gerer l'etape actuelle et le slug du service cree
+  const [step, setStep] = useState(STEP_INFO);
   const [serviceSlug, setServiceSlug] = useState(null);
+  const [savedFichiers, setSavedFichiers] = useState([]);
   // Hooks de synchronisation des champs de categories et competences
   const syncCategories = useSyncField(
     syncCategoriesMutation,
@@ -92,10 +108,10 @@ export function ServiceCreatePage() {
     form,
   );
   // Fonction pour passer a l'etape suivante
-  const next = () => setStep((s) => s + 1);
+  const next = () => setStep((s) => Math.min(s + 1, STEP_TAXONOMY));
   // Fonction pour revenir a l'etape precedente
-  const back = () => setStep((s) => s - 1);
-  // Etat de chargement global qui combine les etats
+  const back = () => setStep((s) => Math.max(s - 1, STEP_INFO));
+  // Etat de chargement global
   const isPending =
     createServiceMutation.isPending ||
     syncCategories.isPending ||
@@ -130,15 +146,17 @@ export function ServiceCreatePage() {
       toast.success(t(`codes:${code}`));
       // Passage a l'etape suivante
       next();
-    } catch ({
-      response: {
-        data: { code, details: errors },
-      },
-    }) {
-      // Afficher les erreurs du serveur dans le formulaire
-      setServerErrors(errors, form.setError);
+    } catch (error) {
+      const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      setServerErrors(error?.response?.data?.details, form.setError);
       toast.error(t(`codes:${code}`));
     }
+  };
+  // Passe a l'etape suivante avec validation
+  const goNextWithValidation = async () => {
+    const fields = fieldsByStep?.[step] || [];
+    if (!(await form.trigger(fields))) return;
+    next();
   };
   // Finish la creation du service et navigation vers la liste des services
   const finish = async () => {
@@ -150,6 +168,58 @@ export function ServiceCreatePage() {
   const handleFormResetByStep = () => {
     const fieldsResetByStep = fieldsByStep?.[step] || [];
     fieldsResetByStep.forEach((field) => form.resetField(field));
+  };
+  // Fichiers: suivi des changements et handlers de sauvegarde/reset
+  const watchedFichiers = form.watch("fichiers") ?? [];
+  const isFichiersChanged =
+    watchedFichiers.length !== savedFichiers.length ||
+    watchedFichiers.some((file, i) => file !== savedFichiers[i]);
+  // Handler de sauvegarde des fichiers
+  const handleSaveFichiers = useCallback(async () => {
+    // Validation du champ de fichiers avant de tenter la synchronisation
+    const files = form.getValues("fichiers") ?? [];
+    if (!files.length || !serviceSlug) return;
+    // Tentative de synchronisation des fichiers avec le backend
+    try {
+      // Appel de la mutation de synchronisation des fichiers
+      const response = await syncFichiersMutation.mutateAsync({
+        slug: serviceSlug,
+        files,
+      });
+      // Recuperation du code de reponse pour afficher un message de succes approprie
+      const { code } = response ?? {};
+      toast.success(t(`codes:${code}`));
+      // Mise a jour de l'etat local des fichiers
+      setSavedFichiers([...files]);
+    } catch (error) {
+      // Gestion des erreurs de validation et affichage des messages d'erreur
+      const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      toast.error(t(`codes:${code}`));
+    }
+  }, [form, serviceSlug, syncFichiersMutation, t]);
+  // Handler de reset des fichiers
+  const handleResetFichiers = useCallback(() => {
+    form.resetField("fichiers", { defaultValue: [...savedFichiers] });
+  }, [form, savedFichiers]);
+  // Action primaire selon le step
+  const handlePrimaryAction = async () => {
+    if (step === STEP_INFO) {
+      await submit();
+    } else if (step === STEP_FICHIERS) {
+      await goNextWithValidation();
+    } else {
+      await finish();
+    }
+  };
+  // Fonction pour obtenir le label du bouton principal
+  const getPrimaryLabel = () => {
+    if (step === STEP_INFO) {
+      return serviceSlug
+        ? t("services.form.actions.next")
+        : t("services.create.actions.submit");
+    }
+    if (step === STEP_FICHIERS) return t("services.form.actions.next");
+    return t("services.form.actions.finish");
   };
 
   return (
@@ -164,22 +234,22 @@ export function ServiceCreatePage() {
             variant="link"
             disabled={createServiceMutation.isPending}
           >
-            {t("services.create.actions.cancel")}
+            {t("services.form.actions.cancel")}
           </Button>
         </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
-          <FieldSet disabled={isPending || (step === 1 && serviceSlug)}>
+          <FieldSet disabled={isPending || (step === STEP_INFO && serviceSlug)}>
             <FieldGroup>
-              {step === 1 && (
+              {step === STEP_INFO && (
                 <>
                   <CustomFormField
                     autoFocus
                     name="titre"
-                    label={t("services.create.fields.titre.label")}
-                    placeholder={t("services.create.fields.titre.placeholder")}
+                    label={t("services.form.fields.titre.label")}
+                    placeholder={t("services.form.fields.titre.placeholder")}
                     control={form.control}
                     icon={FileText}
                     rules={{ max: 255 }}
@@ -188,9 +258,7 @@ export function ServiceCreatePage() {
                     name="description"
                     control={form.control}
                     render={({ field }) => {
-                      const label = t(
-                        "services.create.fields.description.label",
-                      );
+                      const label = t("services.form.fields.description.label");
                       const length = field.value?.length || 0;
                       const maxLength = 600;
                       return (
@@ -199,7 +267,7 @@ export function ServiceCreatePage() {
                           <FormControl>
                             <Textarea
                               placeholder={t(
-                                "services.create.fields.description.placeholder",
+                                "services.form.fields.description.placeholder",
                               )}
                               className="min-h-30"
                               {...field}
@@ -218,9 +286,9 @@ export function ServiceCreatePage() {
                   <CustomFormField
                     name="prix_base"
                     type="number"
-                    label={t("services.create.fields.prix_base.label")}
+                    label={t("services.form.fields.prix_base.label")}
                     placeholder={t(
-                      "services.create.fields.prix_base.placeholder",
+                      "services.form.fields.prix_base.placeholder",
                     )}
                     control={form.control}
                     icon={DollarSign}
@@ -230,9 +298,9 @@ export function ServiceCreatePage() {
                   <CustomFormField
                     name="delai_livraison"
                     type="number"
-                    label={t("services.create.fields.delai_livraison.label")}
+                    label={t("services.form.fields.delai_livraison.label")}
                     placeholder={t(
-                      "services.create.fields.delai_livraison.placeholder",
+                      "services.form.fields.delai_livraison.placeholder",
                     )}
                     control={form.control}
                     icon={Clock}
@@ -242,9 +310,9 @@ export function ServiceCreatePage() {
                   <CustomFormField
                     name="revisions"
                     type="number"
-                    label={t("services.create.fields.revisions.label")}
+                    label={t("services.form.fields.revisions.label")}
                     placeholder={t(
-                      "services.create.fields.revisions.placeholder",
+                      "services.form.fields.revisions.placeholder",
                     )}
                     control={form.control}
                     icon={RotateCcw}
@@ -253,7 +321,21 @@ export function ServiceCreatePage() {
                   />
                 </>
               )}
-              {step === 2 && (
+              {step === STEP_FICHIERS && (
+                <FichiersUploadItem
+                  t={t}
+                  name="fichiers"
+                  control={form.control}
+                  maxFiles={10}
+                  title={t("services.form.fields.fichiers.label")}
+                  description={t("services.form.fields.fichiers.description")}
+                  saveIsLoading={syncFichiersMutation.isPending}
+                  onSave={handleSaveFichiers}
+                  onReset={handleResetFichiers}
+                  isChanged={isFichiersChanged}
+                />
+              )}
+              {step === STEP_TAXONOMY && (
                 <>
                   <MultiHierarchicalItem
                     name="categories"
@@ -293,36 +375,36 @@ export function ServiceCreatePage() {
       <CardFooter className="flex-col gap-2">
         <ButtonGroup className="w-full flex">
           <Button
-            disabled={step === 1 || isPending}
+            disabled={step === STEP_INFO || isPending}
             variant="ghost"
             className="flex-1"
             onClick={back}
           >
-            {t("services.create.actions.back")}
+            {t("services.form.actions.back")}
           </Button>
           <ButtonGroupSeparator />
           <Button
             disabled={
               isPending ||
+              syncFichiersMutation.isPending ||
+              isFichiersChanged ||
               form.formState.dirtyFields?.competences ||
               form.formState.dirtyFields?.categories
             }
             className="flex-1"
-            onClick={step === 1 ? submit : finish}
+            onClick={handlePrimaryAction}
           >
-            {step === 1 && isPending && <Spinner />}
-            {t(
-              `services.create.actions.${step === 1 ? (serviceSlug ? "next" : "submit") : "finish"}`,
-            )}
+            {step === STEP_INFO && isPending && <Spinner />}
+            {getPrimaryLabel()}
           </Button>
         </ButtonGroup>
         <Button
           disabled={isPending}
-          onClick={handleFormResetByStep}
           variant="secondary"
           className="w-full"
+          onClick={handleFormResetByStep}
         >
-          {t("services.create.actions.reset")}
+          {t("services.form.actions.reset")}
         </Button>
       </CardFooter>
     </Card>
