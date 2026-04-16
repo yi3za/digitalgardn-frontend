@@ -50,17 +50,18 @@ const fieldsByStep = {
  * Page de creation d'un service
  */
 export function ServiceCreatePage() {
-  // HOOKS
+  // Hook de traduction pour les textes de la page
   const { t } = useTranslation(["dashboard", "codes", "taxonomy"]);
+  // Hook de navigation pour rediriger l'utilisateur apres la creation du service
   const navigate = useNavigate();
-  // Service mutations
+  // Mutations pour la creation du service et la synchronisation des categories et competences
   const createServiceMutation = useCreateService();
   const syncCategoriesMutation = useSyncCategories();
   const syncCompetencesMutation = useSyncCompetences();
-  // Data queries
+  // Queries pour recuperer les categories et competences disponibles pour les services
   const categoriesQuery = useCategories();
   const competencesQuery = useCompetences();
-  // FORM
+  // Formulaire de creation de service avec validation basee sur le schema de validation et react-hook-form pour la gestion des etats du formulaire
   const form = useForm({
     defaultValues: {
       titre: "",
@@ -74,10 +75,10 @@ export function ServiceCreatePage() {
     resolver: zodResolver(storeServiceSchema),
     mode: "onChange",
   });
-  // STATE
+  // Etats locaux pour gerer l'etape actuelle du processus de creation et le slug du service cree pour permettre la synchronisation des champs dans les etapes suivantes
   const [step, setStep] = useState(1);
   const [serviceSlug, setServiceSlug] = useState(null);
-  // SYNC HOOKS
+  // Hooks de synchronisation des champs de categories et competences
   const syncCategories = useSyncField(
     syncCategoriesMutation,
     "categories",
@@ -90,37 +91,44 @@ export function ServiceCreatePage() {
     serviceSlug,
     form,
   );
-  // Passe a l'etape suivante
+  // Fonction pour passer a l'etape suivante
   const next = () => setStep((s) => s + 1);
-  // Revenire a l'etape precedente
+  // Fonction pour revenir a l'etape precedente
   const back = () => setStep((s) => s - 1);
-  // COMPUTED VALUES
+  // Etat de chargement global qui combine les etats
   const isPending =
     createServiceMutation.isPending ||
     syncCategories.isPending ||
     syncCompetences.isPending;
-  // Validation par step
-  const validateCurrentStep = () => {};
-  // HANDLERS
+  // Soumission du formulaire pour la creation du service
   const submit = async () => {
+    // Si le service a deja ete cree (serviceSlug existe), on passe directement a l'etape suivante sans tenter de creer a nouveau le service
     if (serviceSlug) {
       next();
       return;
     }
+    // Validation des champs de l'etape actuelle avant de tenter la creation du service
     const fields = fieldsByStep?.[step] || [];
     if (!(await form.trigger(fields))) return;
+    // Tentative de creation du service avec les valeurs du formulaire
     try {
+      // Construction du payload de creation
       const valuesArray = form.getValues(fields);
       const data = Object.fromEntries(
         fields.map((field, index) => [field, valuesArray[index]]),
       );
+      // Appel de la mutation de creation du service
       const response = await createServiceMutation.mutateAsync(data);
       const { code, details } = response ?? {};
+      // Recuperation du slug du service cree
       const slug = details?.service?.slug;
+      // Si le slug est present dans la reponse, on le stocke dans l'etat pour permettre la synchronisation des champs dans les etapes suivantes
       if (slug) {
         setServiceSlug(slug);
       }
+      // Affichage d'un message de succes
       toast.success(t(`codes:${code}`));
+      // Passage a l'etape suivante
       next();
     } catch ({
       response: {
@@ -132,13 +140,13 @@ export function ServiceCreatePage() {
       toast.error(t(`codes:${code}`));
     }
   };
-  // Finish la creation
+  // Finish la creation du service et navigation vers la liste des services
   const finish = async () => {
     const fields = fieldsByStep?.[step] || [];
     if (!(await form.trigger(fields))) return;
     navigate("/dashboard/services");
   };
-  // Reinitialiser la form par step
+  // Fonction pour reset les champs de l'etape actuelle
   const handleFormResetByStep = () => {
     const fieldsResetByStep = fieldsByStep?.[step] || [];
     fieldsResetByStep.forEach((field) => form.resetField(field));

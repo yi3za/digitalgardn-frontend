@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
  * Page pour l'affichage des services du freelance connecté
  */
 export function ServicesPage() {
-  // Hook de traduction
+  // Hook de traduction pour les textes de la page
   const { t } = useTranslation("dashboard");
-  // Hook navigation
+  // Hook de navigation pour permettre la redirection
   const navigate = useNavigate();
-  // myServicesQuery contient generalement : data, isLoading, isError, etc.
+  // Requete pour recuperer les services du freelance connecte
   const myServicesQuery = useMyServices();
 
   return (
