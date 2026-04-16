@@ -48,11 +48,15 @@ export const syncCompetences = async (slug, payload) => {
   return data;
 };
 
-// Synchroniser les fichiers d'un service
-export const syncFichiers = async (slug, payload) => {
-  const { data } = await client.put(
+// Synchroniser les fichiers d'un service (multipart/form-data)
+export const syncFichiers = async (slug, files) => {
+  const formData = new FormData();
+  formData.append("_method", "PUT");
+  files.forEach((file) => formData.append("fichiers[]", file));
+  const { data } = await client.post(
     `/api/me/services/${slug}/fichiers`,
-    payload,
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } },
   );
   return data;
 };

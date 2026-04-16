@@ -74,7 +74,7 @@ export const useSyncCompetences = () => {
 export const useSyncFichiers = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ slug, data }) => syncFichiers(slug, data),
+    mutationFn: ({ slug, files }) => syncFichiers(slug, files),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
