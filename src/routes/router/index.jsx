@@ -8,6 +8,7 @@ import { ProtectedRoute } from "../guards/ProtectedRoute";
 import { settingsRoutes } from "./settings.routes";
 import { onboardingRoutes } from "./onboarding.routes";
 import { dashboardRoutes } from "./dashboard.routes";
+import { messagesRoutes } from "./messages.routes";
 
 /**
  * Creation du routeur principal de l'application
@@ -23,6 +24,10 @@ import { dashboardRoutes } from "./dashboard.routes";
  * (profilRoutes : pages du profil utilisateur)
  * (settingsRoutes : pages de gestion des parametres du compte utilisateur)
  * (onboardingRoutes : pages de configuration initiale du profil, hors MainLayout)
+ * (dashboardRoutes : pages du tableau de bord, hors MainLayout)
+ * (messagesRoutes : pages de messagerie)
+ *
+ * "*" : redirection vers la page d'accueil pour les routes non definies
  */
 export const router = createBrowserRouter([
   {
@@ -38,7 +43,7 @@ export const router = createBrowserRouter([
       },
       {
         element: <ProtectedRoute />,
-        children: [profilRoutes, settingsRoutes],
+        children: [profilRoutes, settingsRoutes, messagesRoutes],
       },
     ],
   },

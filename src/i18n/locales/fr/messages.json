@@ -1,0 +1,28 @@
+{
+  "page": {
+    "title": "Messages",
+    "description": "Discutez en temps reel avec vos contacts."
+  },
+  "list": {
+    "loadingError": "Impossible de charger les conversations.",
+    "empty": "Aucune conversation disponible."
+  },
+  "conversation": {
+    "emptyPreview": "Aucun message pour le moment",
+    "unknownUser": "Utilisateur"
+  },
+  "chat": {
+    "selectConversation": "Selectionnez une conversation pour commencer.",
+    "active": "Conversation active",
+    "loadingError": "Impossible de charger les messages.",
+    "empty": "Aucun message dans cette conversation."
+  },
+  "input": {
+    "placeholder": "Ecrire votre message...",
+    "send": "Envoyer",
+    "invalid": "Message invalide. Le contenu est obligatoire (max {{max}} caracteres)."
+  },
+  "actions": {
+    "refresh": "Reessayer"
+  }
+}

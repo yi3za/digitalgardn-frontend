@@ -3,6 +3,7 @@ import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ServiceCreatePage } from "@/pages/dashboard/services/ServiceCreatePage";
 import { ServiceEditPage } from "@/pages/dashboard/services/ServiceEditPage";
 import { ServicesPage } from "@/pages/dashboard/services/ServicesPage";
+import { MessagesPage } from "@/pages/messages/MessagesPage";
 import { ProfilPage } from "@/pages/profil/ProfilPage";
 
 /**
@@ -14,6 +15,8 @@ import { ProfilPage } from "@/pages/profil/ProfilPage";
  * dashboard/services : liste des services du freelance
  * dashboard/services/create : page de creation d'un nouveau service
  * dashboard/services/:slug/edit : page de modification d'un service existant (identifie par son slug)
+ * dashboard/profil : page de modification du profil du freelance
+ * dashboard/messages : page de messagerie du freelance (liste des conversations + messages d'une conversation selectionnee)
  */
 export const dashboardRoutes = {
   path: "dashboard",
@@ -21,6 +24,7 @@ export const dashboardRoutes = {
   children: [
     { index: true, element: <DashboardPage /> },
     { path: "profil", element: <ProfilPage /> },
+    { path: "messages", element: <MessagesPage /> },
     {
       path: "services",
       children: [
