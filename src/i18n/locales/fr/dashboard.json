@@ -59,6 +59,16 @@
       "actions": {
         "submit": "Enregistrer"
       }
+    },
+    "delete": {
+      "dialog": {
+        "title": "Confirmer la suppression",
+        "description": "Voulez-vous vraiment supprimer ce service ? Cette action est irréversible."
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
+      }
     }
   }
 }
