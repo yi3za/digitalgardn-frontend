@@ -1,6 +1,7 @@
 import {
   LayoutDashboard,
   LogOutIcon,
+  MessageCircle,
   SettingsIcon,
   UserIcon,
 } from "lucide-react";
@@ -78,6 +79,12 @@ export function UserMenu({ user, t }) {
           <Link to="/settings">
             <SettingsIcon />
             {t("user_menu.settings")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/messages">
+            <MessageCircle />
+            Messages
           </Link>
         </DropdownMenuItem>
         {user?.role === AUTH_ROLE.FREELANCE && user?.onboarding_termine && (

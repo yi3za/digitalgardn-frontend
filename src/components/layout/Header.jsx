@@ -69,6 +69,13 @@ export function Header({ dashboard = false }) {
                         </Link>
                       </NavigationMenuLink>
                     </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/dashboard/messages">
+                          {t("header.messages")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>

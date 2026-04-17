@@ -6,7 +6,8 @@
     "dashboard": "Dashboard",
     "myBusiness": "Mon business",
     "services": "Mes services",
-    "profil": "Mon profil"
+    "profil": "Mon profil",
+    "messages": "Messages"
   },
   "user_menu": {
     "label": "Mon compte",
