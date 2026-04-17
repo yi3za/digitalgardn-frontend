@@ -63,7 +63,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
       variant="outline"
     >
       <ItemHeader
-        className="min-h-60 max-h-60 cursor-pointer rounded overflow-hidden"
+        className="min-h-60 max-h-60 cursor-pointer rounded overflow-hidden min-w-full"
         onClick={handleClick}
       >
         <img

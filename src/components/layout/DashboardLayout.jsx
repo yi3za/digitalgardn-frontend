@@ -3,6 +3,7 @@ import { authSelector } from "@/features/auth/auth.selectors";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 /**
  * Layout du dashboard Freelance
@@ -21,6 +22,7 @@ export function DashboardLayout() {
       <main className="flex flex-col flex-1">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
