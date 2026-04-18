@@ -1,14 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  getMyServices,
-  getMyServiceBySlug,
-  createService,
-  updateService,
-  deleteService,
-  syncCategories,
-  syncCompetences,
-  syncFichiers,
-} from "./services.api";
+import { useQuery } from "@tanstack/react-query";
+import { getMyServices, getMyServiceBySlug } from "./services.api";
 
 // Hook pour recuperer tous les services du freelance
 export const useMyServices = () =>

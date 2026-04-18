@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -7,27 +6,25 @@ import {
   CardTitle,
   Skeleton,
   CardAction,
-  ScrollBar,
-  ScrollArea,
   Spinner,
   CustomAlert,
-  ItemGroup,
-} from "../../ui";
+} from "@/components/ui";
 import { AlertCircle, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 /**
- * Composant qui affiche une liste d'elements du catalogue
+ * Composant parent partage pour une section du catalogue
  */
-export function CatalogItems({
+export function CatalogItemsSection({
   itemsQuery,
   title,
   description,
-  linkTo,
-  item: Item = null,
-  isScrollArea = false,
-  dashboard = false,
   action = null,
+  renderItems,
+  emptyTitle,
+  emptyDescription,
+  emptyIcon = Ban,
+  errorVariant = "destructive",
 }) {
   // Hook de traduction
   const { t } = useTranslation(["sections", "codes"]);
@@ -63,39 +60,19 @@ export function CatalogItems({
             onRefetch={refetch}
             refreshText={t("common.refresh")}
             icon={AlertCircle}
-            variant="destructive"
+            variant={errorVariant}
           />
         )}
         {isSuccess &&
           (items?.length > 0 ? (
-            isScrollArea ? (
-              <ScrollArea>
-                <div className="flex gap-4 mb-8">
-                  {items?.map((item) => (
-                    <Item key={item.id} linkTo={linkTo} item={item} />
-                  ))}
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            ) : (
-              <ItemGroup className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {items?.map((item) => (
-                  <Item
-                    key={item.id}
-                    linkTo={linkTo}
-                    item={item}
-                    dashboard={dashboard}
-                  />
-                ))}
-              </ItemGroup>
-            )
+            renderItems(items)
           ) : (
             <CustomAlert
-              header={t("common.notAvailable.title")}
-              body={t("common.notAvailable.description")}
+              header={emptyTitle ?? t("common.notAvailable.title")}
+              body={emptyDescription ?? t("common.notAvailable.description")}
               onRefetch={refetch}
               refreshText={t("common.refresh")}
-              icon={Ban}
+              icon={emptyIcon}
             />
           ))}
       </CardContent>

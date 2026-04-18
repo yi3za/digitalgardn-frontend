@@ -1,4 +1,4 @@
-import { ServiceItem } from "@/components/sections/catalog/ServiceItem";
+import { ServicesGrid } from "@/components/sections/catalog";
 import {
   Avatar,
   AvatarFallback,
@@ -15,6 +15,7 @@ import {
   EmptyTitle,
   ItemGroup,
   Skeleton,
+  Spinner,
 } from "@/components/ui";
 import { useFreelancer } from "@/features/public/catalog/freelancers/freelancers.query";
 import { getFallbackName } from "@/lib/utils";
@@ -33,7 +34,8 @@ export function FreelancerShowPage() {
   // Requete pour recuperer les informations du freelance et de ses services publies
   const freelancerQuery = useFreelancer(username);
   // Destructuration des etats de la requete pour faciliter
-  const { data, isLoading, isError, error, refetch } = freelancerQuery;
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    freelancerQuery;
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme de chargement du freelance
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Recuperation du freelance et de ses services
@@ -74,7 +76,10 @@ export function FreelancerShowPage() {
     <section className="py-5 space-y-4">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>{t("freelancer.profileTitle")}</CardTitle>
+          <CardTitle>
+            {t("freelancer.profileTitle")}
+            {isFetching && <Spinner className="inline mx-5" />}
+          </CardTitle>
           <CardDescription>@{freelancer.username}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -136,15 +141,7 @@ export function FreelancerShowPage() {
         </CardHeader>
         <CardContent>
           {services.length ? (
-            <ItemGroup className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {services.map((service) => (
-                <ServiceItem
-                  key={service.id}
-                  item={service}
-                  linkTo="/services"
-                />
-              ))}
-            </ItemGroup>
+            <ServicesGrid services={services} linkTo="/services" />
           ) : (
             <Empty className="min-h-40 border">
               <EmptyHeader>

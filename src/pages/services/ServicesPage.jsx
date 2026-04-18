@@ -1,4 +1,7 @@
-import { CatalogItems, ServiceItem } from "@/components/sections/catalog";
+import {
+  CatalogItemsSection,
+  ServicesGrid,
+} from "@/components/sections/catalog";
 import { Button } from "@/components/ui";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -15,12 +18,13 @@ export function ServicesPage() {
   const servicesQuery = useServices();
 
   return (
-    <CatalogItems
+    <CatalogItemsSection
       itemsQuery={servicesQuery}
       title={t("services.title")}
       description={t("services.description")}
-      linkTo="/services"
-      item={ServiceItem}
+      renderItems={(services) => (
+        <ServicesGrid services={services} linkTo="/services" />
+      )}
       action={
         <Button asChild variant="link">
           <Link to="/">

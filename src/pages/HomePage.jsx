@@ -1,8 +1,8 @@
 import {
-  CatalogItems,
-  CategorieItem,
-  CompetenceItem,
-  ServiceItem,
+  CatalogItemsSection,
+  CategoriesGrid,
+  CompetencesGrid,
+  ServicesGrid,
 } from "@/components/sections/catalog";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
@@ -27,13 +27,13 @@ export function HomePage() {
 
   return (
     <>
-      <CatalogItems
+      <CatalogItemsSection
         itemsQuery={categoriesQuery}
         title={t("categories.title")}
         description={t("categories.description")}
-        linkTo="/categories"
-        item={CategorieItem}
-        isScrollArea={true}
+        renderItems={(categories) => (
+          <CategoriesGrid categories={categories} linkTo="/categories" />
+        )}
         action={
           <Button asChild variant="link">
             <Link to="/categories">
@@ -42,13 +42,13 @@ export function HomePage() {
           </Button>
         }
       />
-      <CatalogItems
+      <CatalogItemsSection
         itemsQuery={competencesQuery}
         title={t("competences.title")}
         description={t("competences.description")}
-        linkTo="/competences"
-        item={CompetenceItem}
-        isScrollArea={true}
+        renderItems={(competences) => (
+          <CompetencesGrid competences={competences} linkTo="/competences" />
+        )}
         action={
           <Button asChild variant="link">
             <Link to="/competences">
@@ -57,12 +57,13 @@ export function HomePage() {
           </Button>
         }
       />
-      <CatalogItems
+      <CatalogItemsSection
         itemsQuery={servicesQuery}
         title={t("services.title")}
         description={t("services.description")}
-        linkTo="/services"
-        item={ServiceItem}
+        renderItems={(services) => (
+          <ServicesGrid services={services} linkTo="/services" />
+        )}
         action={
           <Button asChild variant="link">
             <Link to="/services">

@@ -28,23 +28,23 @@ import { toast } from "sonner";
  * Composant qui affiche un service individuel dans le catalogue
  */
 export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
-  // Hook de navigation
+  // Hook de navigation pour redirections
   const navigate = useNavigate();
-  // Hook de traduction
+  // Hook de traduction pour les textes statiques du composant
   const { t } = useTranslation(["dashboard", "codes"]);
-  // État pour gérer l'ouverture du dialog de confirmation de suppression
+  // Etat pour le dialogue de confirmation de suppression
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  // Hook de suppression de service
+  // Mutation pour supprimer un service
   const deleteServiceMutation = useDeleteService();
-  // Fonction pour naviguer vers la page
+  // Fonction de gestion du clic sur le service pour redirection vers la page de details
   const handleClick = () => {
     navigate(`${linkTo}/${item.slug}`);
   };
-  // Fonction pour naviguer vers la page de modification de service
+  // Fonction de gestion du clic sur le bouton d'edition pour redirection vers la page d'edition
   const handleEditService = () => {
     navigate(`${linkTo}/${item.slug}/edit`);
   };
-  // Fonction pour supprimer le service
+  // Fonction de gestion de la suppression du service avec affichage de notifications de succes ou d'erreur
   const handleDeleteService = async () => {
     try {
       const response = await deleteServiceMutation.mutateAsync(item.slug);

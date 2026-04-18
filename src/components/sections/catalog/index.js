@@ -1,4 +1,4 @@
-export { CatalogItems } from "./CatalogItems";
-export { CategorieItem } from "./CategorieItem";
-export { CompetenceItem } from "./CompetenceItem";
-export { ServiceItem } from "./ServiceItem";
+export { CatalogItemsSection } from "./CatalogItemsSection";
+export { CategoryItem, CategoriesGrid } from "./categories";
+export { CompetenceItem, CompetencesGrid } from "./competences";
+export { ServiceItem, ServicesGrid } from "./services";

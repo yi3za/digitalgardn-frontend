@@ -2,12 +2,12 @@ import { Item, ItemContent, ItemTitle, ItemMedia } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 
 /**
- * Composant qui affiche un element du catalogue avec un lien de navigation
+ * Composant qui affiche une competence individuelle
  */
-export function CategorieItem({ item, linkTo = "/categories" }) {
+export function CompetenceItem({ item, linkTo = "/competences" }) {
   // Hook de navigation
   const navigate = useNavigate();
-  // Fonction pour naviguer vers la page de categorie
+  // Navigation vers la page competence
   const handleClick = () => {
     navigate(`${linkTo}/${item.slug}`);
   };

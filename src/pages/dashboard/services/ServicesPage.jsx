@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useMyServices } from "@/features/freelance/catalog/services/services.query";
-import { CatalogItems } from "@/components/sections/catalog";
-import { ServiceItem } from "@/components/sections/catalog/ServiceItem";
+import {
+  CatalogItemsSection,
+  ServicesGrid,
+} from "@/components/sections/catalog";
 import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -23,13 +25,17 @@ export function ServicesPage() {
           {t("services.actions.create")}
         </Button>
       </div>
-      <CatalogItems
+      <CatalogItemsSection
         itemsQuery={myServicesQuery}
         title={t("services.title")}
         description={t("services.description")}
-        linkTo="/dashboard/services"
-        item={ServiceItem}
-        dashboard
+        renderItems={(services) => (
+          <ServicesGrid
+            services={services}
+            linkTo="/dashboard/services"
+            dashboard
+          />
+        )}
       />
     </div>
   );
