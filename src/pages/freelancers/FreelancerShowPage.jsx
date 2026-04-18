@@ -36,7 +36,9 @@ export function FreelancerShowPage() {
   const { data, isLoading, isError, error, refetch } = freelancerQuery;
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme de chargement du freelance
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+  // Recuperation du freelance et de ses services
   const freelancer = data?.freelancer;
+  // Recuperation de la liste des services publies par le freelance pour les afficher dans la section correspondante
   const services = data?.services ?? [];
 
   if (isLoading) {
