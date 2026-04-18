@@ -14,6 +14,7 @@ export const useCreateService = () => {
   return useMutation({
     mutationFn: (data) => createService(data),
     onSuccess: () => {
+      // Invalider seulement le cache prive car la nouvelle service est toujours un brouillon
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
     },
   });
@@ -24,11 +25,20 @@ export const useUpdateService = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ slug, data }) => updateService(slug, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (responseData, variables) => {
+      // Extraire le service de la reponse API
+      const service = responseData?.details?.service;
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
+      // Invalider le cache public seulement si la service est publiee
+      if (service?.statut === "publie") {
+        queryClient.invalidateQueries({
+          queryKey: ["service", variables.slug],
+        });
+        queryClient.invalidateQueries({ queryKey: ["services"] });
+      }
     },
   });
 };
@@ -40,6 +50,8 @@ export const useDeleteService = () => {
     mutationFn: (slug) => deleteService(slug),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      // Invalider le cache public pour enlever la service supprimee
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };
@@ -49,10 +61,18 @@ export const useSyncCategories = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ slug, data }) => syncCategories(slug, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (responseData, variables) => {
+      // Extraire le statut de la reponse API
+      const statut = responseData?.details?.serviceStatut;
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
+      // Invalider le cache public seulement si la service est publiee
+      if (statut === "publie") {
+        queryClient.invalidateQueries({
+          queryKey: ["service", variables.slug],
+        });
+      }
     },
   });
 };
@@ -62,10 +82,18 @@ export const useSyncCompetences = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ slug, data }) => syncCompetences(slug, data),
-    onSuccess: (data, variables) => {
+    onSuccess: (responseData, variables) => {
+      // Extraire le statut de la reponse API
+      const statut = responseData?.details?.serviceStatut;
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
+      // Invalider le cache public seulement si la service est publiee
+      if (statut === "publie") {
+        queryClient.invalidateQueries({
+          queryKey: ["service", variables.slug],
+        });
+      }
     },
   });
 };
@@ -75,11 +103,20 @@ export const useSyncFichiers = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ slug, files }) => syncFichiers(slug, files),
-    onSuccess: (data, variables) => {
+    onSuccess: (responseData, variables) => {
+      // Extraire le statut de la reponse API
+      const statut = responseData?.details?.serviceStatut;
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      // Invalider le cache public seulement si la service est publiee
+      if (statut === "publie") {
+        queryClient.invalidateQueries({
+          queryKey: ["service", variables.slug],
+        });
+        queryClient.invalidateQueries({ queryKey: ["services"] });
+      }
     },
   });
 };
