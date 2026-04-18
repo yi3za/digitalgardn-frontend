@@ -2,6 +2,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardAction,
   Button,
   CardContent,
   ItemGroup,
@@ -25,6 +26,7 @@ import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 // Definition des champs du formulaire avec leurs regles de validation
@@ -115,6 +117,11 @@ export function PersonalInfoPage() {
         <CardDescription>
           {t("items.personal_info.description")}
         </CardDescription>
+        <CardAction>
+          <Button variant="link" asChild>
+            <Link to="/settings">{t("action.back_to_settings")}</Link>
+          </Button>
+        </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
       <CardContent>

@@ -5,6 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  CardAction,
   CustomFormField,
   Dialog,
   DialogClose,
@@ -24,7 +25,7 @@ import {
   FormMessage,
   Input,
   Spinner,
-  WaitButton
+  WaitButton,
 } from "@/components/ui";
 import { changePasswordSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -36,7 +37,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -103,6 +104,11 @@ export function SecurityPage() {
       <CardHeader>
         <CardTitle>{t("items.security.title")}</CardTitle>
         <CardDescription>{t("items.security.description")}</CardDescription>
+        <CardAction>
+          <Button variant="link" asChild>
+            <Link to="/settings">{t("action.back_to_settings")}</Link>
+          </Button>
+        </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
       <CardContent>

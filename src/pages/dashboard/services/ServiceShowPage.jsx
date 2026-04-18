@@ -33,7 +33,7 @@ export function ServiceShowPage() {
   } = useMyService(slug);
 
   return (
-    <Card className="m-5 shadow-none rounded-none border-none flex-1">
+    <Card className="shadow-none rounded-none border-none flex-1">
       <CardHeader>
         <CardTitle>{t("services.show.title")}</CardTitle>
         <CardDescription>{t("services.show.description")}</CardDescription>

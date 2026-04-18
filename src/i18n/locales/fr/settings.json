@@ -3,7 +3,7 @@
   "description": "Gérez et mettez à jour les informations de votre compte, y compris votre adresse e-mail, vos préférences et vos paramètres de sécurité.",
   "action": {
     "go_to_profil": "Accéder au profil",
-    "back": "Retour aux paramètres",
+    "back_to_settings": "Retour aux paramètres",
     "edit": "Modifier",
     "cancel": "Annuler",
     "confirm": "Confirmer",

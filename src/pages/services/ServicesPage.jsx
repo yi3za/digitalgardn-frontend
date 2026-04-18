@@ -28,7 +28,7 @@ export function ServicesPage() {
       action={
         <Button asChild variant="link">
           <Link to="/">
-            <ArrowLeft /> {t("common.backHome")}
+            <ArrowLeft /> {t("common.back")}
           </Link>
         </Button>
       }

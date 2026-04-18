@@ -106,15 +106,15 @@ export function ServiceDetailsCard({
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
           <div className="px-6 flex items-center justify-center">
             {serviceImages.length > 0 ? (
-              <Carousel>
+              <Carousel className="rounded-lg overflow-hidden">
                 <CarouselContent>
                   {serviceImages.map((imageUrl, index) => (
                     <CarouselItem key={`${service.id}-image-${index}`}>
-                      <div className="overflow-hidden rounded-lg border bg-background h-full">
+                      <div className="border bg-muted h-full">
                         <img
                           src={imageUrl}
                           alt={`${service?.titre}-${index + 1}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                         />
                       </div>
                     </CarouselItem>

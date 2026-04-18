@@ -35,7 +35,7 @@
   "common": {
     "refresh": "Actualiser",
     "viewAll": "Voir tout",
-    "backHome": "Retour a l'accueil",
+    "back": "Retour en arrière",
     "notAvailable": {
       "title": "Non disponible",
       "description": "Aucun contenu n'est disponible pour le moment."

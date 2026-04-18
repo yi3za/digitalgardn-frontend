@@ -1,5 +1,6 @@
 import {
   Button,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -31,6 +32,7 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -91,6 +93,11 @@ export function DangerZonePage() {
       <CardHeader>
         <CardTitle>{t("items.danger_zone.title")}</CardTitle>
         <CardDescription>{t("items.danger_zone.description")}</CardDescription>
+        <CardAction>
+          <Button variant="link" asChild>
+            <Link to="/settings">{t("action.back_to_settings")}</Link>
+          </Button>
+        </CardAction>
       </CardHeader>
       {/* Contenu de la carte */}
       <CardContent>
