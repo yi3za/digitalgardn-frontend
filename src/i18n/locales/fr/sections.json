@@ -35,9 +35,34 @@
   "common": {
     "refresh": "Actualiser",
     "viewAll": "Voir tout",
+    "backHome": "Retour a l'accueil",
     "notAvailable": {
       "title": "Non disponible",
       "description": "Aucun contenu n'est disponible pour le moment."
     }
+  },
+  "freelancer": {
+    "profileTitle": "Profil freelance",
+    "publishedServices": "Services publiés",
+    "servicesCount_one": "{{count}} service",
+    "servicesCount_other": "{{count}} services",
+    "defaultTitle": "Freelance",
+    "noServices": {
+      "title": "Aucun service",
+      "description": "Ce freelance n'a pas encore publié de services."
+    }
+  },
+  "serviceShow": {
+    "priceLabel": "Prix de base",
+    "priceSuffix": "MAD",
+    "delayLabel": "Délai",
+    "delaySuffix": "jours",
+    "revisionsLabel": "Révisions",
+    "viewFreelancer": "Voir le freelance",
+    "contact": "Contacter",
+    "freelancerSection": "Freelance",
+    "freelancerSectionDescription": "Informations du prestataire",
+    "galleryEmptyTitle": "Aucune image",
+    "galleryEmptyDescription": "Les images de ce service ne sont pas disponibles pour le moment."
   }
 }
