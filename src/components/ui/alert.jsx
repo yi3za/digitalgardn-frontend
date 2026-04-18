@@ -69,9 +69,10 @@ function CustomAlert({
   icon: Icon,
   refreshText,
   variant = "default",
+  ...props
 }) {
   return (
-    <Alert variant={variant}>
+    <Alert variant={variant} {...props}>
       <Icon />
       <AlertTitle className="flex justify-between items-center">
         {header}

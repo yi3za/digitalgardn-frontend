@@ -195,3 +195,4 @@ export {
   TooltipContent,
   TooltipProvider,
 } from "./tooltip";
+export { Badge, badgeVariants } from "./badge";

@@ -26,7 +26,7 @@ export function Header({ dashboard = false }) {
   const { user, status } = useSelector(authSelector);
 
   return (
-    <header className="flex justify-between items-center py-4">
+    <header className="flex justify-between items-center py-4 border-b mb-10">
       {/* logo */}
       <Logo />
       {/* navigation */}

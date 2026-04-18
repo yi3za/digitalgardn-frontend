@@ -34,6 +34,7 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
   CustomAlert,
+  Skeleton,
 } from "@/components/ui";
 import { FichiersUploadItem } from "@/components/shared/FichiersUploadItem";
 import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
@@ -250,28 +251,22 @@ export function ServiceEditPage() {
     if (step === STEP_FICHIERS) return t("services.form.actions.next");
     return t("services.form.actions.finish");
   };
-  // Ecran de chargement / erreur
-  if (isServicePending || isServiceError) {
+
+  if (isServicePending) return <Skeleton className="flex-1" />;
+
+  if (isServiceError)
     return (
-      <Card className="m-5 shadow-none rounded-none">
-        <CardContent className="flex justify-center p-10">
-          {isServicePending && <Spinner />}
-          {isServiceError && (
-            <CustomAlert
-              header={serviceError?.response?.data?.code ?? "NETWORK_ERROR"}
-              body={t(
-                `codes:${serviceError?.response?.data?.code ?? "NETWORK_ERROR"}`,
-              )}
-              onRefetch={refetchService}
-              refreshText={t("services.form.actions.refresh")}
-              icon={AlertCircle}
-              variant="destructive"
-            />
-          )}
-        </CardContent>
-      </Card>
+      <CustomAlert
+        header={serviceError?.response?.data?.code ?? "NETWORK_ERROR"}
+        body={t(
+          `codes:${serviceError?.response?.data?.code ?? "NETWORK_ERROR"}`,
+        )}
+        onRefetch={refetchService}
+        refreshText={t("services.form.actions.refresh")}
+        icon={AlertCircle}
+        variant="destructive"
+      />
     );
-  }
 
   return (
     <Card className="m-5 shadow-none rounded-none">
