@@ -1,4 +1,6 @@
 import { Eye, User } from "lucide-react";
+import { AUTH_ROLE } from "@/features/auth/auth.constants";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   AvatarFallback,
@@ -39,6 +41,11 @@ export function ProfilViewItem({
   date_incription,
   SHEET,
 }) {
+  // Hook de navigation
+  const navigate = useNavigate();
+  // Verifier si l'utilisateur est un freelance pour afficher le bouton de visualisation du profil
+  const isFreelance = user?.role === AUTH_ROLE.FREELANCE;
+
   return (
     <Item className="px-0">
       <ItemContent>
@@ -46,61 +53,75 @@ export function ProfilViewItem({
         <ItemDescription>{t("voirInfo.description")}</ItemDescription>
       </ItemContent>
       <ItemActions>
-        <Sheet
-          showCloseButton={false}
-          open={activeSheet === SHEET.PROFIL.SHOW}
-          onOpenChange={(open) => !open && closeSheet()}
-        >
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              className="shadow-none"
-              onClick={() => setActiveSheet(SHEET.PROFIL.SHOW)}
-            >
-              <Eye />
-              {t("voirInfo.action")}
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="overflow-x-auto">
-            <SheetHeader>
-              <SheetTitle>{t("voirInfo.sheet.title")}</SheetTitle>
-              <SheetDescription>
-                {t("voirInfo.sheet.description")}
-              </SheetDescription>
-            </SheetHeader>
-            <Separator />
-            <ItemGroup className="px-4">
-              <Item className="mb-4">
-                <ItemHeader className="justify-center">
-                  <Avatar className="size-30">
-                    <AvatarImage src={user?.avatar_url} alt={user?.username} />
-                    <AvatarFallback>{avatarFallback}</AvatarFallback>
-                  </Avatar>
-                </ItemHeader>
-                <ItemContent className="items-center">
-                  <ItemTitle>{user_name}</ItemTitle>
-                  <ItemDescription>{"@" + user?.username}</ItemDescription>
-                </ItemContent>
-              </Item>
-              <ItemSeparator />
-              <Item>
-                <ItemMedia>
-                  <User className="text-muted-foreground" size={16} />
-                </ItemMedia>
-                <ItemContent>
-                  <ItemDescription>
-                    {t("meta.joined", { date: date_incription })}
-                  </ItemDescription>
-                </ItemContent>
-              </Item>
-            </ItemGroup>
-            <SheetFooter>
-              <SheetClose asChild>
-                <Button variant="outline">{t("actions.close")}</Button>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
+        {isFreelance ? (
+          <Button
+            variant="outline"
+            className="shadow-none"
+            onClick={() => navigate(`/freelancers/${user?.username}`)}
+          >
+            <Eye />
+            {t("voirInfo.action")}
+          </Button>
+        ) : (
+          <Sheet
+            showCloseButton={false}
+            open={activeSheet === SHEET.PROFIL.SHOW}
+            onOpenChange={(open) => !open && closeSheet()}
+          >
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                className="shadow-none"
+                onClick={() => setActiveSheet(SHEET.PROFIL.SHOW)}
+              >
+                <Eye />
+                {t("voirInfo.action")}
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-x-auto">
+              <SheetHeader>
+                <SheetTitle>{t("voirInfo.sheet.title")}</SheetTitle>
+                <SheetDescription>
+                  {t("voirInfo.sheet.description")}
+                </SheetDescription>
+              </SheetHeader>
+              <Separator />
+              <ItemGroup className="px-4">
+                <Item className="mb-4">
+                  <ItemHeader className="justify-center">
+                    <Avatar className="size-30">
+                      <AvatarImage
+                        src={user?.avatar_url}
+                        alt={user?.username}
+                      />
+                      <AvatarFallback>{avatarFallback}</AvatarFallback>
+                    </Avatar>
+                  </ItemHeader>
+                  <ItemContent className="items-center">
+                    <ItemTitle>{user_name}</ItemTitle>
+                    <ItemDescription>{"@" + user?.username}</ItemDescription>
+                  </ItemContent>
+                </Item>
+                <ItemSeparator />
+                <Item>
+                  <ItemMedia>
+                    <User className="text-muted-foreground" size={16} />
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemDescription>
+                      {t("meta.joined", { date: date_incription })}
+                    </ItemDescription>
+                  </ItemContent>
+                </Item>
+              </ItemGroup>
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline">{t("actions.close")}</Button>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        )}
       </ItemActions>
     </Item>
   );
