@@ -79,7 +79,10 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
       </ItemContent>
       {dashboard && (
         <ItemActions className="gap-5 justify-evenly w-full bg-muted p-2 rounded">
-          <Eye className="block text-blue-500 hover:text-blue-700 cursor-pointer" />
+          <Eye
+            onClick={handleClick}
+            className="block text-blue-500 hover:text-blue-700 cursor-pointer"
+          />
           <Pencil
             onClick={handleEditService}
             className="block text-amber-500 hover:text-amber-700 cursor-pointer"

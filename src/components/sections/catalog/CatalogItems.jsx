@@ -13,9 +13,8 @@ import {
   CustomAlert,
   ItemGroup,
 } from "../../ui";
-import { AlertCircle, ArrowRight, Ban } from "lucide-react";
+import { AlertCircle, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 /**
  * Composant qui affiche une liste d'elements du catalogue
@@ -28,6 +27,7 @@ export function CatalogItems({
   item: Item = null,
   isScrollArea = false,
   dashboard = false,
+  action = null,
 }) {
   // Hook de traduction
   const { t } = useTranslation(["sections", "codes"]);
@@ -45,25 +45,17 @@ export function CatalogItems({
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
-    <Card className="my-5 shadow-none rounded-none">
+    <Card className="shadow-none rounded-none border-none flex-1 min-h-50">
       <CardHeader>
         <CardTitle>
           {title}
           {isFetching && <Spinner className="inline mx-5" />}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
-        {!dashboard && (
-          <CardAction>
-            <Button asChild variant="link">
-              <Link to={linkTo}>
-                {t("common.viewAll")} <ArrowRight />
-              </Link>
-            </Button>
-          </CardAction>
-        )}
+        {action && <CardAction>{action}</CardAction>}
       </CardHeader>
-      <CardContent className="min-h-20">
-        {isLoading && <Skeleton className="min-h-20" />}
+      <CardContent className="flex flex-col flex-1">
+        {isLoading && <Skeleton className="flex-1" />}
         {isError && (
           <CustomAlert
             header={code}

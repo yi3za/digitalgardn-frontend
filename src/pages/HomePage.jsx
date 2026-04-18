@@ -7,6 +7,9 @@ import {
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useServices } from "@/features/public/catalog/services/services.query";
+import { Button } from "@/components/ui";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -31,6 +34,13 @@ export function HomePage() {
         linkTo="/categories"
         item={CategorieItem}
         isScrollArea={true}
+        action={
+          <Button asChild variant="link">
+            <Link to="/categories">
+              {t("common.viewAll")} <ArrowRight />
+            </Link>
+          </Button>
+        }
       />
       <CatalogItems
         itemsQuery={competencesQuery}
@@ -39,6 +49,13 @@ export function HomePage() {
         linkTo="/competences"
         item={CompetenceItem}
         isScrollArea={true}
+        action={
+          <Button asChild variant="link">
+            <Link to="/competences">
+              {t("common.viewAll")} <ArrowRight />
+            </Link>
+          </Button>
+        }
       />
       <CatalogItems
         itemsQuery={servicesQuery}
@@ -46,6 +63,13 @@ export function HomePage() {
         description={t("services.description")}
         linkTo="/services"
         item={ServiceItem}
+        action={
+          <Button asChild variant="link">
+            <Link to="/services">
+              {t("common.viewAll")} <ArrowRight />
+            </Link>
+          </Button>
+        }
       />
     </>
   );
