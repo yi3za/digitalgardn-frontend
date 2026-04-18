@@ -104,20 +104,17 @@ export function ServiceDetailsCard({
     <>
       <Card className="shadow-none overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
-          <div className="p-3 flex items-center justify-center">
+          <div className="px-6 flex items-center justify-center">
             {serviceImages.length > 0 ? (
-              <Carousel
-                className="mx-auto w-full max-w-full"
-                opts={{ align: "start", loop: serviceImages.length > 1 }}
-              >
+              <Carousel>
                 <CarouselContent>
                   {serviceImages.map((imageUrl, index) => (
                     <CarouselItem key={`${service.id}-image-${index}`}>
-                      <div className="overflow-hidden rounded-lg border bg-background">
+                      <div className="overflow-hidden rounded-lg border bg-background h-full">
                         <img
                           src={imageUrl}
                           alt={`${service?.titre}-${index + 1}`}
-                          className="h-72 w-full object-cover sm:h-80"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     </CarouselItem>
