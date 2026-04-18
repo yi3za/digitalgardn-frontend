@@ -89,3 +89,23 @@ export const toCapitalize = (str) => {
 export function arraysEqual(a = [], b = []) {
   return a.length === b.length && a.every((v, i) => v === b[i]);
 }
+
+/**
+ * Formate un prix numerique avec separateur francais.
+ */
+export const formatPrice = (value) => {
+  if (value === null || value === undefined) return "-";
+  return new Intl.NumberFormat("fr-FR").format(value);
+};
+
+/**
+ * Retourne une liste unique d'URLs images d'un service.
+ */
+export const collectServiceImages = (service) => {
+  const primary = service?.fichierPrincipale?.chemin_url;
+  const files = Array.isArray(service?.fichiers)
+    ? service.fichiers.map((file) => file?.chemin_url).filter(Boolean)
+    : [];
+
+  return Array.from(new Set([primary, ...files].filter(Boolean)));
+};
