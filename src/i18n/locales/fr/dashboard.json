@@ -9,7 +9,6 @@
       "title": "Aperçu du service",
       "description": "Consultez votre service, y compris lorsqu'il est encore en brouillon.",
       "actions": {
-        "back": "Retour aux services",
         "edit": "Modifier le service"
       },
       "status": {

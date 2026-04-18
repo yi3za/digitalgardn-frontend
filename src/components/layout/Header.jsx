@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
+  Button,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -15,6 +16,7 @@ import { UserMenu } from "./UserMenu";
 import { useTranslation } from "react-i18next";
 import { AuthButtons } from "./AuthButtons";
 import { Logo } from "./logo";
+import { ArrowLeft } from "lucide-react";
 
 /**
  * Composant Header
@@ -22,13 +24,32 @@ import { Logo } from "./logo";
 export function Header({ dashboard = false }) {
   // Hook pour la traduction
   const { t } = useTranslation(["sections", "codes"]);
+  const location = useLocation();
+  const navigate = useNavigate();
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
+  const showBackButton = location.pathname !== "/";
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
 
   return (
-    <header className="flex justify-between items-center py-4 border-b mb-10">
-      {/* logo */}
-      <Logo />
+    <header className="flex justify-between items-center py-4 mb-10 relative">
+      <div className="flex items-center gap-2 min-w-1/4">
+        {showBackButton && (
+          <Button variant="ghost" size="icon" onClick={handleBack}>
+            <ArrowLeft />
+          </Button>
+        )}
+        {/* logo */}
+        <Logo />
+      </div>
       {/* navigation */}
       <NavigationMenu className="min-w-1/2">
         <NavigationMenuList>

@@ -38,23 +38,15 @@ export function ServiceShowPage() {
         <CardTitle>{t("services.show.title")}</CardTitle>
         <CardDescription>{t("services.show.description")}</CardDescription>
         <CardAction>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              onClick={() => navigate("/dashboard/services")}
-            >
-              <ArrowLeft />
-              {t("services.show.actions.back")}
-            </Button>
-            <Button
-              onClick={() =>
-                navigate(`/dashboard/services/${service?.slug}/edit`)
-              }
-            >
-              <Pencil />
-              {t("services.show.actions.edit")}
-            </Button>
-          </div>
+          <Button
+            variant="link"
+            onClick={() =>
+              navigate(`/dashboard/services/${service?.slug}/edit`)
+            }
+          >
+            <Pencil />
+            {t("services.show.actions.edit")}
+          </Button>
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
