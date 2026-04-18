@@ -9,6 +9,8 @@ import { settingsRoutes } from "./settings.routes";
 import { onboardingRoutes } from "./onboarding.routes";
 import { dashboardRoutes } from "./dashboard.routes";
 import { messagesRoutes } from "./messages.routes";
+import { servicesRoutes } from "./services.routes";
+import { freelancersRoutes } from "./freelancers.routes";
 
 /**
  * Creation du routeur principal de l'application
@@ -26,6 +28,8 @@ import { messagesRoutes } from "./messages.routes";
  * (onboardingRoutes : pages de configuration initiale du profil, hors MainLayout)
  * (dashboardRoutes : pages du tableau de bord, hors MainLayout)
  * (messagesRoutes : pages de messagerie)
+ * (servicesRoutes : pages de consultation des services publies)
+ * (freelancersRoutes : pages de consultation des freelances publies)
  *
  * "*" : redirection vers la page d'accueil pour les routes non definies
  */
@@ -45,6 +49,8 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [profilRoutes, settingsRoutes, messagesRoutes],
       },
+      servicesRoutes,
+      freelancersRoutes,
     ],
   },
   {
