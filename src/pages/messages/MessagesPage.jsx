@@ -2,8 +2,8 @@ import { ChatWindow } from "@/components/messages/ChatWindow";
 import { ConversationList } from "@/components/messages/ConversationList";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { useSendMessage } from "@/features/messages/messages.mutations";
-import { getEcho, isRealtimeEnabled } from "@/lib/echo";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRealtimeSubscriptions } from "@/features/messages/useRealtimeSubscriptions";
+import { isRealtimeEnabled } from "@/lib/echo";
 import {
   useConversationMessages,
   useConversations,
@@ -11,6 +11,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -25,19 +26,55 @@ import {
 export function MessagesPage() {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation("messages");
-  // Client de requete pour invalider les queries lors de la reception de nouveaux messages en temps reel
-  const queryClient = useQueryClient();
+  // Etat de navigation pour preselectionner une conversation au premier chargement
+  const location = useLocation();
   // Determination si la fonctionnalite de messagerie en temps reel est active pour adapter le comportement de chargement des conversations et messages
   const realtimeActive = isRealtimeEnabled();
   // Recuperation de l'utilisateur connecte
   const { user } = useSelector(authSelector);
   // ID de l'utilisateur connecte pour determiner les messages envoyes et recus
   const currentUserId = user?.id;
+  // Conversation transmise depuis une autre page (ex: bouton contacter d'un service)
+  const initialConversationIdFromState = Number(location.state?.conversationId);
   // ID de la conversation actuellement selectionnee
   const [selectedConversationId, setSelectedConversationId] = useState(null);
+  // Etat interne pour ne consommer l'ID initial qu'une seule fois
+  const [pendingInitialConversationId, setPendingInitialConversationId] =
+    useState(
+      Number.isFinite(initialConversationIdFromState) &&
+        initialConversationIdFromState > 0
+        ? initialConversationIdFromState
+        : null,
+    );
   // Recuperation de la liste des conversations de l'utilisateur
   const conversationsQuery = useConversations(!realtimeActive);
   const conversations = conversationsQuery.data ?? [];
+  // Liste stable des IDs de conversations pour eviter de reabonner inutilement quand seule la reference du tableau change
+  const conversationIds = useMemo(
+    () =>
+      conversations
+        .map((conversation) => Number(conversation.id))
+        .filter((id) => Number.isFinite(id))
+        .sort((a, b) => a - b),
+    [conversations],
+  );
+  // Gerer les abonnements en temps reel aux conversations et nouvelles conversations
+  useRealtimeSubscriptions(conversationIds, currentUserId);
+  // Preselectionner la conversation transmise des qu'elle est disponible dans la liste
+  useEffect(() => {
+    // Si il n'y a pas de conversation a preselectionner ou pas de conversations chargees, ne rien faire
+    if (!pendingInitialConversationId || conversations.length === 0) return;
+    // Verifier que la conversation a preselectionner est bien dans la liste
+    const hasInitialConversation = conversations.some(
+      (conversation) =>
+        Number(conversation.id) === pendingInitialConversationId,
+    );
+    // Si la conversation a preselectionner n'est pas dans la liste, ne rien faire
+    if (!hasInitialConversation) return;
+    // Sinon, preselectionner la conversation et vider l'etat de conversation en attente
+    setSelectedConversationId(pendingInitialConversationId);
+    setPendingInitialConversationId(null);
+  }, [conversations, pendingInitialConversationId]);
   // Conversation actuellement selectionnee
   const selectedConversation = useMemo(
     () =>
@@ -64,41 +101,6 @@ export function MessagesPage() {
       data: { content },
     });
   };
-  // Abonnement realtime sur toutes les conversations chargees.
-  useEffect(() => {
-    if (!currentUserId || conversations.length === 0) return;
-    const echo = getEcho();
-    if (!echo) return;
-    const conversationIds = conversations.map(
-      (conversation) => conversation.id,
-    );
-    // S'abonner a chaque canal de conversation pour ecouter les nouveaux messages
-    const unsubs = conversationIds.map((conversationId) => {
-      // S'abonner au canal prive de la conversation
-      const channel = echo.private(`conversations.${conversationId}`);
-      // Ecouter l'evenement de nouveau message dans la conversation
-      channel.listen(".message.sent", (payload) => {
-        queryClient.invalidateQueries({
-          queryKey: ["messages", "conversations"],
-        });
-        // Si le message concerne la conversation actuellement selectionnee, invalider aussi les messages de cette conversation pour les recharger
-        queryClient.invalidateQueries({
-          queryKey: ["messages", "conversation", payload?.conversation_id],
-        });
-      });
-      // Retourner une fonction de desabonnement pour ce canal
-      return () => {
-        channel.stopListening(".message.sent");
-      };
-    });
-    // Nettoyer les abonnements et quitter les canaux a la destruction du composant ou au changement de conversations
-    return () => {
-      unsubs.forEach((unsubscribe) => unsubscribe());
-      conversationIds.forEach((conversationId) => {
-        echo.leave(`conversations.${conversationId}`);
-      });
-    };
-  }, [conversations, currentUserId, queryClient]);
 
   return (
     <section className="py-5 flex flex-col h-[calc(100vh-4rem)]">

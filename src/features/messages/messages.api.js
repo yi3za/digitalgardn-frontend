@@ -14,7 +14,7 @@ const unwrapDetails = (response) => response?.data?.details ?? {};
 export const getConversations = async () => {
   const response = await client.get("/api/me/conversations");
   const details = unwrapDetails(response);
-  return details.conversations ?? [];
+  return details?.conversations ?? [];
 };
 
 // Creer ou recuperer une conversation existante avec un destinataire
@@ -25,7 +25,7 @@ export const createConversation = async (data) => {
     contentTypeJson,
   );
   const details = unwrapDetails(response);
-  return details.conversation;
+  return details?.conversation ?? null;
 };
 
 // Recuperer les messages d'une conversation
@@ -34,7 +34,7 @@ export const getConversationMessages = async (conversationId) => {
     `/api/me/conversations/${conversationId}/messages`,
   );
   const details = unwrapDetails(response);
-  return details.messages ?? [];
+  return details?.messages ?? [];
 };
 
 // Envoyer un message dans une conversation
@@ -45,5 +45,5 @@ export const sendMessage = async (conversationId, data) => {
     contentTypeJson,
   );
   const details = unwrapDetails(response);
-  return details.message;
+  return details?.message ?? null;
 };

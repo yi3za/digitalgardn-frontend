@@ -13,9 +13,8 @@ export const isRealtimeEnabled = () =>
  */
 export const getEcho = () => {
   if (echoInstance) return echoInstance;
-
+  // Si la fonctionnalite de temps reel n'est pas active, ne pas creer d'instance Echo
   if (!isRealtimeEnabled()) {
-    // No crash if env is not configured yet; caller can fallback to polling.
     return null;
   }
   // Pusher est requis par Echo pour le websocket
