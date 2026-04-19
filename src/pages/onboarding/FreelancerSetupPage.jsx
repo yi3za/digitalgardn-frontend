@@ -1,19 +1,11 @@
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui";
+import { CardContent } from "@/components/ui";
 import { ProfilPage } from "../profil/ProfilPage";
-import { useTranslation } from "react-i18next";
 import { useOutletContext } from "react-router-dom";
 
 /**
  * La page de configuration (setup) pour les freelances
  */
 export function FreelancerSetupPage() {
-  // Hook de traduction
-  const { t } = useTranslation("onboarding");
   // Recuperation des donnees du context
   const { handleOnboardingCompletion } = useOutletContext();
 

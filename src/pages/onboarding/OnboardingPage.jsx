@@ -2,8 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   CardContent,
-  CardHeader,
-  CardTitle,
   CardFooter,
   Button,
   RadioGroup,

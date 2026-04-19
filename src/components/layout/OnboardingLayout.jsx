@@ -25,7 +25,7 @@ export function OnboardingLayout() {
   // Etat du role selectionne
   const [role, setRole] = useState(null);
   // Etat local du redirection apres l'onboarding
-  const [redirectUrl, setRedirectUrl] = useState("/");
+  const [redirectUrl, setRedirectUrl] = useState({ pathname: "" });
   // Dispatch des actions
   const dispatch = useDispatch();
   // Traduction
@@ -37,7 +37,7 @@ export function OnboardingLayout() {
   const form = location.state?.from;
   // Change l'etat de redirection
   useEffect(() => {
-    setRedirectUrl(form || "/");
+    setRedirectUrl(form || { pathname: "/", state: {} });
   }, []);
   // Redirection selon le choix
   const handleOnboardingCompletion = async (onboarding_termine = false) => {
@@ -55,7 +55,10 @@ export function OnboardingLayout() {
       // Afficher une notification en cas de succes
       toast.success(t(`codes:${code}`));
       // Rediriger l'utilisateur vers sa page destination
-      navigate(redirectUrl, { replace: true });
+      navigate(redirectUrl.pathname, {
+        state: redirectUrl.state,
+        replace: true,
+      });
     } catch ({ code }) {
       // Afficher une notification en cas d'erreur
       toast.error(t(`codes:${code}`));
