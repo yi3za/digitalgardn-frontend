@@ -16,6 +16,7 @@ import {
   Button,
   WaitButton,
   Spinner,
+  Badge,
 } from "@/components/ui";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +64,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
       variant="outline"
     >
       <ItemHeader
-        className="min-h-60 max-h-60 cursor-pointer rounded overflow-hidden min-w-full"
+        className="relative min-h-60 max-h-60 cursor-pointer rounded overflow-hidden min-w-full"
         onClick={handleClick}
       >
         <img
@@ -72,6 +73,16 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
           title={item?.titre}
           className="w-full h-full object-cover"
         />
+        {dashboard && (
+          <Badge
+            variant={item.statut === "publie" ? "default" : "secondary"}
+            className="absolute top-3 right-3"
+          >
+            {item.statut === "publie"
+              ? t("services.show.status.published")
+              : t("services.show.status.draft")}
+          </Badge>
+        )}
       </ItemHeader>
       <ItemContent>
         <ItemTitle className="line-clamp-1">{item?.titre}</ItemTitle>

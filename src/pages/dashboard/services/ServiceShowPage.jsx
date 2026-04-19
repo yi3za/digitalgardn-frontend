@@ -9,7 +9,7 @@ import {
 } from "@/components/ui";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useMyService } from "@/features/freelance/catalog/services/services.query";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
