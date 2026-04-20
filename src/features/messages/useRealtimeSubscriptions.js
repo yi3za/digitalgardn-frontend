@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { disconnectEcho, getEcho, isRealtimeEnabled } from "@/lib/echo";
+import { getEcho, isRealtimeEnabled } from "@/lib/echo";
 
 /**
  * Hook pour gerer les abonnements en temps reel pour les conversations
@@ -34,7 +34,7 @@ export function useRealtimeSubscriptions(conversationIds = [], currentUserId) {
     ids.forEach((conversationId) => {
       const channel = echo.private(`conversations.${conversationId}`);
       // Ecoute de l'evenement de nouveau message dans la conversation pour rafraichir les donnees associees
-      channel.listen("message.sent", (payload) => {
+      channel.listen(".message.sent", (payload) => {
         queryClient.invalidateQueries({
           queryKey: ["messages", "conversations"],
         });
@@ -46,7 +46,7 @@ export function useRealtimeSubscriptions(conversationIds = [], currentUserId) {
     // Canal utilisateur pour les nouvelles conversations
     const userChannel = echo.private(`users.${currentUserId}`);
     // Ecoute la creation de conversation pour rafraichir la liste
-    userChannel.listen("conversation.created", () => {
+    userChannel.listen(".conversation.created", () => {
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
       });
@@ -59,11 +59,4 @@ export function useRealtimeSubscriptions(conversationIds = [], currentUserId) {
       echo.leave(`users.${currentUserId}`);
     };
   }, [conversationIdsKey, currentUserId, queryClient, realtimeActive]);
-  // Ferme la connexion websocket a la sortie de la page
-  useEffect(() => {
-    if (!realtimeActive) return;
-    return () => {
-      disconnectEcho();
-    };
-  }, [realtimeActive]);
 }
