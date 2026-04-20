@@ -23,6 +23,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDeleteService } from "@/features/freelance/catalog/services/services.mutations";
+import {
+  getServiceStatusBadgeVariant,
+  getServiceStatusTextKey,
+} from "@/features/freelance/catalog/services/services.status";
 import { toast } from "sonner";
 
 /**
@@ -75,12 +79,10 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
         />
         {dashboard && (
           <Badge
-            variant={item.statut === "publie" ? "default" : "secondary"}
+            variant={getServiceStatusBadgeVariant(item.statut)}
             className="absolute top-3 right-3"
           >
-            {item.statut === "publie"
-              ? t("services.show.status.published")
-              : t("services.show.status.draft")}
+            {t(getServiceStatusTextKey(item.statut))}
           </Badge>
         )}
       </ItemHeader>

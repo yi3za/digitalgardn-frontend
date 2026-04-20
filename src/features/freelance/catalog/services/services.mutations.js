@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createService,
   updateService,
+  updateServiceStatus,
   deleteService,
   syncCategories,
   syncCompetences,
@@ -34,6 +35,30 @@ export const useUpdateService = () => {
       });
       // Invalider le cache public seulement si la service est publiee
       if (service?.statut === "publie") {
+        queryClient.invalidateQueries({
+          queryKey: ["service", variables.slug],
+        });
+        queryClient.invalidateQueries({ queryKey: ["services"] });
+      }
+    },
+  });
+};
+
+// Hook pour la mise a jour du statut d'un service via endpoint dedie
+export const useUpdateServiceStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ slug, data }) => updateServiceStatus(slug, data),
+    onSuccess: (responseData, variables) => {
+      const service = responseData?.details?.service;
+      const previousStatut = variables?.currentStatut;
+      const nextStatut = service?.statut;
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      queryClient.invalidateQueries({
+        queryKey: ["my-service", variables.slug],
+      });
+      // Si le service etait public ou le devient, on invalide le cache public.
+      if (previousStatut === "publie" || nextStatut === "publie") {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });

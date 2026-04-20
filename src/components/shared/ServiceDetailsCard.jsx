@@ -32,6 +32,10 @@ import {
   formatPrice,
   getFallbackName,
 } from "@/lib/utils";
+import {
+  getServiceStatusBadgeVariant,
+  getServiceStatusTextKey,
+} from "@/features/freelance/catalog/services/services.status";
 import { AlertCircle, ImageOff } from "lucide-react";
 
 /**
@@ -61,7 +65,6 @@ export function ServiceDetailsCard({
   revisionsLabelKey = "sections:serviceShow.revisionsLabel",
   categoriesTitleKey = "sections:categories.title",
   competencesTitleKey = "sections:competences.title",
-  statusPublishedKey = "services.show.status.published",
   statusDraftKey = "services.show.status.draft",
   freelancerSectionTitleKey = "sections:serviceShow.freelancerSection",
   freelancerSectionDescriptionKey = "sections:serviceShow.freelancerSectionDescription",
@@ -142,14 +145,8 @@ export function ServiceDetailsCard({
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl font-semibold">{service.titre}</h1>
                 {showStatus && (
-                  <Badge
-                    variant={
-                      service.statut === "publie" ? "default" : "secondary"
-                    }
-                  >
-                    {service.statut === "publie"
-                      ? t(statusPublishedKey)
-                      : t(statusDraftKey)}
+                  <Badge variant={getServiceStatusBadgeVariant(service.statut)}>
+                    {t(getServiceStatusTextKey(service.statut, statusDraftKey))}
                   </Badge>
                 )}
               </div>

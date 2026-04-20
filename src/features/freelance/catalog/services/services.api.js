@@ -24,6 +24,15 @@ export const updateService = async (slug, payload) => {
   return data;
 };
 
+// Mise a jour du statut d'un service (par slug)
+export const updateServiceStatus = async (slug, payload) => {
+  const { data } = await client.patch(
+    `/api/me/services/${slug}/status`,
+    payload,
+  );
+  return data;
+};
+
 // Supprimer un service (par slug)
 export const deleteService = async (slug) => {
   const { data } = await client.delete(`/api/me/services/${slug}`);

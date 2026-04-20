@@ -9,11 +9,18 @@
       "title": "Aperçu du service",
       "description": "Consultez votre service, y compris lorsqu'il est encore en brouillon.",
       "actions": {
-        "edit": "Modifier le service"
+        "edit": "Modifier le service",
+        "submitForApproval": "Demander la validation",
+        "requestRepublish": "Redemander la publication",
+        "pause": "Mettre en pause",
+        "stopReview": "Arreter la demande"
       },
       "status": {
         "published": "Publié",
-        "draft": "Brouillon"
+        "draft": "Brouillon",
+        "paused": "En pause",
+        "pending": "En attente de validation",
+        "rejected": "Rejeté"
       }
     },
     "form": {
