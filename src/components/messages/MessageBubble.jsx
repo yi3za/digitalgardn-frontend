@@ -1,14 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui";
-import { cn, getFallbackName } from "@/lib/utils";
-
-// Formatage de la date d'un message pour l'affichage dans la bulle de message
-const formatMessageTime = (date) => {
-  if (!date) return "";
-  return new Intl.DateTimeFormat("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(date));
-};
+import { cn, formatClockTime, getFallbackName } from "@/lib/utils";
 
 /**
  * Composant affichant une bulle de message dans la conversation
@@ -47,7 +38,7 @@ export function MessageBubble({ message, isOwn }) {
             isOwn ? "text-primary-foreground/80" : "text-muted-foreground",
           )}
         >
-          {formatMessageTime(message.created_at)}
+          {formatClockTime(message.created_at)}
         </p>
       </div>
     </div>

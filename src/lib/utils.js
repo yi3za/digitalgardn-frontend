@@ -43,6 +43,33 @@ export const formatDate = (date) =>
       }).format(new Date(date));
 
 /**
+ * Formate une date/heure en affichant uniquement l'heure (ex: 14:35).
+ */
+export const formatClockTime = (date, locale = i18n.language || "fr-FR") => {
+  if (!date) return "";
+
+  return new Intl.DateTimeFormat(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(date));
+};
+
+/**
+ * Formate une date/heure complete selon la locale active.
+ */
+export const formatDateTime = (date, locale = i18n.language || "fr-FR") => {
+  if (!date) return "";
+
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(date));
+};
+
+/**
  * Genere une nom fallback a partit du parametre name
  *
  * Exemple : "yaaza aitbah" => "YZ"

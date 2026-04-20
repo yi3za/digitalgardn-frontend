@@ -9,19 +9,8 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui";
-import { getFallbackName } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { cn, formatClockTime, getFallbackName } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-
-// Formatage de la date du dernier message pour l'affichage dans la liste des conversations
-const formatConversationTime = (date, locale) => {
-  if (!date) return "";
-
-  return new Intl.DateTimeFormat(locale, {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(date));
-};
 
 /**
  * Composant affichant un item de conversation dans la liste des conversations
@@ -32,7 +21,7 @@ export function ConversationItem({
   isActive,
   onSelect,
 }) {
-  const { t, i18n } = useTranslation("messages");
+  const { t } = useTranslation("messages");
   // Determination de l'interlocuteur (peer) dans la conversation, pour afficher son nom et avatar
   const isSender = conversation?.sender_id === currentUserId;
   // L'interlocuteur est celui qui n'est pas l'expediteur actuel
@@ -44,10 +33,7 @@ export function ConversationItem({
   // Contenu de l'aperçu : le contenu du dernier message ou un message par défaut si aucun message n'existe
   const preview = latestMessage?.content || t("conversation.emptyPreview");
   // Formatage de l'heure du dernier message pour l'affichage
-  const time = formatConversationTime(
-    conversation?.last_message_at ?? latestMessage?.created_at,
-    i18n.language,
-  );
+  const time = formatClockTime(latestMessage?.created_at);
 
   return (
     <Item
