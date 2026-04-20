@@ -75,7 +75,11 @@ export function MultiHierarchicalItem({
                     items={data}
                     value={field.value}
                     onValueChange={(ids) => {
-                      if (ids.length <= 5) {
+                      if (
+                        ids.length <= 5 ||
+                        (field.value.length > 5 &&
+                          ids.length < field.value.length)
+                      ) {
                         field.onChange(ids);
                         return;
                       }
