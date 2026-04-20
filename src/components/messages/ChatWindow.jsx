@@ -54,7 +54,7 @@ export function ChatWindow({
   // Si aucune conversation n'est selectionnee, afficher un message d'invite a selectionner une conversation
   if (!conversation) {
     return (
-      <Empty className="h-full border rounded-xl">
+      <Empty className="h-[40vh] lg:h-full border rounded-xl">
         <EmptyHeader>
           <MessageSquareText className="size-8 text-muted-foreground" />
           <EmptyTitle>{t("chat.selectConversation")}</EmptyTitle>
@@ -64,8 +64,8 @@ export function ChatWindow({
   }
 
   return (
-    <Card className="shadow-none overflow-hidden">
-      <CardHeader className="flex gap-3 items-center">
+    <Card className="w-full min-w-0 h-[50vh] lg:h-full flex flex-col shadow-none overflow-hidden">
+      <CardHeader className="flex gap-3 items-center shrink-0">
         <Avatar className="size-10">
           <AvatarImage src={peer.avatar_url} alt={peer.name} />
           <AvatarFallback>
@@ -80,7 +80,7 @@ export function ChatWindow({
         </div>
       </CardHeader>
       <Separator />
-      <CardContent className="overflow-hidden flex-1">
+      <CardContent className="overflow-hidden flex-1 min-h-0">
         {isLoading ? (
           <Skeleton className="min-h-full" />
         ) : isError ? (
@@ -100,7 +100,7 @@ export function ChatWindow({
             </EmptyHeader>
           </Empty>
         ) : (
-          <ScrollArea className="h-full p-5">
+          <ScrollArea className="h-full">
             <div className="space-y-3">
               {messages.map((message) => (
                 <MessageBubble
@@ -115,7 +115,7 @@ export function ChatWindow({
         )}
       </CardContent>
       <Separator />
-      <CardFooter>
+      <CardFooter className="shrink-0">
         <MessageInput
           onSend={onSend}
           isSending={isSending}

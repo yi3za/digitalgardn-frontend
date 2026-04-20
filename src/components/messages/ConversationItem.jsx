@@ -54,29 +54,30 @@ export function ConversationItem({
       asChild
       variant="outline"
       className={cn(
-        "w-full cursor-pointer text-left transition-colors",
+        "w-full min-w-0 cursor-pointer text-left transition-colors break-all",
         "hover:bg-muted/40",
         isActive && "border-primary bg-primary/5",
       )}
     >
-      <button type="button" onClick={() => onSelect(conversation.id)}>
+      <button
+        type="button"
+        onClick={() => onSelect(conversation.id)}
+        className="w-full min-w-0"
+      >
         <ItemMedia>
           <Avatar>
             <AvatarImage src={peer?.avatar_url} alt={peer?.username} />
             <AvatarFallback>{fallbackName}</AvatarFallback>
           </Avatar>
         </ItemMedia>
-        <ItemContent className="min-w-0">
+        <ItemContent>
           <ItemHeader>
-            <ItemTitle className="min-w-0 flex-1 truncate">
-              {peer?.name || peer?.username || t("conversation.unknownUser")}
-            </ItemTitle>
-            <span className="text-xs text-muted-foreground">{time}</span>
+            <ItemTitle className="line-clamp-1">{peer?.name}</ItemTitle>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              {time}
+            </span>
           </ItemHeader>
-
-          <ItemDescription className="line-clamp-1 text-xs">
-            {preview}
-          </ItemDescription>
+          <ItemDescription className="line-clamp-1">{preview}</ItemDescription>
         </ItemContent>
       </button>
     </Item>

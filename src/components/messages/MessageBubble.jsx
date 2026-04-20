@@ -17,7 +17,7 @@ export function MessageBubble({ message, isOwn }) {
   // Determination de l'expediteur du message pour afficher son avatar et nom dans le cas des messages recus
   const sender = message?.sender;
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'expediteur
-  const fallbackName = getFallbackName(sender?.name ?? sender?.username ?? "?");
+  const fallbackName = getFallbackName(sender?.name);
 
   return (
     <div
@@ -34,16 +34,16 @@ export function MessageBubble({ message, isOwn }) {
       )}
       <div
         className={cn(
-          "max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow-sm",
+          "max-w-[85%] sm:max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow-sm",
           isOwn
             ? "rounded-br-sm bg-primary text-primary-foreground"
             : "rounded-bl-sm bg-muted",
         )}
       >
-        <p className="wrap-break-word">{message.content}</p>
+        <p className="break-all">{message.content}</p>
         <p
           className={cn(
-            "mt-1 text-right text-[11px]",
+            "mt-1 text-right text-muted",
             isOwn ? "text-primary-foreground/80" : "text-muted-foreground",
           )}
         >
