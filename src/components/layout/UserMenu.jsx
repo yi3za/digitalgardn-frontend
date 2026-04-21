@@ -1,4 +1,5 @@
 import {
+  ArrowLeftRight,
   LayoutDashboard,
   LogOutIcon,
   MessageCircle,
@@ -12,6 +13,7 @@ import {
   AvatarImage,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -36,6 +38,9 @@ export function UserMenu({ user, t }) {
   const dispatch = useDispatch();
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur
   const avatarFallback = getFallbackName(user?.name);
+  // Le dashboard n'est accessible qu'aux freelances ayant termine leur onboarding
+  const canAccessDashboard =
+    user?.role === AUTH_ROLE.FREELANCE && user?.onboarding_termine;
   /**
    * Fonction de deconnexion de l'utilisateur : dispatch de l'action logout
    */
@@ -68,41 +73,53 @@ export function UserMenu({ user, t }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{t("user_menu.label")}</DropdownMenuLabel>
-        <DropdownMenuItem asChild>
-          <Link to="/profil">
-            <UserIcon />
-            {t("user_menu.profil")}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/settings">
-            <SettingsIcon />
-            {t("user_menu.settings")}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/messages">
-            <MessageCircle />
-            Messages
-          </Link>
-        </DropdownMenuItem>
-        {user?.role === AUTH_ROLE.FREELANCE && user?.onboarding_termine && (
-          <>
-            <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{t("user_menu.navigation")}</DropdownMenuLabel>
+          {canAccessDashboard && (
             <DropdownMenuItem asChild>
               <Link to="/dashboard">
                 <LayoutDashboard />
                 {t("user_menu.dashboard")}
               </Link>
             </DropdownMenuItem>
-          </>
-        )}
+          )}
+          <DropdownMenuItem asChild>
+            <Link to="/messages">
+              <MessageCircle />
+              {t("user_menu.messages")}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/transactions">
+              <ArrowLeftRight />
+              {t("user_menu.transactions")}
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={logout}>
-          <LogOutIcon />
-          {t("user_menu.logout")}
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{t("user_menu.account")}</DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link to="/profil">
+              <UserIcon />
+              {t("user_menu.profil")}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/settings">
+              <SettingsIcon />
+              {t("user_menu.settings")}
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{t("user_menu.session")}</DropdownMenuLabel>
+          <DropdownMenuItem variant="destructive" onClick={logout}>
+            <LogOutIcon />
+            {t("user_menu.logout")}
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
