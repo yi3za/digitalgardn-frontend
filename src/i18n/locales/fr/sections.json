@@ -10,9 +10,13 @@
     "messages": "Messages"
   },
   "user_menu": {
-    "label": "Mon compte",
+    "navigation": "Navigation",
+    "account": "Compte",
+    "session": "Session",
     "profil": "Profil",
     "settings": "Paramètres",
+    "messages": "Messages",
+    "transactions": "Transactions",
     "dashboard": "Espace freelance",
     "logout": "Déconnexion"
   },

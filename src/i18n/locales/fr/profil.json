@@ -44,10 +44,37 @@
   "meta": {
     "joined": "Inscrit en {{date}}"
   },
+  "portefeuille": {
+    "title": "Portefeuille",
+    "description": "Suivez vos soldes disponibles et en attente.",
+    "available": "Disponible",
+    "pending": "En attente",
+    "total": "Total",
+    "recharge": {
+      "trigger": "Recharger",
+      "title": "Recharger le portefeuille",
+      "description": "Ajoutez des fonds à votre portefeuille.",
+      "placeholder": "Montant (MAD)",
+      "submit": "Recharger",
+      "success": "Recharge effectuée avec succès."
+    },
+    "transactions": {
+      "title": "Historique des transactions",
+      "pageDescription": "Consultez toutes vos operations recentes sur le portefeuille.",
+      "empty": "Aucune transaction pour le moment.",
+      "types": {
+        "recharge": "Recharge",
+        "achat": "Achat",
+        "gain": "Gain",
+        "remboursement": "Remboursement"
+      }
+    }
+  },
   "actions": {
     "edit": "Modifier",
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "close": "Fermer"
+    "close": "Fermer",
+    "retry": "Réessayer"
   }
 }
