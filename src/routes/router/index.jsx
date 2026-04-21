@@ -9,6 +9,7 @@ import { settingsRoutes } from "./settings.routes";
 import { onboardingRoutes } from "./onboarding.routes";
 import { dashboardRoutes } from "./dashboard.routes";
 import { messagesRoutes } from "./messages.routes";
+import { transactionsRoutes } from "./transactions.routes";
 import { servicesRoutes } from "./services.routes";
 import { freelancersRoutes } from "./freelancers.routes";
 import { categoriesRoutes } from "./categories.routes";
@@ -34,6 +35,7 @@ import { competencesRoutes } from "./competences.routes";
  * (categoriesRoutes : pages de consultation des categories publiques)
  * (competencesRoutes : pages de consultation des competences publiques)
  * (freelancersRoutes : pages de consultation des freelances publies)
+ * (transactionsRoutes : pages de consultation des transactions du portefeuille)
  *
  * "*" : redirection vers la page d'accueil pour les routes non definies
  */
@@ -51,7 +53,12 @@ export const router = createBrowserRouter([
       },
       {
         element: <ProtectedRoute />,
-        children: [profilRoutes, settingsRoutes, messagesRoutes],
+        children: [
+          profilRoutes,
+          settingsRoutes,
+          messagesRoutes,
+          transactionsRoutes,
+        ],
       },
       categoriesRoutes,
       competencesRoutes,
