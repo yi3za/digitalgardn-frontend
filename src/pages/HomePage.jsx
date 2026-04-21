@@ -1,9 +1,9 @@
 import {
-  CatalogItemsSection,
   CategoriesGrid,
   CompetencesGrid,
   ServicesGrid,
 } from "@/components/sections/catalog";
+import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useServices } from "@/features/public/catalog/services/services.query";
@@ -27,7 +27,7 @@ export function HomePage() {
 
   return (
     <>
-      <CatalogItemsSection
+      <QueryItemsSection
         itemsQuery={categoriesQuery}
         title={t("categories.title")}
         description={t("categories.description")}
@@ -42,7 +42,7 @@ export function HomePage() {
           </Button>
         }
       />
-      <CatalogItemsSection
+      <QueryItemsSection
         itemsQuery={competencesQuery}
         title={t("competences.title")}
         description={t("competences.description")}
@@ -57,7 +57,7 @@ export function HomePage() {
           </Button>
         }
       />
-      <CatalogItemsSection
+      <QueryItemsSection
         itemsQuery={servicesQuery}
         title={t("services.title")}
         description={t("services.description")}

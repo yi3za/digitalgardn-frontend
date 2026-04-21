@@ -1,7 +1,5 @@
-import {
-  CatalogItemsSection,
-  CompetencesGrid,
-} from "@/components/sections/catalog";
+import { CompetencesGrid } from "@/components/sections/catalog";
+import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { ArrowLeft } from "lucide-react";
@@ -19,7 +17,7 @@ export function CompetencesPage() {
   const competencesQuery = useCompetences();
 
   return (
-    <CatalogItemsSection
+    <QueryItemsSection
       itemsQuery={competencesQuery}
       title={t("competences.title")}
       description={t("competences.description")}

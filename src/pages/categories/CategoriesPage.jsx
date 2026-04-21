@@ -1,7 +1,5 @@
-import {
-  CatalogItemsSection,
-  CategoriesGrid,
-} from "@/components/sections/catalog";
+import { CategoriesGrid } from "@/components/sections/catalog";
+import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { ArrowLeft } from "lucide-react";
@@ -20,7 +18,7 @@ export function CategoriesPage() {
   const categoriesQuery = useCategories();
 
   return (
-    <CatalogItemsSection
+    <QueryItemsSection
       itemsQuery={categoriesQuery}
       title={t("categories.title")}
       description={t("categories.description")}

@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useMyServices } from "@/features/freelance/catalog/services/services.query";
-import {
-  CatalogItemsSection,
-  ServicesGrid,
-} from "@/components/sections/catalog";
+import { ServicesGrid } from "@/components/sections/catalog";
+import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +17,7 @@ export function ServicesPage() {
   const myServicesQuery = useMyServices();
 
   return (
-    <CatalogItemsSection
+    <QueryItemsSection
       itemsQuery={myServicesQuery}
       title={t("services.title")}
       description={t("services.description")}

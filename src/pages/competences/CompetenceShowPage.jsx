@@ -1,8 +1,5 @@
-import {
-  CatalogItemsSection,
-  CompetencesGrid,
-  ServicesGrid,
-} from "@/components/sections/catalog";
+import { CompetencesGrid, ServicesGrid } from "@/components/sections/catalog";
+import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import {
   Button,
   Card,
@@ -62,7 +59,7 @@ export function CompetenceShowPage() {
           </CardContent>
         )}
       </Card>
-      <CatalogItemsSection
+      <QueryItemsSection
         itemsQuery={servicesQuery}
         title={t("services.title")}
         description={t("services.description")}
