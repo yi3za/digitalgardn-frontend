@@ -13,7 +13,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  CustomAlert,
+  DataEmpty,
+  DataError,
+  DataLoading,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -24,7 +26,6 @@ import {
   ItemGroup,
   ItemTitle,
   Separator,
-  Skeleton,
 } from "@/components/ui";
 import {
   cn,
@@ -36,7 +37,7 @@ import {
   getServiceStatusBadgeVariant,
   getServiceStatusTextKey,
 } from "@/features/freelance/catalog/services/services.status";
-import { AlertCircle, ImageOff } from "lucide-react";
+import { ImageOff } from "lucide-react";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -54,7 +55,6 @@ export function ServiceDetailsCard({
   categoryBadgeVariant = "outline",
   competenceBadgeVariant = "secondary",
   refreshTextKey = "sections:common.refresh",
-  notAvailableTitleKey = "sections:common.notAvailable.title",
   notAvailableDescriptionKey = "sections:common.notAvailable.description",
   galleryEmptyTitleKey = "sections:serviceShow.galleryEmptyTitle",
   galleryEmptyDescriptionKey = "sections:serviceShow.galleryEmptyDescription",
@@ -75,32 +75,21 @@ export function ServiceDetailsCard({
   const serviceImages = collectServiceImages(service);
 
   if (isLoading) {
-    return <Skeleton className="flex-1" />;
+    return <DataLoading />;
   }
 
   if (isError) {
     return (
-      <CustomAlert
-        header={code}
-        body={t(`codes:${code}`)}
-        icon={AlertCircle}
-        variant="destructive"
-        onRefetch={refetch}
-        refreshText={t(refreshTextKey)}
+      <DataError
+        errorCode={code}
+        retryText={t(refreshTextKey)}
+        onRetry={refetch}
       />
     );
   }
 
   if (!service) {
-    return (
-      <CustomAlert
-        header={t(notAvailableTitleKey)}
-        body={t(notAvailableDescriptionKey)}
-        icon={AlertCircle}
-        onRefetch={refetch}
-        refreshText={t(refreshTextKey)}
-      />
-    );
+    return <DataEmpty description={t(notAvailableDescriptionKey)} />;
   }
 
   return (

@@ -19,24 +19,25 @@ export function ServicesPage() {
   const myServicesQuery = useMyServices();
 
   return (
-    <div className="flex flex-col flex-1">
-      <div className="flex justify-end items-center gap-3">
-        <Button onClick={() => navigate("/dashboard/services/create")}>
+    <CatalogItemsSection
+      itemsQuery={myServicesQuery}
+      title={t("services.title")}
+      description={t("services.description")}
+      renderItems={(services) => (
+        <ServicesGrid
+          services={services}
+          linkTo="/dashboard/services"
+          dashboard
+        />
+      )}
+      action={
+        <Button
+          variant="link"
+          onClick={() => navigate("/dashboard/services/create")}
+        >
           {t("services.actions.create")}
         </Button>
-      </div>
-      <CatalogItemsSection
-        itemsQuery={myServicesQuery}
-        title={t("services.title")}
-        description={t("services.description")}
-        renderItems={(services) => (
-          <ServicesGrid
-            services={services}
-            linkTo="/dashboard/services"
-            dashboard
-          />
-        )}
-      />
-    </div>
+      }
+    />
   );
 }

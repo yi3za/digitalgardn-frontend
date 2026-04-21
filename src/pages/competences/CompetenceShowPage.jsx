@@ -45,8 +45,7 @@ export function CompetenceShowPage() {
   const children = competence?.enfants ?? [];
 
   return (
-    <div className="flex flex-col">
-      {/* En-tete : nom, description, bouton retour et enfants en scroll */}
+    <div className="flex flex-col flex-1">
       <Card className="shadow-none rounded-none border-none">
         <CardHeader>
           <CardTitle>{title}</CardTitle>
@@ -63,8 +62,6 @@ export function CompetenceShowPage() {
           </CardContent>
         )}
       </Card>
-
-      {/* Services de la competence ou sous-competence */}
       <CatalogItemsSection
         itemsQuery={servicesQuery}
         title={t("services.title")}

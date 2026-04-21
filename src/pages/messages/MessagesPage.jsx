@@ -115,6 +115,7 @@ export function MessagesPage() {
               conversations={conversations}
               isLoading={conversationsQuery.isLoading}
               isError={conversationsQuery.isError}
+              errorCode={conversationsQuery.error?.response?.data?.code}
               onRefetch={conversationsQuery.refetch}
               selectedConversationId={selectedConversationId}
               onSelect={setSelectedConversationId}

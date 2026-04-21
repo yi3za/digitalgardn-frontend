@@ -4,12 +4,12 @@ import {
   CardHeader,
   CardDescription,
   CardTitle,
-  Skeleton,
   CardAction,
   Spinner,
-  CustomAlert,
+  DataLoading,
+  DataError,
+  DataEmpty,
 } from "@/components/ui";
-import { AlertCircle, Ban } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -21,10 +21,7 @@ export function CatalogItemsSection({
   description,
   action = null,
   renderItems,
-  emptyTitle,
   emptyDescription,
-  emptyIcon = Ban,
-  errorVariant = "destructive",
 }) {
   // Hook de traduction
   const { t } = useTranslation(["sections", "codes"]);
@@ -52,27 +49,22 @@ export function CatalogItemsSection({
         {action && <CardAction>{action}</CardAction>}
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
-        {isLoading && <Skeleton className="flex-1" />}
+        {isLoading && <DataLoading />}
         {isError && (
-          <CustomAlert
-            header={code}
-            body={t(`codes:${code}`)}
-            onRefetch={refetch}
-            refreshText={t("common.refresh")}
-            icon={AlertCircle}
-            variant={errorVariant}
+          <DataError
+            errorCode={code}
+            retryText={t("common.refresh")}
+            onRetry={refetch}
           />
         )}
         {isSuccess &&
           (items?.length > 0 ? (
             renderItems(items)
           ) : (
-            <CustomAlert
-              header={emptyTitle ?? t("common.notAvailable.title")}
-              body={emptyDescription ?? t("common.notAvailable.description")}
-              onRefetch={refetch}
-              refreshText={t("common.refresh")}
-              icon={emptyIcon}
+            <DataEmpty
+              description={
+                emptyDescription ?? t("common.notAvailable.description")
+              }
             />
           ))}
       </CardContent>

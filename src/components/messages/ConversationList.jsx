@@ -1,14 +1,5 @@
 import { ConversationItem } from "./ConversationItem";
-import {
-  CustomAlert,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-  ScrollArea,
-  Skeleton,
-} from "@/components/ui";
-import { AlertCircle, Inbox } from "lucide-react";
+import { DataEmpty, DataError, DataLoading, ScrollArea } from "@/components/ui";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -18,6 +9,7 @@ export function ConversationList({
   conversations = [],
   isLoading,
   isError,
+  errorCode,
   onRefetch,
   selectedConversationId,
   onSelect,
@@ -27,36 +19,25 @@ export function ConversationList({
   const { t } = useTranslation("messages");
   // Gestion des etats de chargement, d'erreur et de liste vide
   if (isLoading) {
-    return <Skeleton className="h-full" />;
+    return <DataLoading />;
   }
   // Gestion de l'etat d'erreur lors du chargement des conversations
   if (isError) {
     return (
-      <CustomAlert
-        icon={AlertCircle}
-        variant="destructive"
-        header={t("list.loadingError")}
-        body={null}
-        refreshText={t("actions.refresh")}
-        onRefetch={onRefetch}
+      <DataError
+        errorCode={errorCode}
+        retryText={t("actions.refresh")}
+        onRetry={onRefetch}
       />
     );
   }
   // Gestion de l'etat de liste vide lorsque l'utilisateur n'a aucune conversation
   if (conversations.length === 0) {
-    return (
-      <Empty className="min-h-55 border">
-        <EmptyHeader>
-          <Inbox className="size-8 text-muted-foreground" />
-          <EmptyTitle>{t("list.empty")}</EmptyTitle>
-          <EmptyDescription />
-        </EmptyHeader>
-      </Empty>
-    );
+    return <DataEmpty description={t("list.empty")} />;
   }
 
   return (
-    <ScrollArea className="h-full w-full">
+    <ScrollArea className="h-full w-full p-3">
       <div className="space-y-2 pr-2 min-w-0">
         {conversations.map((conversation) => (
           <ConversationItem

@@ -46,7 +46,7 @@ export function CategoryShowPage() {
   const children = category?.enfants ?? [];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-1">
       <Card className="shadow-none rounded-none border-none">
         <CardHeader>
           <CardTitle>{title}</CardTitle>

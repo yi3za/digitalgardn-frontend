@@ -8,19 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  CustomAlert,
-  Empty,
-  EmptyHeader,
-  EmptyTitle,
+  DataEmpty,
+  DataError,
+  DataLoading,
   ScrollArea,
   Separator,
-  Skeleton,
 } from "@/components/ui";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
 import { getFallbackName } from "@/lib/utils";
 import { useEffect, useMemo, useRef } from "react";
-import { AlertCircle, MessageSquareText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -53,14 +50,7 @@ export function ChatWindow({
   }, [messages.length, conversation?.id]);
   // Si aucune conversation n'est selectionnee, afficher un message d'invite a selectionner une conversation
   if (!conversation) {
-    return (
-      <Empty className="h-[40vh] lg:h-full border rounded-xl">
-        <EmptyHeader>
-          <MessageSquareText className="size-8 text-muted-foreground" />
-          <EmptyTitle>{t("chat.selectConversation")}</EmptyTitle>
-        </EmptyHeader>
-      </Empty>
-    );
+    return <DataEmpty description={t("chat.selectConversation")} />;
   }
 
   return (
@@ -80,27 +70,15 @@ export function ChatWindow({
         </div>
       </CardHeader>
       <Separator />
-      <CardContent className="overflow-hidden flex-1 min-h-0">
+      <CardContent className="overflow-hidden flex-1 min-h-0 flex">
         {isLoading ? (
-          <Skeleton className="min-h-full" />
+          <DataLoading />
         ) : isError ? (
-          <CustomAlert
-            icon={AlertCircle}
-            variant="destructive"
-            header={t("chat.loadingError")}
-            body={null}
-            refreshText={t("actions.refresh")}
-            onRefetch={onRefetch}
-          />
+          <DataError retryText={t("actions.refresh")} onRetry={onRefetch} />
         ) : messages.length === 0 ? (
-          <Empty className="min-h-55 border">
-            <EmptyHeader>
-              <MessageSquareText className="size-8 text-muted-foreground" />
-              <EmptyTitle>{t("chat.empty")}</EmptyTitle>
-            </EmptyHeader>
-          </Empty>
+          <DataEmpty className="min-h-55" description={t("chat.empty")} />
         ) : (
-          <ScrollArea className="h-full">
+          <ScrollArea className="h-full px-5">
             <div className="space-y-3">
               {messages.map((message) => (
                 <MessageBubble

@@ -8,18 +8,19 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CustomAlert,
+  DataEmpty,
+  DataError,
+  DataLoading,
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
   ItemGroup,
-  Skeleton,
   Spinner,
 } from "@/components/ui";
 import { useFreelancer } from "@/features/public/catalog/freelancers/freelancers.query";
 import { getFallbackName } from "@/lib/utils";
-import { AlertCircle, Layers } from "lucide-react";
+import { Layers } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -44,32 +45,21 @@ export function FreelancerShowPage() {
   const services = data?.services ?? [];
 
   if (isLoading) {
-    return <Skeleton className="flex-1" />;
+    return <DataLoading className="flex-1" />;
   }
 
   if (isError) {
     return (
-      <CustomAlert
-        header={code}
-        body={t(`codes:${code}`)}
-        icon={AlertCircle}
-        variant="destructive"
-        onRefetch={refetch}
-        refreshText={t("common.refresh")}
+      <DataError
+        errorCode={code}
+        retryText={t("common.refresh")}
+        onRetry={refetch}
       />
     );
   }
 
   if (!freelancer) {
-    return (
-      <CustomAlert
-        header={t("common.notAvailable.title")}
-        body={t("common.notAvailable.description")}
-        icon={AlertCircle}
-        onRefetch={refetch}
-        refreshText={t("common.refresh")}
-      />
-    );
+    return <DataEmpty description={t("common.notAvailable.description")} />;
   }
 
   return (

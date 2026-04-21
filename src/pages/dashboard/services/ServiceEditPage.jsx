@@ -3,13 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FileText,
-  DollarSign,
-  Clock,
-  RotateCcw,
-  AlertCircle,
-} from "lucide-react";
+import { FileText, DollarSign, Clock, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import {
   CardAction,
@@ -33,8 +27,8 @@ import {
   Card,
   ButtonGroup,
   ButtonGroupSeparator,
-  CustomAlert,
-  Skeleton,
+  DataLoading,
+  DataError,
 } from "@/components/ui";
 import { FichiersUploadItem } from "@/components/shared/FichiersUploadItem";
 import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
@@ -252,19 +246,14 @@ export function ServiceEditPage() {
     return t("services.form.actions.finish");
   };
 
-  if (isServicePending) return <Skeleton className="flex-1" />;
+  if (isServicePending) return <DataLoading />;
 
   if (isServiceError)
     return (
-      <CustomAlert
-        header={serviceError?.response?.data?.code ?? "NETWORK_ERROR"}
-        body={t(
-          `codes:${serviceError?.response?.data?.code ?? "NETWORK_ERROR"}`,
-        )}
-        onRefetch={refetchService}
-        refreshText={t("services.form.actions.refresh")}
-        icon={AlertCircle}
-        variant="destructive"
+      <DataError
+        errorCode={serviceError?.response?.data?.code ?? null}
+        retryText={t("services.form.actions.refresh")}
+        onRetry={refetchService}
       />
     );
 
