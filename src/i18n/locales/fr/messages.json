@@ -4,7 +4,6 @@
     "description": "Discutez en temps reel avec vos contacts."
   },
   "list": {
-    "loadingError": "Impossible de charger les conversations.",
     "empty": "Aucune conversation disponible."
   },
   "conversation": {
@@ -14,7 +13,6 @@
   "chat": {
     "selectConversation": "Selectionnez une conversation pour commencer.",
     "active": "Conversation active",
-    "loadingError": "Impossible de charger les messages.",
     "empty": "Aucun message dans cette conversation."
   },
   "input": {
