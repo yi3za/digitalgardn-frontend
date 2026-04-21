@@ -118,11 +118,21 @@ export function arraysEqual(a = [], b = []) {
 }
 
 /**
- * Formate un prix numerique avec separateur francais.
+ * Formate un prix numerique avec separateur de milliers et deux decimales.
+ * Utilise la locale fr-FR : 1 234 567,89
+ * Remplace l'espace fine insecable (U+202F) par une espace ordinaire
+ * pour garantir un rendu homogene dans tous les navigateurs.
  */
 export const formatPrice = (value) => {
   if (value === null || value === undefined) return "-";
-  return new Intl.NumberFormat("fr-FR").format(value);
+  const num = Number(value);
+  if (!Number.isFinite(num)) return "-";
+  return new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+    .format(num)
+    .replace(/\u202f/g, "\u00a0"); // espace fine → espace insecable standard
 };
 
 /**
