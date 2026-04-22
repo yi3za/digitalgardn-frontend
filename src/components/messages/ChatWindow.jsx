@@ -62,7 +62,7 @@ export function ChatWindow({
             {getFallbackName(peer?.name || peer?.username) || "?"}
           </AvatarFallback>
         </Avatar>
-        <div>
+        <div className="flex flex-col gap-1">
           <CardTitle>
             {peer?.name || peer?.username || t("conversation.unknownUser")}
           </CardTitle>
