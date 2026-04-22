@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SERVICE_STATUS } from "./services.status";
 import {
   createService,
   updateService,
@@ -34,7 +35,7 @@ export const useUpdateService = () => {
         queryKey: ["my-service", variables.slug],
       });
       // Invalider le cache public seulement si la service est publiee
-      if (service?.statut === "publie") {
+      if (service?.statut === SERVICE_STATUS.PUBLIE) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });
@@ -58,7 +59,7 @@ export const useUpdateServiceStatus = () => {
         queryKey: ["my-service", variables.slug],
       });
       // Si le service etait public ou le devient, on invalide le cache public.
-      if (previousStatut === "publie" || nextStatut === "publie") {
+      if (previousStatut === SERVICE_STATUS.PUBLIE || nextStatut === SERVICE_STATUS.PUBLIE) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });
@@ -93,7 +94,7 @@ export const useSyncCategories = () => {
         queryKey: ["my-service", variables.slug],
       });
       // Invalider le cache public seulement si la service est publiee
-      if (statut === "publie") {
+      if (statut === SERVICE_STATUS.PUBLIE) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });
@@ -114,7 +115,7 @@ export const useSyncCompetences = () => {
         queryKey: ["my-service", variables.slug],
       });
       // Invalider le cache public seulement si la service est publiee
-      if (statut === "publie") {
+      if (statut === SERVICE_STATUS.PUBLIE) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });
@@ -136,7 +137,7 @@ export const useSyncFichiers = () => {
       });
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       // Invalider le cache public seulement si la service est publiee
-      if (statut === "publie") {
+      if (statut === SERVICE_STATUS.PUBLIE) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });

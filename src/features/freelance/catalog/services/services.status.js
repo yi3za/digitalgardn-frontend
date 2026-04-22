@@ -2,6 +2,14 @@
  * Configuration partagee des statuts de service pour eviter la duplication entre composants.
  */
 
+export const SERVICE_STATUS = {
+  BROUILLON: "brouillon",
+  EN_ATTENTE_APPROBATION: "en_attente_approbation",
+  PUBLIE: "publie",
+  EN_PAUSE: "en_pause",
+  REJETE: "rejete",
+};
+
 export const serviceStatusBadgeVariantByStatut = {
   publie: "default",
   en_attente_approbation: "outline",
