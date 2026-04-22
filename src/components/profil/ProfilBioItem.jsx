@@ -66,7 +66,7 @@ export function ProfilBioItem({
                         className="min-h-30"
                       />
                     </FormControl>
-                    <div className="absolute bottom-2 right-2">
+                    <div className="absolute text-muted-foreground bottom-2 right-2">
                       {length}/{maxLength}
                     </div>
                   </div>
@@ -105,7 +105,9 @@ export function ProfilBioItem({
           className="pt-0 h-fit"
           onClick={() => setBiographieEdit(!biographieEdit)}
         >
-          {biographieEdit ? t("common:actions.cancel") : t("common:actions.edit")}
+          {biographieEdit
+            ? t("common:actions.cancel")
+            : t("common:actions.edit")}
         </Button>
       </ItemActions>
     </Item>
