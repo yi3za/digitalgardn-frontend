@@ -1,4 +1,4 @@
-import { CompetencesGrid } from "@/components/sections/catalog";
+import { CompetencesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";

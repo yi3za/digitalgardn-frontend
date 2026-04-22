@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useMyServices } from "@/features/freelance/catalog/services/services.query";
-import { ServicesGrid } from "@/components/sections/catalog";
+import { ServicesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { CategoriesGrid, ServicesGrid } from "@/components/sections/catalog";
+import { CategoriesGrid, ServicesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import {
   Button,

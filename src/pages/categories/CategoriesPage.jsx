@@ -1,4 +1,4 @@
-import { CategoriesGrid } from "@/components/sections/catalog";
+import { CategoriesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";

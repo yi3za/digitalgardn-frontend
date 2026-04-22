@@ -2,7 +2,7 @@ import {
   CategoriesGrid,
   CompetencesGrid,
   ServicesGrid,
-} from "@/components/sections/catalog";
+} from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";

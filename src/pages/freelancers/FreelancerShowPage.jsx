@@ -1,4 +1,4 @@
-import { ServicesGrid } from "@/components/sections/catalog";
+import { ServicesGrid } from "@/components/catalog";
 import {
   Avatar,
   AvatarFallback,
