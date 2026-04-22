@@ -3,7 +3,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Button,
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -18,11 +20,15 @@ import {
   ItemGroup,
   Spinner,
 } from "@/components/ui";
+import { authSelector } from "@/features/auth/auth.selectors";
+import { useCreateConversation } from "@/features/messages/messages.mutations";
 import { useFreelancer } from "@/features/public/catalog/freelancers/freelancers.query";
 import { getFallbackName } from "@/lib/utils";
-import { Layers } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Layers, MessageCircle } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 /**
  * Page publique d'affichage d'un freelance
@@ -30,8 +36,14 @@ import { useTranslation } from "react-i18next";
 export function FreelancerShowPage() {
   // Recuperation du username dans les params d'URL pour charger le freelance correspondant
   const { username } = useParams();
+  // Hook de navigation pour rediriger vers la messagerie
+  const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["catalog", "common", "codes"]);
+  // Recuperation de l'utilisateur connecte
+  const { user: currentUser } = useSelector(authSelector);
+  // Mutation pour creer/recuperer la conversation avec le freelance
+  const createConversationMutation = useCreateConversation();
   // Requete pour recuperer les informations du freelance et de ses services publies
   const freelancerQuery = useFreelancer(username);
   // Destructuration des etats de la requete pour faciliter
@@ -43,6 +55,23 @@ export function FreelancerShowPage() {
   const freelancer = data?.freelancer;
   // Recuperation de la liste des services publies par le freelance pour les afficher dans la section correspondante
   const services = data?.services ?? [];
+  // IsOwnFreelancer permet de determiner si le profil affiche appartient a l'utilisateur connecte
+  const isOwnFreelancer = currentUser?.id === freelancer?.id;
+  // Demarrer une conversation avec le freelance depuis sa page publique
+  const handleContactFreelancer = async () => {
+    if (!freelancer?.id) return;
+    try {
+      const conversation = await createConversationMutation.mutateAsync({
+        receiver_id: freelancer.id,
+      });
+      navigate("/messages", {
+        state: { conversationId: conversation?.id ?? null },
+      });
+    } catch (error) {
+      const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      toast.error(t(`codes:${code}`));
+    }
+  };
 
   if (isLoading) {
     return <DataLoading className="flex-1" />;
@@ -63,7 +92,7 @@ export function FreelancerShowPage() {
   }
 
   return (
-    <section className="py-5 space-y-4">
+    <div className="py-5 space-y-4">
       <Card className="shadow-none">
         <CardHeader>
           <CardTitle>
@@ -71,6 +100,18 @@ export function FreelancerShowPage() {
             {isFetching && <Spinner className="inline mx-5" />}
           </CardTitle>
           <CardDescription>@{freelancer.username}</CardDescription>
+          {!isOwnFreelancer && (
+            <CardAction>
+              <Button
+                variant="link"
+                onClick={handleContactFreelancer}
+                disabled={createConversationMutation.isPending}
+              >
+                <MessageCircle />
+                {t("catalog:freelancer.contact")}
+              </Button>
+            </CardAction>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
@@ -148,6 +189,6 @@ export function FreelancerShowPage() {
           )}
         </CardContent>
       </Card>
-    </section>
+    </div>
   );
 }

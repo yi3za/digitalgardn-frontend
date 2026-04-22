@@ -4,8 +4,8 @@ import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useService } from "@/features/public/catalog/services/services.query";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { useCreateConversation } from "@/features/messages/messages.mutations";
-import { MessageCircle, UserRound } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
@@ -31,8 +31,8 @@ export function ServiceShowPage() {
   const user = service?.user;
   // IsOwnService permet de determiner si le service affiche appartient a l'utilisateur connecte
   const isOwnService = currentUser?.id === user?.id;
-  //
-  const handleContact = async () => {
+  // Fonction de gestion du clic sur le bouton d'achat pour demarrer une conversation avec le freelance proprietaire du service et acceder a la messagerie
+  const handleBuy = async () => {
     // Verification
     if (!user?.id) return;
     try {
@@ -63,22 +63,14 @@ export function ServiceShowPage() {
         t={t}
         showFreelancerSection={true}
         footerActions={
-          <div className="flex flex-wrap gap-2">
-            <Button asChild>
-              <Link to={`/freelancers/${user?.username}`}>
-                <UserRound /> {t("catalog:serviceShow.viewFreelancer")}
-              </Link>
+          !isOwnService && (
+            <Button
+              onClick={handleBuy}
+              disabled={createConversationMutation.isPending}
+            >
+              <ShoppingCart /> {t("catalog:serviceShow.buy")}
             </Button>
-            {!isOwnService && (
-              <Button
-                variant="outline"
-                onClick={handleContact}
-                disabled={createConversationMutation.isPending}
-              >
-                <MessageCircle /> {t("catalog:serviceShow.contact")}
-              </Button>
-            )}
-          </div>
+          )
         }
       />
     </div>

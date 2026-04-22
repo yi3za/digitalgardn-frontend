@@ -1,13 +1,7 @@
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Badge,
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -28,11 +22,10 @@ import {
   Separator,
 } from "@/components/ui";
 import {
-  cn,
   collectServiceImages,
   formatPrice,
-  getFallbackName,
 } from "@/lib/utils";
+import { ServiceFreelancerCard } from "@/components/shared/ServiceFreelancerCard";
 import {
   getServiceStatusBadgeVariant,
   getServiceStatusTextKey,
@@ -211,37 +204,12 @@ export function ServiceDetailsCard({
         </div>
       </Card>
       {showFreelancerSection && service?.user && (
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t(freelancerSectionTitleKey)}</CardTitle>
-            <CardDescription>
-              {t(freelancerSectionDescriptionKey)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-3">
-              <Avatar className="size-12">
-                <AvatarImage
-                  src={service.user.avatar_url}
-                  alt={service.user.name}
-                />
-                <AvatarFallback>
-                  {getFallbackName(
-                    service.user.name || service.user.username,
-                  ) || "?"}
-                </AvatarFallback>
-              </Avatar>
-              <div className={cn("min-w-0")}>
-                <p className="font-medium truncate">
-                  {service.user.name || service.user.username}
-                </p>
-                <p className="text-sm text-muted-foreground truncate">
-                  @{service.user.username}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ServiceFreelancerCard
+          user={service.user}
+          t={t}
+          titleKey={freelancerSectionTitleKey}
+          descriptionKey={freelancerSectionDescriptionKey}
+        />
       )}
     </>
   );
