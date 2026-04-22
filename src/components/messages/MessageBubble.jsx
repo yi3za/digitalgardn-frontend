@@ -31,7 +31,7 @@ export function MessageBubble({ message, isOwn }) {
             : "rounded-bl-sm bg-muted",
         )}
       >
-        <p className="break-all">{message.content}</p>
+        <p className="break-all whitespace-pre-line">{message.content}</p>
         <p
           className={cn(
             "mt-1 text-right text-muted",

@@ -57,7 +57,6 @@ export function ServiceShowPage() {
       const conversation = await createConversationMutation.mutateAsync({
         receiver_id: user.id,
       });
-      console.log(service, commande);
       // Envoie un message structure contenant l'item de service commande
       const messageContent = [
         `📦  ${t("serviceShow.commande.title")}`,

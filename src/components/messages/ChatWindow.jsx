@@ -79,9 +79,9 @@ export function ChatWindow({
             onRetry={onRefetch}
           />
         ) : messages.length === 0 ? (
-          <DataEmpty className="min-h-55" description={t("chat.empty")} />
+          <DataEmpty description={t("chat.empty")} />
         ) : (
-          <ScrollArea className="h-full px-5">
+          <ScrollArea className="h-full w-full px-5">
             <div className="space-y-3">
               {messages.map((message) => (
                 <MessageBubble
