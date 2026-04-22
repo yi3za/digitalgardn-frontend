@@ -223,7 +223,9 @@ export function RegisterPage() {
             onClick={step === 2 ? form.handleSubmit(submit, onError) : next}
           >
             {loading.register && <Spinner />}
-            {step === 2 ? t("register.actions.submit") : t("common:actions.next")}
+            {step === 2
+              ? t("register.actions.submit")
+              : t("common:actions.next")}
           </Button>
         </ButtonGroup>
         <Button

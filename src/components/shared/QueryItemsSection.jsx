@@ -62,9 +62,7 @@ export function QueryItemsSection({
             renderItems(items)
           ) : (
             <DataEmpty
-              description={
-                emptyDescription ?? t("common:states.empty")
-              }
+              description={emptyDescription ?? t("common:states.empty")}
             />
           ))}
       </CardContent>

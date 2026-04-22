@@ -74,7 +74,10 @@ export function ChatWindow({
         {isLoading ? (
           <DataLoading />
         ) : isError ? (
-          <DataError retryText={t("common:actions.retry")} onRetry={onRefetch} />
+          <DataError
+            retryText={t("common:actions.retry")}
+            onRetry={onRefetch}
+          />
         ) : messages.length === 0 ? (
           <DataEmpty className="min-h-55" description={t("chat.empty")} />
         ) : (

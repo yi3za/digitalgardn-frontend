@@ -37,7 +37,8 @@ export function CompetenceShowPage() {
     allCompetences.flatMap((c) => c.enfants ?? []).find((e) => e.slug === slug);
   // Les informations de la competence pour l'affichage
   const title = competence?.nom ?? `#${slug}`;
-  const description = competence?.description ?? t("catalog:competences.description");
+  const description =
+    competence?.description ?? t("catalog:competences.description");
   // Les enfants de la competence pour l'affichage
   const children = competence?.enfants ?? [];
 

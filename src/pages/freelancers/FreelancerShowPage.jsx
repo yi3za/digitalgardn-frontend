@@ -87,7 +87,8 @@ export function FreelancerShowPage() {
             <div>
               <p className="text-lg font-semibold">{freelancer?.name}</p>
               <p className="text-sm text-muted-foreground">
-                {freelancer?.profil?.titre || t("catalog:freelancer.defaultTitle")}
+                {freelancer?.profil?.titre ||
+                  t("catalog:freelancer.defaultTitle")}
               </p>
             </div>
           </div>
@@ -136,7 +137,9 @@ export function FreelancerShowPage() {
             <Empty className="min-h-40 border">
               <EmptyHeader>
                 <Layers className="size-8 text-muted-foreground" />
-                <EmptyTitle>{t("catalog:freelancer.noServices.title")}</EmptyTitle>
+                <EmptyTitle>
+                  {t("catalog:freelancer.noServices.title")}
+                </EmptyTitle>
                 <EmptyDescription>
                   {t("catalog:freelancer.noServices.description")}
                 </EmptyDescription>
