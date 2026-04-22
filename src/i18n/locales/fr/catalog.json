@@ -34,7 +34,10 @@
     "contact": "Contacter",
     "freelancerSection": "Freelance",
     "freelancerSectionDescription": "Informations du prestataire",
-    "galleryEmptyTitle": "Aucune image",
-    "galleryEmptyDescription": "Les images de ce service ne sont pas disponibles pour le moment."
+    "commande": {
+      "title": "Détails de la commande",
+      "instructionsLabel": "Instructions",
+      "noInstructions": "Aucune instruction fournie."
+    }
   }
 }

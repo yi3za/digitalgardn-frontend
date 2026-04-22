@@ -1,9 +1,13 @@
 import { useSelector } from "react-redux";
-import { Button } from "@/components/ui";
+import { Button, Spinner } from "@/components/ui";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useService } from "@/features/public/catalog/services/services.query";
 import { authSelector } from "@/features/auth/auth.selectors";
-import { useCreateConversation } from "@/features/messages/messages.mutations";
+import { useCreateCommande } from "@/features/account/commandes/commandes.mutations";
+import {
+  useCreateConversation,
+  useSendMessage,
+} from "@/features/messages/messages.mutations";
 import { ShoppingCart } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -21,33 +25,65 @@ export function ServiceShowPage() {
   const { t } = useTranslation(["catalog", "codes"]);
   // Requete pour recuperer les informations du service et de son freelance
   const serviceQuery = useService(slug);
-  // Mutation pour creer/recuperer la conversation avec le freelance
+  // Mutation pour creer une commande
+  const createCommandeMutation = useCreateCommande();
+  // Mutation pour creer/recuperer une conversation
   const createConversationMutation = useCreateConversation();
+  // Mutation pour envoyer un message dans la conversation
+  const sendMessageMutation = useSendMessage();
+  // Determination d'un etat de chargement global pour l'achat
+  const isPurchasePending =
+    createCommandeMutation.isPending ||
+    createConversationMutation.isPending ||
+    sendMessageMutation.isPending;
   // Recuperation de l'utilisateur
   const { user: currentUser } = useSelector(authSelector);
   // Destructuration des etats de la requete pour faciliter
   const { data: service, isLoading, isError, error, refetch } = serviceQuery;
-  // Recuperation du l'utlisateur proprietaire du service pour afficher les informations le concernant et permettre de le contacter
+  // Recuperation de l'utlisateur proprietaire du service
   const user = service?.user;
   // IsOwnService permet de determiner si le service affiche appartient a l'utilisateur connecte
   const isOwnService = currentUser?.id === user?.id;
-  // Fonction de gestion du clic sur le bouton d'achat pour demarrer une conversation avec le freelance proprietaire du service et acceder a la messagerie
+  // Fonction de gestion du clic sur le bouton d'achat
   const handleBuy = async () => {
     // Verification
-    if (!user?.id) return;
+    if (!service?.id || !user?.id) return;
     try {
-      // Creer et recuperer la conversation avec le freelance proprietaire du service
+      // Cree la commande depuis le service
+      const commande = await createCommandeMutation.mutateAsync({
+        service_id: service.id,
+      });
+      // Cree ou recupere la conversation avec le freelance
       const conversation = await createConversationMutation.mutateAsync({
         receiver_id: user.id,
       });
-      // Redirection vers la messagerie avec l'ID de la conversation
-      navigate("/messages", {
-        state: { conversationId: conversation?.id ?? null },
-      });
+      console.log(service, commande);
+      // Envoie un message structure contenant l'item de service commande
+      const messageContent = [
+        `📦  ${t("serviceShow.commande.title")}`,
+        ``,
+        `🛠️ ${service?.titre ?? "-"}`,
+        `💰 ${t("serviceShow.priceLabel")} : ${commande?.montant ?? service?.prix_base ?? "-"} ${t("serviceShow.priceSuffix")}`,
+        `⏳ ${t("serviceShow.delayLabel")} : ${service?.delai_livraison ?? "-"} ${t("serviceShow.delaySuffix")}`,
+        `🔁 ${t("serviceShow.revisionsLabel")} : ${service?.revisions ?? "-"}`,
+        ``,
+        `📝 ${t("serviceShow.commande.instructionsLabel")} :`,
+        `${commande?.instructions ?? t("serviceShow.commande.noInstructions")}`,
+      ].join("\n");
+      if (conversation?.id) {
+        await sendMessageMutation.mutateAsync({
+          conversationId: conversation.id,
+          data: { content: messageContent },
+        });
+        navigate("/messages", {
+          state: { conversationId: conversation.id },
+        });
+      }
+      // Notification de succes puis redirection vers les transactions
+      toast.success(t("codes:SUCCESS"));
     } catch (error) {
-      // Determination du code d'erreur pour afficher une notification adapte en cas de probleme de creation de la conversation
+      // Determination du code d'erreur pour afficher une notification adaptee
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
-      // En cas d'erreur, afficher une notification generique
       toast.error(t(`codes:${code}`));
     }
   };
@@ -64,10 +100,8 @@ export function ServiceShowPage() {
         showFreelancerSection={true}
         footerActions={
           !isOwnService && (
-            <Button
-              onClick={handleBuy}
-              disabled={createConversationMutation.isPending}
-            >
+            <Button onClick={handleBuy} disabled={isPurchasePending}>
+              {isPurchasePending && <Spinner />}
               <ShoppingCart /> {t("catalog:serviceShow.buy")}
             </Button>
           )

@@ -10,10 +10,6 @@ import {
   DataEmpty,
   DataError,
   DataLoading,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
   Item,
   ItemContent,
   ItemDescription,
@@ -21,16 +17,12 @@ import {
   ItemTitle,
   Separator,
 } from "@/components/ui";
-import {
-  collectServiceImages,
-  formatPrice,
-} from "@/lib/utils";
+import { collectServiceImages, formatPrice } from "@/lib/utils";
 import { ServiceFreelancerCard } from "@/components/shared/ServiceFreelancerCard";
 import {
   getServiceStatusBadgeVariant,
   getServiceStatusTextKey,
 } from "@/features/freelance/catalog/services/services.status";
-import { ImageOff } from "lucide-react";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -49,18 +41,16 @@ export function ServiceDetailsCard({
   competenceBadgeVariant = "secondary",
   refreshTextKey = "common:actions.retry",
   notAvailableDescriptionKey = "common:states.empty",
-  galleryEmptyTitleKey = "catalog:serviceShow.galleryEmptyTitle",
-  galleryEmptyDescriptionKey = "catalog:serviceShow.galleryEmptyDescription",
-  priceLabelKey = "catalog:serviceShow.priceLabel",
-  priceSuffixKey = "catalog:serviceShow.priceSuffix",
-  delayLabelKey = "catalog:serviceShow.delayLabel",
-  delaySuffixKey = "catalog:serviceShow.delaySuffix",
-  revisionsLabelKey = "catalog:serviceShow.revisionsLabel",
-  categoriesTitleKey = "catalog:categories.title",
-  competencesTitleKey = "catalog:competences.title",
-  statusDraftKey = "services.show.status.draft",
-  freelancerSectionTitleKey = "catalog:serviceShow.freelancerSection",
-  freelancerSectionDescriptionKey = "catalog:serviceShow.freelancerSectionDescription",
+  priceLabelKey = "serviceShow.priceLabel",
+  priceSuffixKey = "serviceShow.priceSuffix",
+  delayLabelKey = "serviceShow.delayLabel",
+  delaySuffixKey = "serviceShow.delaySuffix",
+  revisionsLabelKey = "serviceShow.revisionsLabel",
+  categoriesTitleKey = "serviceShow.categories.title",
+  competencesTitleKey = "serviceShow.competences.title",
+  statusDraftKey = "serviceShow.status.draft",
+  freelancerSectionTitleKey = "serviceShow.freelancerSection",
+  freelancerSectionDescriptionKey = "serviceShow.freelancerSectionDescription",
 }) {
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme de chargement du service
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -91,7 +81,7 @@ export function ServiceDetailsCard({
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
           <div className="px-6 flex items-center justify-center">
             {serviceImages.length > 0 ? (
-              <Carousel className="rounded-lg border overflow-hidden h-full bg-muted flex justify-center items-center">
+              <Carousel className="rounded-lg border overflow-hidden w-full h-full bg-muted flex justify-center items-center">
                 <CarouselContent>
                   {serviceImages.map((imageUrl, index) => (
                     <CarouselItem key={`${service.id}-image-${index}`}>
@@ -111,15 +101,10 @@ export function ServiceDetailsCard({
                 )}
               </Carousel>
             ) : (
-              <Empty className="h-full min-h-72 border border-dashed bg-background/60">
-                <EmptyHeader>
-                  <ImageOff className="size-8 text-muted-foreground" />
-                  <EmptyTitle>{t(galleryEmptyTitleKey)}</EmptyTitle>
-                  <EmptyDescription>
-                    {t(galleryEmptyDescriptionKey)}
-                  </EmptyDescription>
-                </EmptyHeader>
-              </Empty>
+              <DataEmpty
+                className="h-full"
+                description={t(notAvailableDescriptionKey)}
+              />
             )}
           </div>
           <CardContent className="p-6 space-y-4">
