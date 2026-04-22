@@ -90,9 +90,9 @@ export function UserMenu({ user, t }) {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to="/transactions">
+            <Link to="/portefeuille">
               <ArrowLeftRight />
-              {t("user_menu.transactions")}
+              {t("user_menu.portefeuille")}
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
