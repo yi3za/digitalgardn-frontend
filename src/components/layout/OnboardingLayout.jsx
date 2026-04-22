@@ -29,7 +29,7 @@ export function OnboardingLayout() {
   // Dispatch des actions
   const dispatch = useDispatch();
   // Traduction
-  const { t } = useTranslation(["onboarding", "codes"]);
+  const { t } = useTranslation(["onboarding", "common", "codes"]);
   // Gestion de la navigation
   const navigate = useNavigate();
   // Recuperation le state de navigation
@@ -76,7 +76,7 @@ export function OnboardingLayout() {
               onClick={() => navigate("/", { replace: true })}
               variant="link"
             >
-              {t("actions.exit")}
+              {t("common:actions.exit")}
             </Button>
           </CardAction>
         </CardHeader>

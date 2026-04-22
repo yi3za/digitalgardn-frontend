@@ -141,7 +141,7 @@ export function MultiHierarchicalItem({
           <div className="w-full flex gap-2">
             <Button className="w-fit" onClick={onSave} disabled={saveIsLoading}>
               {saveIsLoading && <Spinner />}
-              {t("taxonomy:actions.save")}
+              {t("common:actions.save")}
             </Button>
             <Button
               className="w-fit"
@@ -149,7 +149,7 @@ export function MultiHierarchicalItem({
               onClick={onReset}
               disabled={saveIsLoading}
             >
-              {t("taxonomy:actions.reset")}
+              {t("common:actions.reset")}
             </Button>
           </div>
         )}

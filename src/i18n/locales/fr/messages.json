@@ -19,8 +19,5 @@
     "placeholder": "Ecrire votre message...",
     "send": "Envoyer",
     "invalid": "Message invalide. Le contenu est obligatoire (max {{max}} caracteres)."
-  },
-  "actions": {
-    "refresh": "Reessayer"
   }
 }

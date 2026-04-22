@@ -12,9 +12,5 @@
         "description": "Je souhaite proposer mes services professionnels."
       }
     }
-  },
-  "actions": {
-    "submit": "Finaliser mon profil",
-    "exit": "Quitter"
   }
 }

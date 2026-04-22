@@ -26,7 +26,7 @@ export function ConversationList({
     return (
       <DataError
         errorCode={errorCode}
-        retryText={t("actions.refresh")}
+        retryText={t("common:actions.retry")}
         onRetry={onRefetch}
       />
     );

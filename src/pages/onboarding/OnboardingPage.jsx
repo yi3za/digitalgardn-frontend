@@ -88,7 +88,9 @@ export function OnboardingPage() {
             {(loading.completeOnboarding || loading.switchToFreelance) && (
               <Spinner />
             )}
-            {role === CLIENT ? t("onboarding:actions.submit") : t("common:actions.next")}
+            {role === CLIENT
+              ? t("common:actions.finish")
+              : t("common:actions.next")}
           </Button>
         )}
       </CardFooter>

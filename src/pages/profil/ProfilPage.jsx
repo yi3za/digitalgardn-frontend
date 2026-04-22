@@ -199,7 +199,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
             className="mt-3 w-fit self-end"
           >
             {loading.completeOnboarding && <Spinner />}
-            {t("onboarding:actions.submit")}
+            {t("common:actions.finish")}
           </Button>
         )}
     </ItemGroup>

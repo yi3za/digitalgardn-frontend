@@ -10,9 +10,5 @@
     "placeholder": "Choisir une catégorie...",
     "description": "Déterminez le domaine principal de ce service.",
     "empty": "Aucune catégorie trouvée."
-  },
-  "actions": {
-    "save": "Enregistrer",
-    "reset": "Réinitialiser"
   }
 }
