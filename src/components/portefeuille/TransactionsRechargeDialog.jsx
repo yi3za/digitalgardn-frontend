@@ -2,20 +2,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
   Input,
-  Spinner,
-  WaitButton,
+  ReusableDialog,
 } from "../ui";
 import { useRechargerPortefeuille } from "@/features/account/portefeuille/portefeuille.mutations";
 
@@ -98,55 +90,45 @@ export function TransactionsRechargeDialog() {
   };
 
   return (
-    <Dialog
+    <ReusableDialog
       open={open}
       onOpenChange={(open) => {
         setOpen(open);
-        // Reinitialise le champ et l'erreur a chaque fermeture
         if (!open) {
           setMontantError("");
           setMontant("");
         }
       }}
+      triggerLabel={t("profil:portefeuille.recharge.trigger")}
+      triggerProps={{
+        variant: "link",
+      }}
+      title={t("profil:portefeuille.recharge.title")}
+      description={t("profil:portefeuille.recharge.description")}
+      confirmLabel={t("profil:portefeuille.recharge.submit")}
+      cancelLabel={t("common:actions.cancel")}
+      onConfirm={handleRecharge}
+      disabled={!montant || rechargerMutation.isPending}
+      loading={rechargerMutation.isPending}
     >
-      <DialogTrigger asChild>
-        <Button size="sm" variant="link">
-          {t("profil:portefeuille.recharge.trigger")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("profil:portefeuille.recharge.title")}</DialogTitle>
-          <DialogDescription>
-            {t("profil:portefeuille.recharge.description")}
-          </DialogDescription>
-        </DialogHeader>
-        <FieldGroup>
-          <Field data-invalid={!!montantError}>
-            <FieldLabel>{montantLabel}</FieldLabel>
-            <Input
-              type="number"
-              step="0.01"
-              placeholder={montantLabel}
-              value={montant}
-              onChange={(e) => {
-                setMontant(e.target.value);
-                if (montantError) setMontantError(null);
-              }}
-              disabled={rechargerMutation.isPending}
-              aria-invalid={!!montantError}
-            />
-            <FieldError>{montantError}</FieldError>
-            <WaitButton
-              disabled={!montant || rechargerMutation.isPending}
-              onClick={handleRecharge}
-            >
-              {rechargerMutation.isPending && <Spinner />}
-              {t("profil:portefeuille.recharge.submit")}
-            </WaitButton>
-          </Field>
-        </FieldGroup>
-      </DialogContent>
-    </Dialog>
+      <FieldGroup>
+        <Field data-invalid={!!montantError}>
+          <FieldLabel>{montantLabel}</FieldLabel>
+          <Input
+            type="number"
+            step="0.01"
+            placeholder={montantLabel}
+            value={montant}
+            onChange={(e) => {
+              setMontant(e.target.value);
+              if (montantError) setMontantError(null);
+            }}
+            disabled={rechargerMutation.isPending}
+            aria-invalid={!!montantError}
+          />
+          <FieldError>{montantError}</FieldError>
+        </Field>
+      </FieldGroup>
+    </ReusableDialog>
   );
 }
