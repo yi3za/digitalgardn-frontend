@@ -4,6 +4,7 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Spinner, WaitButton } from "."
 
 function Dialog({
   ...props
@@ -131,6 +132,53 @@ function DialogDescription({
   );
 }
 
+/**
+ * Component de dialogue reutilisable qui encapsule la logique d'ouverture, de fermeture, et d'affichage des contenus
+ */
+function ReusableDialog({
+  open,
+  onOpenChange,
+  triggerLabel,
+  triggerProps = {},
+  title,
+  description,
+  confirmLabel,
+  cancelLabel,
+  confirmVariant = "default",
+  onConfirm,
+  disabled,
+  loading,
+  children,
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>
+        <Button {...triggerProps}>{triggerLabel}</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          {title && <DialogTitle>{title}</DialogTitle>}
+          {description && <DialogDescription>{description}</DialogDescription>}
+        </DialogHeader>
+        {children}
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">{cancelLabel}</Button>
+          </DialogClose>
+          <WaitButton
+            onClick={onConfirm}
+            variant={confirmVariant}
+            disabled={disabled}
+          >
+            {loading && <Spinner />}
+            {confirmLabel}
+          </WaitButton>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export {
   Dialog,
   DialogClose,
@@ -142,4 +190,5 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  ReusableDialog,
 }

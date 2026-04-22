@@ -142,6 +142,7 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  ReusableDialog,
 } from "./dialog";
 export { WaitButton } from "./wait-button";
 export { Textarea } from "./textarea";
