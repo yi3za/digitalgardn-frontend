@@ -1,8 +1,8 @@
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { ScrollArea } from "@/components/ui";
-import { PortefeuilleSummaryCard } from "@/components/transactions/PortefeuilleSummaryCard";
-import { TransactionsRechargeDialog } from "@/components/transactions/TransactionsRechargeDialog";
-import { TransactionRow } from "@/components/transactions/TransactionRow";
+import { PortefeuilleSummaryCard } from "@/components/portefeuille/PortefeuilleSummaryCard";
+import { TransactionsRechargeDialog } from "@/components/portefeuille/TransactionsRechargeDialog";
+import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import {
   usePortefeuille,
   usePortefeuilleTransactions,
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 /**
  * Page des transactions du portefeuille
  */
-export function TransactionsPage() {
+export function PortefeuillePage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
   const { t } = useTranslation(["profil", "sections", "codes"]);
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
