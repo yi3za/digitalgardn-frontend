@@ -24,7 +24,7 @@ import { useNavigate, useParams } from "react-router-dom";
  */
 export function CategoryShowPage() {
   const { slug } = useParams();
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation(["catalog", "common"]);
   const navigate = useNavigate();
   // Recupere toutes les categories pour trouver le nom et les enfants
   const categoriesQuery = useCategories();
@@ -50,7 +50,7 @@ export function CategoryShowPage() {
           <CardDescription>{description}</CardDescription>
           <CardAction>
             <Button type="button" variant="link" onClick={() => navigate(-1)}>
-              <ArrowLeft /> {t("common.back")}
+              <ArrowLeft /> {t("common:actions.back")}
             </Button>
           </CardAction>
         </CardHeader>
@@ -62,8 +62,8 @@ export function CategoryShowPage() {
       </Card>
       <QueryItemsSection
         itemsQuery={servicesQuery}
-        title={t("services.title")}
-        description={t("services.description")}
+        title={t("catalog:services.title")}
+        description={t("catalog:services.description")}
         renderItems={(services) => (
           <ServicesGrid services={services} linkTo="/services" />
         )}

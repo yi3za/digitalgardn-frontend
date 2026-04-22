@@ -1,0 +1,21 @@
+{
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "retry": "Réessayer",
+    "refresh": "Actualiser",
+    "back": "Retour",
+    "next": "Suivant",
+    "finish": "Terminer",
+    "reset": "Réinitialiser",
+    "upload": "Téléverser",
+    "viewAll": "Voir tout"
+  },
+  "states": {
+    "empty": "Aucun contenu disponible pour le moment."
+  }
+}

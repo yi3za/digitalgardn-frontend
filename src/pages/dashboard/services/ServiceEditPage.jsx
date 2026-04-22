@@ -67,7 +67,7 @@ const fieldsByStep = {
  */
 export function ServiceEditPage() {
   // Traductions, navigation et params
-  const { t } = useTranslation(["dashboard", "codes", "taxonomy"]);
+  const { t } = useTranslation(["dashboard", "common", "codes", "taxonomy"]);
   const navigate = useNavigate();
   const { slug } = useParams();
   // Charger le service existant
@@ -242,8 +242,8 @@ export function ServiceEditPage() {
   // Fonction pour obtenir le label du bouton principal selon le step
   const getPrimaryLabel = () => {
     if (step === STEP_INFO) return t("services.edit.actions.submit");
-    if (step === STEP_FICHIERS) return t("services.form.actions.next");
-    return t("services.form.actions.finish");
+    if (step === STEP_FICHIERS) return t("common:actions.next");
+    return t("common:actions.finish");
   };
 
   if (isServicePending) return <DataLoading />;
@@ -252,7 +252,7 @@ export function ServiceEditPage() {
     return (
       <DataError
         errorCode={serviceError?.response?.data?.code ?? null}
-        retryText={t("services.form.actions.refresh")}
+        retryText={t("common:actions.retry")}
         onRetry={refetchService}
       />
     );
@@ -269,7 +269,7 @@ export function ServiceEditPage() {
             variant="link"
             disabled={isPending}
           >
-            {t("services.form.actions.cancel")}
+            {t("common:actions.cancel")}
           </Button>
         </CardAction>
       </CardHeader>
@@ -418,7 +418,7 @@ export function ServiceEditPage() {
             className="flex-1"
             onClick={back}
           >
-            {t("services.form.actions.back")}
+            {t("common:actions.back")}
           </Button>
           <ButtonGroupSeparator />
           <Button
@@ -442,7 +442,7 @@ export function ServiceEditPage() {
           variant="secondary"
           className="w-full"
         >
-          {t("services.form.actions.reset")}
+          {t("common:actions.reset")}
         </Button>
       </CardFooter>
     </Card>

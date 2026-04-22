@@ -41,7 +41,7 @@ const fields = [
  */
 export function PersonalInfoPage() {
   // Hook de traduction
-  const { t } = useTranslation(["settings", "codes"]);
+  const { t } = useTranslation(["settings", "common", "codes"]);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Recuperation des informations de l'utilisateur

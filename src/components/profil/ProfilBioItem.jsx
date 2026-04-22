@@ -95,7 +95,7 @@ export function ProfilBioItem({
             className="mt-3 w-fit"
           >
             {loading.updateFreelanceProfil && <Spinner />}
-            {t("actions.save")}
+            {t("common:actions.save")}
           </Button>
         )}
       </ItemContent>
@@ -105,7 +105,7 @@ export function ProfilBioItem({
           className="pt-0 h-fit"
           onClick={() => setBiographieEdit(!biographieEdit)}
         >
-          {biographieEdit ? t("actions.cancel") : t("actions.edit")}
+          {biographieEdit ? t("common:actions.cancel") : t("common:actions.edit")}
         </Button>
       </ItemActions>
     </Item>

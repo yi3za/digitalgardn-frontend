@@ -133,7 +133,7 @@ export function ProfilEditItem({
               className="pt-0 h-fit"
               onClick={() => setActiveSheet(SHEET.PROFIL.EDIT)}
             >
-              {t("actions.edit")}
+              {t("common:actions.edit")}
             </Button>
           </SheetTrigger>
           <SheetContent className="overflow-x-auto">
@@ -212,7 +212,7 @@ export function ProfilEditItem({
                   disabled={loading.updateInfo}
                 >
                   {loading.updateInfo && <Spinner />}
-                  {t("actions.save")}
+                  {t("common:actions.save")}
                 </Button>
               )}
               {user?.role === FREELANCE && (
@@ -232,7 +232,7 @@ export function ProfilEditItem({
                       disabled={loading.updateFreelanceProfil}
                     >
                       {loading.updateFreelanceProfil && <Spinner />}
-                      {t("actions.save")}
+                      {t("common:actions.save")}
                     </Button>
                   )}
                   <CustomFormField
@@ -250,7 +250,7 @@ export function ProfilEditItem({
                       disabled={loading.updateFreelanceProfil}
                     >
                       {loading.updateFreelanceProfil && <Spinner />}
-                      {t("actions.save")}
+                      {t("common:actions.save")}
                     </Button>
                   )}
                 </>

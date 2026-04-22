@@ -64,7 +64,7 @@ const fieldsByStep = {
  */
 export function ServiceCreatePage() {
   // Hook de traduction pour les textes de la page
-  const { t } = useTranslation(["dashboard", "codes", "taxonomy"]);
+  const { t } = useTranslation(["dashboard", "common", "codes", "taxonomy"]);
   // Hook de navigation pour rediriger l'utilisateur apres la creation du service
   const navigate = useNavigate();
   // Mutations pour la creation du service et la synchronisation
@@ -215,11 +215,11 @@ export function ServiceCreatePage() {
   const getPrimaryLabel = () => {
     if (step === STEP_INFO) {
       return serviceSlug
-        ? t("services.form.actions.next")
+        ? t("common:actions.next")
         : t("services.create.actions.submit");
     }
-    if (step === STEP_FICHIERS) return t("services.form.actions.next");
-    return t("services.form.actions.finish");
+    if (step === STEP_FICHIERS) return t("common:actions.next");
+    return t("common:actions.finish");
   };
 
   return (
@@ -234,7 +234,7 @@ export function ServiceCreatePage() {
             variant="link"
             disabled={createServiceMutation.isPending}
           >
-            {t("services.form.actions.cancel")}
+            {t("common:actions.cancel")}
           </Button>
         </CardAction>
       </CardHeader>
@@ -380,7 +380,7 @@ export function ServiceCreatePage() {
             className="flex-1"
             onClick={back}
           >
-            {t("services.form.actions.back")}
+            {t("common:actions.back")}
           </Button>
           <ButtonGroupSeparator />
           <Button
@@ -404,7 +404,7 @@ export function ServiceCreatePage() {
           className="w-full"
           onClick={handleFormResetByStep}
         >
-          {t("services.form.actions.reset")}
+          {t("common:actions.reset")}
         </Button>
       </CardFooter>
     </Card>

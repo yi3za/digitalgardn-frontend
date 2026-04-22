@@ -1,0 +1,27 @@
+{
+  "header": {
+    "home": "Accueil",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "dashboard": "Dashboard",
+    "myBusiness": "Mon business",
+    "services": "Mes services",
+    "profil": "Mon profil",
+    "messages": "Messages"
+  },
+  "user_menu": {
+    "navigation": "Navigation",
+    "account": "Compte",
+    "session": "Session",
+    "profil": "Profil",
+    "settings": "Paramètres",
+    "messages": "Messages",
+    "transactions": "Transactions",
+    "dashboard": "Espace freelance",
+    "logout": "Déconnexion"
+  },
+  "footer": {
+    "copyright": "© 2026",
+    "built_with": "Réalisé avec React & Laravel"
+  }
+}

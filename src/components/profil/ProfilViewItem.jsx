@@ -116,7 +116,7 @@ export function ProfilViewItem({
               </ItemGroup>
               <SheetFooter>
                 <SheetClose asChild>
-                  <Button variant="outline">{t("actions.close")}</Button>
+                  <Button variant="outline">{t("common:actions.close")}</Button>
                 </SheetClose>
               </SheetFooter>
             </SheetContent>

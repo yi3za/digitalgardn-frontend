@@ -69,12 +69,5 @@
         "remboursement": "Remboursement"
       }
     }
-  },
-  "actions": {
-    "edit": "Modifier",
-    "save": "Enregistrer",
-    "cancel": "Annuler",
-    "close": "Fermer",
-    "retry": "Réessayer"
   }
 }

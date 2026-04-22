@@ -18,7 +18,7 @@ export function ServiceShowPage() {
   // Hook de navigation pour rediriger vers la messagerie
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["sections", "codes"]);
+  const { t } = useTranslation(["catalog", "codes"]);
   // Requete pour recuperer les informations du service et de son freelance
   const serviceQuery = useService(slug);
   // Mutation pour creer/recuperer la conversation avec le freelance
@@ -66,7 +66,7 @@ export function ServiceShowPage() {
           <div className="flex flex-wrap gap-2">
             <Button asChild>
               <Link to={`/freelancers/${user?.username}`}>
-                <UserRound /> {t("serviceShow.viewFreelancer")}
+                <UserRound /> {t("catalog:serviceShow.viewFreelancer")}
               </Link>
             </Button>
             {!isOwnService && (
@@ -75,7 +75,7 @@ export function ServiceShowPage() {
                 onClick={handleContact}
                 disabled={createConversationMutation.isPending}
               >
-                <MessageCircle /> {t("serviceShow.contact")}
+                <MessageCircle /> {t("catalog:serviceShow.contact")}
               </Button>
             )}
           </div>

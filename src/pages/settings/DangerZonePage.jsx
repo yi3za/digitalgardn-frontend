@@ -56,7 +56,7 @@ const dangerousItems = [
  */
 export function DangerZonePage() {
   // Hook de traduction
-  const { t } = useTranslation(["settings", "codes"]);
+  const { t } = useTranslation(["settings", "common", "codes"]);
   // Dispatch pour les actions redux
   const dispatch = useDispatch();
   // Recuperation des informations de l'utilisateur connecte
@@ -156,7 +156,7 @@ export function DangerZonePage() {
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button variant="outline" disabled={isDisabled}>
-                            {t("action.cancel")}
+                            {t("common:actions.cancel")}
                           </Button>
                         </DialogClose>
                         <WaitButton
@@ -165,7 +165,7 @@ export function DangerZonePage() {
                           disabled={isDisabled}
                         >
                           {isDisabled && <Spinner />}
-                          {t("action.confirm")}
+                          {t("common:actions.confirm")}
                         </WaitButton>
                       </DialogFooter>
                     </DialogContent>

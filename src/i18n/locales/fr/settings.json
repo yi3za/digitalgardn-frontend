@@ -4,9 +4,6 @@
   "action": {
     "go_to_profil": "Accéder au profil",
     "back_to_settings": "Retour aux paramètres",
-    "edit": "Modifier",
-    "cancel": "Annuler",
-    "confirm": "Confirmer",
     "save": "Enregistrer {{field}}"
   },
   "items": {

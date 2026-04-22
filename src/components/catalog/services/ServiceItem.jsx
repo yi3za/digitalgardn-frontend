@@ -36,7 +36,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
   // Hook de navigation pour redirections
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques du composant
-  const { t } = useTranslation(["dashboard", "codes"]);
+  const { t } = useTranslation(["dashboard", "common", "codes"]);
   // Etat pour le dialogue de confirmation de suppression
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   // Mutation pour supprimer un service
@@ -117,7 +117,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
                     variant="outline"
                     disabled={deleteServiceMutation.isPending}
                   >
-                    {t("services.delete.actions.cancel")}
+                    {t("common:actions.cancel")}
                   </Button>
                 </DialogClose>
                 <WaitButton
@@ -126,7 +126,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
                   disabled={deleteServiceMutation.isPending}
                 >
                   {deleteServiceMutation.isPending && <Spinner />}
-                  {t("services.delete.actions.confirm")}
+                  {t("common:actions.delete")}
                 </WaitButton>
               </DialogFooter>
             </DialogContent>

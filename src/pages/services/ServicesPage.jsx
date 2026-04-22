@@ -11,22 +11,22 @@ import { useTranslation } from "react-i18next";
  */
 export function ServicesPage() {
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation(["catalog", "common"]);
   // Requete pour recuperer les services publies
   const servicesQuery = useServices();
 
   return (
     <QueryItemsSection
       itemsQuery={servicesQuery}
-      title={t("services.title")}
-      description={t("services.description")}
+      title={t("catalog:services.title")}
+      description={t("catalog:services.description")}
       renderItems={(services) => (
         <ServicesGrid services={services} linkTo="/services" />
       )}
       action={
         <Button asChild variant="link">
           <Link to="/">
-            <ArrowLeft /> {t("common.back")}
+            <ArrowLeft /> {t("common:actions.back")}
           </Link>
         </Button>
       }

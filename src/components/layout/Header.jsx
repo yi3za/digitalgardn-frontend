@@ -23,7 +23,7 @@ import { ArrowLeft } from "lucide-react";
  */
 export function Header({ dashboard = false }) {
   // Hook pour la traduction
-  const { t } = useTranslation(["sections", "codes"]);
+  const { t } = useTranslation(["layout", "codes"]);
   const location = useLocation();
   const navigate = useNavigate();
   // Recuperer l'utilisateur et le statut d'authentification

@@ -242,7 +242,7 @@ export function FichiersUploadItem({
               disabled={saveIsLoading}
             >
               {saveIsLoading && <Spinner />}
-              {t("services.form.actions.upload")}
+              {t("common:actions.upload")}
             </Button>
             <Button
               type="button"
@@ -250,7 +250,7 @@ export function FichiersUploadItem({
               variant="outline"
               onClick={onReset}
             >
-              {t("services.form.actions.reset")}
+              {t("common:actions.reset")}
             </Button>
           </div>
         )}

@@ -37,7 +37,7 @@ const PORTEFEUILLE_SUMMARY_ITEMS = [
  * Carte resume du portefeuille
  */
 export function PortefeuilleSummaryCard({ portefeuilleQuery, action = null }) {
-  const { t } = useTranslation(["profil", "sections", "codes"]);
+  const { t } = useTranslation(["profil", "common", "codes"]);
   // Destructuration des donnees et etats de la requete
   const {
     data: portefeuille,
@@ -67,7 +67,7 @@ export function PortefeuilleSummaryCard({ portefeuilleQuery, action = null }) {
         {isError && (
           <DataError
             errorCode={code}
-            retryText={t("sections:common.refresh")}
+            retryText={t("common:actions.retry")}
             onRetry={refetch}
           />
         )}

@@ -31,7 +31,7 @@ export function OnboardingPage() {
   // Hook de navigation
   const navigate = useNavigate();
   // Traduction
-  const { t } = useTranslation(["onboarding"]);
+  const { t } = useTranslation(["onboarding", "common"]);
   // Recuperation des donnees du context
   const { role, setRole, handleOnboardingCompletion } = useOutletContext();
   // Etat de store indiquant si une requete auth est en cours
@@ -88,7 +88,7 @@ export function OnboardingPage() {
             {(loading.completeOnboarding || loading.switchToFreelance) && (
               <Spinner />
             )}
-            {t(`actions.${role === CLIENT ? "submit" : "next"}`)}
+            {role === CLIENT ? t("onboarding:actions.submit") : t("common:actions.next")}
           </Button>
         )}
       </CardFooter>

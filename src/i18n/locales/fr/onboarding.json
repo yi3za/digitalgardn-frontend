@@ -14,8 +14,6 @@
     }
   },
   "actions": {
-    "next": "Continuer",
-    "back": "Retour",
     "submit": "Finaliser mon profil",
     "exit": "Quitter"
   }

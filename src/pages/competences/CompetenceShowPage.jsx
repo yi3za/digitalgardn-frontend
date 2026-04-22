@@ -24,7 +24,7 @@ import { useNavigate, useParams } from "react-router-dom";
  */
 export function CompetenceShowPage() {
   const { slug } = useParams();
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation(["catalog", "common"]);
   const navigate = useNavigate();
   // Recupere toutes les competences pour trouver le nom et les enfants
   const competencesQuery = useCompetences();
@@ -37,7 +37,7 @@ export function CompetenceShowPage() {
     allCompetences.flatMap((c) => c.enfants ?? []).find((e) => e.slug === slug);
   // Les informations de la competence pour l'affichage
   const title = competence?.nom ?? `#${slug}`;
-  const description = competence?.description ?? t("competences.description");
+  const description = competence?.description ?? t("catalog:competences.description");
   // Les enfants de la competence pour l'affichage
   const children = competence?.enfants ?? [];
 
@@ -49,7 +49,7 @@ export function CompetenceShowPage() {
           <CardDescription>{description}</CardDescription>
           <CardAction>
             <Button type="button" variant="link" onClick={() => navigate(-1)}>
-              <ArrowLeft /> {t("common.back")}
+              <ArrowLeft /> {t("common:actions.back")}
             </Button>
           </CardAction>
         </CardHeader>
@@ -61,8 +61,8 @@ export function CompetenceShowPage() {
       </Card>
       <QueryItemsSection
         itemsQuery={servicesQuery}
-        title={t("services.title")}
-        description={t("services.description")}
+        title={t("catalog:services.title")}
+        description={t("catalog:services.description")}
         renderItems={(services) => (
           <ServicesGrid services={services} linkTo="/services" />
         )}

@@ -25,7 +25,7 @@ export function ServiceShowPage() {
   // Hook de navigation
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["dashboard", "sections", "codes"]);
+  const { t } = useTranslation(["dashboard", "codes"]);
   // Requete pour recuperer les informations du service
   const {
     data: service,

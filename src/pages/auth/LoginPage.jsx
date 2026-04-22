@@ -51,7 +51,7 @@ export function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
   // Hook pour la traduction
-  const { t } = useTranslation(["auth", "codes"]);
+  const { t } = useTranslation(["auth", "common", "codes"]);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Hook pour naviguer entre les pages
@@ -189,7 +189,7 @@ export function LoginPage() {
           className="w-full"
           disabled={loading.login}
         >
-          {t("login.actions.reset")}
+          {t("common:actions.reset")}
         </Button>
       </CardFooter>
     </>

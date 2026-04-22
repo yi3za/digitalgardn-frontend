@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
  */
 export function HomePage() {
   // Hook de traduction
-  const { t } = useTranslation(["sections"]);
+  const { t } = useTranslation(["catalog", "common"]);
   // CategoriesQuery contient generalement : data, isLoading, isError, etc.
   const categoriesQuery = useCategories();
   // competencesQuery contient generalement : data, isLoading, isError, etc.
@@ -29,45 +29,45 @@ export function HomePage() {
     <>
       <QueryItemsSection
         itemsQuery={categoriesQuery}
-        title={t("categories.title")}
-        description={t("categories.description")}
+        title={t("catalog:categories.title")}
+        description={t("catalog:categories.description")}
         renderItems={(categories) => (
           <CategoriesGrid categories={categories} linkTo="/categories" />
         )}
         action={
           <Button asChild variant="link">
             <Link to="/categories">
-              {t("common.viewAll")} <ArrowRight />
+              {t("common:actions.viewAll")} <ArrowRight />
             </Link>
           </Button>
         }
       />
       <QueryItemsSection
         itemsQuery={competencesQuery}
-        title={t("competences.title")}
-        description={t("competences.description")}
+        title={t("catalog:competences.title")}
+        description={t("catalog:competences.description")}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} linkTo="/competences" />
         )}
         action={
           <Button asChild variant="link">
             <Link to="/competences">
-              {t("common.viewAll")} <ArrowRight />
+              {t("common:actions.viewAll")} <ArrowRight />
             </Link>
           </Button>
         }
       />
       <QueryItemsSection
         itemsQuery={servicesQuery}
-        title={t("services.title")}
-        description={t("services.description")}
+        title={t("catalog:services.title")}
+        description={t("catalog:services.description")}
         renderItems={(services) => (
           <ServicesGrid services={services} linkTo="/services" />
         )}
         action={
           <Button asChild variant="link">
             <Link to="/services">
-              {t("common.viewAll")} <ArrowRight />
+              {t("common:actions.viewAll")} <ArrowRight />
             </Link>
           </Button>
         }

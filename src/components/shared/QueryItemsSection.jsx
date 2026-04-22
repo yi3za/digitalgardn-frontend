@@ -24,7 +24,7 @@ export function QueryItemsSection({
   emptyDescription,
 }) {
   // Hook de traduction pour les textes statiques de la section et les codes d'erreur
-  const { t } = useTranslation(["sections", "codes"]);
+  const { t } = useTranslation(["common", "codes"]);
   // Destructuration des donnees et etats de la query
   const {
     data: items,
@@ -53,7 +53,7 @@ export function QueryItemsSection({
         {isError && (
           <DataError
             errorCode={code}
-            retryText={t("common.refresh")}
+            retryText={t("common:actions.retry")}
             onRetry={refetch}
           />
         )}
@@ -63,7 +63,7 @@ export function QueryItemsSection({
           ) : (
             <DataEmpty
               description={
-                emptyDescription ?? t("common.notAvailable.description")
+                emptyDescription ?? t("common:states.empty")
               }
             />
           ))}

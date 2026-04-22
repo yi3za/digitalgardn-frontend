@@ -32,7 +32,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
   // Recupere les donnees de l'utilisateur authentifie
   const { user, loading } = useSelector(authSelector);
   // Fonction de traduction
-  const { t } = useTranslation(["profil", "codes", "onboarding", "taxonomy"]);
+  const { t } = useTranslation(["profil", "codes", "onboarding", "taxonomy", "common"]);
   // Etat local pour control l'edition de biographie
   const [biographieEdit, setBiographieEdit] = useState(false);
   // Generation du nom fallback pour l'avatar a partir du nom complet de l'utilisateur

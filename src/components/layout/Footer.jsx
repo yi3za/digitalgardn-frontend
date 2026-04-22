@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
  */
 export function Footer() {
   // Hook pour la traduction
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation("layout");
   return (
     <footer className="h-20 flex justify-center items-center">
       {t("footer.copyright")} DigitalGarden — {t("footer.built_with")}

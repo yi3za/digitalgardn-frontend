@@ -1,29 +1,4 @@
 {
-  "header": {
-    "home": "Accueil",
-    "login": "Se connecter",
-    "register": "S'inscrire",
-    "dashboard": "Dashboard",
-    "myBusiness": "Mon business",
-    "services": "Mes services",
-    "profil": "Mon profil",
-    "messages": "Messages"
-  },
-  "user_menu": {
-    "navigation": "Navigation",
-    "account": "Compte",
-    "session": "Session",
-    "profil": "Profil",
-    "settings": "Paramètres",
-    "messages": "Messages",
-    "transactions": "Transactions",
-    "dashboard": "Espace freelance",
-    "logout": "Déconnexion"
-  },
-  "footer": {
-    "copyright": "© 2026",
-    "built_with": "Réalisé avec React & Laravel"
-  },
   "categories": {
     "title": "Catégories",
     "description": "Parcourez les différentes catégories disponibles"
@@ -35,14 +10,6 @@
   "services": {
     "title": "Services",
     "description": "Découvrez nos services disponibles"
-  },
-  "common": {
-    "refresh": "Actualiser",
-    "viewAll": "Voir tout",
-    "back": "Retour en arrière",
-    "notAvailable": {
-      "description": "Aucun contenu n'est disponible pour le moment."
-    }
   },
   "freelancer": {
     "profileTitle": "Profil freelance",

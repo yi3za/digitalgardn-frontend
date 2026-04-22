@@ -53,15 +53,6 @@
           "remaining": "{{count}} restante(s) sur {{max}}",
           "limitReached": "Limite de {{max}} images atteinte"
         }
-      },
-      "actions": {
-        "cancel": "Annuler",
-        "upload": "Téléverser",
-        "next": "Suivant",
-        "back": "Retour",
-        "finish": "Terminer",
-        "reset": "Réinitialiser",
-        "refresh": "Réessayer"
       }
     },
     "create": {
@@ -82,10 +73,6 @@
       "dialog": {
         "title": "Confirmer la suppression",
         "description": "Voulez-vous vraiment supprimer ce service ? Cette action est irréversible."
-      },
-      "actions": {
-        "cancel": "Annuler",
-        "confirm": "Supprimer"
       }
     }
   }

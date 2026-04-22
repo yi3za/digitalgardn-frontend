@@ -31,7 +31,7 @@ export function FreelancerShowPage() {
   // Recuperation du username dans les params d'URL pour charger le freelance correspondant
   const { username } = useParams();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["sections", "codes"]);
+  const { t } = useTranslation(["catalog", "common", "codes"]);
   // Requete pour recuperer les informations du freelance et de ses services publies
   const freelancerQuery = useFreelancer(username);
   // Destructuration des etats de la requete pour faciliter
@@ -52,14 +52,14 @@ export function FreelancerShowPage() {
     return (
       <DataError
         errorCode={code}
-        retryText={t("common.refresh")}
+        retryText={t("common:actions.retry")}
         onRetry={refetch}
       />
     );
   }
 
   if (!freelancer) {
-    return <DataEmpty description={t("common.notAvailable.description")} />;
+    return <DataEmpty description={t("common:states.empty")} />;
   }
 
   return (
@@ -67,7 +67,7 @@ export function FreelancerShowPage() {
       <Card className="shadow-none">
         <CardHeader>
           <CardTitle>
-            {t("freelancer.profileTitle")}
+            {t("catalog:freelancer.profileTitle")}
             {isFetching && <Spinner className="inline mx-5" />}
           </CardTitle>
           <CardDescription>@{freelancer.username}</CardDescription>
@@ -87,7 +87,7 @@ export function FreelancerShowPage() {
             <div>
               <p className="text-lg font-semibold">{freelancer?.name}</p>
               <p className="text-sm text-muted-foreground">
-                {freelancer?.profil?.titre || t("freelancer.defaultTitle")}
+                {freelancer?.profil?.titre || t("catalog:freelancer.defaultTitle")}
               </p>
             </div>
           </div>
@@ -122,9 +122,9 @@ export function FreelancerShowPage() {
       </Card>
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>{t("freelancer.publishedServices")}</CardTitle>
+          <CardTitle>{t("catalog:freelancer.publishedServices")}</CardTitle>
           <CardDescription>
-            {t("freelancer.servicesCount", {
+            {t("catalog:freelancer.servicesCount", {
               count: services.length,
             })}
           </CardDescription>
@@ -136,9 +136,9 @@ export function FreelancerShowPage() {
             <Empty className="min-h-40 border">
               <EmptyHeader>
                 <Layers className="size-8 text-muted-foreground" />
-                <EmptyTitle>{t("freelancer.noServices.title")}</EmptyTitle>
+                <EmptyTitle>{t("catalog:freelancer.noServices.title")}</EmptyTitle>
                 <EmptyDescription>
-                  {t("freelancer.noServices.description")}
+                  {t("catalog:freelancer.noServices.description")}
                 </EmptyDescription>
               </EmptyHeader>
             </Empty>

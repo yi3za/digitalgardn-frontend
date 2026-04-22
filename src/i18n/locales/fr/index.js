@@ -1,7 +1,9 @@
 import codes from "./codes.json";
 import auth from "./auth.json";
 import validation from "./validation.json";
-import sections from "./sections.json";
+import common from "./common.json";
+import layout from "./layout.json";
+import catalog from "./catalog.json";
 import profil from "./profil.json";
 import settings from "./settings.json";
 import onboarding from "./onboarding.json";
@@ -16,7 +18,9 @@ export const fr = {
   codes,
   auth,
   validation,
-  sections,
+  common,
+  layout,
+  catalog,
   profil,
   settings,
   onboarding,

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
  */
 export function CategoriesPage() {
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation(["catalog", "common"]);
   // Hook de navigation pour permettre la redirection
   const navigate = useNavigate();
   // Requete pour recuperer les categories publiques
@@ -20,8 +20,8 @@ export function CategoriesPage() {
   return (
     <QueryItemsSection
       itemsQuery={categoriesQuery}
-      title={t("categories.title")}
-      description={t("categories.description")}
+      title={t("catalog:categories.title")}
+      description={t("catalog:categories.description")}
       renderItems={(categories) => (
         <CategoriesGrid
           categories={categories}
@@ -31,7 +31,7 @@ export function CategoriesPage() {
       )}
       action={
         <Button type="button" variant="link" onClick={() => navigate(-1)}>
-          <ArrowLeft /> {t("common.back")}
+          <ArrowLeft /> {t("common:actions.back")}
         </Button>
       }
     />

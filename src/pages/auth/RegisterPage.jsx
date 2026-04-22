@@ -58,7 +58,7 @@ export function RegisterPage() {
   // Hook pour naviguer vers une autre page
   const navigate = useNavigate();
   // Hook pour la traduction
-  const { t } = useTranslation(["auth", "codes"]);
+  const { t } = useTranslation(["auth", "common", "codes"]);
   // Gestion des etapes du formulaire d'inscription
   const [step, setStep] = useState(1);
   // Passe a l'etape suivante
@@ -213,7 +213,7 @@ export function RegisterPage() {
             className="flex-1"
             onClick={back}
           >
-            {t("register.actions.back")}
+            {t("common:actions.back")}
           </Button>
           <ButtonGroupSeparator />
           <Button
@@ -223,7 +223,7 @@ export function RegisterPage() {
             onClick={step === 2 ? form.handleSubmit(submit, onError) : next}
           >
             {loading.register && <Spinner />}
-            {t(`register.actions.${step === 2 ? "submit" : "next"}`)}
+            {step === 2 ? t("register.actions.submit") : t("common:actions.next")}
           </Button>
         </ButtonGroup>
         <Button
@@ -232,7 +232,7 @@ export function RegisterPage() {
           variant="secondary"
           className="w-full"
         >
-          {t("register.actions.reset")}
+          {t("common:actions.reset")}
         </Button>
       </CardFooter>
     </>

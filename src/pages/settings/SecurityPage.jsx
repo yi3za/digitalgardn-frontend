@@ -45,7 +45,7 @@ import { toast } from "sonner";
  */
 export function SecurityPage() {
   // Hook de traduction
-  const { t } = useTranslation(["settings", "codes"]);
+  const { t } = useTranslation(["settings", "common", "codes"]);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
   // Hook pour naviguer entre les pages
@@ -161,7 +161,7 @@ export function SecurityPage() {
                                     loading.changePassword || loading.logout
                                   }
                                 >
-                                  {t("action.cancel")}
+                                  {t("common:actions.cancel")}
                                 </Button>
                               </DialogClose>
                               <WaitButton
@@ -173,7 +173,7 @@ export function SecurityPage() {
                                 {(loading.changePassword || loading.logout) && (
                                   <Spinner />
                                 )}
-                                {t("action.confirm")}
+                                {t("common:actions.confirm")}
                               </WaitButton>
                             </DialogFooter>
                           </DialogContent>
@@ -254,7 +254,7 @@ export function SecurityPage() {
           onClick={() => form.reset()}
           disabled={loading.changePassword || loading.logout}
         >
-          {t("action.cancel")}
+          {t("common:actions.cancel")}
         </Button>
       </CardFooter>
     </>

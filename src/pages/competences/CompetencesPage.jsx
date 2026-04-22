@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
  */
 export function CompetencesPage() {
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation("sections");
+  const { t } = useTranslation(["catalog", "common"]);
   const navigate = useNavigate();
   // Requete pour recuperer les competences publiques
   const competencesQuery = useCompetences();
@@ -19,8 +19,8 @@ export function CompetencesPage() {
   return (
     <QueryItemsSection
       itemsQuery={competencesQuery}
-      title={t("competences.title")}
-      description={t("competences.description")}
+      title={t("catalog:competences.title")}
+      description={t("catalog:competences.description")}
       renderItems={(competences) => (
         <CompetencesGrid
           competences={competences}
@@ -30,7 +30,7 @@ export function CompetencesPage() {
       )}
       action={
         <Button type="button" variant="link" onClick={() => navigate(-1)}>
-          <ArrowLeft /> {t("common.back")}
+          <ArrowLeft /> {t("common:actions.back")}
         </Button>
       }
     />

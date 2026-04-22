@@ -68,7 +68,7 @@ export function PasswordResetPage() {
   // Hook pour naviguer vers une autre page
   const navigate = useNavigate();
   // Hook pour la traduction
-  const { t } = useTranslation(["auth", "codes"]);
+  const { t } = useTranslation(["auth", "common", "codes"]);
   // Passer a l'etape suivante
   const next = () => setStep((s) => s + 1);
   // Revenir a l'etape precedente
@@ -258,7 +258,7 @@ export function PasswordResetPage() {
           variant="secondary"
           className="w-full"
         >
-          {t("passwordReset.actions.reset")}
+          {t("common:actions.reset")}
         </Button>
         {isCodeSent && (
           <Button

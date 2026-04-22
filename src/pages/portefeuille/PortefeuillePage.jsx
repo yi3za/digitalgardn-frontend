@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
  */
 export function PortefeuillePage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
-  const { t } = useTranslation(["profil", "sections", "codes"]);
+  const { t } = useTranslation(["profil", "codes"]);
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
   const portefeuilleQuery = usePortefeuille();
   const transactionsQuery = usePortefeuilleTransactions();
