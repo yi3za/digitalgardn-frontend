@@ -6,12 +6,26 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Spinner,
+  WaitButton,
 } from "@/components/ui";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useMyService } from "@/features/freelance/catalog/services/services.query";
-import { useUpdateServiceStatus } from "@/features/freelance/catalog/services/services.mutations";
+import {
+  useDeleteService,
+  useUpdateServiceStatus,
+} from "@/features/freelance/catalog/services/services.mutations";
 import { serviceStatusActionByStatut } from "@/features/freelance/catalog/services/services.status";
-import { Ban, Pencil, RefreshCcw } from "lucide-react";
+import { Ban, Pencil, RefreshCcw, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -25,7 +39,9 @@ export function ServiceShowPage() {
   // Hook de navigation
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["dashboard", "codes"]);
+  const { t } = useTranslation(["dashboard", "common", "codes"]);
+  // Etat pour le dialogue de confirmation de suppression
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   // Requete pour recuperer les informations du service
   const {
     data: service,
@@ -37,6 +53,8 @@ export function ServiceShowPage() {
   } = useMyService(slug);
   // Mutation de mise a jour du statut du service
   const updateServiceStatusMutation = useUpdateServiceStatus();
+  // Mutation pour supprimer un service
+  const deleteServiceMutation = useDeleteService();
   // Determiner l'action de changement de statut possible en fonction du statut actuel du service
   const currentStatusAction =
     serviceStatusActionByStatut?.[service?.statut] ?? null;
@@ -56,6 +74,20 @@ export function ServiceShowPage() {
       });
       const { code } = response ?? {};
       toast.success(t(`codes:${code}`));
+    } catch (error) {
+      const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      toast.error(t(`codes:${code}`));
+    }
+  };
+  // Fonction de suppression du service depuis la page show
+  const handleDeleteService = async () => {
+    if (!service?.slug) return;
+    try {
+      const response = await deleteServiceMutation.mutateAsync(service.slug);
+      const { code } = response ?? {};
+      toast.success(t(`codes:${code}`));
+      setOpenDeleteDialog(false);
+      navigate("/dashboard/services", { replace: true });
     } catch (error) {
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
       toast.error(t(`codes:${code}`));
@@ -89,6 +121,48 @@ export function ServiceShowPage() {
                 <Pencil />
                 {t("services.show.actions.edit")}
               </Button>
+              <Dialog
+                open={openDeleteDialog}
+                onOpenChange={setOpenDeleteDialog}
+              >
+                <DialogTrigger asChild>
+                  <Button
+                    variant="link"
+                    className="text-destructive hover:text-destructive/80"
+                  >
+                    <Trash2 />
+                    {t("services.show.actions.delete")}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      {t("services.delete.dialog.title")}
+                    </DialogTitle>
+                    <DialogDescription>
+                      {t("services.delete.dialog.description")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button
+                        variant="outline"
+                        disabled={deleteServiceMutation.isPending}
+                      >
+                        {t("common:actions.cancel")}
+                      </Button>
+                    </DialogClose>
+                    <WaitButton
+                      variant="destructive"
+                      onClick={handleDeleteService}
+                      disabled={deleteServiceMutation.isPending}
+                    >
+                      {deleteServiceMutation.isPending && <Spinner />}
+                      {t("common:actions.delete")}
+                    </WaitButton>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </>
           )}
         </CardAction>

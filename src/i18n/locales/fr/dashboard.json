@@ -10,6 +10,7 @@
       "description": "Consultez votre service, y compris lorsqu'il est encore en brouillon.",
       "actions": {
         "edit": "Modifier le service",
+        "delete": "Supprimer le service",
         "submitForApproval": "Demander la validation",
         "requestRepublish": "Redemander la publication",
         "pause": "Mettre en pause",
@@ -64,10 +65,7 @@
     },
     "edit": {
       "title": "Modifier le service",
-      "description": "Modifiez les informations de votre service.",
-      "actions": {
-        "submit": "Enregistrer"
-      }
+      "description": "Modifiez les informations de votre service."
     },
     "delete": {
       "dialog": {

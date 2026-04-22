@@ -241,7 +241,7 @@ export function ServiceEditPage() {
   };
   // Fonction pour obtenir le label du bouton principal selon le step
   const getPrimaryLabel = () => {
-    if (step === STEP_INFO) return t("services.edit.actions.submit");
+    if (step === STEP_INFO) return t("common:actions.save");
     if (step === STEP_FICHIERS) return t("common:actions.next");
     return t("common:actions.finish");
   };
