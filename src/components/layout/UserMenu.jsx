@@ -5,6 +5,7 @@ import {
   MessageCircle,
   SettingsIcon,
   UserIcon,
+  Wallet,
 } from "lucide-react";
 import {
   Avatar,
@@ -91,8 +92,14 @@ export function UserMenu({ user, t }) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link to="/portefeuille">
-              <ArrowLeftRight />
+              <Wallet />
               {t("user_menu.portefeuille")}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/portefeuille/transactions">
+              <ArrowLeftRight />
+              {t("user_menu.transactions")}
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
