@@ -2,9 +2,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Badge,
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -15,14 +13,12 @@ import {
   DataLoading,
   ScrollArea,
   Separator,
-  Spinner,
 } from "@/components/ui";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
 import { getFallbackName } from "@/lib/utils";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useCommande } from "@/features/account/commandes/commandes.query";
 
 /**
  * Composant affichant la fenetre de chat pour une conversation donnee
@@ -52,8 +48,6 @@ export function ChatWindow({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length, conversation?.id]);
-  // Recuperation de l'ID de la commande liee a la conversation
-  const commande = conversation?.commande ?? null;
   // Si aucune conversation n'est selectionnee, afficher un message d'invite a selectionner une conversation
   if (!conversation) {
     return <DataEmpty description={t("chat.selectConversation")} />;
@@ -74,11 +68,6 @@ export function ChatWindow({
           </CardTitle>
           <CardDescription>{t("chat.active")}</CardDescription>
         </div>
-        {commande ? (
-          <CardAction className="self-center text-end flex-1">
-            <Badge>{commande?.statut}</Badge>
-          </CardAction>
-        ) : null}
       </CardHeader>
       <Separator />
       <CardContent className="overflow-hidden flex-1 min-h-0 flex">
