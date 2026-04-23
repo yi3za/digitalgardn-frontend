@@ -297,19 +297,21 @@ export function ServiceEditPage() {
                       const length = field.value?.length || 0;
                       const maxLength = 600;
                       return (
-                        <FormItem className="relative">
+                        <FormItem>
                           <FormLabel>{label}</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder={t(
-                                "services.form.fields.description.placeholder",
-                              )}
-                              className="min-h-30"
-                              {...field}
-                            />
-                          </FormControl>
-                          <div className="absolute bottom-2 right-2">
-                            {length}/{maxLength}
+                          <div className="relative">
+                            <FormControl>
+                              <Textarea
+                                placeholder={t(
+                                  "services.form.fields.description.placeholder",
+                                )}
+                                className="max-h-100 overflow-y-auto"
+                                {...field}
+                              />
+                            </FormControl>
+                            <div className="absolute text-muted-foreground bottom-2 right-2">
+                              {length}/{maxLength}
+                            </div>
                           </div>
                           <FormMessage
                             rules={{ attribute: label, min: 150, max: 600 }}
