@@ -1,5 +1,5 @@
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
-import { ScrollArea } from "@/components/ui";
+import { Button, ScrollArea } from "@/components/ui";
 import { PortefeuilleSummaryCard } from "@/components/portefeuille/PortefeuilleSummaryCard";
 import { TransactionsRechargeDialog } from "@/components/portefeuille/TransactionsRechargeDialog";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
@@ -8,13 +8,15 @@ import {
   usePortefeuilleTransactions,
 } from "@/features/account/portefeuille/portefeuille.query";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 /**
- * Page des transactions du portefeuille
+ * Page principale du portefeuille qui affiche le solde et les transactions recentes
  */
 export function PortefeuillePage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
-  const { t } = useTranslation(["profil", "codes"]);
+  const { t } = useTranslation(["profil", "common"]);
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
   const portefeuilleQuery = usePortefeuille();
   const transactionsQuery = usePortefeuilleTransactions();
@@ -39,6 +41,14 @@ export function PortefeuillePage() {
             </>
           </ScrollArea>
         )}
+        action={
+          <Button asChild variant="link">
+            <Link to="/portefeuille/transactions">
+              {t("common:actions.viewAll")}
+              <ArrowRight />
+            </Link>
+          </Button>
+        }
       />
     </div>
   );
