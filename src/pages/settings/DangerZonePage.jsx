@@ -5,22 +5,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   Item,
   ItemActions,
   ItemContent,
   ItemDescription,
   ItemGroup,
   ItemTitle,
-  Spinner,
-  WaitButton,
+  ReusableDialog,
 } from "@/components/ui";
 import { ACCOUNT_STATUS } from "@/features/auth/auth.constants";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -125,51 +116,34 @@ export function DangerZonePage() {
                   <ItemDescription>{t(description)}</ItemDescription>
                 </ItemContent>
                 <ItemActions>
-                  <Dialog
+                  <ReusableDialog
                     open={activeDialog === id}
                     onOpenChange={(open) => !open && closeDialog()}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="link"
-                        disabled={isDisabled}
-                        onClick={() => setActiveDialog(id)}
-                      >
-                        {actionLabel}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          {isDeleteAction
-                            ? t("items.danger_zone.delete.dialog.title")
-                            : t(`items.danger_zone.status.dialog.title`)}
-                        </DialogTitle>
-                        <DialogDescription>
-                          {isDeleteAction
-                            ? t("items.danger_zone.delete.dialog.description")
-                            : t(`items.danger_zone.status.dialog.description`, {
-                                action: actionLabel.toLowerCase(),
-                              })}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <Button variant="outline" disabled={isDisabled}>
-                            {t("common:actions.cancel")}
-                          </Button>
-                        </DialogClose>
-                        <WaitButton
-                          onClick={() => handleAccountAction(id)}
-                          variant={isDeleteAction ? "destructive" : "default"}
-                          disabled={isDisabled}
-                        >
-                          {isDisabled && <Spinner />}
-                          {t("common:actions.confirm")}
-                        </WaitButton>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                    triggerLabel={actionLabel}
+                    triggerProps={{
+                      variant: "link",
+                      disabled: isDisabled,
+                      onClick: () => setActiveDialog(id),
+                    }}
+                    title={
+                      isDeleteAction
+                        ? t("items.danger_zone.delete.dialog.title")
+                        : t("items.danger_zone.status.dialog.title")
+                    }
+                    description={
+                      isDeleteAction
+                        ? t("items.danger_zone.delete.dialog.description")
+                        : t("items.danger_zone.status.dialog.description", {
+                            action: actionLabel.toLowerCase(),
+                          })
+                    }
+                    confirmLabel={t("common:actions.confirm")}
+                    cancelLabel={t("common:actions.cancel")}
+                    confirmVariant={isDeleteAction ? "destructive" : "default"}
+                    onConfirm={() => handleAccountAction(id)}
+                    disabled={isDisabled}
+                    loading={isDisabled}
+                  />
                 </ItemActions>
               </Item>
             );
