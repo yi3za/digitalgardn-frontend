@@ -2,11 +2,14 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Badge,
   Item,
   ItemContent,
   ItemDescription,
+  ItemFooter,
   ItemHeader,
   ItemMedia,
+  ItemSeparator,
   ItemTitle,
 } from "@/components/ui";
 import { cn, formatClockTime, getFallbackName } from "@/lib/utils";
@@ -21,7 +24,7 @@ export function ConversationItem({
   isActive,
   onSelect,
 }) {
-  const { t } = useTranslation("messages");
+  const { t } = useTranslation(["messages", "commandes"]);
   // Determination de l'interlocuteur (peer) dans la conversation, pour afficher son nom et avatar
   const isSender = conversation?.sender_id === currentUserId;
   // L'interlocuteur est celui qui n'est pas l'expediteur actuel
@@ -34,13 +37,15 @@ export function ConversationItem({
   const preview = latestMessage?.content || t("conversation.emptyPreview");
   // Formatage de l'heure du dernier message pour l'affichage
   const time = formatClockTime(latestMessage?.created_at);
+  // Recuperation de la commande liee a la conversation
+  const commande = conversation?.commande ?? null;
 
   return (
     <Item
       asChild
       variant="outline"
       className={cn(
-        "w-full min-w-0 cursor-pointer text-left transition-colors break-all",
+        "cursor-pointer text-left transition break-all",
         "hover:bg-muted/40",
         isActive && "border-primary bg-primary/5",
       )}
@@ -65,6 +70,15 @@ export function ConversationItem({
           </ItemHeader>
           <ItemDescription className="line-clamp-1">{preview}</ItemDescription>
         </ItemContent>
+        {commande && (
+          <>
+            <ItemSeparator />
+            <ItemFooter>
+              <ItemTitle>{commande?.service?.titre}</ItemTitle>
+              <Badge>{t(`commandes:status.${commande?.statut}`)}</Badge>
+            </ItemFooter>
+          </>
+        )}
       </button>
     </Item>
   );
