@@ -61,6 +61,7 @@ export function ServiceShowPage() {
       // Cree ou recupere la conversation avec le freelance
       const conversation = await createConversationMutation.mutateAsync({
         receiver_id: user.id,
+        commande_id: commande.id,
       });
       // Envoie un message structure contenant l'item de service commande
       const messageContent = [
