@@ -43,7 +43,7 @@ export function PortefeuillePage() {
         )}
         action={
           <Button asChild variant="link">
-            <Link to="/portefeuille/transactions">
+            <Link to="transactions">
               {t("common:actions.viewAll")}
               <ArrowRight />
             </Link>
