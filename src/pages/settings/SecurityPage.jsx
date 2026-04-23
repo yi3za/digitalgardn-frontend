@@ -7,14 +7,6 @@ import {
   CardTitle,
   CardAction,
   CustomFormField,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   FieldGroup,
   FieldSet,
   Form,
@@ -25,7 +17,7 @@ import {
   FormMessage,
   Input,
   Spinner,
-  WaitButton,
+  ReusableDialog,
 } from "@/components/ui";
 import { changePasswordSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -124,60 +116,31 @@ export function SecurityPage() {
                     <FormItem>
                       <div className="flex justify-between items-center">
                         <FormLabel>{label}</FormLabel>
-                        <Dialog
+                        <ReusableDialog
                           open={activeDialog === field.name}
                           onOpenChange={(open) => !open && closeDialog()}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="link"
-                              disabled={
-                                loading.changePassword || loading.logout
-                              }
-                              className="p-0 h-fit leading-none text-muted-foreground"
-                              onClick={() => setActiveDialog(field.name)}
-                            >
-                              {t("items.security.actions.forgotPassword")}
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>
-                                {t(
-                                  "items.security.dialog.forgot_password.title",
-                                )}
-                              </DialogTitle>
-                              <DialogDescription>
-                                {t(
-                                  "items.security.dialog.forgot_password.description",
-                                )}
-                              </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                              <DialogClose asChild>
-                                <Button
-                                  variant="outline"
-                                  disabled={
-                                    loading.changePassword || loading.logout
-                                  }
-                                >
-                                  {t("common:actions.cancel")}
-                                </Button>
-                              </DialogClose>
-                              <WaitButton
-                                disabled={
-                                  loading.changePassword || loading.logout
-                                }
-                                onClick={forgetPassword}
-                              >
-                                {(loading.changePassword || loading.logout) && (
-                                  <Spinner />
-                                )}
-                                {t("common:actions.confirm")}
-                              </WaitButton>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+                          triggerLabel={t(
+                            "items.security.actions.forgotPassword",
+                          )}
+                          triggerProps={{
+                            variant: "link",
+                            disabled: loading.changePassword || loading.logout,
+                            className:
+                              "p-0 h-fit leading-none text-muted-foreground",
+                            onClick: () => setActiveDialog(field.name),
+                          }}
+                          title={t(
+                            "items.security.dialog.forgot_password.title",
+                          )}
+                          description={t(
+                            "items.security.dialog.forgot_password.description",
+                          )}
+                          confirmLabel={t("common:actions.confirm")}
+                          cancelLabel={t("common:actions.cancel")}
+                          onConfirm={forgetPassword}
+                          disabled={loading.changePassword || loading.logout}
+                          loading={loading.changePassword || loading.logout}
+                        />
                       </div>
                       <div className="relative">
                         <Lock
