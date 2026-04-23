@@ -60,4 +60,3 @@ export const deactivateAccount = () =>
   client.patch("/api/me/deactivate-account");
 // Supprimer le compte utilisateur
 export const deleteAccount = () => client.delete("/api/me");
-//
