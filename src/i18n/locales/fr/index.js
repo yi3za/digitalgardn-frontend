@@ -10,6 +10,7 @@ import onboarding from "./onboarding.json";
 import taxonomy from "./taxonomy.json";
 import dashboard from "./dashboard.json";
 import messages from "./messages.json";
+import commandes from "./commandes.json";
 
 /**
  * Ce fichier regroupe toutes les traductions pour la langue française
@@ -27,4 +28,5 @@ export const fr = {
   taxonomy,
   dashboard,
   messages,
+  commandes,
 };
