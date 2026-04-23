@@ -1,0 +1,10 @@
+{
+  "status": {
+    "en_attente": "En attente",
+    "en_cours": "En cours",
+    "livree": "Livrée",
+    "en_revision": "En révision",
+    "terminee": "Terminée",
+    "annulee": "Annulée"
+  }
+}
