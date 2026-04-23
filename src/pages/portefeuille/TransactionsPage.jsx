@@ -3,7 +3,7 @@ import { Button } from "@/components/ui";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import { usePortefeuilleTransactions } from "@/features/account/portefeuille/portefeuille.query";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 /**
@@ -14,6 +14,8 @@ export function TransactionsPage() {
   const { t } = useTranslation(["profil", "common"]);
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
   const transactionsQuery = usePortefeuilleTransactions();
+  // Hook de navigation pour le bouton de retour
+  const navigate = useNavigate();
 
   return (
     <QueryItemsSection
@@ -29,11 +31,9 @@ export function TransactionsPage() {
         </div>
       )}
       action={
-        <Button asChild variant="link">
-          <Link to="/portefeuille">
-            <ArrowLeft />
-            {t("common:actions.back")}
-          </Link>
+        <Button variant="link" onClick={() => navigate(-1)}>
+          <ArrowLeft />
+          {t("common:actions.back")}
         </Button>
       }
     />
