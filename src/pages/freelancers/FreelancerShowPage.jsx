@@ -65,7 +65,7 @@ export function FreelancerShowPage() {
         receiver_id: freelancer.id,
       });
       navigate("/messages", {
-        state: { conversationId: conversation?.id ?? null },
+        state: { conversationId: conversation?.id },
       });
     } catch (error) {
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -74,7 +74,7 @@ export function FreelancerShowPage() {
   };
 
   if (isLoading) {
-    return <DataLoading className="flex-1" />;
+    return <DataLoading />;
   }
 
   if (isError) {
