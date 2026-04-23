@@ -85,6 +85,20 @@ export function Header({ dashboard = false }) {
                     </li>
                     <li>
                       <NavigationMenuLink asChild>
+                        <Link to="/dashboard/portefeuille">
+                          {t("header.portefeuille")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/dashboard/portefeuille/transactions">
+                          {t("header.transactions")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
                         <Link to="/dashboard/services">
                           {t("header.services")}
                         </Link>
