@@ -12,6 +12,8 @@ import { ShoppingCart } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { ServiceInstructionsDialog } from "@/components/shared/ServicePurchaseDialog";
+import { useState } from "react";
 
 /**
  * Page publique d'affichage d'un service
@@ -22,7 +24,7 @@ export function ServiceShowPage() {
   // Hook de navigation pour rediriger vers la messagerie
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["catalog", "codes"]);
+  const { t } = useTranslation(["catalog", "validation", "codes"]);
   // Requete pour recuperer les informations du service et de son freelance
   const serviceQuery = useService(slug);
   // Mutation pour creer une commande
@@ -44,14 +46,17 @@ export function ServiceShowPage() {
   const user = service?.user;
   // IsOwnService permet de determiner si le service affiche appartient a l'utilisateur connecte
   const isOwnService = currentUser?.id === user?.id;
+  // Gestion du clic sur le bouton d'achat du service
+  const [instructionsDialogOpen, setInstructionsDialogOpen] = useState(false);
   // Fonction de gestion du clic sur le bouton d'achat
-  const handleBuy = async () => {
+  const handleBuy = async (instructions) => {
     // Verification
     if (!service?.id || !user?.id) return;
     try {
       // Cree la commande depuis le service
       const commande = await createCommandeMutation.mutateAsync({
         service_id: service.id,
+        instructions,
       });
       // Cree ou recupere la conversation avec le freelance
       const conversation = await createConversationMutation.mutateAsync({
@@ -74,6 +79,8 @@ export function ServiceShowPage() {
           conversationId: conversation.id,
           data: { content: messageContent },
         });
+        setInstructionsDialogOpen(false);
+        // Redirection vers la messagerie avec la conversation ouverte
         navigate("/messages", {
           state: { conversationId: conversation.id },
         });
@@ -81,6 +88,9 @@ export function ServiceShowPage() {
       // Notification de succes puis redirection vers les transactions
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
+      // Redirection vers le portefeuille si le client n'a pas assez de solde pour acheter le service
+      const status = error?.response?.status;
+      if (status === 400) navigate("/portefeuille");
       // Determination du code d'erreur pour afficher une notification adaptee
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
       toast.error(t(`codes:${code}`));
@@ -99,10 +109,22 @@ export function ServiceShowPage() {
         showFreelancerSection={true}
         footerActions={
           !isOwnService && (
-            <Button onClick={handleBuy} disabled={isPurchasePending}>
-              {isPurchasePending && <Spinner />}
-              <ShoppingCart /> {t("catalog:serviceShow.buy")}
-            </Button>
+            <ServiceInstructionsDialog
+              t={t}
+              triggerLabel={
+                <>
+                  <ShoppingCart /> {t("catalog:serviceShow.buy")}
+                </>
+              }
+              triggerProps={{
+                disabled: isPurchasePending,
+              }}
+              open={instructionsDialogOpen}
+              onOpenChange={setInstructionsDialogOpen}
+              onConfirm={handleBuy}
+              loading={isPurchasePending}
+              disabled={isPurchasePending}
+            />
           )
         }
       />
