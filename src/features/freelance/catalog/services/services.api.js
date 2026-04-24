@@ -1,4 +1,4 @@
-import { client } from "@/api/client";
+import { client, contentTypeJson, contentTypeMultipart } from "@/api/client";
 
 // Recupere tous les services du freelance connecte
 export const getMyServices = async () => {
@@ -14,13 +14,21 @@ export const getMyServiceBySlug = async (slug) => {
 
 // Creation d'un service
 export const createService = async (payload) => {
-  const { data } = await client.post("/api/me/services", payload);
+  const { data } = await client.post(
+    "/api/me/services",
+    payload,
+    contentTypeJson,
+  );
   return data;
 };
 
 // Mise a jour d'un service (par slug)
 export const updateService = async (slug, payload) => {
-  const { data } = await client.patch(`/api/me/services/${slug}`, payload);
+  const { data } = await client.patch(
+    `/api/me/services/${slug}`,
+    payload,
+    contentTypeJson,
+  );
   return data;
 };
 
@@ -29,6 +37,7 @@ export const updateServiceStatus = async (slug, payload) => {
   const { data } = await client.patch(
     `/api/me/services/${slug}/status`,
     payload,
+    contentTypeJson,
   );
   return data;
 };
@@ -44,6 +53,7 @@ export const syncCategories = async (slug, payload) => {
   const { data } = await client.put(
     `/api/me/services/${slug}/categories`,
     payload,
+    contentTypeJson,
   );
   return data;
 };
@@ -53,6 +63,7 @@ export const syncCompetences = async (slug, payload) => {
   const { data } = await client.put(
     `/api/me/services/${slug}/competences`,
     payload,
+    contentTypeJson,
   );
   return data;
 };
@@ -65,7 +76,7 @@ export const syncFichiers = async (slug, files) => {
   const { data } = await client.post(
     `/api/me/services/${slug}/fichiers`,
     formData,
-    { headers: { "Content-Type": "multipart/form-data" } },
+    contentTypeMultipart,
   );
   return data;
 };
