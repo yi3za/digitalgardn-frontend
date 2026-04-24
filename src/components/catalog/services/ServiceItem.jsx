@@ -9,8 +9,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  getServiceStatusBadgeVariant,
-  getServiceStatusTextKey,
+  serviceStatusBadgeVariantByStatut,
+  serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
 
 /**
@@ -43,14 +43,14 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
         />
         {dashboard && (
           <Badge
-            variant={getServiceStatusBadgeVariant(item.statut)}
+            variant={serviceStatusBadgeVariantByStatut?.[item.statut]}
             className="absolute top-3 right-3"
           >
-            {t(getServiceStatusTextKey(item.statut))}
+            {t(serviceStatusTextKeyByStatut?.[item.statut])}
           </Badge>
         )}
       </ItemHeader>
-      <ItemContent>
+      <ItemContent className="break-all">
         <ItemTitle className="line-clamp-1">{item?.titre}</ItemTitle>
         <ItemDescription>{item?.description}</ItemDescription>
       </ItemContent>
