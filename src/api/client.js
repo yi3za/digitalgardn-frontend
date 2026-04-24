@@ -16,3 +16,17 @@ export const client = axios.create({
   // Ajout automatiquement le token CSRF dans les requetes protegees
   withXSRFToken: true,
 });
+
+// Configuration des en-tetes pour les requetes JSON
+export const contentTypeJson = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+// Configuration des en-tetes pour les requetes multipart/form-data
+export const contentTypeMultipart = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
