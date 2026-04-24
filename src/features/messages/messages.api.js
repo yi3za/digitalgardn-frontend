@@ -1,11 +1,4 @@
-import { client } from "@/api/client";
-
-// Configuration des en-tetes pour les requetes JSON
-const contentTypeJson = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
+import { client, contentTypeJson } from "@/api/client";
 
 // Fonction utilitaire pour extraire les details d'une reponse API
 const unwrapDetails = (response) => response?.data?.details ?? {};
