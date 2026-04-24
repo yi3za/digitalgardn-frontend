@@ -13,6 +13,12 @@ import {
   DataEmpty,
   DataError,
   DataLoading,
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemSeparator,
+  ItemTitle,
   ScrollArea,
   Separator,
 } from "@/components/ui";
@@ -22,6 +28,7 @@ import { getFallbackName } from "@/lib/utils";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  COMMANDE_STATUS,
   commandeStatusBadgeVariantByStatut,
   commandeStatusTextKeyByStatut,
 } from "@/features/account/commandes/commandes.status";
@@ -42,7 +49,7 @@ export function ChatWindow({
   currentUserId,
 }) {
   // Hook de traduction pour les textes statiques du composant
-  const { t } = useTranslation(["messages", "commandes"]);
+  const { t } = useTranslation(["messages", "commandes", "codes"]);
   // Ref pour faire defiler la fenetre de chat vers le bas
   const bottomRef = useRef(null);
   // Determination de l'interlocuteur dans la conversation pour afficher son avatar et nom
@@ -60,6 +67,11 @@ export function ChatWindow({
   const commande = conversation?.commande ?? null;
   // Determination si l'utilisateur actuel est le vendeur dans la commande liee a la conversation
   const isVendor = commande?.service?.user_id === currentUserId;
+  // Determination de l'etat de la commande pour adapter l'affichage et les actions disponibles dans la fenetre de chat
+  const isCancelled = commande?.statut === COMMANDE_STATUS.ANNULEE;
+  const isCompleted = commande?.statut === COMMANDE_STATUS.TERMINEE;
+  const isInReview = commande?.statut === COMMANDE_STATUS.EN_REVISION;
+  const isDelivered = commande?.statut === COMMANDE_STATUS.LIVREE;
   // Si aucune conversation n'est selectionnee, afficher un message d'invite a selectionner une conversation
   if (!conversation) {
     return <DataEmpty description={t("chat.selectConversation")} />;
@@ -83,23 +95,49 @@ export function ChatWindow({
           </div>
         </div>
         {commande && (
-          <div className="flex justify-between items-center gap-3 pt-3 mt-3 border-t">
-            <CardTitle className="inline line-clamp-1">
-              {commande?.service?.titre}
-            </CardTitle>
-            <Badge
-              asChild
-              variant={commandeStatusBadgeVariantByStatut?.[commande?.statut]}
-            >
-              <Link to={`/services/${commande?.service?.slug}`}>
-                {t(commandeStatusTextKeyByStatut?.[commande?.statut])}
-              </Link>
-            </Badge>
-          </div>
+          <>
+            <Item className="p-0">
+              <ItemSeparator />
+              <ItemContent>
+                <ItemTitle className="line-clamp-1">
+                  {commande?.service?.titre}
+                </ItemTitle>
+                <ItemDescription>
+                  {t("chat.reviews", {
+                    used: commande?.revisions_utilisees,
+                    max: commande?.service?.revisions,
+                    remaining:
+                      commande?.service?.revisions -
+                      commande?.revisions_utilisees,
+                  })}
+                </ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Badge
+                  asChild
+                  variant={
+                    commandeStatusBadgeVariantByStatut?.[commande?.statut]
+                  }
+                >
+                  <Link to={`/services/${commande?.service?.slug}`}>
+                    {t(commandeStatusTextKeyByStatut?.[commande?.statut])}
+                  </Link>
+                </Badge>
+              </ItemActions>
+            </Item>
+            {((!isCancelled && !isCompleted && !isInReview && !isDelivered) ||
+              (isVendor && isInReview) ||
+              (!isVendor && isDelivered)) && (
+              <CardAction>
+                <CommandeDropDownMenu
+                  t={t}
+                  commande={commande}
+                  isVendor={isVendor}
+                />
+              </CardAction>
+            )}
+          </>
         )}
-        <CardAction>
-          <CommandeDropDownMenu t={t} isVendor={isVendor} />
-        </CardAction>
       </CardHeader>
       <Separator />
       <CardContent className="overflow-hidden flex-1 min-h-0 flex">
