@@ -23,7 +23,7 @@ import {
   useDeleteService,
   useUpdateServiceStatus,
 } from "@/features/freelance/catalog/services/services.mutations";
-import { serviceStatusActionByStatut } from "@/features/freelance/catalog/services/services.status";
+import { SERVICE_STATUS, serviceStatusActionByStatut } from "@/features/freelance/catalog/services/services.status";
 import { Ban, Pencil, RefreshCcw, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -60,7 +60,7 @@ export function ServiceShowPage() {
     serviceStatusActionByStatut?.[service?.statut] ?? null;
   // Icone de l'action de changement de statut a afficher dans le bouton d'action
   const StatusActionIcon =
-    currentStatusAction?.nextStatut === "en_pause" ? Ban : RefreshCcw;
+    currentStatusAction?.nextStatut === SERVICE_STATUS.EN_PAUSE ? Ban : RefreshCcw;
   // Fonction de gestion du clic sur le bouton de changement de statut avec affichage de notifications de succes ou d'erreur
   const handleUpdateStatus = async () => {
     // Verifier que le service a un slug et une action de statut possible avant de tenter la mise a jour
