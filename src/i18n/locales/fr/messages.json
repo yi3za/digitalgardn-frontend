@@ -13,6 +13,7 @@
   "chat": {
     "selectConversation": "Selectionnez une conversation pour commencer.",
     "active": "Conversation active",
+    "reviews": "Révisions : {{used}} utilisée(s) sur {{max}}, il en reste {{remaining}}",
     "empty": "Aucun message dans cette conversation."
   },
   "input": {
