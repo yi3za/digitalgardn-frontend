@@ -20,8 +20,8 @@ import {
 import { collectServiceImages, formatPrice } from "@/lib/utils";
 import { ServiceFreelancerCard } from "@/components/shared/ServiceFreelancerCard";
 import {
-  getServiceStatusBadgeVariant,
-  getServiceStatusTextKey,
+  serviceStatusBadgeVariantByStatut,
+  serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
 
 /**
@@ -48,7 +48,6 @@ export function ServiceDetailsCard({
   revisionsLabelKey = "catalog:serviceShow.revisionsLabel",
   categoriesTitleKey = "catalog:serviceShow.categories.title",
   competencesTitleKey = "catalog:serviceShow.competences.title",
-  statusDraftKey = "catalog:serviceShow.status.draft",
   freelancerSectionTitleKey = "catalog:serviceShow.freelancerSection",
   freelancerSectionDescriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
@@ -112,8 +111,12 @@ export function ServiceDetailsCard({
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl font-semibold">{service.titre}</h1>
                 {showStatus && (
-                  <Badge variant={getServiceStatusBadgeVariant(service.statut)}>
-                    {t(getServiceStatusTextKey(service.statut, statusDraftKey))}
+                  <Badge
+                    variant={
+                      serviceStatusBadgeVariantByStatut?.[service.statut]
+                    }
+                  >
+                    {t(serviceStatusTextKeyByStatut?.[service.statut])}
                   </Badge>
                 )}
               </div>
