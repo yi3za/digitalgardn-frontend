@@ -6,5 +6,12 @@
     "en_revision": "En révision",
     "terminee": "Terminée",
     "annulee": "Annulée"
+  },
+  "actions": {
+    "start": "Démarrer la commande",
+    "deliver": "Livrer la commande",
+    "accept": "Terminer la commande",
+    "resubmit": "Corriger et soumettre à nouveau",
+    "cancel": "Annuler la commande"
   }
 }
