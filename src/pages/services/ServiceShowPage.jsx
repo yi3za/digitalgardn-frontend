@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { Button, Spinner } from "@/components/ui";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useService } from "@/features/public/catalog/services/services.query";
 import { authSelector } from "@/features/auth/auth.selectors";
