@@ -8,10 +8,11 @@
     "annulee": "Annulée"
   },
   "actions": {
-    "start": "Démarrer la commande",
-    "deliver": "Livrer la commande",
-    "accept": "Terminer la commande",
-    "resubmit": "Corriger et soumettre à nouveau",
+    "start": "Accepter la commande",
+    "deliver": "Marquer comme livré",
+    "redeliver": "Re-livrer",
+    "accept": "Confirmer la réception",
+    "revision": "Demander une révision",
     "cancel": "Annuler la commande"
   }
 }
