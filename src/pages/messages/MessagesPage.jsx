@@ -2,7 +2,7 @@ import { ChatWindow } from "@/components/messages/ChatWindow";
 import { ConversationList } from "@/components/messages/ConversationList";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { useSendMessage } from "@/features/messages/messages.mutations";
-import { useRealtimeSubscriptions } from "@/features/messages/useRealtimeSubscriptions";
+import { useRealtimeSubscriptionsMessages } from "@/features/messages/useRealtimeSubscriptionsMessages";
 import { isRealtimeEnabled } from "@/lib/echo";
 import {
   useConversationMessages,
@@ -19,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
+import { useRealtimeSubscriptionsCommandes } from "@/features/account/commandes/useRealtimeSubscriptionsCommandes";
 
 /**
  * MessagesPage : page principale de la messagerie, affichant la liste des conversations et les messages d'une conversation selectionnee
@@ -35,7 +36,9 @@ export function MessagesPage() {
   // ID de l'utilisateur connecte pour determiner les messages envoyes et recus
   const currentUserId = user?.id;
   // Conversation transmise depuis une autre page (ex: bouton contacter d'un service)
-  const initialConversationIdFromState = Number(location.state?.conversationId);
+  const initialConversationIdFromState = Number(
+    location.state?.conversationId ?? null,
+  );
   // ID de la conversation actuellement selectionnee
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   // Etat interne pour ne consommer l'ID initial qu'une seule fois
@@ -58,8 +61,18 @@ export function MessagesPage() {
         .sort((a, b) => a - b),
     [conversations],
   );
+  // Liste stable des IDs de commandes liees aux conversations
+  const commandeIds = useMemo(() => {
+    const ids = conversations
+      .map((conversation) => conversation.commande?.id)
+      .filter((id) => Number.isFinite(id))
+      .sort((a, b) => a - b);
+    return ids;
+  }, [conversations]);
   // Gerer les abonnements en temps reel aux conversations et nouvelles conversations
-  useRealtimeSubscriptions(conversationIds, currentUserId);
+  useRealtimeSubscriptionsMessages(conversationIds, currentUserId);
+  // Gerer les abonnements en temps reel aux commandes liees aux conversations et nouvelles commandes
+  useRealtimeSubscriptionsCommandes(commandeIds, currentUserId);
   // Preselectionner la conversation transmise des qu'elle est disponible dans la liste
   useEffect(() => {
     // Si il n'y a pas de conversation a preselectionner ou pas de conversations chargees, ne rien faire
