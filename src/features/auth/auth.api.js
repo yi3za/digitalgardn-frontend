@@ -1,18 +1,4 @@
-import { client } from "@/api/client";
-
-// Configuration des en-tetes pour les requetes JSON
-const contentTypeJson = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
-// Configuration des en-tetes pour les requetes multipart/form-data
-const contentTypeMultipart = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-};
+import { client, contentTypeJson, contentTypeMultipart } from "@/api/client";
 
 // Recupere le cookie CSRF
 export const getCsrfCookie = () => client.get("/sanctum/csrf-cookie");
