@@ -1,4 +1,4 @@
-import { client } from "@/api/client";
+import { client, contentTypeJson } from "@/api/client";
 
 // Recupere le portefeuille de l'utilisateur connecte avec son historique de transactions
 export const getPortefeuille = async () => {
@@ -16,7 +16,11 @@ export const getPortefeuilleTransactions = async () => {
 
 // Recharge le portefeuille d'un montant donne (simulation)
 export const rechargerPortefeuille = async (payload) => {
-  const { data } = await client.post("/api/me/portefeuille/recharge", payload);
+  const { data } = await client.post(
+    "/api/me/portefeuille/recharge",
+    payload,
+    contentTypeJson,
+  );
   const portefeuille = data?.details?.portefeuille;
   if (!portefeuille) return null;
   return portefeuille ?? {};
