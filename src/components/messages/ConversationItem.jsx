@@ -12,6 +12,10 @@ import {
   ItemSeparator,
   ItemTitle,
 } from "@/components/ui";
+import {
+  commandeStatusBadgeVariantByStatut,
+  commandeStatusTextKeyByStatut,
+} from "@/features/account/commandes/commandes.status";
 import { cn, formatClockTime, getFallbackName } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -74,8 +78,14 @@ export function ConversationItem({
           <>
             <ItemSeparator />
             <ItemFooter>
-              <ItemTitle>{commande?.service?.titre}</ItemTitle>
-              <Badge>{t(`commandes:status.${commande?.statut}`)}</Badge>
+              <ItemTitle className="line-clamp-1">
+                {commande?.service?.titre}
+              </ItemTitle>
+              <Badge
+                variant={commandeStatusBadgeVariantByStatut?.[commande?.statut]}
+              >
+                {t(commandeStatusTextKeyByStatut?.[commande?.statut])}
+              </Badge>
             </ItemFooter>
           </>
         )}
