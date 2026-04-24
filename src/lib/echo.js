@@ -1,4 +1,4 @@
-import { client } from "@/api/client";
+import { client, contentTypeJson } from "@/api/client";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
@@ -34,10 +34,14 @@ export const getEcho = () => {
           // Assure l'existence du cookie CSRF pour l'endpoint de channel auth.
           await client.get("/sanctum/csrf-cookie");
           // Appeler l'endpoint d'authentification de canal de Reverb pour obtenir les credentials d'abonnement
-          const response = await client.post("/broadcasting/auth", {
-            socket_id: socketId,
-            channel_name: channel.name,
-          });
+          const response = await client.post(
+            "/broadcasting/auth",
+            {
+              socket_id: socketId,
+              channel_name: channel.name,
+            },
+            contentTypeJson,
+          );
           // Passer les credentials a Echo pour finaliser l'abonnement au canal
           callback(null, response.data);
         } catch (error) {
