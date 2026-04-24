@@ -28,30 +28,3 @@ export const commandeStatusTextKeyByStatut = {
   terminee: "commandes:status.terminee",
   annulee: "commandes:status.annulee",
 };
-
-export const commandeStatusActionByStatut = {
-  en_attente: {
-    nextStatut: "en_cours",
-    labelKey: "commandes:actions.start",
-  },
-  en_cours: {
-    nextStatut: "livree",
-    labelKey: "commandes:actions.deliver",
-  },
-  livree: {
-    nextStatut: "terminee",
-    labelKey: "commandes:actions.accept",
-  },
-  en_revision: {
-    nextStatut: "en_cours",
-    labelKey: "commandes:actions.resubmit",
-  },
-  terminee: {
-    nextStatut: null,
-    labelKey: null,
-  },
-  annulee: {
-    nextStatut: null,
-    labelKey: null,
-  },
-};
