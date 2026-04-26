@@ -69,6 +69,8 @@ export function FreelancerShowPage() {
       });
     } catch (error) {
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      // Si l'erreur est une erreur d'authentification, rediriger vers la page de login
+      if (code === "UNAUTHENTICATED") navigate("/login");
       toast.error(t(`codes:${code}`));
     }
   };
