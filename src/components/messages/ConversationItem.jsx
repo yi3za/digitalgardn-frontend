@@ -44,8 +44,7 @@ export function ConversationItem({
   // Recuperation de la commande liee a la conversation
   const commande = conversation?.commande ?? null;
   // Determination si le dernier message a ete lu ou non pour afficher un indicateur de message non lu
-  const isLastMessageRead =
-    !!latestMessage?.read_at && latestMessage?.sender_id === currentUserId;
+  const isLastMessageRead = !!latestMessage?.read_at;
 
   return (
     <Item
@@ -62,7 +61,7 @@ export function ConversationItem({
         onClick={() => onSelect(conversation.id)}
         className="w-full min-w-0"
       >
-        {!isLastMessageRead && (
+        {!isLastMessageRead && latestMessage?.sender_id !== currentUserId && (
           <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-primary" />
         )}
         <ItemMedia>
