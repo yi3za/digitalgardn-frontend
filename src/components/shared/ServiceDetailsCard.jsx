@@ -23,6 +23,7 @@ import {
   serviceStatusBadgeVariantByStatut,
   serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
+import { Link } from "react-router-dom";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -166,7 +167,9 @@ export function ServiceDetailsCard({
                       key={`category-${category.id}`}
                       variant={categoryBadgeVariant}
                     >
-                      {category.nom}
+                      <Link to={`/categories/${category.slug}`}>
+                        {category.nom}
+                      </Link>
                     </Badge>
                   ))}
                 </div>
@@ -181,7 +184,9 @@ export function ServiceDetailsCard({
                       key={`competence-${competence.id}`}
                       variant={competenceBadgeVariant}
                     >
-                      {competence.nom}
+                      <Link to={`/competences/${competence.slug}`}>
+                        {competence.nom}
+                      </Link>
                     </Badge>
                   ))}
                 </div>
