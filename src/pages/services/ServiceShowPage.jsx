@@ -88,11 +88,12 @@ export function ServiceShowPage() {
       // Notification de succes puis redirection vers les transactions
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
-      // Redirection vers le portefeuille si le client n'a pas assez de solde pour acheter le service
-      const status = error?.response?.status;
-      if (status === 400) navigate("/portefeuille");
       // Determination du code d'erreur pour afficher une notification adaptee
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      // Redirection vers la page de connexion si l'erreur est une erreur d'authentification
+      if (code === "UNAUTHENTICATED") navigate("/login");
+      // Redirection vers la page de portefeuille si l'erreur est une erreur de solde insuffisant
+      if (code === "BAD_REQUEST") navigate("/portefeuille");
       toast.error(t(`codes:${code}`));
     }
   };
