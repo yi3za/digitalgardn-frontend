@@ -43,13 +43,16 @@ export function ConversationItem({
   const time = formatClockTime(latestMessage?.created_at);
   // Recuperation de la commande liee a la conversation
   const commande = conversation?.commande ?? null;
+  // Determination si le dernier message a ete lu ou non pour afficher un indicateur de message non lu
+  const isLastMessageRead =
+    !!latestMessage?.read_at && latestMessage?.sender_id === currentUserId;
 
   return (
     <Item
       asChild
       variant="outline"
       className={cn(
-        "cursor-pointer text-left transition break-all",
+        "cursor-pointer text-left transition break-all relative mt-2",
         "hover:bg-muted/40",
         isActive && "border-primary bg-primary/5",
       )}
@@ -59,6 +62,9 @@ export function ConversationItem({
         onClick={() => onSelect(conversation.id)}
         className="w-full min-w-0"
       >
+        {!isLastMessageRead && (
+          <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-primary" />
+        )}
         <ItemMedia>
           <Avatar>
             <AvatarImage src={peer?.avatar_url} alt={peer?.username} />
