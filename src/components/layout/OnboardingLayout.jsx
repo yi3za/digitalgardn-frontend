@@ -25,7 +25,7 @@ export function OnboardingLayout() {
   // Etat du role selectionne
   const [role, setRole] = useState(null);
   // Etat local du redirection apres l'onboarding
-  const [redirectUrl, setRedirectUrl] = useState({ pathname: "" });
+  const [redirectUrl, setRedirectUrl] = useState({});
   // Dispatch des actions
   const dispatch = useDispatch();
   // Traduction
