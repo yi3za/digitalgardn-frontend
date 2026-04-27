@@ -14,7 +14,7 @@ import { toast } from "sonner";
 /**
  * Composant affichant le menu deroulant pour les actions sur une commande
  */
-export function CommandeDropDownMenu({ t, commande, isVendor }) {
+export function CommandeDropDownMenu({ t, commande, isVendeur }) {
   // Hook de mutation pour mettre a jour le statut de la commande
   const updateCommandeStatus = useUpdateCommandeStatus();
   // Fonction pour gerer la mise a jour du statut de la commande
@@ -44,7 +44,7 @@ export function CommandeDropDownMenu({ t, commande, isVendor }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          {isVendor && commande?.statut === COMMANDE_STATUS.EN_ATTENTE && (
+          {isVendeur && commande?.statut === COMMANDE_STATUS.EN_ATTENTE && (
             <DropdownMenuItem asChild>
               <button
                 className="w-full"
@@ -54,7 +54,7 @@ export function CommandeDropDownMenu({ t, commande, isVendor }) {
               </button>
             </DropdownMenuItem>
           )}
-          {isVendor && commande?.statut === COMMANDE_STATUS.EN_COURS && (
+          {isVendeur && commande?.statut === COMMANDE_STATUS.EN_COURS && (
             <DropdownMenuItem asChild>
               <button
                 className="w-full"
@@ -64,7 +64,7 @@ export function CommandeDropDownMenu({ t, commande, isVendor }) {
               </button>
             </DropdownMenuItem>
           )}
-          {isVendor && commande?.statut === COMMANDE_STATUS.EN_REVISION && (
+          {isVendeur && commande?.statut === COMMANDE_STATUS.EN_REVISION && (
             <DropdownMenuItem asChild>
               <button
                 className="w-full"
@@ -74,7 +74,7 @@ export function CommandeDropDownMenu({ t, commande, isVendor }) {
               </button>
             </DropdownMenuItem>
           )}
-          {!isVendor && commande?.statut === COMMANDE_STATUS.LIVREE && (
+          {!isVendeur && commande?.statut === COMMANDE_STATUS.LIVREE && (
             <>
               <DropdownMenuItem asChild>
                 <button
@@ -98,7 +98,7 @@ export function CommandeDropDownMenu({ t, commande, isVendor }) {
               )}
             </>
           )}
-          {!isVendor &&
+          {!isVendeur &&
             [COMMANDE_STATUS.EN_ATTENTE, COMMANDE_STATUS.EN_COURS].includes(
               commande?.statut,
             ) && (

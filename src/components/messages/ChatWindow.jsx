@@ -66,7 +66,7 @@ export function ChatWindow({
   // Recuperation du commande liee a la conversation
   const commande = conversation?.commande ?? null;
   // Determination si l'utilisateur actuel est le vendeur dans la commande liee a la conversation
-  const isVendor = commande?.service?.user_id === currentUserId;
+  const isVendeur = commande?.service?.user_id === currentUserId;
   // Determination de l'etat de la commande pour adapter l'affichage et les actions disponibles dans la fenetre de chat
   const isCancelled = commande?.statut === COMMANDE_STATUS.ANNULEE;
   const isCompleted = commande?.statut === COMMANDE_STATUS.TERMINEE;
@@ -126,13 +126,13 @@ export function ChatWindow({
               </ItemActions>
             </Item>
             {((!isCancelled && !isCompleted && !isInReview && !isDelivered) ||
-              (isVendor && isInReview) ||
-              (!isVendor && isDelivered)) && (
+              (isVendeur && isInReview) ||
+              (!isVendeur && isDelivered)) && (
               <CardAction>
                 <CommandeDropDownMenu
                   t={t}
                   commande={commande}
-                  isVendor={isVendor}
+                  isVendeur={isVendeur}
                 />
               </CardAction>
             )}
