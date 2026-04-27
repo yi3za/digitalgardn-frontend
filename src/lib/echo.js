@@ -13,6 +13,7 @@ export const isRealtimeEnabled = () =>
  */
 export const getEcho = () => {
   if (echoInstance) return echoInstance;
+  console.log("Initialisation de la connexion websocket pour Reverb...");
   // Si la fonctionnalite de temps reel n'est pas active, ne pas creer d'instance Echo
   if (!isRealtimeEnabled()) {
     return null;
@@ -31,6 +32,7 @@ export const getEcho = () => {
     authorizer: (channel) => ({
       authorize: async (socketId, callback) => {
         try {
+          console.log("Authentification au canal websocket Reverb...");
           // Assure l'existence du cookie CSRF pour l'endpoint de channel auth.
           await client.get("/sanctum/csrf-cookie");
           // Appeler l'endpoint d'authentification de canal de Reverb pour obtenir les credentials d'abonnement
