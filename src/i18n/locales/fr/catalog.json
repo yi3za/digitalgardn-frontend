@@ -39,11 +39,6 @@
       "instructionsDescription": "Merci de détailler vos attentes ou besoins (optionnel, 5000 caractères maximum).",
       "instructionsLabel": "Instructions",
       "instructionsPlaceholder": "Décrivez ici vos besoins, attentes ou consignes pour ce service (optionnel)."
-    },
-    "commande": {
-      "title": "Détails de la commande",
-      "instructionsLabel": "Instructions",
-      "noInstructions": "Aucune instruction fournie."
     }
   }
 }
