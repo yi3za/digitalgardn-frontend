@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getConversationMessages, getConversations } from "./messages.api";
 
 // Hook pour recuperer la liste des conversations
-export const useConversations = (usePolling = false) =>
+export const useConversations = (usePolling = false, currentUserId) =>
   useQuery({
     queryKey: ["messages", "conversations"],
     queryFn: getConversations,
     refetchInterval: usePolling ? 10000 : false,
+    enabled: !!currentUserId,
   });
 
 // Hook pour recuperer les messages d'une conversation
