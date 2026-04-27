@@ -102,16 +102,6 @@ export function useRealtimeSubscriptions(currentUserId) {
         queryKey: ["messages", "conversations"],
       });
     });
-    // Quitte les canaux de cette page
-    return () => {
-      conversationIds.forEach((conversationId) => {
-        echo.leave(`conversations.${conversationId}`);
-      });
-      commandeIds.forEach((commandeId) => {
-        echo.leave(`commandes.${commandeId}`);
-      });
-      echo.leave(`users.${currentUserId}`);
-    };
   }, [
     conversationIdsKey,
     commandeIdsKey,
