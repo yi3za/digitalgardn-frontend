@@ -28,6 +28,7 @@ import { authSelector } from "@/features/auth/auth.selectors";
 import { Link } from "react-router-dom";
 import { getFallbackName } from "@/lib/utils";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
+import { disconnectEcho } from "@/lib/echo";
 
 /**
  * Composant affichant le menu utilisateur
@@ -49,6 +50,8 @@ export function UserMenu({ user, t }) {
     try {
       // Appeler le thunk de logout pour deconnecter l'utilisateur
       const { code } = await dispatch(logoutThunk()).unwrap();
+      // Deconnecter Echo pour fermer la connexion websocket en temps reel
+      disconnectEcho();
       // Afficher message de succes
       toast.success(t(`codes:${code}`));
     } catch ({ code }) {
