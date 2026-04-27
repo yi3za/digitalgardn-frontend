@@ -30,17 +30,16 @@ export const getEcho = () => {
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "http") === "https",
     enabledTransports: ["ws", "wss"],
     authorizer: (channel) => ({
-      authorize: async (socketId, callback) => {
+      authorize: async (socket_id, callback) => {
         try {
-          console.log("Authentification au canal websocket Reverb...");
-          // Assure l'existence du cookie CSRF pour l'endpoint de channel auth.
-          await client.get("/sanctum/csrf-cookie");
+          // Le nom du canal est requis pour l'authentification
+          const channel_name = channel.name;
           // Appeler l'endpoint d'authentification de canal de Reverb pour obtenir les credentials d'abonnement
           const response = await client.post(
             "/broadcasting/auth",
             {
-              socket_id: socketId,
-              channel_name: channel.name,
+              socket_id,
+              channel_name,
             },
             contentTypeJson,
           );
