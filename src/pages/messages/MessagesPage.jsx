@@ -2,7 +2,6 @@ import { ChatWindow } from "@/components/messages/ChatWindow";
 import { ConversationList } from "@/components/messages/ConversationList";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { useSendMessage } from "@/features/messages/messages.mutations";
-import { useRealtimeSubscriptionsMessages } from "@/features/messages/useRealtimeSubscriptionsMessages";
 import { isRealtimeEnabled } from "@/lib/echo";
 import {
   useConversationMessages,
@@ -19,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
-import { useRealtimeSubscriptionsCommandes } from "@/features/account/commandes/useRealtimeSubscriptionsCommandes";
 
 /**
  * MessagesPage : page principale de la messagerie, affichant la liste des conversations et les messages d'une conversation selectionnee
@@ -52,27 +50,6 @@ export function MessagesPage() {
   // Recuperation de la liste des conversations de l'utilisateur
   const conversationsQuery = useConversations(!realtimeActive);
   const conversations = conversationsQuery.data ?? [];
-  // Liste stable des IDs de conversations pour eviter de reabonner inutilement quand seule la reference du tableau change
-  const conversationIds = useMemo(
-    () =>
-      conversations
-        .map((conversation) => Number(conversation.id))
-        .filter((id) => Number.isFinite(id))
-        .sort((a, b) => a - b),
-    [conversations],
-  );
-  // Liste stable des IDs de commandes liees aux conversations
-  const commandeIds = useMemo(() => {
-    const ids = conversations
-      .map((conversation) => conversation.commande?.id)
-      .filter((id) => Number.isFinite(id))
-      .sort((a, b) => a - b);
-    return ids;
-  }, [conversations]);
-  // Gerer les abonnements en temps reel aux conversations et nouvelles conversations
-  useRealtimeSubscriptionsMessages(conversationIds, currentUserId);
-  // Gerer les abonnements en temps reel aux commandes liees aux conversations et nouvelles commandes
-  useRealtimeSubscriptionsCommandes(commandeIds, currentUserId);
   // Preselectionner la conversation transmise des qu'elle est disponible dans la liste
   useEffect(() => {
     // Si il n'y a pas de conversation a preselectionner ou pas de conversations chargees, ne rien faire
