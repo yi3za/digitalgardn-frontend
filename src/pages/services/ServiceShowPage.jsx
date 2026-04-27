@@ -57,34 +57,14 @@ export function ServiceShowPage() {
         service_id: service.id,
         instructions,
       });
-      // Cree ou recupere la conversation avec le freelance
-      const conversation = await createConversationMutation.mutateAsync({
-        receiver_id: user.id,
-        commande_id: commande.id,
+      // Recuperer la conversation de la commande
+      const conversationId = commande?.conversation?.id;
+      // Fermer la dialog d'instructions
+      setInstructionsDialogOpen(false);
+      // Redirection vers la messagerie avec la conversation ouverte
+      navigate("/messages", {
+        state: { conversationId },
       });
-      // Envoie un message structure contenant l'item de service commande
-      const messageContent = [
-        `📦  ${t("serviceShow.commande.title")}`,
-        ``,
-        `🛠️ ${service?.titre ?? "-"}`,
-        `💰 ${t("serviceShow.priceLabel")} : ${commande?.montant ?? service?.prix_base ?? "-"} ${t("serviceShow.priceSuffix")}`,
-        `⏳ ${t("serviceShow.delayLabel")} : ${service?.delai_livraison ?? "-"} ${t("serviceShow.delaySuffix")}`,
-        `🔁 ${t("serviceShow.revisionsLabel")} : ${service?.revisions ?? "-"}`,
-        ``,
-        `📝 ${t("serviceShow.commande.instructionsLabel")} :`,
-        `${commande?.instructions ?? t("serviceShow.commande.noInstructions")}`,
-      ].join("\n");
-      if (conversation?.id) {
-        await sendMessageMutation.mutateAsync({
-          conversationId: conversation.id,
-          data: { content: messageContent },
-        });
-        setInstructionsDialogOpen(false);
-        // Redirection vers la messagerie avec la conversation ouverte
-        navigate("/messages", {
-          state: { conversationId: conversation.id },
-        });
-      }
       // Notification de succes puis redirection vers les transactions
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
