@@ -7,9 +7,10 @@
     "myBusiness": "Mon business",
     "services": "Mes services",
     "profil": "Mon profil",
+    "messages": "Mes messages",
+    "commandes": "Mes commandes",
     "portefeuille": "Mon portefeuille",
-    "transactions": "Mes transactions",
-    "messages": "Mes messages"
+    "transactions": "Mes transactions"
   },
   "user_menu": {
     "navigation": "Navigation",
@@ -18,6 +19,7 @@
     "profil": "Profil",
     "settings": "Paramètres",
     "messages": "Messages",
+    "commandes": "Commandes",
     "portefeuille": "Portefeuille",
     "transactions": "Transactions",
     "dashboard": "Espace freelance",

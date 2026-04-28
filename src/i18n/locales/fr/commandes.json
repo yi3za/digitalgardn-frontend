@@ -1,4 +1,6 @@
 {
+  "title": "Mes commandes",
+  "description": "Gérez vos commandes en cours et passées. Acceptez, livrez ou annulez vos commandes selon leur statut.",
   "status": {
     "en_attente": "En attente",
     "en_cours": "En cours",

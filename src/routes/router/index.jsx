@@ -14,6 +14,7 @@ import { servicesRoutes } from "./services.routes";
 import { freelancersRoutes } from "./freelancers.routes";
 import { categoriesRoutes } from "./categories.routes";
 import { competencesRoutes } from "./competences.routes";
+import { commandesRoutes } from "./commandes.routes";
 
 /**
  * Creation du routeur principal de l'application
@@ -36,6 +37,7 @@ import { competencesRoutes } from "./competences.routes";
  * (competencesRoutes : pages de consultation des competences publiques)
  * (freelancersRoutes : pages de consultation des freelances publies)
  * (portefeuilleRoutes : pages de consultation des transactions du portefeuille)
+ * (commandesRoutes : pages de consultation des commandes et de leur details)
  *
  * "*" : redirection vers la page d'accueil pour les routes non definies
  */
@@ -57,6 +59,7 @@ export const router = createBrowserRouter([
           profilRoutes,
           settingsRoutes,
           messagesRoutes,
+          commandesRoutes,
           portefeuilleRoutes,
         ],
       },

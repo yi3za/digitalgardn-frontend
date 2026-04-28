@@ -85,20 +85,6 @@ export function Header({ dashboard = false }) {
                     </li>
                     <li>
                       <NavigationMenuLink asChild>
-                        <Link to="/dashboard/portefeuille">
-                          {t("header.portefeuille")}
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link to="/dashboard/portefeuille/transactions">
-                          {t("header.transactions")}
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
                         <Link to="/dashboard/services">
                           {t("header.services")}
                         </Link>
@@ -108,6 +94,27 @@ export function Header({ dashboard = false }) {
                       <NavigationMenuLink asChild>
                         <Link to="/dashboard/messages">
                           {t("header.messages")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/dashboard/commandes">
+                          {t("header.commandes")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/dashboard/portefeuille">
+                          {t("header.portefeuille")}
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link to="/dashboard/portefeuille/transactions">
+                          {t("header.transactions")}
                         </Link>
                       </NavigationMenuLink>
                     </li>

@@ -14,23 +14,25 @@ export function CategoryItem({ item, linkTo = "/categories" }) {
 
   return (
     <Item
+      asChild
       className="min-w-50 cursor-pointer overflow-hidden"
       variant="outline"
-      onClick={handleClick}
     >
-      <ItemMedia>
-        <img
-          src={item.icone_url}
-          width={50}
-          height={50}
-          alt={item.nom}
-          title={item.nom}
-          className="rounded"
-        />
-      </ItemMedia>
-      <ItemContent>
-        <ItemTitle>{item.nom}</ItemTitle>
-      </ItemContent>
+      <button onClick={handleClick}>
+        <ItemMedia>
+          <img
+            src={item.icone_url}
+            width={50}
+            height={50}
+            alt={item.nom}
+            title={item.nom}
+            className="rounded"
+          />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>{item.nom}</ItemTitle>
+        </ItemContent>
+      </button>
     </Item>
   );
 }

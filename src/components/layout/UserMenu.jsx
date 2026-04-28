@@ -4,6 +4,7 @@ import {
   LogOutIcon,
   MessageCircle,
   SettingsIcon,
+  ShoppingBag,
   UserIcon,
   Wallet,
 } from "lucide-react";
@@ -91,6 +92,12 @@ export function UserMenu({ user, t }) {
             <Link to="/messages">
               <MessageCircle />
               {t("user_menu.messages")}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/commandes">
+              <ShoppingBag />
+              {t("user_menu.commandes")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>

@@ -1,4 +1,6 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { CommandesPage } from "@/pages/commandes/CommandesPage";
+import { CommandesShowPage } from "@/pages/commandes/CommandesShowPage";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ServiceCreatePage } from "@/pages/dashboard/services/ServiceCreatePage";
 import { ServiceEditPage } from "@/pages/dashboard/services/ServiceEditPage";
@@ -20,9 +22,10 @@ import { ProfilPage } from "@/pages/profil/ProfilPage";
  * dashboard/services/:slug : page privee de visualisation d'un service du freelance, y compris les brouillons
  * dashboard/services/:slug/edit : page de modification d'un service existant (identifie par son slug)
  * dashboard/profil : page de modification du profil du freelance
+ * dashboard/messages : page de messagerie du freelance (liste des conversations + messages d'une conversation selectionnee)
+ * dashboard/commandes : page de gestion des commandes du freelance (liste des commandes + details d'une commande selectionnee)
  * dashboard/portefeuille : page de gestion du portefeuille du freelance (solde, transactions, etc.)
  * dashboard/portefeuille/transactions : page de l'historique complet des transactions du portefeuille
- * dashboard/messages : page de messagerie du freelance (liste des conversations + messages d'une conversation selectionnee)
  */
 export const dashboardRoutes = {
   path: "dashboard",
@@ -30,9 +33,11 @@ export const dashboardRoutes = {
   children: [
     { index: true, element: <DashboardPage /> },
     { path: "profil", element: <ProfilPage /> },
+    { path: "messages", element: <MessagesPage /> },
+    { path: "commandes", element: <CommandesPage dashboard /> },
+    { path: "commandes/:id", element: <CommandesShowPage /> },
     { path: "portefeuille", element: <PortefeuillePage /> },
     { path: "portefeuille/transactions", element: <TransactionsPage /> },
-    { path: "messages", element: <MessagesPage /> },
     {
       path: "services",
       children: [
