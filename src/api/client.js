@@ -5,7 +5,7 @@ import axios from "axios";
  */
 export const client = axios.create({
   // URL de base du serveur backend
-  baseURL: "http://localhost:8000",
+  baseURL: "http://localhost/PFF/digitalgardn-backend/public/",
   // Definition des en-tetes HTTP envoyes avec chaque requete
   headers: {
     // Indique que les reponses attendues sont au format JSON

@@ -20,7 +20,7 @@ export function CategoryItem({ item, linkTo = "/categories" }) {
     >
       <ItemMedia>
         <img
-          src="http://localhost:8000/storage/avatars/default.webp"
+          src={item.icone_url}
           width={50}
           height={50}
           alt={item.nom}
@@ -29,7 +29,7 @@ export function CategoryItem({ item, linkTo = "/categories" }) {
         />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>{item.slug}</ItemTitle>
+        <ItemTitle>{item.nom}</ItemTitle>
       </ItemContent>
     </Item>
   );
