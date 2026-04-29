@@ -13,8 +13,6 @@ import {
   serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
-import { useSelector } from "react-redux";
-import { authSelector } from "@/features/auth/auth.selectors";
 import { useState } from "react";
 import { Star } from "lucide-react";
 
@@ -22,8 +20,6 @@ import { Star } from "lucide-react";
  * Composant qui affiche un service individuel dans le catalogue
  */
 export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
-  // Recupere l'utilisateur connecte
-  const { user } = useSelector(authSelector);
   // Hook de navigation pour redirections
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques du composant
@@ -59,7 +55,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
         )}
       </ItemHeader>
       <ItemContent className="break-all gap-2">
-        <AvatarIdentity user={user} />
+        <AvatarIdentity user={item?.user} />
         <ItemTitle
           className={`line-clamp-1 hover:underline ${hovred ? "underline" : ""}`}
         >
