@@ -76,7 +76,7 @@ export const formatDateTime = (date, locale = i18n.language || "fr-FR") => {
  */
 export const getFallbackName = (name) =>
   !name
-    ? null
+    ? "?"
     : name
         .split(" ")
         .map((w) => (w.trim() ? w[0].toUpperCase() : ""))
