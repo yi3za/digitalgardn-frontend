@@ -92,6 +92,9 @@ export function useRealtimeSubscriptions(currentUserId) {
         queryClient.invalidateQueries({
           queryKey: ["portefeuille", "transactions"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["commandes"],
+        });
       });
     });
     // Canal utilisateur pour les nouvelles conversations
