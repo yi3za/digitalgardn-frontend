@@ -18,6 +18,7 @@
     "servicesCount_one": "{{count}} service",
     "servicesCount_other": "{{count}} services",
     "defaultTitle": "Freelance",
+    "competencesTitle": "Compétences du freelance",
     "noServices": {
       "title": "Aucun service",
       "description": "Ce freelance n'a pas encore publié de services."
