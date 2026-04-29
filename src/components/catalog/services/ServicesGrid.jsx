@@ -10,7 +10,7 @@ export function ServicesGrid({
   dashboard = false,
 }) {
   return (
-    <ItemGroup className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <ItemGroup className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
       {services.map((service) => (
         <ServiceItem
           key={service.id}

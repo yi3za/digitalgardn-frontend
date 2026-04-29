@@ -1,15 +1,10 @@
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Badge,
   Card,
   CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
   DataEmpty,
   DataError,
   DataLoading,
@@ -24,7 +19,6 @@ import {
 } from "@/components/ui";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
-import { getFallbackName } from "@/lib/utils";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -34,6 +28,7 @@ import {
 } from "@/features/account/commandes/commandes.status";
 import { Link } from "react-router-dom";
 import { CommandeDropDownMenu } from "../commandes/CommandeDropDownMenu";
+import { AvatarIdentity } from "../shared/AvatarIdentity";
 
 /**
  * Composant affichant la fenetre de chat pour une conversation donnee
@@ -79,24 +74,11 @@ export function ChatWindow({
 
   return (
     <Card className="h-[50vh] lg:h-full flex flex-col shadow-none overflow-hidden">
-      <CardHeader>
-        <div className="flex gap-3 items-center">
-          <Avatar className="size-10">
-            <AvatarImage src={peer.avatar_url} alt={peer.name} />
-            <AvatarFallback>
-              {getFallbackName(peer?.name || peer?.username) || "?"}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col gap-1">
-            <CardTitle className="line-clamp-1">
-              {peer?.name || peer?.username || t("conversation.unknownUser")}
-            </CardTitle>
-            <CardDescription>{t("chat.active")}</CardDescription>
-          </div>
-        </div>
+      <CardHeader className="gap-3">
+        <AvatarIdentity user={peer} />
         {commande && (
           <>
-            <Item className="p-0">
+            <Item className="p-0 gap-3">
               <ItemSeparator />
               <ItemContent>
                 <ItemTitle className="line-clamp-1">
