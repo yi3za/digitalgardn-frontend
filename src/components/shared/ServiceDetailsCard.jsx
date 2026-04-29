@@ -23,7 +23,7 @@ import {
   serviceStatusBadgeVariantByStatut,
   serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
-import { Link } from "react-router-dom";
+import { SkillBadges } from "./SkillBadges";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -157,40 +157,16 @@ export function ServiceDetailsCard({
               </Item>
             </ItemGroup>
             <div className="space-y-3">
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">
-                  {t(categoriesTitleKey)}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {(service.categories ?? []).map((category) => (
-                    <Badge
-                      key={`category-${category.id}`}
-                      variant={categoryBadgeVariant}
-                    >
-                      <Link to={`/categories/${category.slug}`}>
-                        {category.nom}
-                      </Link>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">
-                  {t(competencesTitleKey)}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {(service.competences ?? []).map((competence) => (
-                    <Badge
-                      key={`competence-${competence.id}`}
-                      variant={competenceBadgeVariant}
-                    >
-                      <Link to={`/competences/${competence.slug}`}>
-                        {competence.nom}
-                      </Link>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
+              <SkillBadges
+                title={t(categoriesTitleKey)}
+                items={service.categories}
+                BadgeVariant={categoryBadgeVariant}
+              />
+              <SkillBadges
+                title={t(competencesTitleKey)}
+                items={service.competences}
+                BadgeVariant={competenceBadgeVariant}
+              />
             </div>
             {footerActions}
           </CardContent>
