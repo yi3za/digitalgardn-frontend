@@ -17,7 +17,6 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-  ItemGroup,
   Spinner,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -29,6 +28,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { SkillBadges } from "@/components/shared/SkillBadges";
 
 /**
  * Page publique d'affichage d'un freelance
@@ -123,8 +123,7 @@ export function FreelancerShowPage() {
                 alt={freelancer?.name}
               />
               <AvatarFallback>
-                {getFallbackName(freelancer?.name || freelancer?.username) ||
-                  "?"}
+                {getFallbackName(freelancer?.name)}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -151,16 +150,11 @@ export function FreelancerShowPage() {
             </a>
           )}
           {!!freelancer?.competences?.length && (
-            <div className="flex flex-wrap gap-2">
-              {freelancer.competences.map((competence) => (
-                <span
-                  key={competence.id}
-                  className="rounded-full bg-muted px-2.5 py-1 text-xs"
-                >
-                  {competence.nom}
-                </span>
-              ))}
-            </div>
+            <SkillBadges
+              title={t("catalog:freelancer.competencesTitle")}
+              items={freelancer.competences}
+              BadgeVariant="secondary"
+            />
           )}
         </CardContent>
       </Card>
