@@ -57,11 +57,13 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
       <ItemContent className="break-all gap-2">
         <AvatarIdentity user={item?.user} />
         <ItemTitle
+          onClick={handleClick}
           className={`line-clamp-1 hover:underline ${hovred ? "underline" : ""}`}
         >
           {item?.titre}
         </ItemTitle>
         <ItemDescription
+          onClick={handleClick}
           className={`hover:underline ${hovred ? "underline" : ""}`}
         >
           {item?.description}
