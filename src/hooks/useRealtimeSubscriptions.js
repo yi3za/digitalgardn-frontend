@@ -1,5 +1,10 @@
+import { COMMANDE_STATUS } from "@/features/account/commandes/commandes.status";
 import { useConversations } from "@/features/messages/messages.query";
-import { setConversationMessages } from "@/features/notifications/notificationsSlice";
+import {
+  incrementCommandes,
+  resetCommandes,
+  setConversationMessages,
+} from "@/features/notifications/notificationsSlice";
 import { getEcho, isRealtimeEnabled } from "@/lib/echo";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useEffect } from "react";
@@ -22,6 +27,8 @@ export function useRealtimeSubscriptions(currentUserId) {
   // Initialisation des notifications de messages non lus par conversation a partir des conversations chargees
   useEffect(() => {
     if (!conversations.length) return;
+    // Reset du compteur de commandes en attente avant de le recalculer
+    dispatch(resetCommandes());
     // Initialise les messages non lus par conversation
     conversations.forEach((conversation) => {
       const count = conversation.unread_messages_count;
@@ -31,6 +38,15 @@ export function useRealtimeSubscriptions(currentUserId) {
           count,
         }),
       );
+      // Si la conversation est liee a une commande en attente, incrementer le compteur de commandes en attente
+      if (
+        !conversation.commande ||
+        conversation.commande.service.user_id !== currentUserId
+      )
+        return;
+      const statutCommande = conversation.commande?.statut;
+      if (statutCommande === COMMANDE_STATUS.EN_ATTENTE)
+        dispatch(incrementCommandes());
     });
   }, [conversations, dispatch]);
   // Liste stable des IDs de conversations pour eviter de reabonner inutilement quand seule la reference du tableau change
@@ -121,6 +137,9 @@ export function useRealtimeSubscriptions(currentUserId) {
     userChannel.listen(".conversation.created", () => {
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["commandes"],
       });
     });
   }, [
