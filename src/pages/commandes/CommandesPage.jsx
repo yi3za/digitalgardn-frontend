@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
  */
 export function CommandesPage({ dashboard = false }) {
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["commandes", "common"]);
+  const { t } = useTranslation(["commandes", "common", "codes"]);
   const navigate = useNavigate();
   // Requete pour recuperer les commandes publiques
   const commandesQuery = useCommandes();
@@ -25,7 +25,7 @@ export function CommandesPage({ dashboard = false }) {
         <CommandesGrid
           t={t}
           commandes={commandes}
-          linkTo={dashboard ? "/dashboard/commandes" : "/commandes"}
+          linkTo={dashboard ? "/dashboard/messages" : "/messages"}
         />
       )}
       action={
