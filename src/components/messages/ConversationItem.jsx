@@ -11,6 +11,7 @@ import {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
+  NotificationBadge,
 } from "@/components/ui";
 import {
   commandeStatusBadgeVariantByStatut,
@@ -18,7 +19,6 @@ import {
 } from "@/features/account/commandes/commandes.status";
 import { cn, formatClockTime, getFallbackName } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { NotificationBadge } from "../ui/notification-badge";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUnreadMessagesByConversation } from "@/features/notifications/notifications.selectores";
 import { setConversationMessages } from "@/features/notifications/notificationsSlice";
