@@ -13,17 +13,13 @@ import {
   DataEmpty,
   DataError,
   DataLoading,
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
   Spinner,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { useCreateConversation } from "@/features/messages/messages.mutations";
 import { useFreelancer } from "@/features/public/catalog/freelancers/freelancers.query";
 import { getFallbackName } from "@/lib/utils";
-import { Layers, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -171,17 +167,7 @@ export function FreelancerShowPage() {
           {services.length ? (
             <ServicesGrid services={services} linkTo="/services" />
           ) : (
-            <Empty className="min-h-40 border">
-              <EmptyHeader>
-                <Layers className="size-8 text-muted-foreground" />
-                <EmptyTitle>
-                  {t("catalog:freelancer.noServices.title")}
-                </EmptyTitle>
-                <EmptyDescription>
-                  {t("catalog:freelancer.noServices.description")}
-                </EmptyDescription>
-              </EmptyHeader>
-            </Empty>
+            <DataEmpty description={t("common:states.empty")} />
           )}
         </CardContent>
       </Card>
