@@ -23,6 +23,7 @@ export function AvatarIdentity({ user }) {
         asChild
         variant="link"
         className="p-0 flex flex-col gap-0 items-start"
+        onClick={(e) => e.stopPropagation()}
       >
         <Link to={`/freelancers/${user?.username}`}>
           <span>{user?.name}</span>
