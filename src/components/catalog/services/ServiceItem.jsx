@@ -34,7 +34,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
   return (
     <Item className="p-0 overflow-hidden cursor-pointer">
       <ItemHeader
-        className="relative min-h-60 max-h-60 rounded overflow-hidden min-w-full"
+        className="relative min-h-60 max-h-60 rounded overflow-hidden"
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -43,7 +43,7 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
           src={item?.fichierPrincipale?.chemin_url}
           alt={item?.titre}
           title={item?.titre}
-          className="w-full h-full object-cover"
+          className="min-w-full min-h-60"
         />
         {dashboard && (
           <Badge
