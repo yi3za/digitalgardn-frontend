@@ -1,7 +1,9 @@
 import { useConversations } from "@/features/messages/messages.query";
+import { setConversationMessages } from "@/features/notifications/notificationsSlice";
 import { getEcho, isRealtimeEnabled } from "@/lib/echo";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 /**
  * useRealtimeSubscriptions :
@@ -10,11 +12,27 @@ import { useMemo, useEffect } from "react";
 export function useRealtimeSubscriptions(currentUserId) {
   // Client React Query pour invalider le cache
   const queryClient = useQueryClient();
+  // Dispatcher Redux
+  const dispatch = useDispatch();
   // Indique si le mode temps reel est actif
   const realtimeActive = isRealtimeEnabled();
   // Recuperation de la liste des conversations de l'utilisateur
   const conversationsQuery = useConversations(!realtimeActive, currentUserId);
   const conversations = conversationsQuery.data ?? [];
+  // Initialisation des notifications de messages non lus par conversation a partir des conversations chargees
+  useEffect(() => {
+    if (!conversations.length) return;
+    // Initialise les messages non lus par conversation
+    conversations.forEach((conversation) => {
+      const count = conversation.unread_messages_count;
+      dispatch(
+        setConversationMessages({
+          conversationId: conversation.id,
+          count,
+        }),
+      );
+    });
+  }, [conversations, dispatch]);
   // Liste stable des IDs de conversations pour eviter de reabonner inutilement quand seule la reference du tableau change
   const conversationIds = useMemo(
     () =>
@@ -69,12 +87,12 @@ export function useRealtimeSubscriptions(currentUserId) {
     conversationIds.forEach((conversationId) => {
       const channel = echo.private(`conversations.${conversationId}`);
       // Ecoute de l'evenement de nouveau message dans la conversation pour rafraichir les donnees associees
-      channel.listen(".message.sent", (payload) => {
-        queryClient.invalidateQueries({
-          queryKey: ["messages", "conversations"],
-        });
-        queryClient.invalidateQueries({
+      channel.listen(".message.sent", async (payload) => {
+        await queryClient.invalidateQueries({
           queryKey: ["messages", "conversation", payload?.conversation_id],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["messages", "conversations"],
         });
       });
     });
