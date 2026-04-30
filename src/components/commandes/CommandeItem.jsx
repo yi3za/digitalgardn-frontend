@@ -21,9 +21,12 @@ import { Send } from "lucide-react";
 export function CommandeItem({ item, linkTo = "/commandes", t }) {
   // Hook de navigation
   const navigate = useNavigate();
-  // Navigation vers la page commande
-  const handleClick = () => {
-    navigate(`${linkTo}/${item.id}`);
+  // Gestion du clic sur la commande pour acceder a la conversation liee
+  const handleClick = (e) => {
+    // Naviguer vers la page de la conversation
+    navigate(linkTo, {
+      state: { conversationId: item?.conversation?.id },
+    });
   };
 
   return (
