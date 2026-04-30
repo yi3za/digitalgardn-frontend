@@ -47,8 +47,8 @@ export function ServiceDetailsCard({
   delayLabelKey = "catalog:serviceShow.delayLabel",
   delaySuffixKey = "catalog:serviceShow.delaySuffix",
   revisionsLabelKey = "catalog:serviceShow.revisionsLabel",
-  categoriesTitleKey = "catalog:serviceShow.categories.title",
-  competencesTitleKey = "catalog:serviceShow.competences.title",
+  categoriesTitleKey = "catalog:serviceShow.categoriesTitle",
+  competencesTitleKey = "catalog:serviceShow.competencesTitle",
   freelancerSectionTitleKey = "catalog:serviceShow.freelancerSection",
   freelancerSectionDescriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
