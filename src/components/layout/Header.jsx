@@ -24,18 +24,19 @@ import { ArrowLeft } from "lucide-react";
 export function Header({ dashboard = false }) {
   // Hook pour la traduction
   const { t } = useTranslation(["layout", "codes"]);
+  // Hook pour location
   const location = useLocation();
+  // Hook pour navigation
   const navigate = useNavigate();
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
   const showBackButton = location.pathname !== "/";
-
+  // Navigation
   const handleBack = () => {
     if (window.history.length > 1) {
       navigate(-1);
       return;
     }
-
     navigate("/");
   };
 
