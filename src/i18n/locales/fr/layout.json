@@ -7,22 +7,22 @@
     "myBusiness": "Mon business",
     "services": "Mes services",
     "profil": "Mon profil",
-    "messages": "Mes messages",
-    "commandes": "Mes commandes",
+    "messages": "Messages",
+    "commandes": "Commandes",
     "portefeuille": "Mon portefeuille",
     "transactions": "Mes transactions"
   },
   "user_menu": {
-    "navigation": "Navigation",
+    "navigation": "Tableau de bord",
+    "finances": "Finances",
     "account": "Compte",
     "session": "Session",
     "profil": "Profil",
     "settings": "Paramètres",
-    "messages": "Messages",
-    "commandes": "Commandes",
     "portefeuille": "Portefeuille",
     "transactions": "Transactions",
     "dashboard": "Espace freelance",
+    "accueil": "Retour à l'accueil",
     "logout": "Déconnexion"
   },
   "footer": {

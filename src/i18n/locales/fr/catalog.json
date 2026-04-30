@@ -18,11 +18,7 @@
     "servicesCount_one": "{{count}} service",
     "servicesCount_other": "{{count}} services",
     "defaultTitle": "Freelance",
-    "competencesTitle": "Compétences du freelance",
-    "noServices": {
-      "title": "Aucun service",
-      "description": "Ce freelance n'a pas encore publié de services."
-    }
+    "competencesTitle": "Compétences du freelance"
   },
   "serviceShow": {
     "priceLabel": "Prix de base",
@@ -31,6 +27,8 @@
     "delaySuffix": "jours",
     "revisionsLabel": "Révisions",
     "buy": "Acheter ce service",
+    "categoriesTitle": "Catégories de ce service",
+    "competencesTitle": "Compétences de ce service",
     "viewFreelancer": "Voir le freelance",
     "contact": "Contacter",
     "freelancerSection": "Freelance",
