@@ -87,7 +87,7 @@ export function ServiceShowPage() {
         error={error}
         refetch={refetch}
         t={t}
-        showFreelancerSection={isOwnService}
+        showFreelancerSection={!isOwnService}
         footerActions={
           !isOwnService && (
             <ServiceInstructionsDialog
