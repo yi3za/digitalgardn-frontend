@@ -1,5 +1,4 @@
 import { CommandesPage } from "@/pages/commandes/commandesPage";
-import { CommandesShowPage } from "@/pages/commandes/CommandesShowPage";
 
 /**
  * Definit la route des commandes pour tout utilisateur authentifie
@@ -12,10 +11,6 @@ export const commandesRoutes = {
     {
       index: true,
       element: <CommandesPage />,
-    },
-    {
-      path: ":id",
-      element: <CommandesShowPage />,
     },
   ],
 };
