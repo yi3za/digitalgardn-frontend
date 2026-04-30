@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { AUTH_STATUS } from "@/features/auth/auth.constants";
 import { SplashScreen } from "@/components/feedback/splash-screen";
+import { useRealtimeSubscriptions } from "@/hooks/useRealtimeSubscriptions";
 
 /**
  * Composant responsable de la configuration du routage global
@@ -12,8 +13,10 @@ import { SplashScreen } from "@/components/feedback/splash-screen";
  * utilise RouterProvider pour rendre le routage accessible dans l'application
  */
 export function AppRouter() {
-  // Recuperation du statut d'authentification
-  const { status, loading } = useSelector(authSelector);
+  // Recuperation de l'utilisateur connecte et du statut d'authentification
+  const { user, status, loading } = useSelector(authSelector);
+  // Abonnements en temps reel
+  useRealtimeSubscriptions(user?.id);
   // Afficher SplashScreen tant que le statut d'authentification est IDLE
   if (status === AUTH_STATUS.IDLE || loading.getMe) return <SplashScreen />;
 
