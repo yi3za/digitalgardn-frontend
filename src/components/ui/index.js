@@ -81,6 +81,7 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
+  NavigationMenuItemCustom,
 } from "./navigation-menu";
 export {
   Item,
@@ -197,3 +198,4 @@ export {
   TooltipProvider,
 } from "./tooltip";
 export { Badge, badgeVariants } from "./badge";
+export { NotificationBadge } from "./notification-badge";

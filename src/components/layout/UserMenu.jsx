@@ -1,10 +1,9 @@
 import {
   ArrowLeftRight,
+  Home,
   LayoutDashboard,
   LogOutIcon,
-  MessageCircle,
   SettingsIcon,
-  ShoppingBag,
   UserIcon,
   Wallet,
 } from "lucide-react";
@@ -34,7 +33,7 @@ import { disconnectEcho } from "@/lib/echo";
 /**
  * Composant affichant le menu utilisateur
  */
-export function UserMenu({ user, t }) {
+export function UserMenu({ user, t, dashboard }) {
   // Etat de store indiquant si une requete auth est en cours
   const { loading } = useSelector(authSelector);
   // Dispatcher pour les actions
@@ -78,28 +77,19 @@ export function UserMenu({ user, t }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>{t("user_menu.navigation")}</DropdownMenuLabel>
-          {canAccessDashboard && (
+        {canAccessDashboard && (
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>{t("user_menu.navigation")}</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link to="/dashboard">
-                <LayoutDashboard />
-                {t("user_menu.dashboard")}
+              <Link to={dashboard ? "/" : "/dashboard"}>
+                {dashboard ? <Home /> : <LayoutDashboard />}
+                {t(`user_menu.${dashboard ? "accueil" : "dashboard"}`)}
               </Link>
             </DropdownMenuItem>
-          )}
-          <DropdownMenuItem asChild>
-            <Link to="/messages">
-              <MessageCircle />
-              {t("user_menu.messages")}
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link to="/commandes">
-              <ShoppingBag />
-              {t("user_menu.commandes")}
-            </Link>
-          </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{t("user_menu.finances")}</DropdownMenuLabel>
           <DropdownMenuItem asChild>
             <Link to="/portefeuille">
               <Wallet />

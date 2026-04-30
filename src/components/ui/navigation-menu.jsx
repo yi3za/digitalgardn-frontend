@@ -4,6 +4,8 @@ import { ChevronDownIcon } from "lucide-react"
 import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { Link } from "react-router-dom"
+import { NotificationBadge } from "."
 
 function NavigationMenu({
   className,
@@ -139,6 +141,23 @@ function NavigationMenuIndicator({
   );
 }
 
+function NavigationMenuItemCustom({ content, to, badgeCount = null }) {
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuLink
+        asChild
+        className={cn(
+          navigationMenuTriggerStyle(),
+          !!badgeCount ? "relative" : "",
+        )}
+      >
+        <Link to={to}>{content}</Link>
+      </NavigationMenuLink>
+      {!!badgeCount && <NotificationBadge count={badgeCount} />}
+    </NavigationMenuItem>
+  );
+}
+
 export {
   NavigationMenu,
   NavigationMenuList,
@@ -149,4 +168,5 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
-}
+  NavigationMenuItemCustom,
+};

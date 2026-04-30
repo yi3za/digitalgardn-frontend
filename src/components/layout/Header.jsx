@@ -4,10 +4,10 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuItemCustom,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "../ui";
 import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
@@ -17,6 +17,10 @@ import { useTranslation } from "react-i18next";
 import { AuthButtons } from "./AuthButtons";
 import { Logo } from "./logo";
 import { ArrowLeft } from "lucide-react";
+import {
+  selectTotalUnreadMessages,
+  selectUnreadCommandes,
+} from "@/features/notifications/notifications.selectores";
 
 /**
  * Composant Header
@@ -31,6 +35,10 @@ export function Header({ dashboard = false }) {
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
   const showBackButton = location.pathname !== "/";
+  // Recuperer le nombre total de messages non lus
+  const totalUnreadMessages = useSelector(selectTotalUnreadMessages);
+  // Recuperer le nombre de commandes non lues
+  const unreadCommandes = useSelector(selectUnreadCommandes);
   // Navigation
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -54,25 +62,15 @@ export function Header({ dashboard = false }) {
       {/* navigation */}
       <NavigationMenu className="min-w-1/2">
         <NavigationMenuList>
-          {!dashboard ? (
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to="/">{t("header.home")}</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          ) : (
+          {!dashboard && (
+            <NavigationMenuItemCustom content={t("header.home")} to="/" />
+          )}
+          {dashboard && (
             <>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/dashboard">{t("header.dashboard")}</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              <NavigationMenuItemCustom
+                content={t("header.dashboard")}
+                to="/dashboard"
+              />
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   {t("header.myBusiness")}
@@ -88,20 +86,6 @@ export function Header({ dashboard = false }) {
                       <NavigationMenuLink asChild>
                         <Link to="/dashboard/services">
                           {t("header.services")}
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link to="/dashboard/messages">
-                          {t("header.messages")}
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link to="/dashboard/commandes">
-                          {t("header.commandes")}
                         </Link>
                       </NavigationMenuLink>
                     </li>
@@ -124,12 +108,22 @@ export function Header({ dashboard = false }) {
               </NavigationMenuItem>
             </>
           )}
+          <NavigationMenuItemCustom
+            content={t("header.messages")}
+            to={dashboard ? "/dashboard/messages" : "/messages"}
+            badgeCount={totalUnreadMessages}
+          />
+          <NavigationMenuItemCustom
+            content={t("header.commandes")}
+            to={dashboard ? "/dashboard/commandes" : "/commandes"}
+            badgeCount={unreadCommandes}
+          />
         </NavigationMenuList>
       </NavigationMenu>
       {/* user actions */}
       <div className="flex justify-end items-center gap-4 min-w-1/4">
         {status === AUTH_STATUS.AUTHENTICATED ? (
-          <UserMenu user={user} t={t} />
+          <UserMenu user={user} t={t} dashboard={dashboard} />
         ) : (
           <AuthButtons t={t} />
         )}
