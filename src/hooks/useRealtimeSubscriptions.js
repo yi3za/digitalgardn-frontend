@@ -116,7 +116,7 @@ export function useRealtimeSubscriptions(currentUserId) {
     commandeIds.forEach((commandeId) => {
       const channel = echo.private(`commandes.${commandeId}`);
       // Ecoute de l'evenement de mise a jour du statut dans la commande pour raf   raichir les donnees associees
-      channel.listen(".status.updated", () => {
+      channel.listen(".commande.status.updated", () => {
         queryClient.invalidateQueries({
           queryKey: ["messages", "conversations"],
         });
