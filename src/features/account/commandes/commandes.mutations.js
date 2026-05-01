@@ -15,9 +15,8 @@ export const useCreateCommande = () => {
     onSuccess: () => {
       // Met a jour les donnees de portefeuille apres un achat
       queryClient.invalidateQueries({ queryKey: ["portefeuille"] });
-      queryClient.invalidateQueries({
-        queryKey: ["portefeuille", "transactions"],
-      });
+      // Mettre a jour le dashboard (stats commandes + commandes recentes)
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -34,15 +33,14 @@ export const useUpdateCommandeStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
       });
+      // Mettre a jour le dashboard (stats + commandes recentes + revenus si terminee)
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
       if (
         [COMMANDE_STATUS.TERMINEE, COMMANDE_STATUS.ANNULEE].includes(
           variables.newStatus,
         )
       ) {
         queryClient.invalidateQueries({ queryKey: ["portefeuille"] });
-        queryClient.invalidateQueries({
-          queryKey: ["portefeuille", "transactions"],
-        });
       }
     },
   });
@@ -60,6 +58,8 @@ export const useCreateAvis = () => {
         queryKey: ["messages", "conversations"],
       });
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      // Mettre a jour les stats avis du dashboard
+      queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
   });
 };

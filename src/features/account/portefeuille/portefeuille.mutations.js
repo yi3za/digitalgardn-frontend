@@ -8,9 +8,8 @@ export const useRechargerPortefeuille = () => {
     mutationFn: (data) => rechargerPortefeuille(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portefeuille"] });
-      queryClient.invalidateQueries({
-        queryKey: ["portefeuille", "transactions"],
-      });
+      // Mettre a jour les stats portefeuille et revenus du dashboard
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

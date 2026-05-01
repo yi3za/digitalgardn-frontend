@@ -124,23 +124,30 @@ export function useRealtimeSubscriptions(currentUserId) {
           queryKey: ["portefeuille"],
         });
         queryClient.invalidateQueries({
-          queryKey: ["portefeuille", "transactions"],
-        });
-        queryClient.invalidateQueries({
           queryKey: ["commandes"],
+        });
+        // Mettre a jour le dashboard en temps reel lors d'un changement de statut
+        queryClient.invalidateQueries({
+          queryKey: ["dashboard"],
         });
       });
     });
     // Canal utilisateur pour les nouvelles conversations
     const userChannel = echo.private(`users.${currentUserId}`);
     // Ecoute la creation de conversation pour rafraichir la liste
-    userChannel.listen(".conversation.created", () => {
+    userChannel.listen(".conversation.created", (payload) => {
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
       });
-      queryClient.invalidateQueries({
-        queryKey: ["commandes"],
-      });
+      // Mettre a jour le dashboard et les commandes uniquement si la conversation est liee a une commande
+      if (payload?.commande_id) {
+        queryClient.invalidateQueries({
+          queryKey: ["commandes"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["dashboard"],
+        });
+      }
     });
   }, [
     conversationIdsKey,

@@ -18,6 +18,8 @@ export const useCreateService = () => {
     onSuccess: () => {
       // Invalider seulement le cache prive car la nouvelle service est toujours un brouillon
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      // Mettre a jour le compteur services du dashboard
+      queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
   });
 };
@@ -59,12 +61,17 @@ export const useUpdateServiceStatus = () => {
         queryKey: ["my-service", variables.slug],
       });
       // Si le service etait public ou le devient, on invalide le cache public.
-      if (previousStatut === SERVICE_STATUS.PUBLIE || nextStatut === SERVICE_STATUS.PUBLIE) {
+      if (
+        previousStatut === SERVICE_STATUS.PUBLIE ||
+        nextStatut === SERVICE_STATUS.PUBLIE
+      ) {
         queryClient.invalidateQueries({
           queryKey: ["service", variables.slug],
         });
         queryClient.invalidateQueries({ queryKey: ["services"] });
       }
+      // Mettre a jour le compteur services du dashboard
+      queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
   });
 };
@@ -78,6 +85,8 @@ export const useDeleteService = () => {
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       // Invalider le cache public pour enlever la service supprimee
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      // Mettre a jour le compteur services du dashboard
+      queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
   });
 };
