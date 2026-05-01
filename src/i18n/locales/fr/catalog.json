@@ -41,5 +41,10 @@
       "instructionsLabel": "Instructions",
       "instructionsPlaceholder": "Décrivez ici vos besoins, attentes ou consignes pour ce service (optionnel)."
     }
+  },
+  "avis": {
+    "title": "Avis des clients",
+    "description": "Découvrez les avis laissés par les clients qui ont acheté ce service.",
+    "count_suffix": "avis"
   }
 }
