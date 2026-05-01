@@ -25,3 +25,13 @@ export const updateCommandeStatus = async (commandeId, newStatus) => {
   );
   return data?.details?.commande ?? null;
 };
+
+// Cree un avis pour une commande terminee
+export const createAvis = async (commandeId, payload) => {
+  const { data } = await client.post(
+    `/api/me/commandes/${commandeId}/avis`,
+    payload,
+    contentTypeJson,
+  );
+  return data?.details?.avis ?? null;
+};

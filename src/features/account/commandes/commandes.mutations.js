@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCommande, updateCommandeStatus } from "./commandes.api";
+import {
+  createCommande,
+  updateCommandeStatus,
+  createAvis,
+} from "./commandes.api";
 import { COMMANDE_STATUS } from "./commandes.status";
 
 // Hook pour creer une commande depuis un service
@@ -40,6 +44,22 @@ export const useUpdateCommandeStatus = () => {
           queryKey: ["portefeuille", "transactions"],
         });
       }
+    },
+  });
+};
+
+// Hook pour creer un avis sur une commande terminee
+export const useCreateAvis = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ commandeId, data }) => createAvis(commandeId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["commandes"] });
+      queryClient.invalidateQueries({
+        queryKey: ["messages", "conversations"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };
