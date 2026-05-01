@@ -1,17 +1,29 @@
 import { getFallbackName } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "../ui";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AUTH_STATUS } from "@/features/auth/auth.constants";
 
 /**
- * Affiche l'avatar d'un utilisateur
+ * Affiche l'avatar d'un utilisateur avec lien vers le profil freelancer si applicable
  */
 export function AvatarIdentity({ user }) {
+  // Hook de navigation
+  const navigate = useNavigate();
   // Genere un nom fallback
   const fallbackName = getFallbackName(user?.name);
+  // Determine si l'utilisateur est un freelancer
+  const isFreelancer = user?.role === AUTH_STATUS.FREELANCE;
+  // Gestion du clic pour naviguer vers le profil freelancer
+  const handleClick = (e) => {
+    if (isFreelancer) {
+      navigate(`/freelancers/${user?.username}`);
+    }
+    e.stopPropagation();
+  };
 
   return (
     <div className="flex items-center gap-3">
-      <Avatar className="cursor-pointer">
+      <Avatar>
         <AvatarImage
           src={user?.avatar_url}
           alt={user?.username}
@@ -20,15 +32,12 @@ export function AvatarIdentity({ user }) {
         <AvatarFallback>{fallbackName}</AvatarFallback>
       </Avatar>
       <Button
-        asChild
         variant="link"
-        className="p-0 flex flex-col gap-0 items-start"
-        onClick={(e) => e.stopPropagation()}
+        className={`p-0 flex flex-col gap-0 items-start ${!isFreelancer ? "pointer-events-none" : ""}`}
+        onClick={handleClick}
       >
-        <Link to={`/freelancers/${user?.username}`}>
-          <span>{user?.name}</span>
-          <span className="text-gray-500">@{user?.username}</span>
-        </Link>
+        <span>{user?.name}</span>
+        <span className="text-gray-500">@{user?.username}</span>
       </Button>
     </div>
   );
