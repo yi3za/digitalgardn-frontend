@@ -1,4 +1,32 @@
 {
+  "title": "Tableau de bord",
+  "description": "Bienvenue dans votre espace freelance. Suivez vos performances en temps réel.",
+  "stats": {
+    "revenue": "Revenus ce mois",
+    "revenueDesc": "Gains des commandes terminées",
+    "orders": "Commandes",
+    "ordersDesc": "{{en_cours}} en cours",
+    "services": "Services publiés",
+    "servicesDesc": "{{total}} au total",
+    "rating": "Note moyenne",
+    "ratingDesc": "{{count}} avis reçus"
+  },
+  "charts": {
+    "revenue": {
+      "title": "Revenus mensuels",
+      "description": "Évolution de vos gains sur les 6 derniers mois",
+      "amount": "Revenus"
+    },
+    "orders": {
+      "title": "Commandes par statut",
+      "description": "Répartition actuelle de vos commandes",
+      "count": "Commandes"
+    }
+  },
+  "activity": {
+    "title": "Commandes récentes",
+    "description": "Vos 5 dernières commandes mises à jour"
+  },
   "services": {
     "title": "Mes services organisés",
     "description": "Gérez, modifiez et suivez vos services de freelance depuis votre tableau de bord",
