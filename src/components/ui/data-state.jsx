@@ -15,7 +15,7 @@ import { Skeleton } from "./skeleton";
 
 function DataLoading({ className }) {
   return (
-    <Empty className={cn("relative min-h-50 border md:p-0", className)}>
+    <Empty className={cn("relative min-h-60 border md:p-0", className)}>
       <Skeleton className="absolute inset-0" />
     </Empty>
   );
@@ -25,7 +25,7 @@ function DataError({ errorCode = null, className, retryText, onRetry }) {
   const { t } = useTranslation("codes");
 
   return (
-    <Empty className={cn("border border-destructive", className)}>
+    <Empty className={cn("border border-destructive min-h-60", className)}>
       <EmptyHeader>
         <EmptyMedia>
           <AlertCircle className="size-6 text-destructive" />
@@ -47,7 +47,7 @@ function DataError({ errorCode = null, className, retryText, onRetry }) {
 
 function DataEmpty({ description = null, className }) {
   return (
-    <Empty className={cn("border", className)}>
+    <Empty className={cn("border min-h-60", className)}>
       <EmptyHeader>
         <EmptyMedia>
           <Inbox className="size-6 text-muted-foreground" />
