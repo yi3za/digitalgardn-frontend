@@ -71,7 +71,12 @@ export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
         <div className="flex items-center gap-2 font-medium">
           <Star size={15} className="text-yellow-500 fill-yellow-500" />
           <span>{item?.note_moyenne || 0}</span>
-          <span className="text-gray-500">({item?.ventes || 0})</span>
+          <span className="text-gray-500">
+            ({item?.nombre_avis || 0} {t("catalog:serviceShow.reviews")})
+          </span>
+          <span className="text-gray-500">
+            {item?.ventes || 0} {t("catalog:serviceShow.sales")}
+          </span>
         </div>
         <p className="font-bold">{`${item?.prix_base} ${t("catalog:serviceShow.priceSuffix")}`}</p>
       </ItemContent>
