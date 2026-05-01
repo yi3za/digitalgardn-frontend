@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AvatarIdentity } from "../shared/AvatarIdentity";
 import { Send } from "lucide-react";
+import { formatDateTime } from "@/lib/utils";
 
 /**
  * Composant qui affiche une commande individuelle
@@ -22,8 +23,7 @@ export function CommandeItem({ item, linkTo = "/commandes", t }) {
   // Hook de navigation
   const navigate = useNavigate();
   // Gestion du clic sur la commande pour acceder a la conversation liee
-  const handleClick = (e) => {
-    // Naviguer vers la page de la conversation
+  const handleClick = () => {
     navigate(linkTo, {
       state: { conversationId: item?.conversation?.id },
     });
@@ -31,28 +31,31 @@ export function CommandeItem({ item, linkTo = "/commandes", t }) {
 
   return (
     <Item
-      asChild
+      onClick={handleClick}
       className="min-w-50 cursor-pointer overflow-hidden"
       variant="outline"
     >
-      <button onClick={handleClick}>
-        <ItemContent>
-          <ItemTitle>{item?.service?.titre}</ItemTitle>
-          <ItemDescription className="text-start line-clamp-1">
-            {item?.service?.description}
-          </ItemDescription>
-        </ItemContent>
-        <ItemActions>
-          <Badge variant={commandeStatusBadgeVariantByStatut?.[item?.statut]}>
-            {t(commandeStatusTextKeyByStatut?.[item?.statut])}
-          </Badge>
-        </ItemActions>
-        <ItemFooter className="justify-start gap-3">
-          <AvatarIdentity user={item?.client} />
-          <Send color="gray" />
-          <AvatarIdentity user={item?.freelance} />
-        </ItemFooter>
-      </button>
+      <ItemContent>
+        <ItemTitle>{item?.service?.titre}</ItemTitle>
+        <ItemDescription className="text-start line-clamp-1">
+          {item?.service?.description}
+        </ItemDescription>
+      </ItemContent>
+      <ItemActions className="flex-col">
+        <Badge variant={commandeStatusBadgeVariantByStatut?.[item?.statut]}>
+          {t(commandeStatusTextKeyByStatut?.[item?.statut])}
+        </Badge>
+        {item?.updated_at && (
+          <span className="text-xs text-muted-foreground tabular-nums">
+            {formatDateTime(item.updated_at)}
+          </span>
+        )}
+      </ItemActions>
+      <ItemFooter className="justify-start gap-3 flex-col sm:flex-row">
+        <AvatarIdentity user={item?.client} />
+        <Send color="gray" />
+        <AvatarIdentity user={item?.freelance} />
+      </ItemFooter>
     </Item>
   );
 }
