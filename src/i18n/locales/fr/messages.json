@@ -19,6 +19,7 @@
   "input": {
     "placeholder": "Ecrire votre message...",
     "send": "Envoyer",
-    "invalid": "Message invalide. Le contenu est obligatoire (max {{max}} caracteres)."
+    "invalid": "Message invalide. Le contenu est obligatoire (max {{max}} caracteres).",
+    "conversationClosed": "Cette conversation est fermée."
   }
 }

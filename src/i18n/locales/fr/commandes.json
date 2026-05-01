@@ -16,5 +16,17 @@
     "accept": "Confirmer la réception",
     "revision": "Demander une révision",
     "cancel": "Annuler la commande"
+  },
+  "avis": {
+    "trigger": "Laisser un avis",
+    "title": "Laisser un avis",
+    "description": "Partagez votre expérience avec ce freelance et aidez les autres utilisateurs.",
+    "note": "Note (1-5)",
+    "notePlaceholder": "Sélectionnez une note de 1 à 5",
+    "commentaire": "Commentaire",
+    "commentairePlaceholder": "Décrivez votre expérience (au moins 20 caractères)",
+    "optional": "optionnel",
+    "submit": "Envoyer l'avis",
+    "success": "Votre avis a été ajouté avec succès."
   }
 }
