@@ -28,6 +28,7 @@ import {
 } from "@/features/account/commandes/commandes.status";
 import { Link } from "react-router-dom";
 import { CommandeDropDownMenu } from "../commandes/CommandeDropDownMenu";
+import { AvisDialog } from "../commandes/AvisDialog";
 import { AvatarIdentity } from "../shared/AvatarIdentity";
 
 /**
@@ -148,12 +149,15 @@ export function ChatWindow({
         )}
       </CardContent>
       <Separator />
-      <CardFooter className="shrink-0">
+      <CardFooter className="flex-col gap-6">
         <MessageInput
           onSend={onSend}
           isSending={isSending}
-          disabled={isLoading || isError}
+          disabled={isLoading || isError || isCancelled || isCompleted}
         />
+        {!isVendeur && isCompleted && commande && !commande?.avis && (
+          <AvisDialog commande={commande} />
+        )}
       </CardFooter>
     </Card>
   );

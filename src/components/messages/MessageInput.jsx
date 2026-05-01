@@ -46,32 +46,43 @@ export function MessageInput({ onSend, isSending, disabled }) {
     await submit();
   };
 
+  // Determine si la conversation est fermee (termine ou annulee)
+  const isConversationClosed = disabled && !isSending;
+
   return (
     <div className="w-full space-y-2">
-      <InputGroup>
-        <InputGroupInput
-          value={content}
-          onChange={(event) => {
-            setContent(event.target.value);
-            if (error) setError("");
-          }}
-          onKeyDown={handleKeyDown}
-          placeholder={t("input.placeholder")}
-          disabled={disabled || isSending}
-          aria-invalid={!!error}
-        />
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            size="icon-sm"
-            onClick={submit}
-            disabled={disabled || isSending || !content.trim()}
-            aria-label={t("input.send")}
-          >
-            <SendHorizonal className="size-4" />
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-      <FieldError>{error}</FieldError>
+      {isConversationClosed ? (
+        <div className="w-full text-center text-sm text-muted-foreground">
+          {t("input.conversationClosed")}
+        </div>
+      ) : (
+        <div className="w-full space-y-2">
+          <InputGroup>
+            <InputGroupInput
+              value={content}
+              onChange={(event) => {
+                setContent(event.target.value);
+                if (error) setError("");
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder={t("input.placeholder")}
+              disabled={disabled || isSending}
+              aria-invalid={!!error}
+            />
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                size="icon-sm"
+                onClick={submit}
+                disabled={disabled || isSending || !content.trim()}
+                aria-label={t("input.send")}
+              >
+                <SendHorizonal className="size-4" />
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+          <FieldError>{error}</FieldError>
+        </div>
+      )}
     </div>
   );
 }
