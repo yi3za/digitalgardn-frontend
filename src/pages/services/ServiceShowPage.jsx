@@ -23,7 +23,7 @@ export function ServiceShowPage() {
   // Hook de navigation pour rediriger vers la messagerie
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["catalog", "validation", "codes"]);
+  const { t } = useTranslation(["catalog", "validation", "codes", "common"]);
   // Requete pour recuperer les informations du service et de son freelance
   const serviceQuery = useService(slug);
   // Mutation pour creer une commande
@@ -88,6 +88,7 @@ export function ServiceShowPage() {
         refetch={refetch}
         t={t}
         showFreelancerSection={!isOwnService}
+        showAvis={true}
         footerActions={
           !isOwnService && (
             <ServiceInstructionsDialog
