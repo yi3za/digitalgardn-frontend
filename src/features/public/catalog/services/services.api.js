@@ -11,3 +11,9 @@ export const getServiceBySlug = async (slug) => {
   const { data } = await client.get(`/api/services/${slug}`);
   return data?.details?.service;
 };
+
+// Recupere les avis d'un service specifique
+export const getServiceAvis = async (slug) => {
+  const { data } = await client.get(`/api/services/${slug}/avis`);
+  return data?.details?.avis;
+};
