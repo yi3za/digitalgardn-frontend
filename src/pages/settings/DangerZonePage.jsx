@@ -14,7 +14,6 @@ import {
   ReusableDialog,
 } from "@/components/ui";
 import { ACCOUNT_STATUS } from "@/features/auth/auth.constants";
-import { authSelector } from "@/features/auth/auth.selectors";
 import {
   activateAccountThunk,
   deactivateAccountThunk,
@@ -22,8 +21,8 @@ import {
 } from "@/features/auth/auth.thunks";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -50,8 +49,9 @@ export function DangerZonePage() {
   const { t } = useTranslation(["settings", "common", "codes"]);
   // Dispatch pour les actions redux
   const dispatch = useDispatch();
-  // Recuperation des informations de l'utilisateur connecte
-  const { user, loading } = useSelector(authSelector);
+  // Recuperation de l'utilisateur, du loading et du role via le contexte du layout
+  const { isAdmin, user, loading } = useOutletContext();
+  const settingsBase = isAdmin ? "/admin/settings" : "/settings";
   // Etat local pour gerer l'ouverture du dialog de confirmation
   const [activeDialog, setActiveDialog] = useState(null);
   // Fonction pour fermer le dialog
@@ -86,7 +86,7 @@ export function DangerZonePage() {
         <CardDescription>{t("items.danger_zone.description")}</CardDescription>
         <CardAction>
           <Button variant="link" asChild>
-            <Link to="/settings">{t("action.back_to_settings")}</Link>
+            <Link to={settingsBase}>{t("action.back_to_settings")}</Link>
           </Button>
         </CardAction>
       </CardHeader>
