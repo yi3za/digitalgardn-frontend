@@ -20,7 +20,6 @@ import {
   ReusableDialog,
 } from "@/components/ui";
 import { changePasswordSchema } from "@/features/auth/auth.schemas";
-import { authSelector } from "@/features/auth/auth.selectors";
 import { changePasswordThunk, logoutThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,8 +27,8 @@ import { KeyRound, Lock, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -42,8 +41,9 @@ export function SecurityPage() {
   const dispatch = useDispatch();
   // Hook pour naviguer entre les pages
   const navigate = useNavigate();
-  // Etat de store indiquant si une requete est en cours
-  const { user, loading } = useSelector(authSelector);
+  // Recuperation de l'utilisateur, du loading et du role via le contexte du layout
+  const { isAdmin, user, loading } = useOutletContext();
+  const settingsBase = isAdmin ? "/admin/settings" : "/settings";
   // Etat local pour gerer l'ouverture du dialog
   const [activeDialog, setActiveDialog] = useState(null);
   // Fonction pour fermer le dialog
@@ -98,7 +98,7 @@ export function SecurityPage() {
         <CardDescription>{t("items.security.description")}</CardDescription>
         <CardAction>
           <Button variant="link" asChild>
-            <Link to="/settings">{t("action.back_to_settings")}</Link>
+            <Link to={settingsBase}>{t("action.back_to_settings")}</Link>
           </Button>
         </CardAction>
       </CardHeader>
