@@ -17,7 +17,6 @@ import {
   CustomFormField,
 } from "@/components/ui";
 import { updateInfoSchema } from "@/features/auth/auth.schemas";
-import { authSelector } from "@/features/auth/auth.selectors";
 import { updateInfoThunk } from "@/features/auth/auth.thunks";
 import { setServerErrors } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,8 +24,8 @@ import { AtSign, Mail, User } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
 // Definition des champs du formulaire avec leurs regles de validation
@@ -44,8 +43,9 @@ export function PersonalInfoPage() {
   const { t } = useTranslation(["settings", "common", "codes"]);
   // Dispatcher pour les actions
   const dispatch = useDispatch();
-  // Recuperation des informations de l'utilisateur
-  const { user } = useSelector(authSelector);
+  // Recuperation des informations de l'utilisateur et du role via le contexte du layout
+  const { isAdmin, user } = useOutletContext();
+  const settingsBase = isAdmin ? "/admin/settings" : "/settings";
   // Initialisation du formulaire avec les valeurs de l'utilisateur et validation basee sur updateInfoSchema
   const form = useForm({
     defaultValues: {
@@ -119,7 +119,7 @@ export function PersonalInfoPage() {
         </CardDescription>
         <CardAction>
           <Button variant="link" asChild>
-            <Link to="/settings">{t("action.back_to_settings")}</Link>
+            <Link to={settingsBase}>{t("action.back_to_settings")}</Link>
           </Button>
         </CardAction>
       </CardHeader>
@@ -176,7 +176,11 @@ export function PersonalInfoPage() {
                         className="pt-0 h-fit"
                         onClick={() => toggleField(name)}
                       >
-                        {t(fieldIsEditing ? "action.cancel" : "action.edit")}
+                        {t(
+                          fieldIsEditing
+                            ? "common:actions.cancel"
+                            : "common:actions.edit",
+                        )}
                       </Button>
                     </ItemActions>
                   </Item>
