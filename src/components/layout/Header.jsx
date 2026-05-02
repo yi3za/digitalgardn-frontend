@@ -108,16 +108,20 @@ export function Header({ dashboard = false }) {
               </NavigationMenuItem>
             </>
           )}
-          <NavigationMenuItemCustom
-            content={t("header.messages")}
-            to={dashboard ? "/dashboard/messages" : "/messages"}
-            badgeCount={totalUnreadMessages}
-          />
-          <NavigationMenuItemCustom
-            content={t("header.commandes")}
-            to={dashboard ? "/dashboard/commandes" : "/commandes"}
-            badgeCount={unreadCommandes}
-          />
+          {status === AUTH_STATUS.AUTHENTICATED && (
+            <>
+              <NavigationMenuItemCustom
+                content={t("header.messages")}
+                to={dashboard ? "/dashboard/messages" : "/messages"}
+                badgeCount={totalUnreadMessages}
+              />
+              <NavigationMenuItemCustom
+                content={t("header.commandes")}
+                to={dashboard ? "/dashboard/commandes" : "/commandes"}
+                badgeCount={unreadCommandes}
+              />
+            </>
+          )}
         </NavigationMenuList>
       </NavigationMenu>
       {/* user actions */}
