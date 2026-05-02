@@ -17,7 +17,7 @@ export function DashboardStatCard({
   value,
   description,
   icon: Icon,
-  isLoading = false,
+  isLoading,
   className,
 }) {
   return (
