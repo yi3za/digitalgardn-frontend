@@ -1,0 +1,98 @@
+{
+  "title": "Administration",
+  "nav": {
+    "label": "Navigation",
+    "dashboard": "Tableau de bord",
+    "users": "Utilisateurs",
+    "services": "Services",
+    "commandes": "Commandes",
+    "backToSite": "Retour au site",
+    "account": "Mon compte",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
+  "dashboard": {
+    "title": "Vue d'ensemble",
+    "description": "Statistiques globales de la plateforme.",
+    "stats": {
+      "total_users": "Utilisateurs",
+      "total_users_desc": "{{clients}} clients · {{freelances}} freelances",
+      "banned": "Comptes bannis",
+      "banned_desc": "Utilisateurs bloqués",
+      "services": "Services",
+      "services_desc": "{{publies}} publiés · {{en_attente}} en attente",
+      "commandes": "Commandes",
+      "commandes_desc": "{{en_cours}} en cours · {{terminees}} terminées"
+    }
+  },
+  "users": {
+    "title": "Gestion des utilisateurs",
+    "description": "Consultez et modifiez le statut des comptes.",
+    "columns": {
+      "user": "Utilisateur",
+      "role": "Rôle",
+      "status": "Statut",
+      "joined": "Inscription",
+      "actions": "Actions"
+    },
+    "roles": {
+      "admin": "Admin",
+      "freelance": "Freelance",
+      "client": "Client"
+    },
+    "statuses": {
+      "actif": "Actif",
+      "inactif": "Inactif",
+      "banni": "Banni"
+    },
+    "actions": {
+      "set_actif": "Activer",
+      "set_inactif": "Désactiver",
+      "set_banni": "Bannir"
+    }
+  },
+  "services": {
+    "title": "Gestion des services",
+    "description": "Approuvez ou rejetez les services en attente de validation.",
+    "columns": {
+      "service": "Service",
+      "freelance": "Freelance",
+      "prix": "Prix",
+      "statut": "Statut",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "brouillon": "Brouillon",
+      "en_attente_approbation": "En attente",
+      "publie": "Publié",
+      "en_pause": "En pause",
+      "rejete": "Rejeté"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Rejeter"
+    }
+  },
+  "commandes": {
+    "title": "Gestion des commandes",
+    "description": "Historique de toutes les commandes de la plateforme.",
+    "columns": {
+      "id": "#",
+      "client": "Client",
+      "freelance": "Freelance",
+      "service": "Service",
+      "montant": "Montant",
+      "statut": "Statut",
+      "date": "Date"
+    },
+    "statuts": {
+      "en_attente": "En attente",
+      "en_cours": "En cours",
+      "livree": "Livrée",
+      "en_revision": "En révision",
+      "terminee": "Terminée",
+      "annulee": "Annulée"
+    }
+  }
+}
