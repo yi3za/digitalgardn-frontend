@@ -15,10 +15,15 @@ import { freelancersRoutes } from "./freelancers.routes";
 import { categoriesRoutes } from "./categories.routes";
 import { competencesRoutes } from "./competences.routes";
 import { commandesRoutes } from "./commandes.routes";
+import { adminRoutes } from "./admin.routes";
+import { AdminRoute } from "../guards/AdminRoute";
+import { AdminLayout } from "@/components/layout/AdminLayout";
+import { SiteLayout } from "@/components/layout/SiteLayout";
 
 /**
  * Creation du routeur principal de l'application
  *
+ * SiteLayout : wrapper du site principal (abonnements temps reel)
  * MainLayout : layout global de l'application (header, footer, etc.)
  *
  * index : page d'accueil (HomePage)
@@ -32,46 +37,60 @@ import { commandesRoutes } from "./commandes.routes";
  * (onboardingRoutes : pages de configuration initiale du profil, hors MainLayout)
  * (dashboardRoutes : pages du tableau de bord, hors MainLayout)
  * (messagesRoutes : pages de messagerie)
- * (servicesRoutes : pages de consultation des services publies)
- * (categoriesRoutes : pages de consultation des categories publiques)
- * (competencesRoutes : pages de consultation des competences publiques)
- * (freelancersRoutes : pages de consultation des freelances publies)
  * (portefeuilleRoutes : pages de consultation des transactions du portefeuille)
  * (commandesRoutes : pages de consultation des commandes et de leur details)
+ *
+ * AdminRoute : routes reservees aux administrateurs (isole du site principal)
+ * (AdminLayout : layout de l'espace admin)
+ * (adminRoutes : tableau de bord, utilisateurs, services, commandes)
  *
  * "*" : redirection vers la page d'accueil pour les routes non definies
  */
 export const router = createBrowserRouter([
   {
-    element: <MainLayout />,
+    element: <SiteLayout />,
     children: [
       {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        element: <GuestRoute />,
-        children: [authRoutes],
+        element: <MainLayout />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            element: <GuestRoute />,
+            children: [authRoutes],
+          },
+          {
+            element: <ProtectedRoute />,
+            children: [
+              profilRoutes,
+              settingsRoutes,
+              messagesRoutes,
+              commandesRoutes,
+              portefeuilleRoutes,
+            ],
+          },
+          categoriesRoutes,
+          competencesRoutes,
+          servicesRoutes,
+          freelancersRoutes,
+        ],
       },
       {
         element: <ProtectedRoute />,
-        children: [
-          profilRoutes,
-          settingsRoutes,
-          messagesRoutes,
-          commandesRoutes,
-          portefeuilleRoutes,
-        ],
+        children: [onboardingRoutes, dashboardRoutes],
       },
-      categoriesRoutes,
-      competencesRoutes,
-      servicesRoutes,
-      freelancersRoutes,
     ],
   },
   {
-    element: <ProtectedRoute />,
-    children: [onboardingRoutes, dashboardRoutes],
+    element: <AdminRoute />,
+    children: [
+      {
+        element: <AdminLayout />,
+        children: [adminRoutes],
+      },
+    ],
   },
   {
     path: "*",
