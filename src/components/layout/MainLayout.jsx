@@ -4,8 +4,8 @@ import { Footer } from "./footer";
 
 /**
  * Composant MainLayout
- *
- * Layout principal de l'application
+ * 
+ * Ce composant sert de layout principal pour les pages du site
  */
 export function MainLayout() {
   return (
