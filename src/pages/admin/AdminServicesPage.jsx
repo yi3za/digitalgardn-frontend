@@ -11,6 +11,7 @@ import {
 } from "@/features/freelance/catalog/services/services.status";
 import { toast } from "sonner";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import {
   Card,
   CardContent,
@@ -26,6 +27,7 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui";
+import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 
 /**
  * Page de gestion des services (espace admin)
@@ -96,9 +98,13 @@ export function AdminServicesPage() {
             <TableBody>
               {services.map((service) => (
                 <TableRow key={service.id}>
-                  <TableCell>{service.titre}</TableCell>
-                  <TableCell>{service.user?.name ?? "—"}</TableCell>
                   <TableCell>
+                    <ServiceMiniCard service={service} />
+                  </TableCell>
+                  <TableCell>
+                    <AvatarIdentity user={service.user} />
+                  </TableCell>
+                  <TableCell className="font-medium">
                     {formatPrice(service.prix_base)} {CURRENCY}
                   </TableCell>
                   <TableCell>

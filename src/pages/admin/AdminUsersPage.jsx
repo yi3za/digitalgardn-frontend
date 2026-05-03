@@ -26,6 +26,7 @@ import {
   ACCOUNT_STATUS_BADGE_VARIANT,
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
+import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 
 /**
  * Page de gestion des utilisateurs (espace admin)
@@ -89,10 +90,7 @@ export function AdminUsersPage() {
               {users.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>
-                    <div>{user.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {user.email}
-                    </div>
+                    <AvatarIdentity user={user} />
                   </TableCell>
                   <TableCell>
                     <Badge variant={AUTH_ROLE_BADGE_VARIANT[user.role]}>

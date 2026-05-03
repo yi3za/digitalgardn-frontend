@@ -5,7 +5,8 @@ import {
   useAdminCategories,
   useDeleteAdminCategorie,
 } from "@/features/admin/categories/categories.query";
-import { CategoryFormDialog } from "@/components/admin/CategoryFormDialog";
+import { CategorieFormDialog } from "@/components/admin/CategorieFormDialog";
+import { CategorieMiniCard } from "@/components/shared/CategorieMiniCard";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
@@ -62,7 +63,7 @@ export function AdminCategoriesPage() {
         onRefresh={refetch}
         isFetching={isFetching}
         actions={
-          <CategoryFormDialog
+          <CategorieFormDialog
             parents={parents}
             triggerLabel={
               <>
@@ -90,7 +91,7 @@ export function AdminCategoriesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                {["nom", "slug", "parent", "ordre", "statut", "actions"].map(
+                {["categorie", "parent", "ordre", "statut", "actions"].map(
                   (col) => (
                     <TableHead key={col}>
                       {t(`admin:categories.columns.${col}`)}
@@ -102,9 +103,16 @@ export function AdminCategoriesPage() {
             <TableBody>
               {categories.map((cat) => (
                 <TableRow key={cat.id}>
-                  <TableCell>{cat.nom}</TableCell>
-                  <TableCell>{cat.slug}</TableCell>
-                  <TableCell>{cat.parent?.nom ?? "—"}</TableCell>
+                  <TableCell className="font-medium">
+                    <CategorieMiniCard categorie={cat} />
+                  </TableCell>
+                  <TableCell>
+                    {cat.parent ? (
+                      <CategorieMiniCard categorie={cat.parent} />
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
                   <TableCell>{cat.ordre}</TableCell>
                   <TableCell>
                     <Badge variant={cat.est_active ? "default" : "secondary"}>
@@ -117,7 +125,7 @@ export function AdminCategoriesPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2 [&_button]:flex-1">
-                      <CategoryFormDialog
+                      <CategorieFormDialog
                         categorie={cat}
                         parents={parents}
                         triggerLabel={<Pencil className="size-3" />}

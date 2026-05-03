@@ -6,6 +6,7 @@ import {
   useDeleteAdminCompetence,
 } from "@/features/admin/competences/competences.query";
 import { CompetenceFormDialog } from "@/components/admin/CompetenceFormDialog";
+import { CompetenceMiniCard } from "@/components/shared/CompetenceMiniCard";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
@@ -90,7 +91,7 @@ export function AdminCompetencesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                {["nom", "slug", "parent", "ordre", "statut", "actions"].map(
+                {["competence", "parent", "ordre", "statut", "actions"].map(
                   (col) => (
                     <TableHead key={col}>
                       {t(`admin:competences.columns.${col}`)}
@@ -102,9 +103,16 @@ export function AdminCompetencesPage() {
             <TableBody>
               {competences.map((comp) => (
                 <TableRow key={comp.id}>
-                  <TableCell>{comp.nom}</TableCell>
-                  <TableCell>{comp.slug}</TableCell>
-                  <TableCell>{comp.parent?.nom ?? "—"}</TableCell>
+                  <TableCell>
+                    <CompetenceMiniCard competence={comp} />
+                  </TableCell>
+                  <TableCell>
+                    {comp.parent ? (
+                      <CompetenceMiniCard competence={comp.parent} />
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
                   <TableCell>{comp.ordre}</TableCell>
                   <TableCell>
                     <Badge variant={comp.est_active ? "default" : "secondary"}>

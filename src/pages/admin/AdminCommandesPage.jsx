@@ -18,6 +18,8 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui";
+import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
+import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
 /**
  * Page de gestion des commandes (espace admin)
@@ -78,11 +80,17 @@ export function AdminCommandesPage() {
             <TableBody>
               {commandes.map((commande) => (
                 <TableRow key={commande.id}>
-                  <TableCell>#{commande.id}</TableCell>
-                  <TableCell>{commande.client?.name ?? "—"}</TableCell>
-                  <TableCell>{commande.freelance?.name ?? "—"}</TableCell>
-                  <TableCell>{commande.service?.titre ?? "—"}</TableCell>
+                  <TableCell className="font-bold">#{commande.id}</TableCell>
                   <TableCell>
+                    <AvatarIdentity user={commande.client} />
+                  </TableCell>
+                  <TableCell>
+                    <AvatarIdentity user={commande.freelance} />
+                  </TableCell>
+                  <TableCell>
+                    <ServiceMiniCard service={commande.service} />
+                  </TableCell>
+                  <TableCell className="font-medium">
                     {formatPrice(commande.montant)} {CURRENCY}
                   </TableCell>
                   <TableCell>
