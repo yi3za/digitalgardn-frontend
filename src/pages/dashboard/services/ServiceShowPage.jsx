@@ -6,16 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Spinner,
-  WaitButton,
+  ReusableDialog,
 } from "@/components/ui";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useMyService } from "@/features/freelance/catalog/services/services.query";
@@ -104,73 +95,52 @@ export function ServiceShowPage() {
       <CardHeader>
         <CardTitle>{t("services.show.title")}</CardTitle>
         <CardDescription>{t("services.show.description")}</CardDescription>
-        <CardAction>
-          {isSuccess && (
-            <>
-              {currentStatusAction && (
-                <Button
-                  variant="link"
-                  onClick={handleUpdateStatus}
-                  disabled={updateServiceStatusMutation.isPending}
-                >
-                  {StatusActionIcon && <StatusActionIcon className="size-4" />}
-                  {t(currentStatusAction.labelKey)}
-                </Button>
-              )}
+        {isSuccess && (
+          <CardAction>
+            {currentStatusAction && (
               <Button
                 variant="link"
-                onClick={() =>
-                  navigate(`/dashboard/services/${service?.slug}/edit`)
-                }
+                onClick={handleUpdateStatus}
+                disabled={updateServiceStatusMutation.isPending}
               >
-                <Pencil />
-                {t("services.show.actions.edit")}
+                {StatusActionIcon && <StatusActionIcon className="size-4" />}
+                {t(currentStatusAction.labelKey)}
               </Button>
-              <Dialog
-                open={openDeleteDialog}
-                onOpenChange={setOpenDeleteDialog}
-              >
-                <DialogTrigger asChild>
-                  <Button
-                    variant="link"
-                    className="text-destructive hover:text-destructive/80"
-                  >
-                    <Trash2 />
-                    {t("services.show.actions.delete")}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("services.delete.dialog.title")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("services.delete.dialog.description")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button
-                        variant="outline"
-                        disabled={deleteServiceMutation.isPending}
-                      >
-                        {t("common:actions.cancel")}
-                      </Button>
-                    </DialogClose>
-                    <WaitButton
-                      variant="destructive"
-                      onClick={handleDeleteService}
-                      disabled={deleteServiceMutation.isPending}
-                    >
-                      {deleteServiceMutation.isPending && <Spinner />}
-                      {t("common:actions.delete")}
-                    </WaitButton>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </>
-          )}
-        </CardAction>
+            )}
+            <Button
+              variant="link"
+              onClick={() =>
+                navigate(`/dashboard/services/${service?.slug}/edit`)
+              }
+            >
+              <Pencil />
+              {t("services.show.actions.edit")}
+            </Button>
+            <ReusableDialog
+              open={openDeleteDialog}
+              onOpenChange={setOpenDeleteDialog}
+              triggerLabel={
+                <>
+                  <Trash2 />
+                  {t("services.show.actions.delete")}
+                </>
+              }
+              triggerProps={{
+                variant: "link",
+                className: "text-destructive hover:text-destructive/80",
+                onClick: () => setOpenDeleteDialog(true),
+              }}
+              title={t("services.delete.dialog.title")}
+              description={t("services.delete.dialog.description")}
+              confirmLabel={t("common:actions.delete")}
+              cancelLabel={t("common:actions.cancel")}
+              confirmVariant="destructive"
+              onConfirm={handleDeleteService}
+              disabled={deleteServiceMutation.isPending}
+              loading={deleteServiceMutation.isPending}
+            />
+          </CardAction>
+        )}
       </CardHeader>
       <CardContent className="flex flex-col flex-1 gap-5">
         <ServiceDetailsCard
