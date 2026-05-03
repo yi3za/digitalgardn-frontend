@@ -2,6 +2,8 @@ import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
 import { AdminUsersPage } from "@/pages/admin/AdminUsersPage";
 import { AdminServicesPage } from "@/pages/admin/AdminServicesPage";
 import { AdminCommandesPage } from "@/pages/admin/AdminCommandesPage";
+import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
+import { AdminCompetencesPage } from "@/pages/admin/AdminCompetencesPage";
 import { ProfilPage } from "@/pages/profil/ProfilPage";
 import { SettingsPage } from "@/pages/settings/SettingsPage";
 import { SettingsLayout } from "@/components/layout/SettingsLayout";
@@ -19,6 +21,8 @@ export const adminRoutes = {
     { path: "users", element: <AdminUsersPage /> },
     { path: "services", element: <AdminServicesPage /> },
     { path: "commandes", element: <AdminCommandesPage /> },
+    { path: "categories", element: <AdminCategoriesPage /> },
+    { path: "competences", element: <AdminCompetencesPage /> },
     { path: "profil", element: <ProfilPage /> },
     {
       path: "settings",

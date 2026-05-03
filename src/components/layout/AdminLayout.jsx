@@ -12,6 +12,8 @@ import {
   Home,
   BadgeCheck,
   Bell,
+  Tag,
+  Wrench,
 } from "lucide-react";
 import {
   Sidebar,
@@ -72,6 +74,18 @@ const ADMIN_NAV_ITEMS = [
     to: "/admin/commandes",
     icon: ShoppingCart,
     labelKey: "admin:nav.commandes",
+  },
+  {
+    key: "categories",
+    to: "/admin/categories",
+    icon: Tag,
+    labelKey: "admin:nav.categories",
+  },
+  {
+    key: "competences",
+    to: "/admin/competences",
+    icon: Wrench,
+    labelKey: "admin:nav.competences",
   },
 ];
 
