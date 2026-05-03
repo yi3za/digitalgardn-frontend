@@ -8,9 +8,11 @@ import {
   CardHeader,
   CardTitle,
   CardAction,
+  DataLoading,
+  DataError,
 } from "@/components/ui";
 import {
-  useCompetences,
+  useCompetenceBySlug,
   useServicesByCompetence,
 } from "@/features/public/catalog/competences/competences.query";
 import { ArrowLeft } from "lucide-react";
@@ -26,21 +28,35 @@ export function CompetenceShowPage() {
   const { slug } = useParams();
   const { t } = useTranslation(["catalog", "common"]);
   const navigate = useNavigate();
-  // Recupere toutes les competences pour trouver le nom et les enfants
-  const competencesQuery = useCompetences();
+  // Recupere la competence par slug avec ses enfants
+  const competenceQuery = useCompetenceBySlug(slug);
   // Recupere les services de la competence (ou sous-competence) selectionnee
   const servicesQuery = useServicesByCompetence(slug);
-  // Cherche d'abord parmi les parents, puis parmi les enfants
-  const allCompetences = competencesQuery.data ?? [];
-  const competence =
-    allCompetences.find((c) => c.slug === slug) ??
-    allCompetences.flatMap((c) => c.enfants ?? []).find((e) => e.slug === slug);
+  const {
+    data: competence,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = competenceQuery;
+  const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Les informations de la competence pour l'affichage
-  const title = competence?.nom ?? `#${slug}`;
+  const title = competence?.nom;
   const description =
     competence?.description ?? t("catalog:competences.description");
   // Les enfants de la competence pour l'affichage
   const children = competence?.enfants ?? [];
+
+  if (isLoading) return <DataLoading />;
+
+  if (isError)
+    return (
+      <DataError
+        errorCode={code}
+        retryText={t("common:actions.retry")}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="flex flex-col flex-1">
@@ -56,7 +72,7 @@ export function CompetenceShowPage() {
         </CardHeader>
         {children.length > 0 && (
           <CardContent>
-            <CompetencesGrid competences={children} linkTo="/competences" />
+            <CompetencesGrid competences={children} />
           </CardContent>
         )}
       </Card>
@@ -64,9 +80,7 @@ export function CompetenceShowPage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
-        renderItems={(services) => (
-          <ServicesGrid services={services} linkTo="/services" />
-        )}
+        renderItems={(services) => <ServicesGrid services={services} />}
       />
     </div>
   );
