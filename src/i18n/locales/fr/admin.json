@@ -103,8 +103,7 @@
     "confirm_delete": "Voulez-vous vraiment supprimer \"{{nom}}\" ?",
     "confirm_delete_title": "Supprimer la catégorie",
     "columns": {
-      "nom": "Nom",
-      "slug": "Slug",
+      "categorie": "Catégorie",
       "parent": "Parent",
       "ordre": "Ordre",
       "statut": "Statut",
@@ -143,8 +142,7 @@
     "confirm_delete": "Voulez-vous vraiment supprimer \"{{nom}}\" ?",
     "confirm_delete_title": "Supprimer la compétence",
     "columns": {
-      "nom": "Nom",
-      "slug": "Slug",
+      "competence": "Compétence",
       "parent": "Parent",
       "ordre": "Ordre",
       "statut": "Statut",
