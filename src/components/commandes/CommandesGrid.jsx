@@ -4,7 +4,7 @@ import { CommandeItem } from "./CommandeItem";
 /**
  * Grille des commandes
  */
-export function CommandesGrid({ t, commandes = [], linkTo = "/commandes" }) {
+export function CommandesGrid({ t, commandes = [], linkTo }) {
   return (
     <ItemGroup className="gap-3">
       {commandes.map((commande) => (

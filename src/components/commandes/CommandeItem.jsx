@@ -19,7 +19,7 @@ import { formatDateTime } from "@/lib/utils";
 /**
  * Composant qui affiche une commande individuelle
  */
-export function CommandeItem({ item, linkTo = "/commandes", t }) {
+export function CommandeItem({ item, linkTo, t }) {
   // Hook de navigation
   const navigate = useNavigate();
   // Gestion du clic sur la commande pour acceder a la conversation liee
