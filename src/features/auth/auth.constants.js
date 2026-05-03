@@ -36,3 +36,17 @@ export const AUTH_ROLE = {
   FREELANCE: "freelance",
   CLIENT: "client",
 };
+
+// Variants de badge par statut de compte
+export const ACCOUNT_STATUS_BADGE_VARIANT = {
+  [ACCOUNT_STATUS.ACTIF]: "default",
+  [ACCOUNT_STATUS.INACTIF]: "secondary",
+  [ACCOUNT_STATUS.BANNI]: "destructive",
+};
+
+// Variants de badge par role
+export const AUTH_ROLE_BADGE_VARIANT = {
+  [AUTH_ROLE.ADMIN]: "default",
+  [AUTH_ROLE.FREELANCE]: "secondary",
+  [AUTH_ROLE.CLIENT]: "outline",
+};
