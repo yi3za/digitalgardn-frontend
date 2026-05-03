@@ -9,7 +9,7 @@ import {
   Textarea,
   ReusableDialog,
 } from "../ui";
-import { StarRating } from "../ui/star-rating";
+import { StarRating } from "@/components/ui";
 import { useCreateAvis } from "@/features/account/commandes/commandes.mutations";
 import { storeAvisSchema } from "@/features/account/commandes/commandes.avis.schemas";
 
