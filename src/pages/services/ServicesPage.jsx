@@ -20,9 +20,7 @@ export function ServicesPage() {
       itemsQuery={servicesQuery}
       title={t("catalog:services.title")}
       description={t("catalog:services.description")}
-      renderItems={(services) => (
-        <ServicesGrid services={services} linkTo="/services" />
-      )}
+      renderItems={(services) => <ServicesGrid services={services} />}
       action={
         <Button asChild variant="link">
           <Link to="/">

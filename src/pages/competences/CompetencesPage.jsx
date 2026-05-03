@@ -22,11 +22,7 @@ export function CompetencesPage() {
       title={t("catalog:competences.title")}
       description={t("catalog:competences.description")}
       renderItems={(competences) => (
-        <CompetencesGrid
-          competences={competences}
-          linkTo="/competences"
-          variant="grid"
-        />
+        <CompetencesGrid competences={competences} variant="grid" />
       )}
       action={
         <Button type="button" variant="link" onClick={() => navigate(-1)}>

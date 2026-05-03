@@ -31,9 +31,7 @@ export function HomePage() {
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
-        renderItems={(categories) => (
-          <CategoriesGrid categories={categories} linkTo="/categories" />
-        )}
+        renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
           <Button asChild variant="link">
             <Link to="/categories">
@@ -47,7 +45,7 @@ export function HomePage() {
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
         renderItems={(competences) => (
-          <CompetencesGrid competences={competences} linkTo="/competences" />
+          <CompetencesGrid competences={competences} />
         )}
         action={
           <Button asChild variant="link">
@@ -61,9 +59,7 @@ export function HomePage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
-        renderItems={(services) => (
-          <ServicesGrid services={services} linkTo="/services" />
-        )}
+        renderItems={(services) => <ServicesGrid services={services} />}
         action={
           <Button asChild variant="link">
             <Link to="/services">

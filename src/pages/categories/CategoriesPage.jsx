@@ -23,11 +23,7 @@ export function CategoriesPage() {
       title={t("catalog:categories.title")}
       description={t("catalog:categories.description")}
       renderItems={(categories) => (
-        <CategoriesGrid
-          categories={categories}
-          linkTo="/categories"
-          variant="grid"
-        />
+        <CategoriesGrid categories={categories} variant="grid" />
       )}
       action={
         <Button type="button" variant="link" onClick={() => navigate(-1)}>
