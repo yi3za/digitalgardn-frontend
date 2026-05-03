@@ -1,2 +1,2 @@
-export { CategoryItem } from "./CategoryItem";
+export { CategorieItem } from "./CategorieItem";
 export { CategoriesGrid } from "./CategoriesGrid";

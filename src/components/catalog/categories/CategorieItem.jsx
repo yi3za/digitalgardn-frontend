@@ -1,15 +1,17 @@
 import { Item, ItemContent, ItemTitle, ItemMedia } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Composant qui affiche une categorie individuelle
  */
-export function CategoryItem({ item, linkTo = "/categories" }) {
+export function CategorieItem({ item }) {
   // Hook de navigation
   const navigate = useNavigate();
+  const { categories: categoriesBasePath } = useNavigationPaths();
   // Navigation vers la page categorie
   const handleClick = () => {
-    navigate(`${linkTo}/${item.slug}`);
+    navigate(`${categoriesBasePath}/${item.slug}`);
   };
 
   return (

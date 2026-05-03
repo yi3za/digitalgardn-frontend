@@ -8,9 +8,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  DataLoading,
+  DataError,
 } from "@/components/ui";
 import {
   useCategories,
+  useCategorieBySlug,
   useServicesByCategorie,
 } from "@/features/public/catalog/categories/categories.query";
 import { ArrowLeft } from "lucide-react";
@@ -22,25 +25,38 @@ import { useNavigate, useParams } from "react-router-dom";
  * Si c'est un parent, affiche ses enfants en scroll horizontal + tous leurs services.
  * Si c'est un enfant, affiche uniquement ses propres services.
  */
-export function CategoryShowPage() {
+export function CategorieShowPage() {
   const { slug } = useParams();
   const { t } = useTranslation(["catalog", "common"]);
   const navigate = useNavigate();
-  // Recupere toutes les categories pour trouver le nom et les enfants
-  const categoriesQuery = useCategories();
+  // Recupere la categorie par slug avec ses enfants
+  const categorieQuery = useCategorieBySlug(slug);
   // Recupere les services de la categorie (ou sous-categorie) selectionnee
   const servicesQuery = useServicesByCategorie(slug);
-  // Cherche d'abord parmi les parents, puis parmi les enfants
-  const allCategories = categoriesQuery.data ?? [];
-  // Cherche d'abord parmi les parents, puis parmi les enfants
-  const category =
-    allCategories.find((c) => c.slug === slug) ??
-    allCategories.flatMap((c) => c.enfants ?? []).find((e) => e.slug === slug);
+  const {
+    data: categorie,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = categorieQuery;
+  const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Les informations de la categorie pour l'affichage
-  const title = category?.nom ?? `#${slug}`;
-  const description = category?.description;
+  const title = categorie?.nom;
+  const description = categorie?.description;
   // Les enfants de la categorie pour l'affichage
-  const children = category?.enfants ?? [];
+  const children = categorie?.enfants ?? [];
+
+  if (isLoading) return <DataLoading />;
+
+  if (isError)
+    return (
+      <DataError
+        errorCode={code}
+        retryText={t("common:actions.retry")}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="flex flex-col flex-1">
@@ -56,7 +72,7 @@ export function CategoryShowPage() {
         </CardHeader>
         {children.length > 0 && (
           <CardContent>
-            <CategoriesGrid categories={children} linkTo="/categories" />
+            <CategoriesGrid categories={children} />
           </CardContent>
         )}
       </Card>
@@ -64,9 +80,7 @@ export function CategoryShowPage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
-        renderItems={(services) => (
-          <ServicesGrid services={services} linkTo="/services" />
-        )}
+        renderItems={(services) => <ServicesGrid services={services} />}
       />
     </div>
   );

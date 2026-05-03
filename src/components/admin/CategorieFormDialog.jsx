@@ -40,7 +40,7 @@ const DEFAULT_VALUES = {
 /**
  * Dialog de creation / modification d'une categorie avec trigger interne
  */
-export function CategoryFormDialog({
+export function CategorieFormDialog({
   categorie = null,
   parents = [],
   triggerLabel,

@@ -1,5 +1,5 @@
 import { CategoriesPage } from "@/pages/categories/CategoriesPage";
-import { CategoryShowPage } from "@/pages/categories/CategoryShowPage";
+import { CategorieShowPage } from "@/pages/categories/CategorieShowPage";
 
 /**
  * Routes publiques liees aux categories
@@ -13,7 +13,7 @@ export const categoriesRoutes = {
     },
     {
       path: ":slug",
-      element: <CategoryShowPage />,
+      element: <CategorieShowPage />,
     },
   ],
 };
