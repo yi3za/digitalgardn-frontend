@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useAdminCommandes } from "@/features/admin/admin.query";
+import { useAdminCommandes } from "@/features/admin/commandes/commandes.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { commandeStatusBadgeVariantByStatut } from "@/features/account/commandes/commandes.status";

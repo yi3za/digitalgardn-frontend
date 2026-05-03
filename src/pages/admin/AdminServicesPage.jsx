@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import {
   useAdminServices,
   useUpdateAdminServiceStatus,
-} from "@/features/admin/admin.query";
+} from "@/features/admin/services/services.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import {

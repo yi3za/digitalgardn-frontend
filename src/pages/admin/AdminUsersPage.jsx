@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import {
   useAdminUsers,
   useUpdateAdminUserStatus,
-} from "@/features/admin/admin.query";
+} from "@/features/admin/users/users.query";
 import { formatDateTime } from "@/lib/utils";
 import { toast } from "sonner";
 import {

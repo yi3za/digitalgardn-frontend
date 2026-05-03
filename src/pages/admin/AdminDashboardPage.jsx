@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useAdminStats } from "@/features/admin/admin.query";
+import { useAdminStats } from "@/features/admin/stats/stats.query";
 import { Users, Layers, ShoppingCart, ShieldOff } from "lucide-react";
 import {
   Card,
