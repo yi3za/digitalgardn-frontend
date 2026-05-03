@@ -199,3 +199,15 @@ export {
 } from "./tooltip";
 export { Badge, badgeVariants } from "./badge";
 export { NotificationBadge } from "./notification-badge";
+export { Toaster } from "./sonner";
+export { StarRating } from "./star-rating";
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "./table";
