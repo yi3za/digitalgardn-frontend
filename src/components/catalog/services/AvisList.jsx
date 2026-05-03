@@ -8,8 +8,11 @@ import {
   DataError,
   DataLoading,
   Item,
+  ItemContent,
+  ItemTitle,
+  ItemDescription,
+  ItemActions,
   ItemGroup,
-  Separator,
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { Star } from "lucide-react";
@@ -44,50 +47,42 @@ export function AvisList({
             onRetry={refetch}
           />
         )}
-        {(!avis || avis.length === 0) && (
+        {!isLoading && !isError && avis.length === 0 && (
           <DataEmpty description={t("common:states.empty")} />
         )}
-        {avis.length > 0 && (
+        {!isLoading && !isError && avis.length > 0 && (
           <>
             <p className="text-sm text-muted-foreground mb-4">
               {avis.length} {t("catalog:avis.count_suffix")}
             </p>
-            <ItemGroup className="space-y-0">
-              {avis.map((item, index) => (
-                <div key={item.id || index}>
-                  <Item
-                    variant="outline"
-                    className="flex-col items-start gap-3"
-                  >
-                    <div className="w-full">
-                      <div className="flex items-center justify-between mb-2">
-                        <AvatarIdentity user={item?.client} />
-                        <div className="flex items-center gap-1">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                              key={i}
-                              size={16}
-                              className={
-                                i < item.note
-                                  ? "text-yellow-500 fill-yellow-500"
-                                  : "text-gray-300"
-                              }
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      {item?.commentaire && (
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {item.commentaire}
-                        </p>
-                      )}
-                      <p className="text-xs text-gray-400">
-                        {formatDateTime(item?.created_at)}
-                      </p>
-                    </div>
-                  </Item>
-                  {index < avis.length - 1 && <Separator className="my-2" />}
-                </div>
+            <ItemGroup className="gap-3">
+              {avis.map((item) => (
+                <Item key={item.id} variant="outline">
+                  <ItemContent>
+                    <ItemTitle>
+                      <AvatarIdentity user={item?.client} />
+                    </ItemTitle>
+                    {item?.commentaire && (
+                      <ItemDescription>{item.commentaire}</ItemDescription>
+                    )}
+                    <ItemDescription className="text-xs">
+                      {formatDateTime(item?.created_at)}
+                    </ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={16}
+                        className={
+                          i < item.note
+                            ? "text-yellow-500 fill-yellow-500"
+                            : "text-gray-300"
+                        }
+                      />
+                    ))}
+                  </ItemActions>
+                </Item>
               ))}
             </ItemGroup>
           </>
