@@ -16,35 +16,29 @@ import {
   DataError,
   DataEmpty,
   Button,
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
 } from "@/components/ui";
-import { ACCOUNT_STATUS, AUTH_ROLE } from "@/features/auth/auth.constants";
-
-// Variants de badge par statut utilisateur
-const USER_STATUS_VARIANT = {
-  [ACCOUNT_STATUS.ACTIF]: "default",
-  [ACCOUNT_STATUS.INACTIF]: "secondary",
-  [ACCOUNT_STATUS.BANNI]: "destructive",
-};
-
-// Variants de badge par role
-const ROLE_VARIANT = {
-  [AUTH_ROLE.ADMIN]: "default",
-  [AUTH_ROLE.FREELANCE]: "secondary",
-  [AUTH_ROLE.CLIENT]: "outline",
-};
+import {
+  ACCOUNT_STATUS,
+  ACCOUNT_STATUS_BADGE_VARIANT,
+  AUTH_ROLE_BADGE_VARIANT,
+} from "@/features/auth/auth.constants";
 
 /**
  * Page de gestion des utilisateurs (espace admin)
  */
 export function AdminUsersPage() {
   // Hook de traduction
-  const { t } = useTranslation(["admin", "codes"]);
+  const { t } = useTranslation(["admin", "codes", "common"]);
   // Requete de recuperation des utilisateurs
-  const { data, isLoading, isError, error, refetch } = useAdminUsers();
+  const { data: users, isLoading, isError, error, refetch } = useAdminUsers();
   const mutation = useUpdateAdminUserStatus();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
-  // Extraction des utilisateurs et de la pagination de la reponse de la requete
-  const users = data?.users ?? [];
   // Fonction de gestion du changement de statut d'un utilisateur (actif, inactif, banni)
   const handleStatusChange = async (userId, newStatus) => {
     try {
@@ -56,99 +50,95 @@ export function AdminUsersPage() {
   };
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none flex-1">
       <CardHeader>
         <CardTitle>{t("admin:users.title")}</CardTitle>
         <CardDescription>{t("admin:users.description")}</CardDescription>
       </CardHeader>
-      <CardContent className="p-0 space-y-4">
+      <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
-        {isError && <DataError errorCode={code} onRetry={refetch} />}
-        {!isLoading && !isError && users.length === 0 && <DataEmpty />}
+        {isError && (
+          <DataError
+            errorCode={code}
+            onRetry={refetch}
+            retryText={t("common:actions.retry")}
+          />
+        )}
+        {!isLoading && !isError && users.length === 0 && (
+          <DataEmpty description={t("common:states.empty")} />
+        )}
         {!isLoading && !isError && users.length > 0 && (
-          <div className="overflow-x-auto rounded-md border">
-            <table className="w-full text-sm">
-              <thead className="border-b bg-muted/50">
-                <tr>
-                  {["user", "role", "status", "joined", "actions"].map(
-                    (col) => (
-                      <th
-                        key={col}
-                        className="px-4 py-3 text-left font-medium text-muted-foreground"
-                      >
-                        {t(`admin:users.columns.${col}`)}
-                      </th>
-                    ),
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="border-b last:border-0 hover:bg-muted/30 transition-colors"
-                  >
-                    <td className="px-4 py-3">
-                      <div className="font-medium">{user.name}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {user.email}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge variant={ROLE_VARIANT[user.role] ?? "outline"}>
-                        {t(`admin:users.roles.${user.role}`)}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge
-                        variant={
-                          USER_STATUS_VARIANT[user.status] ?? "secondary"
-                        }
-                      >
-                        {t(`admin:users.statuses.${user.status}`)}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {formatDateTime(user.created_at)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-1">
-                        {user.status !== "actif" && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleStatusChange(user.id, "actif")}
-                          >
-                            {t("admin:users.actions.set_actif")}
-                          </Button>
-                        )}
-                        {user.status !== "inactif" && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() =>
-                              handleStatusChange(user.id, "inactif")
-                            }
-                          >
-                            {t("admin:users.actions.set_inactif")}
-                          </Button>
-                        )}
-                        {user.status !== "banni" && (
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => handleStatusChange(user.id, "banni")}
-                          >
-                            {t("admin:users.actions.set_banni")}
-                          </Button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {["user", "role", "status", "joined", "actions"].map((col) => (
+                  <TableHead key={col}>
+                    {t(`admin:users.columns.${col}`)}
+                  </TableHead>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>
+                    <div>{user.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {user.email}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={AUTH_ROLE_BADGE_VARIANT[user.role]}>
+                      {t(`admin:users.roles.${user.role}`)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={ACCOUNT_STATUS_BADGE_VARIANT[user.status]}>
+                      {t(`admin:users.statuses.${user.status}`)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{formatDateTime(user.created_at)}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 [&_button]:flex-1">
+                      {user.status !== ACCOUNT_STATUS.ACTIF && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() =>
+                            handleStatusChange(user.id, ACCOUNT_STATUS.ACTIF)
+                          }
+                        >
+                          {t("admin:users.actions.set_actif")}
+                        </Button>
+                      )}
+                      {user.status !== ACCOUNT_STATUS.INACTIF && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() =>
+                            handleStatusChange(user.id, ACCOUNT_STATUS.INACTIF)
+                          }
+                        >
+                          {t("admin:users.actions.set_inactif")}
+                        </Button>
+                      )}
+                      {user.status !== ACCOUNT_STATUS.BANNI && (
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() =>
+                            handleStatusChange(user.id, ACCOUNT_STATUS.BANNI)
+                          }
+                        >
+                          {t("admin:users.actions.set_banni")}
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </CardContent>
     </Card>
