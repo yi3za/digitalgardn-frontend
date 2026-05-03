@@ -1,7 +1,7 @@
 import { AppRouter } from "@/routes/AppRouter";
 import { store } from "@/store";
 import { Provider } from "react-redux";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui";
 import { useEffect } from "react";
 import { getMeThunk } from "@/features/auth/auth.thunks";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ export function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <AppRouter />
-        <Toaster position="top-center" />
+        <Toaster position="top-right" />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
