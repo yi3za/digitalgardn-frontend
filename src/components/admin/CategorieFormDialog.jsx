@@ -107,6 +107,11 @@ export function CategorieFormDialog({
           ? t("admin:categories.form.title_edit")
           : t("admin:categories.form.title_create")
       }
+      description={
+        isEdit
+          ? t("admin:categories.form.description_edit")
+          : t("admin:categories.form.description_create")
+      }
       confirmLabel={
         isEdit
           ? t("admin:categories.form.save")

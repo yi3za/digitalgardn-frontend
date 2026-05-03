@@ -107,6 +107,11 @@ export function CompetenceFormDialog({
           ? t("admin:competences.form.title_edit")
           : t("admin:competences.form.title_create")
       }
+      description={
+        isEdit
+          ? t("admin:competences.form.description_edit")
+          : t("admin:competences.form.description_create")
+      }
       confirmLabel={
         isEdit
           ? t("admin:competences.form.save")
