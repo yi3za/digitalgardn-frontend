@@ -6,6 +6,12 @@ export const getCategories = async () => {
   return data?.details?.categories;
 };
 
+// Recupere une categorie par slug avec ses enfants
+export const getCategorieBySlug = async (slug) => {
+  const { data } = await client.get(`/api/categories/${slug}`);
+  return data?.details?.categorie;
+};
+
 // Recupere tous les services d'une categorie
 export const getServicesByCategorie = async (slug) => {
   const { data } = await client.get(`/api/categories/${slug}/services`);
