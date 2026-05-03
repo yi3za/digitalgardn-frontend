@@ -5,12 +5,10 @@ import {
 } from "@/features/admin/users/users.query";
 import { formatDateTime } from "@/lib/utils";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Badge,
   DataLoading,
   DataError,
@@ -36,7 +34,14 @@ export function AdminUsersPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
   // Requete de recuperation des utilisateurs
-  const { data: users, isLoading, isError, error, refetch } = useAdminUsers();
+  const {
+    data: users,
+    isLoading,
+    isError,
+    isFetching,
+    error,
+    refetch,
+  } = useAdminUsers();
   const mutation = useUpdateAdminUserStatus();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Fonction de gestion du changement de statut d'un utilisateur (actif, inactif, banni)
@@ -51,10 +56,12 @@ export function AdminUsersPage() {
 
   return (
     <Card className="border-0 shadow-none flex-1">
-      <CardHeader>
-        <CardTitle>{t("admin:users.title")}</CardTitle>
-        <CardDescription>{t("admin:users.description")}</CardDescription>
-      </CardHeader>
+      <AdminPageHeader
+        title={t("admin:users.title")}
+        description={t("admin:users.description")}
+        onRefresh={refetch}
+        isFetching={isFetching}
+      />
       <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
         {isError && (

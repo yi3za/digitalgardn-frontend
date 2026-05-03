@@ -3,12 +3,10 @@ import { useAdminCommandes } from "@/features/admin/commandes/commandes.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { commandeStatusBadgeVariantByStatut } from "@/features/account/commandes/commandes.status";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Badge,
   DataLoading,
   DataError,
@@ -32,6 +30,7 @@ export function AdminCommandesPage() {
     data: commandes,
     isLoading,
     isError,
+    isFetching,
     error,
     refetch,
   } = useAdminCommandes();
@@ -39,10 +38,12 @@ export function AdminCommandesPage() {
 
   return (
     <Card className="border-0 shadow-none flex-1">
-      <CardHeader>
-        <CardTitle>{t("admin:commandes.title")}</CardTitle>
-        <CardDescription>{t("admin:commandes.description")}</CardDescription>
-      </CardHeader>
+      <AdminPageHeader
+        title={t("admin:commandes.title")}
+        description={t("admin:commandes.description")}
+        onRefresh={refetch}
+        isFetching={isFetching}
+      />
       <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
         {isError && (

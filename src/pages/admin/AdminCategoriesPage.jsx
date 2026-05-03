@@ -6,12 +6,10 @@ import {
   useDeleteAdminCategorie,
 } from "@/features/admin/categories/categories.query";
 import { CategoryFormDialog } from "@/components/admin/CategoryFormDialog";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Badge,
   DataLoading,
   DataError,
@@ -22,7 +20,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  CardAction,
   ReusableDialog,
 } from "@/components/ui";
 
@@ -37,6 +34,7 @@ export function AdminCategoriesPage() {
     data: categories,
     isLoading,
     isError,
+    isFetching,
     error,
     refetch,
   } = useAdminCategories();
@@ -58,10 +56,12 @@ export function AdminCategoriesPage() {
 
   return (
     <Card className="border-0 shadow-none flex-1">
-      <CardHeader>
-        <CardTitle>{t("admin:categories.title")}</CardTitle>
-        <CardDescription>{t("admin:categories.description")}</CardDescription>
-        <CardAction>
+      <AdminPageHeader
+        title={t("admin:categories.title")}
+        description={t("admin:categories.description")}
+        onRefresh={refetch}
+        isFetching={isFetching}
+        actions={
           <CategoryFormDialog
             parents={parents}
             triggerLabel={
@@ -72,8 +72,8 @@ export function AdminCategoriesPage() {
             }
             triggerProps={{ variant: "link" }}
           />
-        </CardAction>
-      </CardHeader>
+        }
+      />
       <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
         {isError && (

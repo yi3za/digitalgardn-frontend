@@ -10,12 +10,10 @@ import {
   serviceStatusBadgeVariantByStatut,
 } from "@/features/freelance/catalog/services/services.status";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Badge,
   DataLoading,
   DataError,
@@ -40,6 +38,7 @@ export function AdminServicesPage() {
     data: services,
     isLoading,
     isError,
+    isFetching,
     error,
     refetch,
   } = useAdminServices();
@@ -58,10 +57,12 @@ export function AdminServicesPage() {
 
   return (
     <Card className="border-0 shadow-none flex-1">
-      <CardHeader>
-        <CardTitle>{t("admin:services.title")}</CardTitle>
-        <CardDescription>{t("admin:services.description")}</CardDescription>
-      </CardHeader>
+      <AdminPageHeader
+        title={t("admin:services.title")}
+        description={t("admin:services.description")}
+        onRefresh={refetch}
+        isFetching={isFetching}
+      />
       <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
         {isError && (

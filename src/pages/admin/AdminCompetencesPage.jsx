@@ -6,12 +6,10 @@ import {
   useDeleteAdminCompetence,
 } from "@/features/admin/competences/competences.query";
 import { CompetenceFormDialog } from "@/components/admin/CompetenceFormDialog";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Badge,
   DataLoading,
   DataError,
@@ -22,7 +20,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  CardAction,
   ReusableDialog,
 } from "@/components/ui";
 
@@ -37,6 +34,7 @@ export function AdminCompetencesPage() {
     data: competences,
     isLoading,
     isError,
+    isFetching,
     error,
     refetch,
   } = useAdminCompetences();
@@ -58,10 +56,12 @@ export function AdminCompetencesPage() {
 
   return (
     <Card className="border-0 shadow-none flex-1">
-      <CardHeader>
-        <CardTitle>{t("admin:competences.title")}</CardTitle>
-        <CardDescription>{t("admin:competences.description")}</CardDescription>
-        <CardAction>
+      <AdminPageHeader
+        title={t("admin:competences.title")}
+        description={t("admin:competences.description")}
+        onRefresh={refetch}
+        isFetching={isFetching}
+        actions={
           <CompetenceFormDialog
             parents={parents}
             triggerLabel={
@@ -72,8 +72,8 @@ export function AdminCompetencesPage() {
             }
             triggerProps={{ variant: "link" }}
           />
-        </CardAction>
-      </CardHeader>
+        }
+      />
       <CardContent className="flex flex-1">
         {isLoading && <DataLoading />}
         {isError && (
