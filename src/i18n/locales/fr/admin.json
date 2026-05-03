@@ -6,6 +6,8 @@
     "users": "Utilisateurs",
     "services": "Services",
     "commandes": "Commandes",
+    "categories": "Catégories",
+    "competences": "Compétences",
     "backToSite": "Retour au site",
     "account": "Mon compte",
     "settings": "Paramètres",
@@ -93,6 +95,84 @@
       "en_revision": "En révision",
       "terminee": "Terminée",
       "annulee": "Annulée"
+    }
+  },
+  "categories": {
+    "title": "Gestion des catégories",
+    "description": "Créez, modifiez et supprimez les catégories de services.",
+    "confirm_delete": "Voulez-vous vraiment supprimer \"{{nom}}\" ?",
+    "confirm_delete_title": "Supprimer la catégorie",
+    "columns": {
+      "nom": "Nom",
+      "slug": "Slug",
+      "parent": "Parent",
+      "ordre": "Ordre",
+      "statut": "Statut",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "create": "Nouvelle catégorie",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "title_create": "Créer une catégorie",
+      "title_edit": "Modifier la catégorie",
+      "nom": "Nom",
+      "nom_placeholder": "Ex: Développement Web",
+      "slug": "Slug",
+      "slug_placeholder": "Ex: developpement-web",
+      "description": "Description",
+      "description_placeholder": "Courte description de la catégorie",
+      "ordre": "Ordre",
+      "ordre_placeholder": "0",
+      "parent": "Catégorie parente",
+      "no_parent": "Aucune (catégorie racine)",
+      "est_active": "Active",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "competences": {
+    "title": "Gestion des compétences",
+    "description": "Créez, modifiez et supprimez les compétences de services.",
+    "confirm_delete": "Voulez-vous vraiment supprimer \"{{nom}}\" ?",
+    "confirm_delete_title": "Supprimer la compétence",
+    "columns": {
+      "nom": "Nom",
+      "slug": "Slug",
+      "parent": "Parent",
+      "ordre": "Ordre",
+      "statut": "Statut",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "create": "Nouvelle compétence",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "title_create": "Créer une compétence",
+      "title_edit": "Modifier la compétence",
+      "nom": "Nom",
+      "nom_placeholder": "Ex: React.js",
+      "description": "Description",
+      "description_placeholder": "Courte description de la compétence",
+      "ordre": "Ordre",
+      "ordre_placeholder": "0",
+      "parent": "Compétence parente",
+      "no_parent": "Aucune (compétence racine)",
+      "est_active": "Active",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
     }
   }
 }
