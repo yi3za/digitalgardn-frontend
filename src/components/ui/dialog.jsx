@@ -155,7 +155,7 @@ function ReusableDialog({
       <DialogTrigger asChild>
         <Button {...triggerProps}>{triggerLabel}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={description ? undefined : "none"}>
         <DialogHeader>
           {title && <DialogTitle>{title}</DialogTitle>}
           {description && <DialogDescription>{description}</DialogDescription>}
