@@ -120,6 +120,8 @@
     "form": {
       "title_create": "Créer une catégorie",
       "title_edit": "Modifier la catégorie",
+      "description_create": "Remplissez les informations pour créer une nouvelle catégorie.",
+      "description_edit": "Modifiez les informations de la catégorie sélectionnée.",
       "nom": "Nom",
       "nom_placeholder": "Ex: Développement Web",
       "slug": "Slug",
@@ -159,6 +161,8 @@
     "form": {
       "title_create": "Créer une compétence",
       "title_edit": "Modifier la compétence",
+      "description_create": "Remplissez les informations pour créer une nouvelle compétence.",
+      "description_edit": "Modifiez les informations de la compétence sélectionnée.",
       "nom": "Nom",
       "nom_placeholder": "Ex: React.js",
       "description": "Description",
