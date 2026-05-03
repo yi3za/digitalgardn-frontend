@@ -1,19 +1,25 @@
 import { Item, ItemContent, ItemTitle, ItemMedia } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Composant qui affiche une competence individuelle
  */
-export function CompetenceItem({ item, linkTo = "/competences" }) {
+export function CompetenceItem({ item }) {
   // Hook de navigation
   const navigate = useNavigate();
+  const { competences: competencesBasePath } = useNavigationPaths();
   // Navigation vers la page competence
   const handleClick = () => {
-    navigate(`${linkTo}/${item.slug}`);
+    navigate(`${competencesBasePath}/${item.slug}`);
   };
 
   return (
-    <Item asChild className="min-w-50 cursor-pointer overflow-hidden" variant="outline">
+    <Item
+      asChild
+      className="min-w-50 cursor-pointer overflow-hidden"
+      variant="outline"
+    >
       <button onClick={handleClick}>
         <ItemMedia>
           <img

@@ -1,6 +1,7 @@
 import { Eye, User } from "lucide-react";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useNavigate } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import {
   Avatar,
   AvatarFallback,
@@ -43,6 +44,8 @@ export function ProfilViewItem({
 }) {
   // Hook de navigation
   const navigate = useNavigate();
+  // Base path selon le contexte (public ou admin)
+  const { freelancers: freelancersBasePath } = useNavigationPaths();
   // Verifier si l'utilisateur est un freelance pour afficher le bouton de visualisation du profil
   const isFreelance = user?.role === AUTH_ROLE.FREELANCE;
 
@@ -57,7 +60,7 @@ export function ProfilViewItem({
           <Button
             variant="outline"
             className="shadow-none"
-            onClick={() => navigate(`/freelancers/${user?.username}`)}
+            onClick={() => navigate(`${freelancersBasePath}/${user?.username}`)}
           >
             <Eye />
             {t("voirInfo.action")}

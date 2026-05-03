@@ -15,20 +15,22 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { useState } from "react";
 import { Star } from "lucide-react";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Composant qui affiche un service individuel dans le catalogue
  */
-export function ServiceItem({ item, linkTo = "/services", dashboard = false }) {
+export function ServiceItem({ item, linkTo, dashboard = false }) {
   // Hook de navigation pour redirections
   const navigate = useNavigate();
+  const { services: servicesBasePath } = useNavigationPaths();
   // Hook de traduction pour les textes statiques du composant
   const { t } = useTranslation(["dashboard", "catalog"]);
   // Etat local pour gerer le hover sur le service
   const [hovred, setHovered] = useState(false);
   // Fonction de gestion du clic sur le service pour redirection vers la page de details
   const handleClick = () => {
-    navigate(`${linkTo}/${item.slug}`);
+    navigate(`${linkTo ?? servicesBasePath}/${item.slug}`);
   };
 
   return (

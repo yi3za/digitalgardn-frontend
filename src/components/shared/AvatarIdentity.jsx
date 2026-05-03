@@ -1,7 +1,8 @@
 import { getFallbackName } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "../ui";
 import { useNavigate } from "react-router-dom";
-import { AUTH_STATUS } from "@/features/auth/auth.constants";
+import { AUTH_ROLE } from "@/features/auth/auth.constants";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Affiche l'avatar d'un utilisateur avec lien vers le profil freelancer si applicable
@@ -9,14 +10,16 @@ import { AUTH_STATUS } from "@/features/auth/auth.constants";
 export function AvatarIdentity({ user }) {
   // Hook de navigation
   const navigate = useNavigate();
+  // Base paths selon le contexte (public ou admin)
+  const { freelancers: freelancersBasePath } = useNavigationPaths();
   // Genere un nom fallback
   const fallbackName = getFallbackName(user?.name);
   // Determine si l'utilisateur est un freelancer
-  const isFreelancer = user?.role === AUTH_STATUS.FREELANCE;
+  const isFreelancer = user?.role === AUTH_ROLE.FREELANCE;
   // Gestion du clic pour naviguer vers le profil freelancer
   const handleClick = (e) => {
     if (isFreelancer) {
-      navigate(`/freelancers/${user?.username}`);
+      navigate(`${freelancersBasePath}/${user?.username}`);
     }
     e.stopPropagation();
   };

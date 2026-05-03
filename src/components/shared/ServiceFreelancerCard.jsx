@@ -13,6 +13,7 @@ import {
 import { cn, getFallbackName } from "@/lib/utils";
 import { UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Carte des informations du freelance lie a un service avec lien vers son profil public
@@ -24,6 +25,8 @@ export function ServiceFreelancerCard({
   descriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
   if (!user) return null;
+  // Base paths selon le contexte (public ou admin)
+  const { freelancers: freelancersBasePath } = useNavigationPaths();
 
   return (
     <Card className="shadow-none">
@@ -32,7 +35,7 @@ export function ServiceFreelancerCard({
         <CardDescription>{t(descriptionKey)}</CardDescription>
         <CardAction>
           <Button asChild variant="link">
-            <Link to={`/freelancers/${user.username}`}>
+            <Link to={`${freelancersBasePath}/${user.username}`}>
               <UserRound /> {t("catalog:serviceShow.viewFreelancer")}
             </Link>
           </Button>
@@ -42,9 +45,7 @@ export function ServiceFreelancerCard({
         <div className="flex items-center gap-3">
           <Avatar className="size-12">
             <AvatarImage src={user.avatar_url} alt={user.name} />
-            <AvatarFallback>
-              {getFallbackName(user.name || user.username) || "?"}
-            </AvatarFallback>
+            <AvatarFallback>{getFallbackName(user.name)}</AvatarFallback>
           </Avatar>
           <div className={cn("min-w-0")}>
             <p className="font-medium truncate">{user.name || user.username}</p>
