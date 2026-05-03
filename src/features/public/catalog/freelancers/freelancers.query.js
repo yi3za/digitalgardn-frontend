@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getFreelancerByUsername } from "./freelancers.api";
+import { getFreelancerByUsername, getFreelancerAvis } from "./freelancers.api";
 import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 
@@ -18,3 +18,11 @@ export const useFreelancer = (username) => {
     refetchOnMount: isOwner ? "always" : false,
   });
 };
+
+// Hook pour recuperer les avis recus par un freelance
+export const useFreelancerAvis = (username) =>
+  useQuery({
+    queryKey: ["freelancer", username, "avis"],
+    queryFn: () => getFreelancerAvis(username),
+    enabled: !!username,
+  });
