@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useService } from "@/features/public/catalog/services/services.query";
 import { authSelector } from "@/features/auth/auth.selectors";
+import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useCreateCommande } from "@/features/account/commandes/commandes.mutations";
 import {
   useCreateConversation,
@@ -45,6 +46,8 @@ export function ServiceShowPage() {
   const user = service?.user;
   // IsOwnService permet de determiner si le service affiche appartient a l'utilisateur connecte
   const isOwnService = currentUser?.id === user?.id;
+  // L'admin ne peut pas acheter ni contacter le freelance
+  const isAdmin = currentUser?.role === AUTH_ROLE.ADMIN;
   // Gestion du clic sur le bouton d'achat du service
   const [instructionsDialogOpen, setInstructionsDialogOpen] = useState(false);
   // Fonction de gestion du clic sur le bouton d'achat
@@ -90,7 +93,8 @@ export function ServiceShowPage() {
         showFreelancerSection={!isOwnService}
         showAvis={true}
         footerActions={
-          !isOwnService && (
+          !isOwnService &&
+          !isAdmin && (
             <ServiceInstructionsDialog
               t={t}
               triggerLabel={

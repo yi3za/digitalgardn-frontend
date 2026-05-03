@@ -16,8 +16,12 @@ import {
   Spinner,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
+import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useCreateConversation } from "@/features/messages/messages.mutations";
-import { useFreelancer } from "@/features/public/catalog/freelancers/freelancers.query";
+import {
+  useFreelancer,
+  useFreelancerAvis,
+} from "@/features/public/catalog/freelancers/freelancers.query";
 import { getFallbackName } from "@/lib/utils";
 import { MessageCircle } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -25,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { SkillBadges } from "@/components/shared/SkillBadges";
+import { AvisList } from "@/components/catalog/services/AvisList";
 
 /**
  * Page publique d'affichage d'un freelance
@@ -42,6 +47,8 @@ export function FreelancerShowPage() {
   const createConversationMutation = useCreateConversation();
   // Requete pour recuperer les informations du freelance et de ses services publies
   const freelancerQuery = useFreelancer(username);
+  // Requete pour recuperer les avis recus par le freelance
+  const avisQuery = useFreelancerAvis(username);
   // Destructuration des etats de la requete pour faciliter
   const { data, isLoading, isError, isFetching, error, refetch } =
     freelancerQuery;
@@ -53,6 +60,8 @@ export function FreelancerShowPage() {
   const services = data?.services ?? [];
   // IsOwnFreelancer permet de determiner si le profil affiche appartient a l'utilisateur connecte
   const isOwnFreelancer = currentUser?.id === freelancer?.id;
+  // L'admin ne peut pas contacter le freelance
+  const isAdmin = currentUser?.role === AUTH_ROLE.ADMIN;
   // Demarrer une conversation avec le freelance depuis sa page publique
   const handleContactFreelancer = async () => {
     if (!freelancer?.id) return;
@@ -98,7 +107,7 @@ export function FreelancerShowPage() {
             {isFetching && <Spinner className="inline mx-5" />}
           </CardTitle>
           <CardDescription>@{freelancer.username}</CardDescription>
-          {!isOwnFreelancer && (
+          {!isOwnFreelancer && !isAdmin && (
             <CardAction>
               <Button
                 variant="link"
@@ -165,12 +174,20 @@ export function FreelancerShowPage() {
         </CardHeader>
         <CardContent>
           {services.length ? (
-            <ServicesGrid services={services} linkTo="/services" />
+            <ServicesGrid services={services} />
           ) : (
             <DataEmpty description={t("common:states.empty")} />
           )}
         </CardContent>
       </Card>
+      <AvisList
+        avis={avisQuery.data ?? []}
+        isLoading={avisQuery.isLoading}
+        isError={avisQuery.isError}
+        error={avisQuery.error}
+        refetch={avisQuery.refetch}
+        t={t}
+      />
     </div>
   );
 }
