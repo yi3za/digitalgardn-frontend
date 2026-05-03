@@ -6,6 +6,12 @@ export const getCompetences = async () => {
   return data?.details?.competences;
 };
 
+// Recupere une competence par slug avec ses enfants
+export const getCompetenceBySlug = async (slug) => {
+  const { data } = await client.get(`/api/competences/${slug}`);
+  return data?.details?.competence;
+};
+
 // Recupere tous les services d'une competence
 export const getServicesByCompetence = async (slug) => {
   const { data } = await client.get(`/api/competences/${slug}/services`);
