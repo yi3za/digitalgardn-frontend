@@ -1,54 +1,38 @@
 import { formatDateTime, formatPrice } from "@/lib/utils";
-import { TRANSACTION_TYPE } from "@/features/account/portefeuille/portefeuille.constants";
+import {
+  TRANSACTION_TYPE,
+  TRANSACTION_TYPE_BADGE_VARIANT,
+} from "@/features/account/portefeuille/portefeuille.constants";
 import {
   Badge,
   Item,
   ItemActions,
   ItemContent,
   ItemDescription,
-  ItemMedia,
   ItemTitle,
 } from "../ui";
-import { ArrowDownLeft, ArrowUpRight, RefreshCw } from "lucide-react";
-
-// Metadonnees par type de transaction : icone et couleur
-const TRANSACTION_META = {
-  [TRANSACTION_TYPE.RECHARGE]: {
-    icon: ArrowDownLeft,
-    className: "text-green-500",
-  },
-  [TRANSACTION_TYPE.GAIN]: { icon: ArrowDownLeft, className: "text-green-500" },
-  [TRANSACTION_TYPE.ACHAT]: { icon: ArrowUpRight, className: "text-red-500" },
-  [TRANSACTION_TYPE.REMBOURSEMENT]: {
-    icon: RefreshCw,
-    className: "text-blue-500",
-  },
-};
 
 /**
  * Ligne d'affichage d'une transaction
  */
-export function TransactionRow({ tx, t }) {
-  const meta = TRANSACTION_META[tx.type];
-  const Icon = meta.icon;
+export function TransactionRow({ transaction, t }) {
   // Prefixe signe selon le sens de la transaction
-  const sign = tx.type === TRANSACTION_TYPE.ACHAT ? "-" : "+";
+  const sign = transaction.type === TRANSACTION_TYPE.ACHAT ? "-" : "+";
 
   return (
     <Item size="sm">
-      <ItemMedia>
-        <Icon className={meta.className} />
-      </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          {t(`profil:portefeuille.transactions.types.${tx.type}`)}
+          {t(`profil:portefeuille.transactions.types.${transaction.type}`)}
         </ItemTitle>
-        <ItemDescription>{formatDateTime(tx.created_at)}</ItemDescription>
+        <ItemDescription>
+          {formatDateTime(transaction.created_at)}
+        </ItemDescription>
       </ItemContent>
       <ItemActions>
-        <Badge variant="outline" className={meta.className}>
+        <Badge variant={TRANSACTION_TYPE_BADGE_VARIANT[transaction.type]}>
           {sign}
-          {formatPrice(tx.montant)}
+          {formatPrice(transaction.montant)}
         </Badge>
       </ItemActions>
     </Item>

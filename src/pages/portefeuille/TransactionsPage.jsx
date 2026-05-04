@@ -25,8 +25,12 @@ export function TransactionsPage() {
       emptyDescription={t("profil:portefeuille.transactions.empty")}
       renderItems={(transactions) => (
         <div>
-          {transactions.map((tx) => (
-            <TransactionRow key={tx.id} tx={tx} t={t} />
+          {transactions.map((transaction) => (
+            <TransactionRow
+              key={transaction.id}
+              transaction={transaction}
+              t={t}
+            />
           ))}
         </div>
       )}

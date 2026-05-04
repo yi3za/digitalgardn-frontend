@@ -3,23 +3,24 @@ import { Button, ScrollArea } from "@/components/ui";
 import { PortefeuilleSummaryCard } from "@/components/portefeuille/PortefeuilleSummaryCard";
 import { TransactionsRechargeDialog } from "@/components/portefeuille/TransactionsRechargeDialog";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
-import {
-  usePortefeuille,
-  usePortefeuilleTransactions,
-} from "@/features/account/portefeuille/portefeuille.query";
+import { usePortefeuille } from "@/features/account/portefeuille/portefeuille.query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 /**
- * Page principale du portefeuille qui affiche le solde et les transactions recentes
+ * Page principale du portefeuille qui affiche le solde et les 10 dernieres transactions
  */
 export function PortefeuillePage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
   const { t } = useTranslation(["profil", "common"]);
-  // Requetes pour recuperer les donnees du portefeuille et de ses transactions
+  // Requete unique : le portefeuille inclut les 10 dernieres transactions
   const portefeuilleQuery = usePortefeuille();
-  const transactionsQuery = usePortefeuilleTransactions();
+  // Query adaptee pour QueryItemsSection : pointe vers le tableau de transactions
+  const transactionsQuery = {
+    ...portefeuilleQuery,
+    data: portefeuilleQuery.data?.transactions ?? [],
+  };
 
   return (
     <div className="space-y-6">
@@ -35,8 +36,12 @@ export function PortefeuillePage() {
         renderItems={(transactions) => (
           <ScrollArea className="h-100 px-5">
             <>
-              {transactions.map((tx) => (
-                <TransactionRow key={tx.id} tx={tx} t={t} />
+              {transactions.map((transaction) => (
+                <TransactionRow
+                  key={transaction.id}
+                  transaction={transaction}
+                  t={t}
+                />
               ))}
             </>
           </ScrollArea>
