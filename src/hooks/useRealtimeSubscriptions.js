@@ -10,6 +10,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
+// Statuts de commande consideres comme clos : plus besoin d'ecouter les evenements
+const STATUTS_CLOS = [COMMANDE_STATUS.TERMINEE, COMMANDE_STATUS.ANNULEE];
+
 /**
  * useRealtimeSubscriptions :
  * hook de gestion des abonnements en temps reel
@@ -49,10 +52,15 @@ export function useRealtimeSubscriptions(currentUserId) {
         dispatch(incrementCommandes());
     });
   }, [conversations, dispatch]);
-  // Liste stable des IDs de conversations pour eviter de reabonner inutilement quand seule la reference du tableau change
+  // Liste stable des IDs de conversations actives (commande non close) pour eviter les abonnements inutiles
   const conversationIds = useMemo(
     () =>
       conversations
+        .filter(
+          (conversation) =>
+            !conversation.commande ||
+            !STATUTS_CLOS.includes(conversation.commande.statut),
+        )
         .map((conversation) => Number(conversation.id))
         .filter((id) => Number.isFinite(id))
         .sort((a, b) => a - b),
@@ -68,9 +76,14 @@ export function useRealtimeSubscriptions(currentUserId) {
         .join(","),
     [conversationIds],
   );
-  // Liste stable des IDs de commandes liees aux conversations
+  // Liste stable des IDs de commandes liees aux conversations actives (statuts actifs uniquement)
   const commandeIds = useMemo(() => {
     const ids = conversations
+      .filter(
+        (conversation) =>
+          conversation.commande &&
+          !STATUTS_CLOS.includes(conversation.commande.statut),
+      )
       .map((conversation) => conversation.commande?.id)
       .filter((id) => Number.isFinite(id))
       .sort((a, b) => a - b);
