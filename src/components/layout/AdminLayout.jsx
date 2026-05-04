@@ -14,6 +14,9 @@ import {
   Bell,
   Tag,
   Wrench,
+  Wallet,
+  ArrowLeftRight,
+  Star,
 } from "lucide-react";
 import {
   Sidebar,
@@ -87,6 +90,24 @@ const ADMIN_NAV_ITEMS = [
     to: "/admin/competences",
     icon: Wrench,
     labelKey: "admin:nav.competences",
+  },
+  {
+    key: "portefeuilles",
+    to: "/admin/portefeuilles",
+    icon: Wallet,
+    labelKey: "admin:nav.portefeuilles",
+  },
+  {
+    key: "transactions",
+    to: "/admin/transactions",
+    icon: ArrowLeftRight,
+    labelKey: "admin:nav.transactions",
+  },
+  {
+    key: "avis",
+    to: "/admin/avis",
+    icon: Star,
+    labelKey: "admin:nav.avis",
   },
 ];
 

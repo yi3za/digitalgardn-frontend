@@ -43,12 +43,12 @@ export function AdminUsersPage() {
     error,
     refetch,
   } = useAdminUsers();
-  const mutation = useUpdateAdminUserStatus();
+  const updateAdminUserStatus = useUpdateAdminUserStatus();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Fonction de gestion du changement de statut d'un utilisateur (actif, inactif, banni)
   const handleStatusChange = async (userId, newStatus) => {
     try {
-      await mutation.mutateAsync({ userId, status: newStatus });
+      await updateAdminUserStatus.mutateAsync({ userId, status: newStatus });
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
       toast.error(t(`codes:${error?.response?.data?.code ?? "NETWORK_ERROR"}`));

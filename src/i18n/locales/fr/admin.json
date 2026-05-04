@@ -8,6 +8,9 @@
     "commandes": "Commandes",
     "categories": "Catégories",
     "competences": "Compétences",
+    "portefeuilles": "Portefeuilles",
+    "transactions": "Transactions",
+    "avis": "Avis",
     "backToSite": "Retour au site",
     "account": "Mon compte",
     "settings": "Paramètres",
@@ -128,6 +131,8 @@
       "slug_placeholder": "Ex: developpement-web",
       "description": "Description",
       "description_placeholder": "Courte description de la catégorie",
+      "icone": "Icône",
+      "icone_placeholder": "Ex: chemin/vers/icone.svg",
       "ordre": "Ordre",
       "ordre_placeholder": "0",
       "parent": "Catégorie parente",
@@ -167,6 +172,8 @@
       "nom_placeholder": "Ex: React.js",
       "description": "Description",
       "description_placeholder": "Courte description de la compétence",
+      "icone": "Icône",
+      "icone_placeholder": "Ex: chemin/vers/icone.svg",
       "ordre": "Ordre",
       "ordre_placeholder": "0",
       "parent": "Compétence parente",
@@ -175,6 +182,47 @@
       "create": "Créer",
       "save": "Enregistrer",
       "cancel": "Annuler"
+    }
+  },
+  "portefeuilles": {
+    "title": "Gestion des portefeuilles",
+    "description": "Consultez les soldes et les informations de tous les portefeuilles.",
+    "columns": {
+      "user": "Utilisateur",
+      "disponible": "Disponible",
+      "en_attente": "En attente",
+      "total": "Total",
+      "devise": "Devise"
+    }
+  },
+  "transactions": {
+    "title": "Gestion des transactions",
+    "description": "Historique de toutes les transactions de la plateforme.",
+    "columns": {
+      "id": "#",
+      "user": "Utilisateur",
+      "type": "Type",
+      "montant": "Montant",
+      "date": "Date"
+    }
+  },
+  "avis": {
+    "title": "Gestion des avis",
+    "description": "Consultez et supprimez les avis laissés sur la plateforme.",
+    "confirm_delete": "Voulez-vous vraiment supprimer cet avis ?",
+    "confirm_delete_title": "Supprimer l'avis",
+    "columns": {
+      "id": "#",
+      "client": "Client",
+      "freelance": "Freelance",
+      "service": "Service",
+      "note": "Note",
+      "commentaire": "Commentaire",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "actions": {
+      "delete": "Supprimer"
     }
   }
 }

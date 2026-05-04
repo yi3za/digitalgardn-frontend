@@ -6,6 +6,9 @@ import { AdminServicesPage } from "@/pages/admin/AdminServicesPage";
 import { AdminCommandesPage } from "@/pages/admin/AdminCommandesPage";
 import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
 import { AdminCompetencesPage } from "@/pages/admin/AdminCompetencesPage";
+import { AdminPortefeuillesPage } from "@/pages/admin/AdminPortefeuillesPage";
+import { AdminTransactionsPage } from "@/pages/admin/AdminTransactionsPage";
+import { AdminAvisPage } from "@/pages/admin/AdminAvisPage";
 import { ProfilPage } from "@/pages/profil/ProfilPage";
 import { SettingsPage } from "@/pages/settings/SettingsPage";
 import { SettingsLayout } from "@/components/layout/SettingsLayout";
@@ -31,6 +34,9 @@ export const adminRoutes = {
     { path: "categories/:slug", element: <CategorieShowPage /> },
     { path: "competences/:slug", element: <CompetenceShowPage /> },
     { path: "competences", element: <AdminCompetencesPage /> },
+    { path: "portefeuilles", element: <AdminPortefeuillesPage /> },
+    { path: "transactions", element: <AdminTransactionsPage /> },
+    { path: "avis", element: <AdminAvisPage /> },
     { path: "profil", element: <ProfilPage /> },
     {
       path: "settings",
