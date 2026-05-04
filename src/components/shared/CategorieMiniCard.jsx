@@ -35,7 +35,7 @@ export function CategorieMiniCard({ categorie }) {
   return (
     <Item
       size="sm"
-      className={`flex-nowrap [a]:hover:bg-transparent ${
+      className={`p-0 flex-nowrap [a]:hover:bg-transparent ${
         isClickable ? "[&:hover_*]:underline" : "cursor-no-drop"
       }`}
       asChild={isClickable}

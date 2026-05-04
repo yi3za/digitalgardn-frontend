@@ -18,7 +18,7 @@ export function ServiceMiniCard({ service }) {
   return (
     <Item
       size="sm"
-      className="flex-nowrap [&:hover_*]:underline [a]:hover:bg-transparent"
+      className="p-0 flex-nowrap [&:hover_*]:underline [a]:hover:bg-transparent"
       asChild
     >
       <Link to={`${servicesBasePath}/${service.slug}`}>

@@ -36,8 +36,9 @@ export function AvatarIdentity({ user }) {
       </Avatar>
       <Button
         variant="link"
-        className={`p-0 flex flex-col gap-0 items-start ${!isFreelancer ? "pointer-events-none" : ""}`}
+        className={`p-0 flex flex-col gap-0 items-start ${!isFreelancer ? "disabled:opacity-100" : ""}`}
         onClick={handleClick}
+        disabled={!isFreelancer}
       >
         <span>{user?.name}</span>
         <span className="text-gray-500">@{user?.username}</span>
