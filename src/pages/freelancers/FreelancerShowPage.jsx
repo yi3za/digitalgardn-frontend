@@ -211,7 +211,7 @@ export function FreelancerShowPage() {
         </CardHeader>
         <CardContent>
           {services.length ? (
-            <ServicesGrid services={services} />
+            <ServicesGrid services={services} isAdmin={isAdmin} />
           ) : (
             <DataEmpty description={t("common:states.empty")} />
           )}
