@@ -17,7 +17,7 @@ export function CompetenceItem({ item }) {
   return (
     <Item
       asChild
-      className="min-w-50 cursor-pointer overflow-hidden"
+      className="p-2 min-w-50 cursor-pointer overflow-hidden"
       variant="outline"
     >
       <button onClick={handleClick}>
