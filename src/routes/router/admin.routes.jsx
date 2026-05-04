@@ -5,7 +5,9 @@ import { ServiceShowPage } from "@/pages/services/ServiceShowPage";
 import { AdminServicesPage } from "@/pages/admin/AdminServicesPage";
 import { AdminCommandesPage } from "@/pages/admin/AdminCommandesPage";
 import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
+import { CategorieShowPage } from "@/pages/categories/CategorieShowPage";
 import { AdminCompetencesPage } from "@/pages/admin/AdminCompetencesPage";
+import { CompetenceShowPage } from "@/pages/competences/CompetenceShowPage";
 import { AdminPortefeuillesPage } from "@/pages/admin/AdminPortefeuillesPage";
 import { AdminTransactionsPage } from "@/pages/admin/AdminTransactionsPage";
 import { AdminAvisPage } from "@/pages/admin/AdminAvisPage";
@@ -15,8 +17,6 @@ import { SettingsLayout } from "@/components/layout/SettingsLayout";
 import { PersonalInfoPage } from "@/pages/settings/PersonalInfoPage";
 import { SecurityPage } from "@/pages/settings/SecurityPage";
 import { DangerZonePage } from "@/pages/settings/DangerZonePage";
-import { CategorieShowPage } from "@/pages/categories/CategorieShowPage";
-import { CompetenceShowPage } from "@/pages/competences/CompetenceShowPage";
 
 /**
  * Routes enfants de l'espace admin
@@ -32,8 +32,8 @@ export const adminRoutes = {
     { path: "commandes", element: <AdminCommandesPage /> },
     { path: "categories", element: <AdminCategoriesPage /> },
     { path: "categories/:slug", element: <CategorieShowPage /> },
-    { path: "competences/:slug", element: <CompetenceShowPage /> },
     { path: "competences", element: <AdminCompetencesPage /> },
+    { path: "competences/:slug", element: <CompetenceShowPage /> },
     { path: "portefeuilles", element: <AdminPortefeuillesPage /> },
     { path: "transactions", element: <AdminTransactionsPage /> },
     { path: "avis", element: <AdminAvisPage /> },
