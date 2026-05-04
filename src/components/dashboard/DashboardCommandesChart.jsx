@@ -21,7 +21,7 @@ import {
 /**
  * Graphique de repartition des commandes par statut (tous les statuts)
  */
-export function DashboardOrdersChart({
+export function DashboardCommandesChart({
   stats,
   isLoading,
   isError,

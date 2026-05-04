@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { DashboardStatsSection } from "@/components/dashboard/DashboardStatsSection";
 import { DashboardRevenueChart } from "@/components/dashboard/DashboardRevenueChart";
-import { DashboardOrdersChart } from "@/components/dashboard/DashboardOrdersChart";
-import { DashboardRecentOrders } from "@/components/dashboard/DashboardRecentOrders";
+import { DashboardCommandesChart } from "@/components/dashboard/DashboardCommandesChart";
+import { DashboardRecentCommandes } from "@/components/dashboard/DashboardRecentCommandes";
 import {
   useDashboardStats,
   useDashboardCommandesRecentes,
@@ -50,7 +50,7 @@ export function DashboardPage() {
             error={revenusQuery.error}
             refetch={revenusQuery.refetch}
           />
-          <DashboardOrdersChart
+          <DashboardCommandesChart
             t={t}
             stats={statsQuery.data}
             isLoading={statsQuery.isLoading}
@@ -59,7 +59,7 @@ export function DashboardPage() {
             refetch={statsQuery.refetch}
           />
         </div>
-        <DashboardRecentOrders
+        <DashboardRecentCommandes
           t={t}
           commandes={commandesQuery.data ?? []}
           isLoading={commandesQuery.isLoading}

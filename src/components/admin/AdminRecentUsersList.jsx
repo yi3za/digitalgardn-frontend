@@ -1,4 +1,4 @@
-import { AdminRecentList } from "./AdminRecentList";
+import { RecentList } from "@/components/shared/RecentList";
 import { Item, ItemContent, ItemActions, Badge } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import {
@@ -9,7 +9,7 @@ import {
 // Liste des derniers utilisateurs inscrits (dashboard admin)
 export function AdminRecentUsersList({ t, users = [] }) {
   return (
-    <AdminRecentList
+    <RecentList
       t={t}
       titleKey="admin:dashboard.activite.users.title"
       descriptionKey="admin:dashboard.activite.users.description"

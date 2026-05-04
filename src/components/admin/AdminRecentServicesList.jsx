@@ -1,10 +1,10 @@
-import { AdminRecentList } from "./AdminRecentList";
+import { RecentList } from "@/components/shared/RecentList";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
 // Liste des derniers services en attente d'approbation (dashboard admin)
 export function AdminRecentServicesList({ t, services = [] }) {
   return (
-    <AdminRecentList
+    <RecentList
       t={t}
       titleKey="admin:dashboard.activite.services.title"
       descriptionKey="admin:dashboard.activite.services.description"
