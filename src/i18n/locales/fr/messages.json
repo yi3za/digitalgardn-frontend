@@ -18,8 +18,11 @@
   },
   "input": {
     "placeholder": "Ecrire votre message...",
+    "placeholderWithFile": "Ajouter un message (optionnel)...",
     "send": "Envoyer",
     "invalid": "Message invalide. Le contenu est obligatoire (max {{max}} caracteres).",
-    "conversationClosed": "Cette conversation est fermée."
+    "conversationClosed": "Cette conversation est fermée.",
+    "attachFile": "Joindre un fichier",
+    "fileSize": "{{size}} Mo"
   }
 }

@@ -41,6 +41,7 @@ export function ChatWindow({
   isError,
   onRefetch,
   onSend,
+  onSendFile,
   isSending,
   currentUserId,
 }) {
@@ -74,7 +75,7 @@ export function ChatWindow({
   }
 
   return (
-    <Card className="h-[50vh] lg:h-full flex flex-col shadow-none overflow-hidden">
+    <Card className="h-[80vh] lg:h-full flex flex-col shadow-none overflow-hidden">
       <CardHeader className="gap-3">
         <AvatarIdentity user={peer} />
         {commande && (
@@ -152,6 +153,7 @@ export function ChatWindow({
       <CardFooter className="flex-col gap-6">
         <MessageInput
           onSend={onSend}
+          onSendFile={onSendFile}
           isSending={isSending}
           disabled={isLoading || isError || isCancelled || isCompleted}
         />

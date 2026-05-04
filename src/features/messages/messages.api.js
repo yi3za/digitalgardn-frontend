@@ -40,3 +40,19 @@ export const sendMessage = async (conversationId, data) => {
   const details = unwrapDetails(response);
   return details?.message ?? null;
 };
+
+// Envoyer un fichier joint dans une conversation (multipart/form-data)
+export const sendMessageFile = async (conversationId, { fichier, content }) => {
+  // Construire un FormData car le backend attend multipart pour les fichiers
+  const formData = new FormData();
+  // Ajouter le fichier obligatoire
+  formData.append("fichier", fichier);
+  // Ajouter le contenu texte optionnel s'il est present
+  if (content?.trim()) formData.append("content", content.trim());
+  const response = await client.post(
+    `/api/me/conversations/${conversationId}/messages`,
+    formData,
+  );
+  const details = unwrapDetails(response);
+  return details?.message ?? null;
+};

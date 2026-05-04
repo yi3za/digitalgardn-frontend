@@ -1,7 +1,10 @@
 import { ChatWindow } from "@/components/messages/ChatWindow";
 import { ConversationList } from "@/components/messages/ConversationList";
 import { authSelector } from "@/features/auth/auth.selectors";
-import { useSendMessage } from "@/features/messages/messages.mutations";
+import {
+  useSendMessage,
+  useSendMessageFile,
+} from "@/features/messages/messages.mutations";
 import { isRealtimeEnabled } from "@/lib/echo";
 import {
   useConversationMessages,
@@ -82,6 +85,8 @@ export function MessagesPage() {
   const messages = messagesQuery.data ?? [];
   // Mutation pour envoyer un message dans la conversation selectionnee
   const sendMessageMutation = useSendMessage();
+  // Mutation pour envoyer un fichier joint dans la conversation selectionnee
+  const sendMessageFileMutation = useSendMessageFile();
   // Fonction d'envoi de message, utilisee par le composant ChatWindow
   const sendMessage = async (content) => {
     if (!selectedConversationId) return;
@@ -89,6 +94,16 @@ export function MessagesPage() {
     await sendMessageMutation.mutateAsync({
       conversationId: selectedConversationId,
       data: { content },
+    });
+  };
+  // Fonction d'envoi de fichier joint, utilisee par le composant ChatWindow
+  const sendFile = async (fichier, content) => {
+    if (!selectedConversationId) return;
+    // Envoi du fichier via la mutation dediee
+    await sendMessageFileMutation.mutateAsync({
+      conversationId: selectedConversationId,
+      fichier,
+      content,
     });
   };
 
@@ -119,7 +134,10 @@ export function MessagesPage() {
             isError={messagesQuery.isError}
             onRefetch={messagesQuery.refetch}
             onSend={sendMessage}
-            isSending={sendMessageMutation.isPending}
+            onSendFile={sendFile}
+            isSending={
+              sendMessageMutation.isPending || sendMessageFileMutation.isPending
+            }
             currentUserId={currentUserId}
           />
         </CardContent>
