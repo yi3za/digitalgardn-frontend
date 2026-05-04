@@ -1,6 +1,11 @@
 import { useSelector } from "react-redux";
 import { ServiceDetailsCard } from "@/components/shared/ServiceDetailsCard";
 import { useService } from "@/features/public/catalog/services/services.query";
+import {
+  useAdminService,
+  useAdminServiceAvis,
+} from "@/features/admin/services/services.query";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useCreateCommande } from "@/features/account/commandes/commandes.mutations";
@@ -16,38 +21,51 @@ import { ServiceInstructionsDialog } from "@/components/shared/ServicePurchaseDi
 import { useState } from "react";
 
 /**
- * Page publique d'affichage d'un service
+ * Page d'affichage d'un service. Fonctionne en mode public et admin.
+ * En mode admin (via NavigationContext), utilise les hooks admin sans filtres de statut.
  */
 export function ServiceShowPage() {
-  // Recuperation du slug du service dans les params d'URL pour charger le service correspondant
+  // Recuperation du slug du service depuis les params d'URL
   const { slug } = useParams();
-  // Hook de navigation pour rediriger vers la messagerie
+  // Hook de navigation pour la redirection apres achat
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["catalog", "validation", "codes", "common"]);
-  // Requete pour recuperer les informations du service et de son freelance
-  const serviceQuery = useService(slug);
-  // Mutation pour creer une commande
+  // Recuperation du contexte de navigation (admin ou public)
+  const {
+    isAdmin: isAdminCtx,
+    competences: competencesPath,
+    categories: categoriesPath,
+  } = useNavigationPaths();
+  // Recuperation de l'utilisateur connecte
+  const { user: currentUser } = useSelector(authSelector);
+  // Determination du mode admin (contexte layout ou role utilisateur)
+  const isAdmin = isAdminCtx || currentUser?.role === AUTH_ROLE.ADMIN;
+  // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!slug)
+  const publicServiceQuery = useService(isAdmin ? null : slug);
+  // Hook admin : charge le service depuis l'API admin (tous statuts)
+  const adminServiceQuery = useAdminService(isAdmin ? slug : null);
+  // Hook admin : charge les avis du service sans filtre de statut
+  const adminAvisQuery = useAdminServiceAvis(isAdmin ? slug : null);
+  // Selection de la requete active selon le contexte
+  const serviceQuery = isAdmin ? adminServiceQuery : publicServiceQuery;
+  // Mutations pour l'achat (public uniquement)
   const createCommandeMutation = useCreateCommande();
-  // Mutation pour creer/recuperer une conversation
+  // Mutation pour creer/recuperer une conversation liee a la commande
   const createConversationMutation = useCreateConversation();
   // Mutation pour envoyer un message dans la conversation
   const sendMessageMutation = useSendMessage();
-  // Determination d'un etat de chargement global pour l'achat
+  // Etat de chargement global pendant le processus d'achat
   const isPurchasePending =
     createCommandeMutation.isPending ||
     createConversationMutation.isPending ||
     sendMessageMutation.isPending;
-  // Recuperation de l'utilisateur
-  const { user: currentUser } = useSelector(authSelector);
-  // Destructuration des etats de la requete pour faciliter
+  // Destructuration des etats de la requete du service
   const { data: service, isLoading, isError, error, refetch } = serviceQuery;
-  // Recuperation de l'utlisateur proprietaire du service
+  // Recuperation du proprietaire du service
   const user = service?.user;
-  // IsOwnService permet de determiner si le service affiche appartient a l'utilisateur connecte
+  // Determine si le service affiche appartient a l'utilisateur connecte
   const isOwnService = currentUser?.id === user?.id;
-  // L'admin ne peut pas acheter ni contacter le freelance
-  const isAdmin = currentUser?.role === AUTH_ROLE.ADMIN;
   // Gestion du clic sur le bouton d'achat du service
   const [instructionsDialogOpen, setInstructionsDialogOpen] = useState(false);
   // Fonction de gestion du clic sur le bouton d'achat
@@ -92,6 +110,10 @@ export function ServiceShowPage() {
         t={t}
         showFreelancerSection={!isOwnService}
         showAvis={true}
+        showStatus={isAdmin}
+        avisQuery={isAdmin ? adminAvisQuery : null}
+        competencesPath={competencesPath}
+        categoriesPath={categoriesPath}
         footerActions={
           !isOwnService &&
           !isAdmin && (

@@ -3,6 +3,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Badge,
   Button,
   Card,
   CardAction,
@@ -16,12 +17,20 @@ import {
   Spinner,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
-import { AUTH_ROLE } from "@/features/auth/auth.constants";
+import {
+  ACCOUNT_STATUS_BADGE_VARIANT,
+  AUTH_ROLE,
+} from "@/features/auth/auth.constants";
 import { useCreateConversation } from "@/features/messages/messages.mutations";
+import {
+  useAdminFreelancer,
+  useAdminFreelancerAvis,
+} from "@/features/admin/freelancers/freelancers.query";
 import {
   useFreelancer,
   useFreelancerAvis,
 } from "@/features/public/catalog/freelancers/freelancers.query";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { getFallbackName } from "@/lib/utils";
 import { MessageCircle } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -32,7 +41,8 @@ import { SkillBadges } from "@/components/shared/SkillBadges";
 import { AvisList } from "@/components/catalog/services/AvisList";
 
 /**
- * Page publique d'affichage d'un freelance
+ * Page d'affichage d'un freelance. Fonctionne en mode public et admin.
+ * En mode admin (via NavigationContext), utilise les hooks admin sans filtres de statut.
  */
 export function FreelancerShowPage() {
   // Recuperation du username dans les params d'URL pour charger le freelance correspondant
@@ -40,28 +50,41 @@ export function FreelancerShowPage() {
   // Hook de navigation pour rediriger vers la messagerie
   const navigate = useNavigate();
   // Hook de traduction pour les textes statiques de la page
-  const { t } = useTranslation(["catalog", "common", "codes"]);
+  const { t } = useTranslation(["catalog", "common", "codes", "admin"]);
+  // Recuperation du contexte de navigation (admin ou public)
+  const { isAdmin: isAdminCtx, competences: competencesPath } =
+    useNavigationPaths();
   // Recuperation de l'utilisateur connecte
   const { user: currentUser } = useSelector(authSelector);
+  // Determination du mode admin (contexte layout ou role utilisateur)
+  const isAdmin = isAdminCtx || currentUser?.role === AUTH_ROLE.ADMIN;
+  // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!username)
+  const publicFreelancerQuery = useFreelancer(isAdmin ? null : username);
+  // Hook admin : charge le freelance depuis l'API admin (tous statuts)
+  const adminFreelancerQuery = useAdminFreelancer(isAdmin ? username : null);
+  // Selection de la requete active selon le contexte
+  const freelancerQuery = isAdmin
+    ? adminFreelancerQuery
+    : publicFreelancerQuery;
+  // Hook public : charge les avis du freelance (statut actif uniquement)
+  const publicAvisQuery = useFreelancerAvis(isAdmin ? null : username);
+  // Hook admin : charge les avis du freelance sans filtre de statut
+  const adminAvisQuery = useAdminFreelancerAvis(isAdmin ? username : null);
+  // Selection de la requete d'avis active selon le contexte
+  const avisQuery = isAdmin ? adminAvisQuery : publicAvisQuery;
   // Mutation pour creer/recuperer la conversation avec le freelance
   const createConversationMutation = useCreateConversation();
-  // Requete pour recuperer les informations du freelance et de ses services publies
-  const freelancerQuery = useFreelancer(username);
-  // Requete pour recuperer les avis recus par le freelance
-  const avisQuery = useFreelancerAvis(username);
-  // Destructuration des etats de la requete pour faciliter
+  // Destructuration des etats de la requete pour faciliter l'acces aux donnees
   const { data, isLoading, isError, isFetching, error, refetch } =
     freelancerQuery;
-  // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme de chargement du freelance
+  // Determination du code d'erreur pour afficher un message adapte
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
-  // Recuperation du freelance et de ses services
+  // Recuperation du freelance depuis la reponse
   const freelancer = data?.freelancer;
-  // Recuperation de la liste des services publies par le freelance pour les afficher dans la section correspondante
+  // Recuperation des services publies par le freelance
   const services = data?.services ?? [];
-  // IsOwnFreelancer permet de determiner si le profil affiche appartient a l'utilisateur connecte
+  // Determine si le profil affiche appartient a l'utilisateur connecte
   const isOwnFreelancer = currentUser?.id === freelancer?.id;
-  // L'admin ne peut pas contacter le freelance
-  const isAdmin = currentUser?.role === AUTH_ROLE.ADMIN;
   // Demarrer une conversation avec le freelance depuis sa page publique
   const handleContactFreelancer = async () => {
     if (!freelancer?.id) return;
@@ -132,7 +155,20 @@ export function FreelancerShowPage() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-lg font-semibold">{freelancer?.name}</p>
+              <p className="text-lg font-semibold">
+                {freelancer?.name}
+                {isAdmin && freelancer?.status && (
+                  <Badge
+                    className="mx-3"
+                    variant={
+                      ACCOUNT_STATUS_BADGE_VARIANT[freelancer.status] ??
+                      "secondary"
+                    }
+                  >
+                    {t(`admin:users.statuses.${freelancer.status}`)}
+                  </Badge>
+                )}
+              </p>
               <p className="text-sm text-muted-foreground">
                 {freelancer?.profil?.titre ||
                   t("catalog:freelancer.defaultTitle")}
@@ -159,6 +195,7 @@ export function FreelancerShowPage() {
               title={t("catalog:freelancer.competencesTitle")}
               items={freelancer.competences}
               BadgeVariant="secondary"
+              path={competencesPath}
             />
           )}
         </CardContent>
