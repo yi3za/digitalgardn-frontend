@@ -14,10 +14,6 @@ import { Link } from "react-router-dom";
 export function CompetenceMiniCard({ competence }) {
   // Base path selon le contexte (public ou admin)
   const { competences: competencesBasePath } = useNavigationPaths();
-  // Non cliquable si la competence ou son parent est inactif
-  const isClickable =
-    competence?.est_active &&
-    (!competence?.parent || competence?.parent?.est_active);
 
   // Contenu commun entre les deux etats
   const content = (
@@ -35,16 +31,10 @@ export function CompetenceMiniCard({ competence }) {
   return (
     <Item
       size="sm"
-      className={`p-0 flex-nowrap [a]:hover:bg-transparent ${
-        isClickable ? "[&:hover_*]:underline" : "cursor-no-drop"
-      }`}
-      asChild={isClickable}
+      className="p-0 flex-nowrap [a]:hover:bg-transparent [&:hover_*]:underline"
+      asChild={true}
     >
-      {isClickable ? (
-        <Link to={`${competencesBasePath}/${competence?.slug}`}>{content}</Link>
-      ) : (
-        content
-      )}
+      <Link to={`${competencesBasePath}/${competence?.slug}`}>{content}</Link>
     </Item>
   );
 }

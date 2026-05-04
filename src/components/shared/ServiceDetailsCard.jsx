@@ -26,6 +26,7 @@ import {
   serviceStatusTextKeyByStatut,
 } from "@/features/freelance/catalog/services/services.status";
 import { SkillBadges } from "./SkillBadges";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -41,6 +42,7 @@ export function ServiceDetailsCard({
   footerActions = null,
   showFreelancerSection = false,
   showAvis = false,
+  avisQuery: externalAvisQuery = null,
   categoryBadgeVariant = "outline",
   competenceBadgeVariant = "secondary",
   refreshTextKey = "common:actions.retry",
@@ -55,8 +57,14 @@ export function ServiceDetailsCard({
   freelancerSectionTitleKey = "catalog:serviceShow.freelancerSection",
   freelancerSectionDescriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
-  // Hook pour recuperer les avis du service
-  const avisQuery = useServiceAvis(service?.slug);
+  // Si un avisQuery externe est fourni (ex: admin), on desactive l'appel public
+  const internalAvisQuery = useServiceAvis(
+    externalAvisQuery ? null : service?.slug,
+  );
+  const avisQuery = externalAvisQuery ?? internalAvisQuery;
+  // Recuperation des chemins de navigation selon le contexte (public ou admin)
+  const { categories: categoriesPath, competences: competencesPath } =
+    useNavigationPaths();
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme de chargement du service
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Collecte des images du service pour les afficher dans le carousel
@@ -166,11 +174,13 @@ export function ServiceDetailsCard({
                 title={t(categoriesTitleKey)}
                 items={service.categories}
                 BadgeVariant={categoryBadgeVariant}
+                path={categoriesPath}
               />
               <SkillBadges
                 title={t(competencesTitleKey)}
                 items={service.competences}
                 BadgeVariant={competenceBadgeVariant}
+                path={competencesPath}
               />
             </div>
             {footerActions}
