@@ -136,6 +136,19 @@ export const formatPrice = (value) => {
 };
 
 /**
+ * Formate une cle YYYY-MM en nom de mois court localise selon la locale active.
+ * Ex : "2026-01" + locale "fr" → "janv. 26", "ar" → "يناير 26", "en" → "Jan 26"
+ */
+export const formatMoisLabel = (value) => {
+  if (!value || !value.includes("-")) return value;
+  const [year, month] = value.split("-");
+  return new Intl.DateTimeFormat(i18n.language, {
+    month: "short",
+    year: "2-digit",
+  }).format(new Date(Number(year), Number(month) - 1));
+};
+
+/**
  * Retourne une liste unique d'URLs images d'un service.
  */
 export const collectServiceImages = (service) => {
