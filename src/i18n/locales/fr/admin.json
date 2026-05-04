@@ -27,7 +27,41 @@
       "services": "Services",
       "services_desc": "{{publies}} publiés · {{en_attente}} en attente",
       "commandes": "Commandes",
-      "commandes_desc": "{{en_cours}} en cours · {{terminees}} terminées"
+      "commandes_desc": "{{en_cours}} en cours · {{terminees}} terminées",
+      "avis": "Avis",
+      "avis_desc": "Note moyenne : {{note_moyenne}} / 5"
+    },
+    "activite": {
+      "services": {
+        "title": "Services en attente",
+        "description": "Services soumis pour approbation",
+        "viewAll": "Voir tous les services",
+        "empty": "Aucun service en attente"
+      },
+      "users": {
+        "title": "Derniers inscrits",
+        "description": "Utilisateurs récemment enregistrés",
+        "viewAll": "Voir tous les utilisateurs",
+        "empty": "Aucun utilisateur trouvé"
+      },
+      "commandes": {
+        "title": "Commandes récentes",
+        "description": "Les 5 dernières commandes de la plateforme",
+        "viewAll": "Voir toutes les commandes",
+        "empty": "Aucune commande trouvée"
+      }
+    },
+    "charts": {
+      "growth": {
+        "title": "Inscriptions mensuelles",
+        "description": "Évolution des nouvelles inscriptions sur les 6 derniers mois",
+        "users": "Inscrits"
+      },
+      "commandes": {
+        "title": "Commandes mensuelles",
+        "description": "Volume de commandes sur les 6 derniers mois",
+        "count": "Commandes"
+      }
     }
   },
   "users": {
