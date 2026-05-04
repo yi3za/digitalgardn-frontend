@@ -1,67 +1,40 @@
 import { useTranslation } from "react-i18next";
-import { useAdminStats } from "@/features/admin/stats/stats.query";
-import { Users, Layers, ShoppingCart, ShieldOff } from "lucide-react";
+import {
+  useAdminStats,
+  useAdminActivite,
+  useAdminTendances,
+} from "@/features/admin/stats/stats.query";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  DataError,
 } from "@/components/ui";
-import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
-
-/**
- * Constante de configuration des cartes de stats admin
- */
-const buildStatCards = (t, stats) => [
-  {
-    key: "utilisateurs",
-    title: t("admin:dashboard.stats.total_users"),
-    value: stats?.utilisateurs?.total,
-    description: t("admin:dashboard.stats.total_users_desc", {
-      clients: stats?.utilisateurs?.clients ?? 0,
-      freelances: stats?.utilisateurs?.freelances ?? 0,
-    }),
-    icon: Users,
-  },
-  {
-    key: "bannis",
-    title: t("admin:dashboard.stats.banned"),
-    value: stats?.utilisateurs?.bannis,
-    description: t("admin:dashboard.stats.banned_desc"),
-    icon: ShieldOff,
-  },
-  {
-    key: "services",
-    title: t("admin:dashboard.stats.services"),
-    value: stats?.services?.total,
-    description: t("admin:dashboard.stats.services_desc", {
-      publies: stats?.services?.publies ?? 0,
-      en_attente: stats?.services?.en_attente ?? 0,
-    }),
-    icon: Layers,
-  },
-  {
-    key: "commandes",
-    title: t("admin:dashboard.stats.commandes"),
-    value: stats?.commandes?.total,
-    description: t("admin:dashboard.stats.commandes_desc", {
-      en_cours: stats?.commandes?.en_cours ?? 0,
-      terminees: stats?.commandes?.terminees ?? 0,
-    }),
-    icon: ShoppingCart,
-  },
-];
+import { AdminStatsSection } from "@/components/admin/AdminStatsSection";
+import { AdminRecentServicesList } from "@/components/admin/AdminRecentServicesList";
+import { AdminRecentUsersList } from "@/components/admin/AdminRecentUsersList";
+import { AdminRecentCommandesList } from "@/components/admin/AdminRecentCommandesList";
+import { AdminUsersGrowthChart } from "@/components/admin/AdminUsersGrowthChart";
+import { DashboardOrdersChart } from "@/components/dashboard/DashboardOrdersChart";
 
 /**
  * Page tableau de bord de l'espace admin
+ * Structure identique au dashboard freelance : stats → graphiques → activite recente
  */
 export function AdminDashboardPage() {
-  // Recuperer la fonction de traduction et les statistiques admin
-  const { t } = useTranslation(["admin", "codes", "common"]);
-  const { data: stats, isLoading, isError, error, refetch } = useAdminStats();
-  const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+  // Recuperer les traductions et les queries
+  const { t } = useTranslation([
+    "admin",
+    "codes",
+    "common",
+    "commandes",
+    "dashboard",
+  ]);
+  // Queries pour les statistiques globales, l'activite recente et les tendances mensuelles
+  const statsQuery = useAdminStats();
+  const activiteQuery = useAdminActivite();
+  const tendancesQuery = useAdminTendances();
 
   return (
     <Card className="border-0 shadow-none">
@@ -69,30 +42,62 @@ export function AdminDashboardPage() {
         <CardTitle>{t("admin:dashboard.title")}</CardTitle>
         <CardDescription>{t("admin:dashboard.description")}</CardDescription>
       </CardHeader>
-      <CardContent className="p-0">
-        {isError && (
-          <DataError
-            errorCode={code}
-            onRetry={refetch}
-            retryText={t("common:actions.retry")}
+      <CardContent className="space-y-6 p-0">
+        <AdminStatsSection
+          t={t}
+          stats={statsQuery.data}
+          isLoading={statsQuery.isLoading}
+          isError={statsQuery.isError}
+          error={statsQuery.error}
+          refetch={statsQuery.refetch}
+        />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <AdminUsersGrowthChart
+            t={t}
+            data={tendancesQuery.data?.inscriptions_mensuelles ?? []}
+            isLoading={tendancesQuery.isLoading}
+            isError={tendancesQuery.isError}
+            error={tendancesQuery.error}
+            refetch={tendancesQuery.refetch}
           />
-        )}
-        {!isError && (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {buildStatCards(t, stats).map(
-              ({ key, title, value, description, icon }) => (
-                <DashboardStatCard
-                  key={key}
-                  title={title}
-                  value={value ?? "—"}
-                  description={description}
-                  icon={icon}
-                  isLoading={isLoading}
-                />
-              ),
-            )}
-          </div>
-        )}
+          <DashboardOrdersChart
+            t={t}
+            stats={statsQuery.data}
+            isLoading={statsQuery.isLoading}
+            isError={statsQuery.isError}
+            error={statsQuery.error}
+            refetch={statsQuery.refetch}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <AdminRecentServicesList
+            t={t}
+            services={activiteQuery.data?.services ?? []}
+            isLoading={activiteQuery.isLoading}
+            isError={activiteQuery.isError}
+            isFetching={activiteQuery.isFetching}
+            error={activiteQuery.error}
+            refetch={activiteQuery.refetch}
+          />
+          <AdminRecentUsersList
+            t={t}
+            users={activiteQuery.data?.users ?? []}
+            isLoading={activiteQuery.isLoading}
+            isError={activiteQuery.isError}
+            isFetching={activiteQuery.isFetching}
+            error={activiteQuery.error}
+            refetch={activiteQuery.refetch}
+          />
+        </div>
+        <AdminRecentCommandesList
+          t={t}
+          commandes={activiteQuery.data?.commandes ?? []}
+          isLoading={activiteQuery.isLoading}
+          isError={activiteQuery.isError}
+          isFetching={activiteQuery.isFetching}
+          error={activiteQuery.error}
+          refetch={activiteQuery.refetch}
+        />
       </CardContent>
     </Card>
   );
