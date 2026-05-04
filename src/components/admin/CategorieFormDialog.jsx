@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { setServerErrors } from "@/lib/utils";
+import { IconeUploadField } from "@/components/admin/IconeUploadField";
 import { categorieSchema } from "@/features/admin/categories/categories.schemas";
 import {
   useCreateAdminCategorie,
@@ -79,12 +80,14 @@ export function CategorieFormDialog({
   // Fonction de soumission du formulaire
   const onSubmit = async (values) => {
     try {
+      // Convertir le booleen en 0/1 pour Laravel multipart
+      const payload = { ...values, est_active: values.est_active ? 1 : 0 };
       if (isEdit) {
         // Appel de la mutation de mise a jour avec l'id de la categorie
-        await updateMutation.mutateAsync({ id: categorie.id, ...values });
+        await updateMutation.mutateAsync({ id: categorie.id, ...payload });
       } else {
         // Appel de la mutation de creation
-        await createMutation.mutateAsync(values);
+        await createMutation.mutateAsync(payload);
       }
       toast.success(t("codes:SUCCESS"));
       setOpen(false);
@@ -125,6 +128,11 @@ export function CategorieFormDialog({
       <Form {...form}>
         <FieldSet disabled={isPending}>
           <FieldGroup>
+            <IconeUploadField
+              control={form.control}
+              label={t("admin:categories.form.icone")}
+              open={open}
+            />
             <CustomFormField
               name="nom"
               label={t("admin:categories.form.nom")}
@@ -191,8 +199,8 @@ export function CategorieFormDialog({
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
                     <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                      checked={Boolean(field.value)}
+                      onCheckedChange={(v) => field.onChange(v === true)}
                     />
                   </FormControl>
                   <FormLabel>{t("admin:categories.form.est_active")}</FormLabel>

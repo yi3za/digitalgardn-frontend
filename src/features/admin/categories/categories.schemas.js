@@ -11,6 +11,7 @@ export const categorieSchema = z.object({
     .max(500, "validation:validation.max.string")
     .optional()
     .or(z.literal("")),
+  icone: z.any().optional(),
   parent_id: z.coerce.number().nullable().optional(),
   ordre: z.coerce
     .number()

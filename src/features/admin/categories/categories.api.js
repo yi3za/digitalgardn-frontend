@@ -1,4 +1,4 @@
-import { client } from "@/api/client";
+import { client, contentTypeMultipart } from "@/api/client";
 
 // Liste toutes les categories
 export const getAdminCategories = async () => {
@@ -8,13 +8,21 @@ export const getAdminCategories = async () => {
 
 // Creer une categorie
 export const createAdminCategorie = async (payload) => {
-  const { data } = await client.post("/api/admin/categories", payload);
+  const { data } = await client.post(
+    "/api/admin/categories",
+    payload,
+    contentTypeMultipart,
+  );
   return data?.details?.categorie ?? null;
 };
 
 // Modifier une categorie
 export const updateAdminCategorie = async ({ id, ...payload }) => {
-  const { data } = await client.put(`/api/admin/categories/${id}`, payload);
+  const { data } = await client.post(
+    `/api/admin/categories/${id}`,
+    payload,
+    contentTypeMultipart,
+  );
   return data?.details?.categorie ?? null;
 };
 

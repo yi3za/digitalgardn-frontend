@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { setServerErrors } from "@/lib/utils";
+import { IconeUploadField } from "@/components/admin/IconeUploadField";
 import { competenceSchema } from "@/features/admin/competences/competences.schemas";
 import {
   useCreateAdminCompetence,
@@ -79,12 +80,14 @@ export function CompetenceFormDialog({
   // Fonction de soumission du formulaire
   const onSubmit = async (values) => {
     try {
+      // Convertir le booleen en 0/1 pour Laravel multipart
+      const payload = { ...values, est_active: values.est_active ? 1 : 0 };
       if (isEdit) {
         // Appel de la mutation de mise a jour avec l'id de la competence
-        await updateMutation.mutateAsync({ id: competence.id, ...values });
+        await updateMutation.mutateAsync({ id: competence.id, ...payload });
       } else {
         // Appel de la mutation de creation
-        await createMutation.mutateAsync(values);
+        await createMutation.mutateAsync(payload);
       }
       toast.success(t("codes:SUCCESS"));
       setOpen(false);
@@ -125,6 +128,11 @@ export function CompetenceFormDialog({
       <Form {...form}>
         <FieldSet disabled={isPending}>
           <FieldGroup>
+            <IconeUploadField
+              control={form.control}
+              label={t("admin:competences.form.icone")}
+              open={open}
+            />
             <CustomFormField
               name="nom"
               label={t("admin:competences.form.nom")}
@@ -192,8 +200,8 @@ export function CompetenceFormDialog({
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
                     <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                      checked={Boolean(field.value)}
+                      onCheckedChange={(v) => field.onChange(v === true)}
                     />
                   </FormControl>
                   <FormLabel>
