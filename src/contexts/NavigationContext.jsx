@@ -6,6 +6,7 @@ const defaultPaths = {
   services: "/services",
   categories: "/categories",
   competences: "/competences",
+  isAdmin: false,
 };
 
 // Valeurs pour le contexte admin
@@ -14,6 +15,7 @@ export const ADMIN_PATHS = {
   services: "/admin/services",
   categories: "/admin/categories",
   competences: "/admin/competences",
+  isAdmin: true,
 };
 
 /**
