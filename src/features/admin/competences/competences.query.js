@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAdminCompetences,
+  getAdminCompetenceBySlug,
+  getAdminServicesByCompetence,
   createAdminCompetence,
   updateAdminCompetence,
   deleteAdminCompetence,
@@ -11,6 +13,22 @@ export const useAdminCompetences = () =>
   useQuery({
     queryKey: ["admin", "competences"],
     queryFn: getAdminCompetences,
+  });
+
+// Detail d'une competence par slug (quel que soit son statut)
+export const useAdminCompetenceBySlug = (slug) =>
+  useQuery({
+    queryKey: ["admin", "competence", slug],
+    queryFn: () => getAdminCompetenceBySlug(slug),
+    enabled: !!slug,
+  });
+
+// Services d'une competence (quel que soit leur statut)
+export const useAdminServicesByCompetence = (slug) =>
+  useQuery({
+    queryKey: ["admin", "competence", slug, "services"],
+    queryFn: () => getAdminServicesByCompetence(slug),
+    enabled: !!slug,
   });
 
 // Mutation : creer une competence

@@ -6,6 +6,18 @@ export const getAdminCategories = async () => {
   return data?.details?.categories ?? [];
 };
 
+// Detail d'une categorie par slug (quel que soit son statut)
+export const getAdminCategorieBySlug = async (slug) => {
+  const { data } = await client.get(`/api/admin/categories/${slug}`);
+  return data?.details?.categorie ?? null;
+};
+
+// Services d'une categorie (quel que soit leur statut)
+export const getAdminServicesByCategorie = async (slug) => {
+  const { data } = await client.get(`/api/admin/categories/${slug}/services`);
+  return data?.details?.services ?? [];
+};
+
 // Creer une categorie
 export const createAdminCategorie = async (payload) => {
   const { data } = await client.post(

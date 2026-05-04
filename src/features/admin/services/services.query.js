@@ -1,11 +1,32 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAdminServices, updateAdminServiceStatus } from "./services.api";
+import {
+  getAdminService,
+  getAdminServiceAvis,
+  getAdminServices,
+  updateAdminServiceStatus,
+} from "./services.api";
 
 // Liste des services
 export const useAdminServices = () =>
   useQuery({
     queryKey: ["admin", "services"],
     queryFn: getAdminServices,
+  });
+
+// Detail d'un service (quel que soit son statut)
+export const useAdminService = (slug) =>
+  useQuery({
+    queryKey: ["admin", "service", slug],
+    queryFn: () => getAdminService(slug),
+    enabled: !!slug,
+  });
+
+// Avis d'un service (quel que soit son statut)
+export const useAdminServiceAvis = (slug) =>
+  useQuery({
+    queryKey: ["admin", "service", slug, "avis"],
+    queryFn: () => getAdminServiceAvis(slug),
+    enabled: !!slug,
   });
 
 // Mutation : modifier le statut d'un service

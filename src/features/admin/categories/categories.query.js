@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAdminCategories,
+  getAdminCategorieBySlug,
+  getAdminServicesByCategorie,
   createAdminCategorie,
   updateAdminCategorie,
   deleteAdminCategorie,
@@ -11,6 +13,22 @@ export const useAdminCategories = () =>
   useQuery({
     queryKey: ["admin", "categories"],
     queryFn: getAdminCategories,
+  });
+
+// Detail d'une categorie par slug (quel que soit son statut)
+export const useAdminCategorieBySlug = (slug) =>
+  useQuery({
+    queryKey: ["admin", "categorie", slug],
+    queryFn: () => getAdminCategorieBySlug(slug),
+    enabled: !!slug,
+  });
+
+// Services d'une categorie (quel que soit leur statut)
+export const useAdminServicesByCategorie = (slug) =>
+  useQuery({
+    queryKey: ["admin", "categorie", slug, "services"],
+    queryFn: () => getAdminServicesByCategorie(slug),
+    enabled: !!slug,
   });
 
 // Mutation : creer une categorie
