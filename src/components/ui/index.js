@@ -1,4 +1,5 @@
 export { Button } from "./button";
+export { FilePickerButton } from "./file-picker-button";
 export {
   Card,
   CardAction,
