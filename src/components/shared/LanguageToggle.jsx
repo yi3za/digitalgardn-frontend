@@ -14,7 +14,6 @@ import { getLanguage, saveLanguage } from "@/lib/storage";
 const LANGUAGES = [
   { code: "fr", label: "Français" },
   { code: "en", label: "English" },
-  { code: "ar", label: "العربية" },
 ];
 
 // Composant pour basculer la langue de l'application
