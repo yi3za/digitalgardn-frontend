@@ -45,7 +45,7 @@ export function FilterBar({ filtersConfig = [], onApply, t }) {
   };
 
   return (
-    <div className="flex flex-wrap items-end gap-2 pb-4">
+    <div className="pb-4 flex flex-wrap items-center gap-2">
       {filtersConfig.map((filter) =>
         filter.type === "select" ? (
           <Select

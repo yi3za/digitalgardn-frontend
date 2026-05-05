@@ -9,7 +9,9 @@ import {
   DataLoading,
   DataError,
   DataEmpty,
+  Button,
 } from "@/components/ui";
+import { RefreshCw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -43,10 +45,18 @@ export function QueryItemsSection({
       <CardHeader>
         <CardTitle>
           {title}
-          {isFetching && <Spinner className="inline mx-5" />}
+          {isFetching && <Spinner className="inline mx-3" />}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
-        {action && <CardAction>{action}</CardAction>}
+        <CardAction>
+          {action ? (
+            action
+          ) : (
+            <Button size="sm" variant="ghost" onClick={refetch}>
+              <RefreshCw className="size-4" />
+            </Button>
+          )}
+        </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
         {filterBar}
