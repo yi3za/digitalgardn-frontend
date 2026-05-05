@@ -1,7 +1,7 @@
 {
   "filters": {
-    "all_categories": "Toutes catégories",
-    "all_competences": "Toutes compétences"
+    "categories_label": "catégories",
+    "competences_label": "compétences"
   },
   "categories": {
     "title": "Catégories",

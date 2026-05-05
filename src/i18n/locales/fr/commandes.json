@@ -7,7 +7,8 @@
     "livree": "Livrée",
     "en_revision": "En révision",
     "terminee": "Terminée",
-    "annulee": "Annulée"
+    "annulee": "Annulée",
+    "all": "statuts"
   },
   "actions": {
     "start": "Accepter la commande",

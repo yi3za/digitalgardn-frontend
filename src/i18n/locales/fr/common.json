@@ -14,6 +14,7 @@
     "finish": "Terminer",
     "reset": "Réinitialiser",
     "upload": "Téléverser",
+    "view": "Voir",
     "viewAll": "Voir tout"
   },
   "states": {
@@ -22,6 +23,7 @@
   "filters": {
     "apply": "Filtrer",
     "all": "Tous",
+    "all_label": "Tous les {{label}}",
     "search": "Rechercher..."
   }
 }

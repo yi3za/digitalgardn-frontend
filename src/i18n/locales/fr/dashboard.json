@@ -30,21 +30,28 @@
   "services": {
     "title": "Mes services organisés",
     "description": "Gérez, modifiez et suivez vos services de freelance depuis votre tableau de bord",
+    "columns": {
+      "service": "Service",
+      "freelance": "Freelance",
+      "prix": "Prix",
+      "statut": "Statut",
+      "date": "Date",
+      "actions": "Actions"
+    },
     "actions": {
       "create": "Créer un nouveau service"
     },
     "show": {
-      "title": "Aperçu du service",
-      "description": "Consultez votre service, y compris lorsqu'il est encore en brouillon.",
       "actions": {
         "edit": "Modifier le service",
         "delete": "Supprimer le service",
         "submitForApproval": "Demander la validation",
         "requestRepublish": "Redemander la publication",
         "pause": "Mettre en pause",
-        "stopReview": "Arreter la demande"
+        "stopReview": "Arrêter la demande"
       },
       "status": {
+        "label": "statuts",
         "published": "Publié",
         "draft": "Brouillon",
         "paused": "En pause",

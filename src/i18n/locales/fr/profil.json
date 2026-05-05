@@ -62,6 +62,7 @@
       "title": "Historique des transactions",
       "pageDescription": "Consultez toutes vos operations recentes sur le portefeuille.",
       "empty": "Aucune transaction pour le moment.",
+      "type": "types",
       "types": {
         "recharge": "Recharge",
         "achat": "Achat",

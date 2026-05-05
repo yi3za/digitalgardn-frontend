@@ -88,6 +88,10 @@
       "set_actif": "Activer",
       "set_inactif": "Désactiver",
       "set_banni": "Bannir"
+    },
+    "filters": {
+      "status_label": "statuts",
+      "role_label": "rôles"
     }
   },
   "services": {
@@ -111,6 +115,9 @@
     "actions": {
       "approve": "Approuver",
       "reject": "Rejeter"
+    },
+    "filters": {
+      "statut_label": "statuts"
     }
   },
   "commandes": {
@@ -132,6 +139,9 @@
       "en_revision": "En révision",
       "terminee": "Terminée",
       "annulee": "Annulée"
+    },
+    "filters": {
+      "statut_label": "statuts"
     }
   },
   "categories": {
@@ -238,6 +248,9 @@
       "type": "Type",
       "montant": "Montant",
       "date": "Date"
+    },
+    "filters": {
+      "type_label": "types"
     }
   },
   "avis": {
@@ -257,6 +270,9 @@
     },
     "actions": {
       "delete": "Supprimer"
+    },
+    "filters": {
+      "note_label": "notes"
     }
   }
 }
