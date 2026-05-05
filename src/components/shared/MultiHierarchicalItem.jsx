@@ -47,10 +47,16 @@ export function MultiHierarchicalItem({
   const [isOpen, setIsOpen] = useState(false);
   // Hook pour gerer l’ancrage du composant Combobox (positionnement UI)
   const anchor = useComboboxAnchor();
+  // Normalise data en tableau (supporte { items, meta } et tableau direct)
+  const dataList = useMemo(
+    () => (Array.isArray(data) ? data : (data?.items ?? [])),
+    [data],
+  );
   // Transformation des donnees pour obtenir une liste plate
-  const flatItems = useMemo(() => {
-    return (data || []).flatMap((parent) => parent.enfants || []);
-  }, [data]);
+  const flatItems = useMemo(
+    () => dataList.flatMap((parent) => parent.enfants || []),
+    [dataList],
+  );
 
   return (
     <Item variant="outline">
@@ -72,7 +78,7 @@ export function MultiHierarchicalItem({
                     onOpenChange={setIsOpen}
                     multiple
                     autoHighlight
-                    items={data}
+                    items={dataList}
                     value={field.value}
                     onValueChange={(ids) => {
                       if (
