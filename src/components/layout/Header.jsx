@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import { AuthButtons } from "./AuthButtons";
 import { Logo } from "./logo";
 import { ArrowLeft } from "lucide-react";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { LanguageToggle } from "@/components/shared/LanguageToggle";
 import {
   selectTotalUnreadMessages,
   selectUnreadCommandes,
@@ -126,6 +128,8 @@ export function Header({ dashboard = false }) {
       </NavigationMenu>
       {/* user actions */}
       <div className="flex justify-end items-center gap-4 min-w-1/4">
+        <ThemeToggle />
+        <LanguageToggle />
         {status === AUTH_STATUS.AUTHENTICATED ? (
           <UserMenu user={user} t={t} dashboard={dashboard} />
         ) : (
