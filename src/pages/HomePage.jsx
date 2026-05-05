@@ -31,6 +31,7 @@ export function HomePage() {
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
+        limit={6}
         renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
           <Button asChild variant="link">
@@ -44,6 +45,7 @@ export function HomePage() {
         itemsQuery={competencesQuery}
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
+        limit={6}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} />
         )}
@@ -59,6 +61,7 @@ export function HomePage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
+        limit={6}
         renderItems={(services) => <ServicesGrid services={services} />}
         action={
           <Button asChild variant="link">

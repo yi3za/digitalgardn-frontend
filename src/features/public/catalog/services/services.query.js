@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getServiceBySlug, getServices, getServiceAvis } from "./services.api";
 
 // Hook pour toutes les services
-export const useServices = () =>
+export const useServices = (filters = {}) =>
   useQuery({
-    queryKey: ["services"],
-    queryFn: getServices,
+    queryKey: ["services", filters],
+    queryFn: () => getServices(filters),
   });
 
 // Hook pour un service par slug

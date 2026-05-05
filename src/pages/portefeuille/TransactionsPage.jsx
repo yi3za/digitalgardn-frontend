@@ -1,10 +1,26 @@
+import { useState } from "react";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import { usePortefeuilleTransactions } from "@/features/account/portefeuille/portefeuille.query";
+import { TRANSACTION_TYPE } from "@/features/account/portefeuille/portefeuille.constants";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+
+// Configuration des filtres disponibles pour les transactions
+const TRANSACTIONS_FILTERS_CONFIG = [
+  {
+    key: "type",
+    type: "select",
+    options: Object.values(TRANSACTION_TYPE).map((v) => ({
+      value: v,
+      labelKey: `profil:portefeuille.transactions.types.${v}`,
+    })),
+  },
+];
 
 /**
  * Page des transactions du portefeuille
@@ -12,8 +28,16 @@ import { ArrowLeft } from "lucide-react";
 export function TransactionsPage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
   const { t } = useTranslation(["profil", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
-  const transactionsQuery = usePortefeuilleTransactions();
+  const transactionsQuery = usePortefeuilleTransactions({ ...filters, page });
+  const meta = transactionsQuery.data?.meta;
   // Hook de navigation pour le bouton de retour
   const navigate = useNavigate();
 
@@ -23,6 +47,22 @@ export function TransactionsPage() {
       title={t("profil:portefeuille.transactions.title")}
       description={t("profil:portefeuille.transactions.pageDescription")}
       emptyDescription={t("profil:portefeuille.transactions.empty")}
+      filterBar={
+        <FilterBar
+          t={t}
+          filtersConfig={TRANSACTIONS_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
+      }
+      paginationBar={
+        (meta?.last_page ?? 0) > 1 ? (
+          <PaginationBar
+            currentPage={meta.current_page}
+            lastPage={meta.last_page}
+            onPageChange={setPage}
+          />
+        ) : null
+      }
       renderItems={(transactions) => (
         <div>
           {transactions.map((transaction) => (

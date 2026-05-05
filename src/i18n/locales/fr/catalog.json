@@ -1,4 +1,8 @@
 {
+  "filters": {
+    "all_categories": "Toutes catégories",
+    "all_competences": "Toutes compétences"
+  },
   "categories": {
     "title": "Catégories",
     "description": "Parcourez les différentes catégories disponibles"

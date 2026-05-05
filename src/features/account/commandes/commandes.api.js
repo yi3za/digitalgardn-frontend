@@ -1,9 +1,25 @@
 import { client, contentTypeJson } from "@/api/client";
 
+// Supprime les valeurs vides avant envoi a l'API
+const cleanFilters = (f) =>
+  Object.fromEntries(
+    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
+  );
+
 //  Recupere la liste des commandes de l'utilisateur courant
-export const getCommandes = async () => {
-  const { data } = await client.get("/api/me/commandes");
-  return data?.details?.commandes ?? [];
+export const getCommandes = async (filters = {}) => {
+  const { data } = await client.get("/api/me/commandes", {
+    params: cleanFilters(filters),
+  });
+  return {
+    items: data?.details?.commandes ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Cree une nouvelle commande pour le service cible

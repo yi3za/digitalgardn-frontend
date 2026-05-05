@@ -16,7 +16,7 @@ import { AdminRecentServicesList } from "@/components/admin/AdminRecentServicesL
 import { AdminRecentUsersList } from "@/components/admin/AdminRecentUsersList";
 import { AdminRecentCommandesList } from "@/components/admin/AdminRecentCommandesList";
 import { AdminUsersGrowthChart } from "@/components/admin/AdminUsersGrowthChart";
-import { DashboardOrdersChart } from "@/components/dashboard/DashboardOrdersChart";
+import { DashboardCommandesChart } from "@/components/dashboard/DashboardCommandesChart";
 
 /**
  * Page tableau de bord de l'espace admin
@@ -60,7 +60,7 @@ export function AdminDashboardPage() {
             error={tendancesQuery.error}
             refetch={tendancesQuery.refetch}
           />
-          <DashboardOrdersChart
+          <DashboardCommandesChart
             t={t}
             stats={statsQuery.data}
             isLoading={statsQuery.isLoading}

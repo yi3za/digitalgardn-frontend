@@ -12,8 +12,8 @@ export const usePortefeuille = () =>
   });
 
 // Hook pour recuperer l'historique des transactions du portefeuille
-export const usePortefeuilleTransactions = () =>
+export const usePortefeuilleTransactions = (filters = {}) =>
   useQuery({
-    queryKey: ["portefeuille", "transactions"],
-    queryFn: getPortefeuilleTransactions,
+    queryKey: ["portefeuille", "transactions", filters],
+    queryFn: () => getPortefeuilleTransactions(filters),
   });

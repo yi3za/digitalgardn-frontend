@@ -6,10 +6,10 @@ import {
 } from "./competences.api";
 
 // Hook pour toutes les competences
-export const useCompetences = () =>
+export const useCompetences = (filters = {}) =>
   useQuery({
-    queryKey: ["competences"],
-    queryFn: getCompetences,
+    queryKey: ["competences", filters],
+    queryFn: () => getCompetences(filters),
   });
 
 // Hook pour une competence par slug

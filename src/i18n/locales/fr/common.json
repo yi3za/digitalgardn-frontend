@@ -18,5 +18,10 @@
   },
   "states": {
     "empty": "Aucun contenu disponible pour le moment."
+  },
+  "filters": {
+    "apply": "Filtrer",
+    "all": "Tous",
+    "search": "Rechercher..."
   }
 }

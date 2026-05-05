@@ -1,8 +1,15 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminTransactions } from "@/features/admin/transactions/transactions.query";
+import {
+  TRANSACTION_TYPE,
+  TRANSACTION_TYPE_BADGE_VARIANT,
+} from "@/features/account/portefeuille/portefeuille.constants";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
@@ -18,10 +25,22 @@ import {
   TableCell,
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
-import { TRANSACTION_TYPE_BADGE_VARIANT } from "@/features/account/portefeuille/portefeuille.constants";
 
 // Colonnes du tableau des transactions
 const COLUMNS = ["id", "user", "type", "montant", "date"];
+
+// Configuration des filtres disponibles pour les transactions
+const TRANSACTIONS_FILTERS_CONFIG = [
+  { key: "search", type: "input" },
+  {
+    key: "type",
+    type: "select",
+    options: Object.values(TRANSACTION_TYPE).map((v) => ({
+      value: v,
+      labelKey: `profil:portefeuille.transactions.types.${v}`,
+    })),
+  },
+];
 
 /**
  * Page de gestion des transactions (espace admin)
@@ -29,15 +48,18 @@ const COLUMNS = ["id", "user", "type", "montant", "date"];
 export function AdminTransactionsPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common", "profil"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requete de recuperation des transactions
-  const {
-    data: transactions,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminTransactions();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminTransactions({ ...filters, page });
+  const transactions = data?.items ?? [];
+  const meta = data?.meta;
   // Code d'erreur ou valeur par defaut
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
@@ -49,7 +71,12 @@ export function AdminTransactionsPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={TRANSACTIONS_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -98,6 +125,13 @@ export function AdminTransactionsPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

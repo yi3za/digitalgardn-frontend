@@ -7,10 +7,10 @@ import {
 } from "./services.api";
 
 // Liste des services
-export const useAdminServices = () =>
+export const useAdminServices = (filters = {}) =>
   useQuery({
-    queryKey: ["admin", "services"],
-    queryFn: getAdminServices,
+    queryKey: ["admin", "services", filters],
+    queryFn: () => getAdminServices(filters),
   });
 
 // Detail d'un service (quel que soit son statut)

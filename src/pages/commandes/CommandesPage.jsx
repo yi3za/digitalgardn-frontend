@@ -1,10 +1,26 @@
+import { useState } from "react";
 import { CommandesGrid } from "@/components/commandes/CommandesGrid";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCommandes } from "@/features/account/commandes/commandes.query";
+import { COMMANDE_STATUS } from "@/features/account/commandes/commandes.status";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+
+// Configuration des filtres disponibles pour les commandes
+const COMMANDES_FILTERS_CONFIG = [
+  {
+    key: "statut",
+    type: "select",
+    options: Object.values(COMMANDE_STATUS).map((v) => ({
+      value: v,
+      labelKey: `commandes:status.${v}`,
+    })),
+  },
+];
 
 /**
  * Page publique qui affiche toutes les commandes disponibles
@@ -13,14 +29,38 @@ export function CommandesPage({ dashboard = false }) {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["commandes", "common", "codes"]);
   const navigate = useNavigate();
-  // Requete pour recuperer les commandes publiques
-  const commandesQuery = useCommandes();
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
+  // Requete pour recuperer les commandes
+  const commandesQuery = useCommandes({ ...filters, page });
+  const meta = commandesQuery.data?.meta;
 
   return (
     <QueryItemsSection
       itemsQuery={commandesQuery}
       title={t("commandes:title")}
       description={t("commandes:description")}
+      filterBar={
+        <FilterBar
+          t={t}
+          filtersConfig={COMMANDES_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
+      }
+      paginationBar={
+        (meta?.last_page ?? 0) > 1 ? (
+          <PaginationBar
+            currentPage={meta.current_page}
+            lastPage={meta.last_page}
+            onPageChange={setPage}
+          />
+        ) : null
+      }
       renderItems={(commandes) => (
         <CommandesGrid
           t={t}

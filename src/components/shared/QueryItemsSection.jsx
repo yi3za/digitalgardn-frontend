@@ -20,21 +20,21 @@ export function QueryItemsSection({
   title,
   description,
   action = null,
+  filterBar = null,
+  paginationBar = null,
+  limit = null,
   renderItems,
   emptyDescription,
 }) {
   // Hook de traduction pour les textes statiques de la section et les codes d'erreur
   const { t } = useTranslation(["common", "codes"]);
   // Destructuration des donnees et etats de la query
-  const {
-    data: items,
-    isSuccess,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-    refetch,
-  } = itemsQuery;
+  const { data, isSuccess, isLoading, isFetching, isError, error, refetch } =
+    itemsQuery;
+  // Retro-compatibilite : la data peut etre un tableau direct ou un objet {items, meta}
+  const rawItems = data?.items ?? data ?? [];
+  // Limite optionnelle : affiche seulement les N premiers elements (usage homepage)
+  const items = limit ? rawItems.slice(0, limit) : rawItems;
   // Recuperation du code d'erreur ou valeur par defaut NETWORK_ERROR
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
@@ -49,6 +49,7 @@ export function QueryItemsSection({
         {action && <CardAction>{action}</CardAction>}
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
+        {filterBar}
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -65,6 +66,7 @@ export function QueryItemsSection({
               description={emptyDescription ?? t("common:states.empty")}
             />
           ))}
+        {paginationBar}
       </CardContent>
     </Card>
   );

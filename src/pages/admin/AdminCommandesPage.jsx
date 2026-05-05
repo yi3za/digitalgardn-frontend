@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminCommandes } from "@/features/admin/commandes/commandes.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
-import { commandeStatusBadgeVariantByStatut } from "@/features/account/commandes/commandes.status";
+import {
+  COMMANDE_STATUS,
+  commandeStatusBadgeVariantByStatut,
+} from "@/features/account/commandes/commandes.status";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
@@ -21,21 +27,37 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
+// Configuration des filtres disponibles pour les commandes
+const COMMANDES_FILTERS_CONFIG = [
+  { key: "search", type: "input" },
+  {
+    key: "statut",
+    type: "select",
+    options: Object.values(COMMANDE_STATUS).map((v) => ({
+      value: v,
+      labelKey: `admin:commandes.statuts.${v}`,
+    })),
+  },
+];
+
 /**
  * Page de gestion des commandes (espace admin)
  */
 export function AdminCommandesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requete de recuperation des commandes
-  const {
-    data: commandes,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminCommandes();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminCommandes({ ...filters, page });
+  const commandes = data?.items ?? [];
+  const meta = data?.meta;
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
@@ -46,7 +68,12 @@ export function AdminCommandesPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={COMMANDES_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -107,6 +134,13 @@ export function AdminCommandesPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

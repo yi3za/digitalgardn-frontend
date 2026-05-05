@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useAdminUsers,
@@ -6,6 +7,8 @@ import {
 import { formatDateTime } from "@/lib/utils";
 import { toast } from "sonner";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
@@ -24,9 +27,31 @@ import {
 import {
   ACCOUNT_STATUS,
   ACCOUNT_STATUS_BADGE_VARIANT,
+  AUTH_ROLE,
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
+
+// Configuration des filtres disponibles pour les utilisateurs
+const USERS_FILTERS_CONFIG = [
+  { key: "search", type: "input" },
+  {
+    key: "status",
+    type: "select",
+    options: Object.values(ACCOUNT_STATUS).map((v) => ({
+      value: v,
+      labelKey: `admin:users.statuses.${v}`,
+    })),
+  },
+  {
+    key: "role",
+    type: "select",
+    options: Object.values(AUTH_ROLE).map((v) => ({
+      value: v,
+      labelKey: `admin:users.roles.${v}`,
+    })),
+  },
+];
 
 /**
  * Page de gestion des utilisateurs (espace admin)
@@ -34,15 +59,18 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 export function AdminUsersPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requete de recuperation des utilisateurs
-  const {
-    data: users,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminUsers();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminUsers({ ...filters, page });
+  const users = data?.items ?? [];
+  const meta = data?.meta;
   const updateAdminUserStatus = useUpdateAdminUserStatus();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Fonction de gestion du changement de statut d'un utilisateur (actif, inactif, banni)
@@ -63,7 +91,12 @@ export function AdminUsersPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={USERS_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -144,6 +177,13 @@ export function AdminUsersPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

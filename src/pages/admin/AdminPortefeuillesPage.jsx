@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
 import { formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
@@ -21,21 +24,27 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 // Colonnes du tableau des portefeuilles
 const COLUMNS = ["user", "disponible", "en_attente", "total", "devise"];
 
+// Configuration des filtres disponibles pour les portefeuilles
+const PORTEFEUILLES_FILTERS_CONFIG = [{ key: "search", type: "input" }];
+
 /**
  * Page de gestion des portefeuilles (espace admin)
  */
 export function AdminPortefeuillesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requete de recuperation des portefeuilles
-  const {
-    data: portefeuilles,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminPortefeuilles();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminPortefeuilles({ ...filters, page });
+  const portefeuilles = data?.items ?? [];
+  const meta = data?.meta;
   // Code d'erreur ou valeur par defaut
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
@@ -47,7 +56,12 @@ export function AdminPortefeuillesPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={PORTEFEUILLES_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -56,10 +70,10 @@ export function AdminPortefeuillesPage() {
             retryText={t("common:actions.retry")}
           />
         )}
-        {!isLoading && !isError && portefeuilles?.length === 0 && (
+        {!isLoading && !isError && portefeuilles.length === 0 && (
           <DataEmpty description={t("common:states.empty")} />
         )}
-        {!isLoading && !isError && portefeuilles?.length > 0 && (
+        {!isLoading && !isError && portefeuilles.length > 0 && (
           <Table>
             <TableHeader>
               <TableRow>
@@ -90,6 +104,13 @@ export function AdminPortefeuillesPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

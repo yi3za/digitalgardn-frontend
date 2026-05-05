@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getAdminFreelancer, getAdminFreelancerAvis } from "./freelancers.api";
 
 // Profil complet d'un freelance (quel que soit son statut)
-export const useAdminFreelancer = (username) =>
+export const useAdminFreelancer = (username, serviceFilters = {}) =>
   useQuery({
-    queryKey: ["admin", "freelancer", username],
-    queryFn: () => getAdminFreelancer(username),
+    queryKey: ["admin", "freelancer", username, serviceFilters],
+    queryFn: () => getAdminFreelancer(username, serviceFilters),
     enabled: !!username,
   });
 

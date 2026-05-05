@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminAvis } from "@/features/admin/avis/avis.query";
 import { useDeleteAdminAvis } from "@/features/admin/avis/avis.mutations";
@@ -5,6 +6,8 @@ import { formatDateTime } from "@/lib/utils";
 import { toast } from "sonner";
 import { Trash2, Star } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
@@ -34,21 +37,36 @@ const COLUMNS = [
   "actions",
 ];
 
+// Options de filtre par note (1 a 5 etoiles)
+const NOTE_OPTIONS = [1, 2, 3, 4, 5].map((n) => ({
+  value: String(n),
+  label: `${n} ★`,
+}));
+
+// Configuration des filtres disponibles pour les avis
+const AVIS_FILTERS_CONFIG = [
+  { key: "search", type: "input" },
+  { key: "note", type: "select", options: NOTE_OPTIONS },
+];
+
 /**
  * Page de gestion des avis (espace admin)
  */
 export function AdminAvisPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Requete de recuperation des avis
-  const {
-    data: avis,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminAvis();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminAvis({ ...filters, page });
+  const avis = data?.items ?? [];
+  const meta = data?.meta;
   // Mutation de suppression d'un avis
   const deleteMutation = useDeleteAdminAvis();
   // Code d'erreur ou valeur par defaut
@@ -71,7 +89,12 @@ export function AdminAvisPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={AVIS_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -80,10 +103,10 @@ export function AdminAvisPage() {
             retryText={t("common:actions.retry")}
           />
         )}
-        {!isLoading && !isError && avis?.length === 0 && (
+        {!isLoading && !isError && avis.length === 0 && (
           <DataEmpty description={t("common:states.empty")} />
         )}
-        {!isLoading && !isError && avis?.length > 0 && (
+        {!isLoading && !isError && avis.length > 0 && (
           <Table>
             <TableHeader>
               <TableRow>
@@ -135,6 +158,13 @@ export function AdminAvisPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

@@ -1,4 +1,6 @@
+import { useMemo, useState } from "react";
 import { ServicesGrid } from "@/components/catalog";
+import { FilterBar } from "@/components/shared/FilterBar";
 import {
   Avatar,
   AvatarFallback,
@@ -58,10 +60,12 @@ export function FreelancerShowPage() {
   const { user: currentUser } = useSelector(authSelector);
   // Determination du mode admin (contexte layout ou role utilisateur)
   const isAdmin = isAdminCtx || currentUser?.role === AUTH_ROLE.ADMIN;
+  // Filtres pour les services du freelance
+  const [serviceFilters, setServiceFilters] = useState({});
   // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!username)
-  const publicFreelancerQuery = useFreelancer(isAdmin ? null : username);
+  const publicFreelancerQuery = useFreelancer(isAdmin ? null : username, serviceFilters);
   // Hook admin : charge le freelance depuis l'API admin (tous statuts)
-  const adminFreelancerQuery = useAdminFreelancer(isAdmin ? username : null);
+  const adminFreelancerQuery = useAdminFreelancer(isAdmin ? username : null, serviceFilters);
   // Selection de la requete active selon le contexte
   const freelancerQuery = isAdmin
     ? adminFreelancerQuery
@@ -85,6 +89,22 @@ export function FreelancerShowPage() {
   const services = data?.services ?? [];
   // Determine si le profil affiche appartient a l'utilisateur connecte
   const isOwnFreelancer = currentUser?.id === freelancer?.id;
+  // Options de filtre par competence a partir des competences du freelance
+  const competenceOptions = useMemo(
+    () =>
+      (freelancer?.competences ?? []).map((c) => ({
+        value: c.slug,
+        label: c.nom,
+      })),
+    [freelancer],
+  );
+  // Configuration des filtres disponibles pour les services
+  const SERVICES_FILTERS_CONFIG = [
+    { key: "search", type: "input" },
+    ...(competenceOptions.length
+      ? [{ key: "competence", type: "select", options: competenceOptions }]
+      : []),
+  ];
   // Demarrer une conversation avec le freelance depuis sa page publique
   const handleContactFreelancer = async () => {
     if (!freelancer?.id) return;
@@ -210,6 +230,11 @@ export function FreelancerShowPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <FilterBar
+            t={t}
+            filtersConfig={SERVICES_FILTERS_CONFIG}
+            onApply={setServiceFilters}
+          />
           {services.length ? (
             <ServicesGrid services={services} isAdmin={isAdmin} />
           ) : (

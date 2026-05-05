@@ -1,9 +1,25 @@
 import { client } from "@/api/client";
 
+// Supprime les valeurs vides avant envoi a l'API
+const cleanFilters = (f) =>
+  Object.fromEntries(
+    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
+  );
+
 // Liste des services
-export const getAdminServices = async () => {
-  const { data } = await client.get("/api/admin/services");
-  return data?.details.services ?? [];
+export const getAdminServices = async (filters = {}) => {
+  const { data } = await client.get("/api/admin/services", {
+    params: cleanFilters(filters),
+  });
+  return {
+    items: data?.details.services ?? [],
+    meta: data?.details.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Detail d'un service (quel que soit son statut)

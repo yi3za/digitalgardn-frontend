@@ -1,4 +1,4 @@
-export { Button } from "./button";
+export { Button, buttonVariants } from "./button";
 export { FilePickerButton } from "./file-picker-button";
 export {
   Card,
@@ -224,3 +224,12 @@ export {
   SelectTrigger,
   SelectValue,
 } from "./select";
+export {
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "./pagination";

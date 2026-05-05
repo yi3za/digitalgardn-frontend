@@ -1,8 +1,16 @@
 import { client } from "@/api/client";
 
+// Supprime les valeurs vides avant envoi a l'API
+const cleanFilters = (f) =>
+  Object.fromEntries(
+    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
+  );
+
 // Recupere toutes les categories
-export const getCategories = async () => {
-  const { data } = await client.get("/api/categories");
+export const getCategories = async (filters = {}) => {
+  const { data } = await client.get("/api/categories", {
+    params: cleanFilters(filters),
+  });
   return data?.details?.categories;
 };
 

@@ -6,10 +6,10 @@ import {
 } from "./categories.api";
 
 // Hook pour toutes les categories
-export const useCategories = () =>
+export const useCategories = (filters = {}) =>
   useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
+    queryKey: ["categories", filters],
+    queryFn: () => getCategories(filters),
   });
 
 // Hook pour une categorie par slug

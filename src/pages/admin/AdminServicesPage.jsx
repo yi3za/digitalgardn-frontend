@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useAdminServices,
@@ -11,6 +12,8 @@ import {
 } from "@/features/freelance/catalog/services/services.status";
 import { toast } from "sonner";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import {
   Card,
@@ -29,21 +32,37 @@ import {
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 
+// Configuration des filtres disponibles pour les services
+const SERVICES_FILTERS_CONFIG = [
+  { key: "search", type: "input" },
+  {
+    key: "statut",
+    type: "select",
+    options: Object.values(SERVICE_STATUS).map((v) => ({
+      value: v,
+      labelKey: `admin:services.statuts.${v}`,
+    })),
+  },
+];
+
 /**
  * Page de gestion des services (espace admin)
  */
 export function AdminServicesPage() {
   // Hook traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat des filtres appliques et de la page courante
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(1);
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
   // Recupere tous les services
-  const {
-    data: services,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-    refetch,
-  } = useAdminServices();
+  const { data, isLoading, isError, isFetching, error, refetch } =
+    useAdminServices({ ...filters, page });
+  const services = data?.items ?? [];
+  const meta = data?.meta;
   // Mutation pour modifier le statut d'un service (publier / rejeter)
   const mutation = useUpdateAdminServiceStatus();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -65,7 +84,12 @@ export function AdminServicesPage() {
         onRefresh={refetch}
         isFetching={isFetching}
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-1 flex-col">
+        <FilterBar
+          t={t}
+          filtersConfig={SERVICES_FILTERS_CONFIG}
+          onApply={handleApplyFilters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -151,6 +175,13 @@ export function AdminServicesPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page ?? 1}
+            lastPage={meta?.last_page ?? 1}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAdminUsers, updateAdminUserStatus } from "./users.api";
 
 // Liste des utilisateurs
-export const useAdminUsers = () =>
+export const useAdminUsers = (filters = {}) =>
   useQuery({
-    queryKey: ["admin", "users"],
-    queryFn: getAdminUsers,
+    queryKey: ["admin", "users", filters],
+    queryFn: () => getAdminUsers(filters),
   });
 
 // Mutation : modifier le statut d'un utilisateur
