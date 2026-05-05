@@ -1,11 +1,13 @@
 import {
   CategoriesGrid,
   CompetencesGrid,
+  FreelancersGrid,
   ServicesGrid,
 } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
+import { useTopFreelancers } from "@/features/public/catalog/freelancers/freelancers.query";
 import { useServices } from "@/features/public/catalog/services/services.query";
 import { Button } from "@/components/ui";
 import { ArrowRight } from "lucide-react";
@@ -22,12 +24,12 @@ export function HomePage() {
   const isDark = theme === "dark";
   // Hook de traduction
   const { t } = useTranslation(["catalog", "common"]);
-  // CategoriesQuery contient generalement : data, isLoading, isError, etc.
-  const categoriesQuery = useCategories();
-  // competencesQuery contient generalement : data, isLoading, isError, etc.
-  const competencesQuery = useCompetences();
-  // servicesQuery contient generalement : data, isLoading, isError, etc.
-  const servicesQuery = useServices();
+  // Limite pour la page d'accueil : fetchee depuis la base de donnees via le parametre limit
+  const categoriesQuery = useCategories({ limit: 6 });
+  const competencesQuery = useCompetences({ limit: 6 });
+  const servicesQuery = useServices({ limit: 6 });
+  // topFreelancersQuery contient la liste des meilleurs freelances
+  const topFreelancersQuery = useTopFreelancers();
 
   return (
     <>
@@ -35,7 +37,6 @@ export function HomePage() {
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
-        limit={6}
         isDark={isDark}
         renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
@@ -50,7 +51,6 @@ export function HomePage() {
         itemsQuery={competencesQuery}
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
-        limit={6}
         isDark={isDark}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} />
@@ -64,10 +64,18 @@ export function HomePage() {
         }
       />
       <QueryItemsSection
+        itemsQuery={topFreelancersQuery}
+        title={t("catalog:freelancers.title")}
+        description={t("catalog:freelancers.description")}
+        isDark={isDark}
+        renderItems={(freelancers) => (
+          <FreelancersGrid freelancers={freelancers} />
+        )}
+      />
+      <QueryItemsSection
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
-        limit={6}
         renderItems={(services) => <ServicesGrid services={services} />}
         isDark={isDark}
         action={
