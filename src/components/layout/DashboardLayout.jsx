@@ -1,5 +1,9 @@
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { authSelector } from "@/features/auth/auth.selectors";
+import {
+  DASHBOARD_PATHS,
+  NavigationContext,
+} from "@/contexts/NavigationContext";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { Header } from "./Header";
@@ -17,12 +21,14 @@ export function DashboardLayout() {
   if (user.role !== AUTH_ROLE.FREELANCE) return <Navigate to="/" replace />;
 
   return (
-    <div className="container mx-auto flex flex-col min-h-screen">
-      <Header dashboard />
-      <main className="flex flex-col flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <NavigationContext.Provider value={DASHBOARD_PATHS}>
+      <div className="container mx-auto flex flex-col min-h-screen">
+        <Header dashboard />
+        <main className="flex flex-col flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </NavigationContext.Provider>
   );
 }

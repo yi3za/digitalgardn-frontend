@@ -9,6 +9,15 @@ const defaultPaths = {
   isAdmin: false,
 };
 
+// Valeurs pour le contexte dashboard freelance
+export const DASHBOARD_PATHS = {
+  freelancers: "/freelancers",
+  services: "/dashboard/services",
+  categories: "/categories",
+  competences: "/competences",
+  isAdmin: false,
+};
+
 // Valeurs pour le contexte admin
 export const ADMIN_PATHS = {
   freelancers: "/admin/freelancers",
