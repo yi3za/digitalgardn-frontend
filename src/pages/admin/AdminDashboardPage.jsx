@@ -4,19 +4,14 @@ import {
   useAdminActivite,
   useAdminTendances,
 } from "@/features/admin/stats/stats.query";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui";
+import { Card, CardContent } from "@/components/ui";
 import { AdminStatsSection } from "@/components/admin/AdminStatsSection";
 import { AdminRecentServicesList } from "@/components/admin/AdminRecentServicesList";
 import { AdminRecentUsersList } from "@/components/admin/AdminRecentUsersList";
 import { AdminRecentCommandesList } from "@/components/admin/AdminRecentCommandesList";
 import { AdminUsersGrowthChart } from "@/components/admin/AdminUsersGrowthChart";
 import { DashboardCommandesChart } from "@/components/dashboard/DashboardCommandesChart";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 /**
  * Page tableau de bord de l'espace admin
@@ -38,10 +33,20 @@ export function AdminDashboardPage() {
 
   return (
     <Card className="border-0 shadow-none">
-      <CardHeader>
-        <CardTitle>{t("admin:dashboard.title")}</CardTitle>
-        <CardDescription>{t("admin:dashboard.description")}</CardDescription>
-      </CardHeader>
+      <AdminPageHeader
+        title={t("admin:dashboard.title")}
+        description={t("admin:dashboard.description")}
+        onRefresh={() => {
+          statsQuery.refetch();
+          activiteQuery.refetch();
+          tendancesQuery.refetch();
+        }}
+        isFetching={
+          statsQuery.isFetching ||
+          activiteQuery.isFetching ||
+          tendancesQuery.isFetching
+        }
+      />
       <CardContent className="space-y-6 p-0">
         <AdminStatsSection
           t={t}
