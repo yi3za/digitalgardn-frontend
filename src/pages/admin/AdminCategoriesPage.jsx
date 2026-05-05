@@ -60,7 +60,6 @@ export function AdminCategoriesPage() {
       <AdminPageHeader
         title={t("admin:categories.title")}
         description={t("admin:categories.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
         actions={
           <CategorieFormDialog
