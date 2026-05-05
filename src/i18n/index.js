@@ -1,20 +1,24 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { fr } from "./locales/fr";
+import { getLanguage, saveLanguage } from "@/lib/storage";
 
-// Definition des langues et leurs traductions
-// resources : objet qui contiendra toutes les traductions pour chaque langue
+// Ressources de traduction disponibles
 const resources = { fr };
 
-// Configuration de i18n pour React
+// Recuperer la langue sauvegardee ou utiliser le defaut
+const initialLanguage = getLanguage();
+
+// Initialiser i18next avec la langue active
 i18n.use(initReactI18next).init({
-  // Traductions
   resources,
-  // Langue par defaut
-  lng: "fr",
-  // Echape le texte
+  lng: initialLanguage,
   interpolation: { escapeValue: false },
 });
 
-// Export de l'instance i18next initialisee
+// Sauvegarder automatiquement la langue a chaque changement
+i18n.on("languageChanged", (language) => {
+  saveLanguage(language);
+});
+
 export default i18n;
