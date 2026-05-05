@@ -24,7 +24,6 @@ export function QueryItemsSection({
   action = null,
   filterBar = null,
   paginationBar = null,
-  limit = null,
   isDark = false,
   renderItems,
   emptyDescription,
@@ -36,8 +35,7 @@ export function QueryItemsSection({
     itemsQuery;
   // Retro-compatibilite : la data peut etre un tableau direct ou un objet {items, meta}
   const rawItems = data?.items ?? data ?? [];
-  // Limite optionnelle : affiche seulement les N premiers elements (usage homepage)
-  const items = limit ? rawItems.slice(0, limit) : rawItems;
+  const items = rawItems;
   // Recuperation du code d'erreur ou valeur par defaut NETWORK_ERROR
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
