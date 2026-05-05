@@ -15,6 +15,14 @@
     "title": "Services",
     "description": "Découvrez nos services disponibles"
   },
+  "freelancers": {
+    "title": "Top freelances",
+    "description": "Decouvrez les meilleurs freelances selon leurs avis et leurs services publies.",
+    "servicesCount_one": "{{count}} service",
+    "servicesCount_other": "{{count}} services",
+    "reviewsCount_one": "{{count}} avis",
+    "reviewsCount_other": "{{count}} avis"
+  },
   "freelancer": {
     "profileTitle": "Profil freelance",
     "publishedServices": "Services publiés",
