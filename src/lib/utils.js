@@ -9,6 +9,14 @@ export function cn(...inputs) {
 }
 
 /**
+ * Supprime les valeurs vides, null et "all" avant envoi a l'API
+ */
+export const cleanFilters = (f) =>
+  Object.fromEntries(
+    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
+  );
+
+/**
  * Assigne les erreurs serveur à chaque champ dans react-hook-form
  * shouldFocus : applique automatiquement le focus sur le champ qui contient une erreur
  */
