@@ -1,6 +1,5 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ServicesGrid } from "@/components/catalog";
-import { FilterBar } from "@/components/shared/FilterBar";
 import {
   Avatar,
   AvatarFallback,
@@ -41,6 +40,7 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { SkillBadges } from "@/components/shared/SkillBadges";
 import { AvisList } from "@/components/catalog/services/AvisList";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 
 /**
  * Page d'affichage d'un freelance. Fonctionne en mode public et admin.
@@ -60,26 +60,34 @@ export function FreelancerShowPage() {
   const { user: currentUser } = useSelector(authSelector);
   // Determination du mode admin (contexte layout ou role utilisateur)
   const isAdmin = isAdminCtx || currentUser?.role === AUTH_ROLE.ADMIN;
-  // Filtres pour les services du freelance
-  const [serviceFilters, setServiceFilters] = useState({});
+  // Page courante pour la pagination des services
+  const [servicePage, setServicePage] = useState(1);
+  // Page courante pour la pagination des avis
+  const [avisPage, setAvisPage] = useState(1);
   // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!username)
   const publicFreelancerQuery = useFreelancer(
     isAdmin ? null : username,
-    serviceFilters,
+    servicePage,
   );
   // Hook admin : charge le freelance depuis l'API admin (tous statuts)
   const adminFreelancerQuery = useAdminFreelancer(
     isAdmin ? username : null,
-    serviceFilters,
+    servicePage,
   );
   // Selection de la requete active selon le contexte
   const freelancerQuery = isAdmin
     ? adminFreelancerQuery
     : publicFreelancerQuery;
   // Hook public : charge les avis du freelance (statut actif uniquement)
-  const publicAvisQuery = useFreelancerAvis(isAdmin ? null : username);
+  const publicAvisQuery = useFreelancerAvis(
+    isAdmin ? null : username,
+    avisPage,
+  );
   // Hook admin : charge les avis du freelance sans filtre de statut
-  const adminAvisQuery = useAdminFreelancerAvis(isAdmin ? username : null);
+  const adminAvisQuery = useAdminFreelancerAvis(
+    isAdmin ? username : null,
+    avisPage,
+  );
   // Selection de la requete d'avis active selon le contexte
   const avisQuery = isAdmin ? adminAvisQuery : publicAvisQuery;
   // Mutation pour creer/recuperer la conversation avec le freelance
@@ -93,24 +101,10 @@ export function FreelancerShowPage() {
   const freelancer = data?.freelancer;
   // Recuperation des services publies par le freelance
   const services = data?.services ?? [];
+  // Metadonnees de pagination des services
+  const servicesMeta = data?.meta ?? null;
   // Determine si le profil affiche appartient a l'utilisateur connecte
   const isOwnFreelancer = currentUser?.id === freelancer?.id;
-  // Options de filtre par competence a partir des competences du freelance
-  const competenceOptions = useMemo(
-    () =>
-      (freelancer?.competences ?? []).map((c) => ({
-        value: c.slug,
-        label: c.nom,
-      })),
-    [freelancer],
-  );
-  // Configuration des filtres disponibles pour les services
-  const SERVICES_FILTERS_CONFIG = [
-    { key: "search", type: "input" },
-    ...(competenceOptions.length
-      ? [{ key: "competence", type: "select", options: competenceOptions }]
-      : []),
-  ];
   // Demarrer une conversation avec le freelance depuis sa page publique
   const handleContactFreelancer = async () => {
     if (!freelancer?.id) return;
@@ -231,25 +225,30 @@ export function FreelancerShowPage() {
           <CardTitle>{t("catalog:freelancer.publishedServices")}</CardTitle>
           <CardDescription>
             {t("catalog:freelancer.servicesCount", {
-              count: services.length,
+              count: servicesMeta?.total ?? services.length,
             })}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <FilterBar
-            t={t}
-            filtersConfig={SERVICES_FILTERS_CONFIG}
-            onApply={setServiceFilters}
-          />
           {services.length ? (
-            <ServicesGrid services={services} isAdmin={isAdmin} />
+            <>
+              <ServicesGrid services={services} isAdmin={isAdmin} />
+              <PaginationBar
+                currentPage={servicePage}
+                lastPage={servicesMeta?.last_page}
+                onPageChange={setServicePage}
+              />
+            </>
           ) : (
             <DataEmpty description={t("common:states.empty")} />
           )}
         </CardContent>
       </Card>
       <AvisList
-        avis={avisQuery.data ?? []}
+        avis={avisQuery.data?.avis ?? []}
+        meta={avisQuery.data?.meta ?? null}
+        currentPage={avisPage}
+        onPageChange={setAvisPage}
         isLoading={avisQuery.isLoading}
         isError={avisQuery.isError}
         error={avisQuery.error}

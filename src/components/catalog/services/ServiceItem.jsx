@@ -20,12 +20,7 @@ import { useNavigationPaths } from "@/contexts/NavigationContext";
 /**
  * Composant qui affiche un service individuel dans le catalogue
  */
-export function ServiceItem({
-  item,
-  linkTo,
-  dashboard = false,
-  isAdmin = false,
-}) {
+export function ServiceItem({ item, isAdmin = false }) {
   // Hook de navigation pour redirections
   const navigate = useNavigate();
   const { services: servicesBasePath } = useNavigationPaths();
@@ -35,7 +30,7 @@ export function ServiceItem({
   const [hovred, setHovered] = useState(false);
   // Fonction de gestion du clic sur le service pour redirection vers la page de details
   const handleClick = () => {
-    navigate(`${linkTo ?? servicesBasePath}/${item.slug}`);
+    navigate(`${servicesBasePath}/${item.slug}`);
   };
 
   return (
@@ -52,7 +47,7 @@ export function ServiceItem({
           title={item?.titre}
           className="min-w-full min-h-60"
         />
-        {(dashboard || isAdmin) && (
+        {isAdmin && (
           <Badge
             variant={serviceStatusBadgeVariantByStatut?.[item.statut]}
             className="absolute top-3 right-3"

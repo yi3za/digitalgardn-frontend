@@ -15,14 +15,18 @@ import {
   ItemGroup,
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import { Star } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 
 /**
- * Composant qui affiche la liste des avis d'un service
+ * Composant qui affiche la liste des avis d'un service avec pagination
  */
 export function AvisList({
   avis = [],
+  meta = null,
+  currentPage = 1,
+  onPageChange,
   isLoading = false,
   isError = false,
   error,
@@ -53,7 +57,7 @@ export function AvisList({
         {!isLoading && !isError && avis.length > 0 && (
           <>
             <p className="text-sm text-muted-foreground mb-4">
-              {avis.length} {t("catalog:avis.count_suffix")}
+              {meta?.total ?? avis.length} {t("catalog:avis.count_suffix")}
             </p>
             <ItemGroup className="gap-3">
               {avis.map((item) => (
@@ -85,6 +89,11 @@ export function AvisList({
                 </Item>
               ))}
             </ItemGroup>
+            <PaginationBar
+              currentPage={currentPage}
+              lastPage={meta?.last_page}
+              onPageChange={onPageChange}
+            />
           </>
         )}
       </CardContent>
