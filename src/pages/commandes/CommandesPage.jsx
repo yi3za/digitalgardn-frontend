@@ -3,12 +3,9 @@ import { CommandesGrid } from "@/components/commandes/CommandesGrid";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
-import { Button } from "@/components/ui";
 import { useCommandes } from "@/features/account/commandes/commandes.query";
 import { buildCommandesFiltersConfig } from "@/features/account/commandes/commandes.filters";
-import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 /**
  * Page publique qui affiche toutes les commandes disponibles
@@ -16,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 export function CommandesPage({ dashboard = false }) {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["commandes", "common", "codes"]);
-  const navigate = useNavigate();
   // Etat des filtres appliques et de la page courante
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
@@ -56,11 +52,6 @@ export function CommandesPage({ dashboard = false }) {
           linkTo={dashboard ? "/dashboard/messages" : "/messages"}
         />
       )}
-      action={
-        <Button type="button" variant="link" onClick={() => navigate(-1)}>
-          <ArrowLeft /> {t("common:actions.back")}
-        </Button>
-      }
     />
   );
 }

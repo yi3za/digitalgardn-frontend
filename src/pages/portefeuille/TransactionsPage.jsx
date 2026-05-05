@@ -2,13 +2,10 @@ import { useState } from "react";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
-import { Button } from "@/components/ui";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import { usePortefeuilleTransactions } from "@/features/account/portefeuille/portefeuille.query";
 import { buildTransactionsFiltersConfig } from "@/features/account/portefeuille/portefeuille.filters";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 
 /**
  * Page des transactions du portefeuille
@@ -26,8 +23,6 @@ export function TransactionsPage() {
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
   const transactionsQuery = usePortefeuilleTransactions({ ...filters, page });
   const meta = transactionsQuery.data?.meta;
-  // Hook de navigation pour le bouton de retour
-  const navigate = useNavigate();
 
   return (
     <QueryItemsSection
@@ -62,12 +57,6 @@ export function TransactionsPage() {
           ))}
         </div>
       )}
-      action={
-        <Button variant="link" onClick={() => navigate(-1)}>
-          <ArrowLeft />
-          {t("common:actions.back")}
-        </Button>
-      }
     />
   );
 }

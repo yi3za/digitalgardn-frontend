@@ -3,9 +3,6 @@ import { ServicesGrid } from "@/components/catalog";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
-import { Button } from "@/components/ui";
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useServices } from "@/features/public/catalog/services/services.query";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
@@ -70,22 +67,13 @@ export function ServicesPage() {
         />
       }
       paginationBar={
-        (meta?.last_page ?? 0) > 1 ? (
-          <PaginationBar
-            currentPage={meta.current_page}
-            lastPage={meta.last_page}
-            onPageChange={setPage}
-          />
-        ) : null
+        <PaginationBar
+          currentPage={meta.current_page}
+          lastPage={meta.last_page}
+          onPageChange={setPage}
+        />
       }
       renderItems={(services) => <ServicesGrid services={services} />}
-      action={
-        <Button asChild variant="link">
-          <Link to="/">
-            <ArrowLeft /> {t("common:actions.back")}
-          </Link>
-        </Button>
-      }
     />
   );
 }

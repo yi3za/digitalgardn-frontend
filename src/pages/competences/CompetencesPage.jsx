@@ -3,12 +3,9 @@ import { CompetencesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
-import { Button } from "@/components/ui";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { buildCompetencesFiltersConfig } from "@/features/public/catalog/competences/competences.filters";
-import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 /**
  * Page publique qui affiche toutes les competences disponibles
@@ -16,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 export function CompetencesPage() {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["catalog", "common"]);
-  const navigate = useNavigate();
   // Etat des filtres appliques et de la page courante
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
@@ -54,11 +50,6 @@ export function CompetencesPage() {
             onPageChange={setPage}
           />
         ) : null
-      }
-      action={
-        <Button type="button" variant="link" onClick={() => navigate(-1)}>
-          <ArrowLeft /> {t("common:actions.back")}
-        </Button>
       }
     />
   );
