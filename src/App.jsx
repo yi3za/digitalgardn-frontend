@@ -7,18 +7,11 @@ import { getMeThunk } from "@/features/auth/auth.thunks";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThemeProvider } from "next-themes";
 
-/**
- * Composant principal de l'application
- *
- * Initialise le store Redux
- * Charge l'utilisateur connecte (auth initiale)
- * Affiche le routeur et les notifications
- * On enveloppe AppRouter avec QueryClientProvider pour React Query
- * Devtools pour debug le cache et les requetes
- */
+// Composant racine de l'application
 export function App() {
-  // Au montage du composant, recuperer l'utilisateur connecte
+  // Charger les donnees utilisateur au demarrage
   useEffect(() => {
     store.dispatch(getMeThunk());
   }, []);
@@ -26,9 +19,12 @@ export function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <AppRouter />
-        <Toaster position="top-right" />
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* ThemeProvider : gere le theme et le persiste dans localStorage automatiquement */}
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <AppRouter />
+          <Toaster position="top-right" />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ThemeProvider>
       </QueryClientProvider>
     </Provider>
   );
