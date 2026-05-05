@@ -27,8 +27,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { Link } from "react-router-dom";
 import { getFallbackName } from "@/lib/utils";
-import { AUTH_ROLE } from "@/features/auth/auth.constants";
+import { ACCOUNT_STATUS, AUTH_ROLE } from "@/features/auth/auth.constants";
 import { disconnectEcho } from "@/lib/echo";
+
+// Couleurs des badges de statut utilisateur
+const USER_STATUS_BADGE_COLORS = {
+  [ACCOUNT_STATUS.ACTIF]: "bg-green-500",
+  [ACCOUNT_STATUS.INACTIF]: "bg-yellow-500",
+  [ACCOUNT_STATUS.BANNI]: "bg-red-500",
+};
 
 /**
  * Composant affichant le menu utilisateur
@@ -73,7 +80,7 @@ export function UserMenu({ user, t, dashboard }) {
             className="rounded-full"
           />
           <AvatarFallback>{avatarFallback}</AvatarFallback>
-          <AvatarBadge />
+          <AvatarBadge className={USER_STATUS_BADGE_COLORS[user?.status]} />
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
