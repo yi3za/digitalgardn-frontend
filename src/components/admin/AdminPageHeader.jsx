@@ -14,7 +14,7 @@ import {
 export function AdminPageHeader({
   title,
   description,
-  onRefresh,
+  onRefresh = null,
   isFetching = false,
   actions = null,
 }) {
@@ -25,10 +25,12 @@ export function AdminPageHeader({
       </CardTitle>
       <CardDescription>{description}</CardDescription>
       <CardAction>
-        <Button size="sm" variant="ghost" onClick={onRefresh}>
-          <RefreshCw className="size-4" />
-        </Button>
         {actions}
+        {onRefresh && (
+          <Button size="sm" variant="ghost" onClick={onRefresh}>
+            <RefreshCw className="size-4" />
+          </Button>
+        )}
       </CardAction>
     </CardHeader>
   );
