@@ -27,7 +27,7 @@ export function DashboardPage() {
   const commandesQuery = useDashboardCommandesRecentes();
   const revenusQuery = useDashboardRevenuesMensuels();
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none bg-transparent">
       <CardHeader>
         <CardTitle>{t("dashboard:title")}</CardTitle>
         <CardDescription>{t("dashboard:description")}</CardDescription>

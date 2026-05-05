@@ -89,12 +89,12 @@ export function DashboardCommandesChart({
             >
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="hsl(var(--border))"
+                stroke="var(--border)"
                 horizontal={false}
               />
               <XAxis
                 type="number"
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 axisLine={false}
                 tickLine={false}
                 allowDecimals={false}
@@ -102,7 +102,7 @@ export function DashboardCommandesChart({
               <YAxis
                 type="category"
                 dataKey="label"
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 axisLine={false}
                 tickLine={false}
                 width={80}
@@ -113,17 +113,19 @@ export function DashboardCommandesChart({
                   t("dashboard:charts.orders.count"),
                 ]}
                 contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  backgroundColor: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: "8px",
                   fontSize: "13px",
                 }}
+                labelStyle={{ color: "var(--card-foreground)" }}
+                itemStyle={{ color: "var(--muted-foreground)" }}
               />
               <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={18}>
                 <LabelList
                   dataKey="count"
                   position="right"
-                  style={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                  style={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 />
                 {data.map((entry, index) => (
                   <Cell key={index} fill={entry.color} />

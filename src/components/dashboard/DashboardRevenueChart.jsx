@@ -67,29 +67,29 @@ export function DashboardRevenueChart({
                 >
                   <stop
                     offset="5%"
-                    stopColor="hsl(var(--primary))"
+                    stopColor="var(--primary)"
                     stopOpacity={0.2}
                   />
                   <stop
                     offset="95%"
-                    stopColor="hsl(var(--primary))"
+                    stopColor="var(--primary)"
                     stopOpacity={0}
                   />
                 </linearGradient>
               </defs>
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="hsl(var(--border))"
+                stroke="var(--border)"
                 vertical={false}
               />
               <XAxis
                 dataKey="mois"
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(v) => formatPrice(v)}
@@ -101,23 +101,25 @@ export function DashboardRevenueChart({
                   t("dashboard:charts.revenue.amount"),
                 ]}
                 contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  backgroundColor: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: "8px",
                   fontSize: "13px",
                 }}
+                labelStyle={{ color: "var(--card-foreground)" }}
+                itemStyle={{ color: "var(--muted-foreground)" }}
               />
               <Area
                 type="monotone"
                 dataKey="total"
-                stroke="hsl(var(--primary))"
+                stroke="var(--primary)"
                 strokeWidth={3}
                 fill="url(#revenueGradient)"
-                dot={{ fill: "hsl(var(--primary))", r: 4, strokeWidth: 0 }}
+                dot={{ fill: "var(--primary)", r: 4, strokeWidth: 0 }}
                 activeDot={{
                   r: 6,
                   strokeWidth: 2,
-                  stroke: "hsl(var(--background))",
+                  stroke: "var(--background)",
                 }}
               />
             </AreaChart>

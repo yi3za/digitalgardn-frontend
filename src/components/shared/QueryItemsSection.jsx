@@ -41,7 +41,7 @@ export function QueryItemsSection({
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
-    <Card className="shadow-none rounded-none border-none flex-1 min-h-50">
+    <Card className="shadow-none border-none flex-1 min-h-50">
       <CardHeader>
         <CardTitle>
           {title}

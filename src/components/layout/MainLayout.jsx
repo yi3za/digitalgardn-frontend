@@ -4,7 +4,7 @@ import { Footer } from "./footer";
 
 /**
  * Composant MainLayout
- * 
+ *
  * Ce composant sert de layout principal pour les pages du site
  */
 export function MainLayout() {
@@ -13,7 +13,7 @@ export function MainLayout() {
       {/* Header */}
       <Header />
       {/* Main */}
-      <main className="flex flex-col flex-1">
+      <main className="flex flex-col flex-1 gap-2">
         {/* Outlet rend le composant correspondant a la route enfant */}
         <Outlet />
       </main>
