@@ -60,7 +60,6 @@ export function AdminCompetencesPage() {
       <AdminPageHeader
         title={t("admin:competences.title")}
         description={t("admin:competences.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
         actions={
           <CompetenceFormDialog
