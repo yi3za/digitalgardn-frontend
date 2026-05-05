@@ -1,7 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { getFreelancerByUsername, getFreelancerAvis } from "./freelancers.api";
+import {
+  getTopFreelancers,
+  getFreelancerByUsername,
+  getFreelancerAvis,
+} from "./freelancers.api";
 import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
+
+// Hook pour recuperer les meilleurs freelances (usage homepage)
+export const useTopFreelancers = (limit = 6) =>
+  useQuery({
+    queryKey: ["top-freelancers", limit],
+    queryFn: () => getTopFreelancers(limit),
+  });
 
 // Hook pour recuperer un freelance public via username avec pagination
 export const useFreelancer = (username, page = 1) => {

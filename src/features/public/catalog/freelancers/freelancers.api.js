@@ -1,5 +1,13 @@
 import { client } from "@/api/client";
 
+// Recuperer les meilleurs freelances actifs pour la page d'accueil
+export const getTopFreelancers = async (limit = 3) => {
+  const { data } = await client.get("/api/freelancers", {
+    params: { limit },
+  });
+  return data?.details ?? { items: [] };
+};
+
 // Recuperer les details d'un freelance public par username
 export const getFreelancerByUsername = async (username, page = 1) => {
   const { data } = await client.get(`/api/freelancers/${username}`, {
