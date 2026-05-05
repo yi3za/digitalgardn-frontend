@@ -9,7 +9,6 @@ import {
   LogOut,
   ShieldCheck,
   ChevronsUpDown,
-  Home,
   BadgeCheck,
   Bell,
   Tag,
@@ -51,6 +50,8 @@ import { toast } from "sonner";
 import { getFallbackName } from "@/lib/utils";
 import { APP_NAME } from "@/lib/config";
 import { NavigationContext, ADMIN_PATHS } from "@/contexts/NavigationContext";
+import { LanguageToggle } from "../shared/LanguageToggle";
+import { ThemeToggle } from "../shared/ThemeToggle";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -273,6 +274,10 @@ export function AdminLayout() {
             <span className="text-sm font-medium text-muted-foreground">
               {t("admin:title")}
             </span>
+            <div className="w-full flex justify-end items-center gap-2">
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
           </header>
           <main className="flex flex-col flex-1 p-6">
             <Outlet />
