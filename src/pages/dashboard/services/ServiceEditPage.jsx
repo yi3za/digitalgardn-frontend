@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileText, DollarSign, Clock, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
@@ -69,6 +70,7 @@ export function ServiceEditPage() {
   // Traductions, navigation et params
   const { t } = useTranslation(["dashboard", "common", "codes", "taxonomy"]);
   const navigate = useNavigate();
+  const { services: servicesBasePath } = useNavigationPaths();
   const { slug } = useParams();
   // Charger le service existant
   const {
@@ -173,7 +175,7 @@ export function ServiceEditPage() {
       setCurrentSlug(updatedSlug);
       // Redirection vers le nouveau slug si celui-ci a change suite a la mise a jour
       if (updatedSlug && updatedSlug !== slug) {
-        navigate(`/dashboard/services/${updatedSlug}/edit`, { replace: true });
+        navigate(`${servicesBasePath}/${updatedSlug}/edit`, { replace: true });
       }
       toast.success(t(`codes:${code}`));
       next();
@@ -194,7 +196,7 @@ export function ServiceEditPage() {
   const finish = async () => {
     const fields = fieldsByStep?.[step] || [];
     if (!(await form.trigger(fields))) return;
-    navigate("/dashboard/services");
+    navigate(servicesBasePath);
   };
   // Reset les champs du step actuel
   const handleFormResetByStep = () => {
@@ -265,7 +267,7 @@ export function ServiceEditPage() {
         <CardDescription>{t("services.edit.description")}</CardDescription>
         <CardAction>
           <Button
-            onClick={() => navigate("/dashboard/services")}
+            onClick={() => navigate(servicesBasePath)}
             variant="link"
             disabled={isPending}
           >

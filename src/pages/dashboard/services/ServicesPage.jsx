@@ -1,26 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMyServices } from "@/features/freelance/catalog/services/services.query";
-import { SERVICE_STATUS } from "@/features/freelance/catalog/services/services.status";
-import { ServicesGrid } from "@/components/catalog";
+import { buildMyServicesFiltersConfig } from "@/features/freelance/catalog/services/services.filters";
+import { ServicesTable } from "@/components/shared/ServicesTable";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
+import { ServiceRowActions } from "./ServiceRowActions";
 import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
-
-// Configuration du filtre par statut pour les services du freelance
-const MY_SERVICES_FILTERS_CONFIG = [
-  { key: "search", type: "input" },
-  {
-    key: "statut",
-    type: "select",
-    options: Object.values(SERVICE_STATUS).map((v) => ({
-      value: v,
-      labelKey: `dashboard:services.show.status.${v === SERVICE_STATUS.EN_ATTENTE_APPROBATION ? "pending" : v === SERVICE_STATUS.PUBLIE ? "published" : v === SERVICE_STATUS.EN_PAUSE ? "paused" : v === SERVICE_STATUS.BROUILLON ? "draft" : "rejected"}`,
-    })),
-  },
-];
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Page pour l'affichage des services du freelance connecte
@@ -30,6 +19,7 @@ export function ServicesPage() {
   const { t } = useTranslation(["dashboard", "common"]);
   // Hook de navigation pour permettre la redirection
   const navigate = useNavigate();
+  const { services: servicesBasePath } = useNavigationPaths();
   // Etat des filtres appliques et de la page courante
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
@@ -49,7 +39,7 @@ export function ServicesPage() {
       filterBar={
         <FilterBar
           t={t}
-          filtersConfig={MY_SERVICES_FILTERS_CONFIG}
+          filtersConfig={buildMyServicesFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
       }
@@ -63,16 +53,15 @@ export function ServicesPage() {
         ) : null
       }
       renderItems={(services) => (
-        <ServicesGrid
+        <ServicesTable
           services={services}
-          linkTo="/dashboard/services"
-          dashboard
+          renderActions={(service) => <ServiceRowActions service={service} />}
         />
       )}
       action={
         <Button
           variant="link"
-          onClick={() => navigate("/dashboard/services/create")}
+          onClick={() => navigate(`${servicesBasePath}/create`)}
         >
           {t("services.actions.create")}
         </Button>

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileText, DollarSign, Clock, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
@@ -67,6 +68,7 @@ export function ServiceCreatePage() {
   const { t } = useTranslation(["dashboard", "common", "codes", "taxonomy"]);
   // Hook de navigation pour rediriger l'utilisateur apres la creation du service
   const navigate = useNavigate();
+  const { services: servicesBasePath } = useNavigationPaths();
   // Mutations pour la creation du service et la synchronisation
   const createServiceMutation = useCreateService();
   const syncCategoriesMutation = useSyncCategories();
@@ -162,7 +164,7 @@ export function ServiceCreatePage() {
   const finish = async () => {
     const fields = fieldsByStep?.[step] || [];
     if (!(await form.trigger(fields))) return;
-    navigate("/dashboard/services");
+    navigate(servicesBasePath);
   };
   // Fonction pour reset les champs de l'etape actuelle
   const handleFormResetByStep = () => {
@@ -230,7 +232,7 @@ export function ServiceCreatePage() {
         <CardDescription>{t("services.create.description")}</CardDescription>
         <CardAction>
           <Button
-            onClick={() => navigate("/dashboard/services")}
+            onClick={() => navigate(servicesBasePath)}
             variant="link"
             disabled={createServiceMutation.isPending}
           >
