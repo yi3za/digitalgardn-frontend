@@ -39,6 +39,7 @@ const settingsItems = [
     title: "items.danger_zone.title",
     description: "items.danger_zone.description",
     path: "danger-zone",
+    adminOnly: false,
   },
 ];
 
@@ -53,6 +54,10 @@ export function SettingsPage() {
   const { isAdmin } = useOutletContext();
   const settingsBase = isAdmin ? "/admin/settings" : "/settings";
   const profilBase = isAdmin ? "/admin/profil" : "/profil";
+  // Filtrer les elements selon le role : les admins ne voient pas la danger zone
+  const visibleItems = settingsItems.filter(
+    ({ id }) => !(isAdmin && id === "danger_zone"),
+  );
 
   return (
     <>
@@ -69,7 +74,7 @@ export function SettingsPage() {
       {/* Contenu de la carte */}
       <CardContent>
         <ItemGroup className="grid grid-cols-3 gap-5">
-          {settingsItems.map(({ id, icon: Icon, title, description, path }) => (
+          {visibleItems.map(({ id, icon: Icon, title, description, path }) => (
             <Link to={`${settingsBase}/${path}`} key={id}>
               <Item
                 variant={`${id === "danger_zone" ? "destructive" : "outline"}`}

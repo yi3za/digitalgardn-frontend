@@ -22,7 +22,7 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, Navigate, useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
 /**
@@ -56,6 +56,10 @@ export function DangerZonePage() {
   const [activeDialog, setActiveDialog] = useState(null);
   // Fonction pour fermer le dialog
   const closeDialog = () => setActiveDialog(null);
+  // Rediriger les admins vers les parametres
+  if (isAdmin) {
+    return <Navigate to={settingsBase} replace />;
+  }
   // Gestion des actions dangereuses
   const handleAccountAction = async (actionId) => {
     // Determination de l'action a effectuer en fonction de l'action demandee et du status actuel de l'utilisateur
