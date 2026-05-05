@@ -21,9 +21,9 @@ export const useCategorieBySlug = (slug) =>
   });
 
 // Hook pour services d'une categorie
-export const useServicesByCategorie = (slug) =>
+export const useServicesByCategorie = (slug, params = {}) =>
   useQuery({
-    queryKey: ["categorie", slug, "services"],
-    queryFn: () => getServicesByCategorie(slug),
+    queryKey: ["categorie", slug, "services", params],
+    queryFn: () => getServicesByCategorie(slug, params),
     enabled: !!slug,
   });

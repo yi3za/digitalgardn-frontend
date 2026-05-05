@@ -24,10 +24,10 @@ export const useAdminCompetenceBySlug = (slug) =>
   });
 
 // Services d'une competence (quel que soit leur statut)
-export const useAdminServicesByCompetence = (slug) =>
+export const useAdminServicesByCompetence = (slug, params = {}) =>
   useQuery({
-    queryKey: ["admin", "competence", slug, "services"],
-    queryFn: () => getAdminServicesByCompetence(slug),
+    queryKey: ["admin", "competence", slug, "services", params],
+    queryFn: () => getAdminServicesByCompetence(slug, params),
     enabled: !!slug,
   });
 

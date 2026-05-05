@@ -1,4 +1,5 @@
 import { client, contentTypeJson } from "@/api/client";
+import { cleanFilters } from "@/lib/utils";
 
 // Recupere le portefeuille de l'utilisateur connecte avec son historique de transactions
 export const getPortefeuille = async () => {
@@ -7,12 +8,6 @@ export const getPortefeuille = async () => {
   if (!portefeuille) return null;
   return portefeuille ?? {};
 };
-
-// Supprime les valeurs vides avant envoi a l'API
-const cleanFilters = (f) =>
-  Object.fromEntries(
-    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
-  );
 
 // Recupere l'historique des transactions du portefeuille
 export const getPortefeuilleTransactions = async (filters = {}) => {

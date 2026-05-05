@@ -1,10 +1,5 @@
 import { client, contentTypeJson } from "@/api/client";
-
-// Supprime les valeurs vides avant envoi a l'API
-const cleanFilters = (f) =>
-  Object.fromEntries(
-    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
-  );
+import { cleanFilters } from "@/lib/utils";
 
 //  Recupere la liste des commandes de l'utilisateur courant
 export const getCommandes = async (filters = {}) => {

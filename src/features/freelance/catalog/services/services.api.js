@@ -1,10 +1,5 @@
 import { client, contentTypeJson, contentTypeMultipart } from "@/api/client";
-
-// Supprime les valeurs vides avant envoi a l'API
-const cleanFilters = (f) =>
-  Object.fromEntries(
-    Object.entries(f ?? {}).filter(([, v]) => v !== "" && v != null),
-  );
+import { cleanFilters } from "@/lib/utils";
 
 // Recupere tous les services du freelance connecte
 export const getMyServices = async (filters = {}) => {

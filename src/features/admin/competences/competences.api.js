@@ -13,9 +13,19 @@ export const getAdminCompetenceBySlug = async (slug) => {
 };
 
 // Services d'une competence (quel que soit leur statut)
-export const getAdminServicesByCompetence = async (slug) => {
-  const { data } = await client.get(`/api/admin/competences/${slug}/services`);
-  return data?.details?.services ?? [];
+export const getAdminServicesByCompetence = async (slug, params = {}) => {
+  const { data } = await client.get(`/api/admin/competences/${slug}/services`, {
+    params,
+  });
+  return {
+    items: data?.details?.services ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Creer une competence

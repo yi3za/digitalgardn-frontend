@@ -24,10 +24,10 @@ export const useAdminCategorieBySlug = (slug) =>
   });
 
 // Services d'une categorie (quel que soit leur statut)
-export const useAdminServicesByCategorie = (slug) =>
+export const useAdminServicesByCategorie = (slug, params = {}) =>
   useQuery({
-    queryKey: ["admin", "categorie", slug, "services"],
-    queryFn: () => getAdminServicesByCategorie(slug),
+    queryKey: ["admin", "categorie", slug, "services", params],
+    queryFn: () => getAdminServicesByCategorie(slug, params),
     enabled: !!slug,
   });
 

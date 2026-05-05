@@ -13,9 +13,19 @@ export const getAdminCategorieBySlug = async (slug) => {
 };
 
 // Services d'une categorie (quel que soit leur statut)
-export const getAdminServicesByCategorie = async (slug) => {
-  const { data } = await client.get(`/api/admin/categories/${slug}/services`);
-  return data?.details?.services ?? [];
+export const getAdminServicesByCategorie = async (slug, params = {}) => {
+  const { data } = await client.get(`/api/admin/categories/${slug}/services`, {
+    params,
+  });
+  return {
+    items: data?.details?.services ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Creer une categorie
