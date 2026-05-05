@@ -25,6 +25,7 @@ export function QueryItemsSection({
   filterBar = null,
   paginationBar = null,
   limit = null,
+  isDark = false,
   renderItems,
   emptyDescription,
 }) {
@@ -41,7 +42,9 @@ export function QueryItemsSection({
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
-    <Card className="shadow-none border-none flex-1 min-h-50">
+    <Card
+      className={`shadow-none border-none flex-1 min-h-50 ${isDark ? "bg-transparent" : ""}`}
+    >
       <CardHeader>
         <CardTitle>
           {title}

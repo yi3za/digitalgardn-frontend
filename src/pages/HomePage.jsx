@@ -11,11 +11,15 @@ import { Button } from "@/components/ui";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "next-themes";
 
 /**
  * Page d'accueil de l'application
  */
 export function HomePage() {
+  // Hook pour le theme actuel (light/dark)
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   // Hook de traduction
   const { t } = useTranslation(["catalog", "common"]);
   // CategoriesQuery contient generalement : data, isLoading, isError, etc.
@@ -32,6 +36,7 @@ export function HomePage() {
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
         limit={6}
+        isDark={isDark}
         renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
           <Button asChild variant="link">
@@ -46,6 +51,7 @@ export function HomePage() {
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
         limit={6}
+        isDark={isDark}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} />
         )}
@@ -63,6 +69,7 @@ export function HomePage() {
         description={t("catalog:services.description")}
         limit={6}
         renderItems={(services) => <ServicesGrid services={services} />}
+        isDark={isDark}
         action={
           <Button asChild variant="link">
             <Link to="/services">
