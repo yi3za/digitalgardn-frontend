@@ -27,18 +27,7 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
-// Configuration des filtres disponibles pour les commandes
-const COMMANDES_FILTERS_CONFIG = [
-  { key: "search", type: "input" },
-  {
-    key: "statut",
-    type: "select",
-    options: Object.values(COMMANDE_STATUS).map((v) => ({
-      value: v,
-      labelKey: `admin:commandes.statuts.${v}`,
-    })),
-  },
-];
+import { buildAdminCommandesFiltersConfig } from "@/features/admin/commandes/commandes.filters";
 
 /**
  * Page de gestion des commandes (espace admin)
@@ -71,7 +60,7 @@ export function AdminCommandesPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={COMMANDES_FILTERS_CONFIG}
+          filtersConfig={buildAdminCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
         {isLoading && <DataLoading />}

@@ -37,17 +37,7 @@ const COLUMNS = [
   "actions",
 ];
 
-// Options de filtre par note (1 a 5 etoiles)
-const NOTE_OPTIONS = [1, 2, 3, 4, 5].map((n) => ({
-  value: String(n),
-  label: `${n} ★`,
-}));
-
-// Configuration des filtres disponibles pour les avis
-const AVIS_FILTERS_CONFIG = [
-  { key: "search", type: "input" },
-  { key: "note", type: "select", options: NOTE_OPTIONS },
-];
+import { buildAvisFiltersConfig } from "@/features/admin/avis/avis.filters";
 
 /**
  * Page de gestion des avis (espace admin)
@@ -63,8 +53,9 @@ export function AdminAvisPage() {
     setPage(1);
   };
   // Requete de recuperation des avis
-  const { data, isLoading, isError, isFetching, error, refetch } =
-    useAdminAvis({ ...filters, page });
+  const { data, isLoading, isError, isFetching, error, refetch } = useAdminAvis(
+    { ...filters, page },
+  );
   const avis = data?.items ?? [];
   const meta = data?.meta;
   // Mutation de suppression d'un avis
@@ -92,7 +83,7 @@ export function AdminAvisPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={AVIS_FILTERS_CONFIG}
+          filtersConfig={buildAvisFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
         {isLoading && <DataLoading />}

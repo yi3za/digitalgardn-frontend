@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
+import { buildPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
 import { formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -23,9 +24,6 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 
 // Colonnes du tableau des portefeuilles
 const COLUMNS = ["user", "disponible", "en_attente", "total", "devise"];
-
-// Configuration des filtres disponibles pour les portefeuilles
-const PORTEFEUILLES_FILTERS_CONFIG = [{ key: "search", type: "input" }];
 
 /**
  * Page de gestion des portefeuilles (espace admin)
@@ -59,7 +57,7 @@ export function AdminPortefeuillesPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={PORTEFEUILLES_FILTERS_CONFIG}
+          filtersConfig={buildPortefeuillesFiltersConfig()}
           onApply={handleApplyFilters}
         />
         {isLoading && <DataLoading />}

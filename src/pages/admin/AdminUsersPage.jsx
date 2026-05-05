@@ -27,31 +27,10 @@ import {
 import {
   ACCOUNT_STATUS,
   ACCOUNT_STATUS_BADGE_VARIANT,
-  AUTH_ROLE,
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
-
-// Configuration des filtres disponibles pour les utilisateurs
-const USERS_FILTERS_CONFIG = [
-  { key: "search", type: "input" },
-  {
-    key: "status",
-    type: "select",
-    options: Object.values(ACCOUNT_STATUS).map((v) => ({
-      value: v,
-      labelKey: `admin:users.statuses.${v}`,
-    })),
-  },
-  {
-    key: "role",
-    type: "select",
-    options: Object.values(AUTH_ROLE).map((v) => ({
-      value: v,
-      labelKey: `admin:users.roles.${v}`,
-    })),
-  },
-];
+import { buildUsersFiltersConfig } from "@/features/admin/users/users.filters";
 
 /**
  * Page de gestion des utilisateurs (espace admin)
@@ -94,7 +73,7 @@ export function AdminUsersPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={USERS_FILTERS_CONFIG}
+          filtersConfig={buildUsersFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
         {isLoading && <DataLoading />}

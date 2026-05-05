@@ -29,18 +29,7 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 // Colonnes du tableau des transactions
 const COLUMNS = ["id", "user", "type", "montant", "date"];
 
-// Configuration des filtres disponibles pour les transactions
-const TRANSACTIONS_FILTERS_CONFIG = [
-  { key: "search", type: "input" },
-  {
-    key: "type",
-    type: "select",
-    options: Object.values(TRANSACTION_TYPE).map((v) => ({
-      value: v,
-      labelKey: `profil:portefeuille.transactions.types.${v}`,
-    })),
-  },
-];
+import { buildAdminTransactionsFiltersConfig } from "@/features/admin/transactions/transactions.filters";
 
 /**
  * Page de gestion des transactions (espace admin)
@@ -74,7 +63,7 @@ export function AdminTransactionsPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={TRANSACTIONS_FILTERS_CONFIG}
+          filtersConfig={buildAdminTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
         {isLoading && <DataLoading />}
