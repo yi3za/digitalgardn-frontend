@@ -68,8 +68,8 @@ export function ServicesPage() {
       }
       paginationBar={
         <PaginationBar
-          currentPage={meta.current_page}
-          lastPage={meta.last_page}
+          currentPage={meta?.current_page}
+          lastPage={meta?.last_page}
           onPageChange={setPage}
         />
       }
