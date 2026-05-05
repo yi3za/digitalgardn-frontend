@@ -1,19 +1,17 @@
 import { client } from "@/api/client";
-import { cleanFilters } from "@/lib/utils";
 
 // Recuperer les details d'un freelance public par username
-export const getFreelancerByUsername = async (
-  username,
-  serviceFilters = {},
-) => {
+export const getFreelancerByUsername = async (username, page = 1) => {
   const { data } = await client.get(`/api/freelancers/${username}`, {
-    params: cleanFilters(serviceFilters),
+    params: { page },
   });
-  return data?.details ?? { freelancer: null, services: [] };
+  return data?.details ?? { freelancer: null, services: [], meta: null };
 };
 
 // Recuperer les avis recus par un freelance
-export const getFreelancerAvis = async (username) => {
-  const { data } = await client.get(`/api/freelancers/${username}/avis`);
-  return data?.details?.avis ?? [];
+export const getFreelancerAvis = async (username, page = 1) => {
+  const { data } = await client.get(`/api/freelancers/${username}/avis`, {
+    params: { page },
+  });
+  return data?.details ?? { avis: [], meta: null };
 };
