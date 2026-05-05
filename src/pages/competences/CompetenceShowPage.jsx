@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { CompetencesGrid, ServicesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Badge,
   Button,
@@ -38,6 +40,8 @@ export function CompetenceShowPage() {
   const navigate = useNavigate();
   // Recuperation du contexte de navigation (admin ou public)
   const { isAdmin } = useNavigationPaths();
+  // Etat de la page courante pour la pagination des services
+  const [page, setPage] = useState(1);
   // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!slug)
   const publicCompetenceQuery = useCompetenceBySlug(isAdmin ? null : slug);
   // Hook admin : charge la competence depuis l'API admin (tous statuts)
@@ -47,10 +51,13 @@ export function CompetenceShowPage() {
     ? adminCompetenceQuery
     : publicCompetenceQuery;
   // Hook public : charge les services de la competence (statut publie uniquement)
-  const publicServicesQuery = useServicesByCompetence(isAdmin ? null : slug);
+  const publicServicesQuery = useServicesByCompetence(isAdmin ? null : slug, {
+    page,
+  });
   // Hook admin : charge les services de la competence sans filtre de statut
   const adminServicesQuery = useAdminServicesByCompetence(
     isAdmin ? slug : null,
+    { page },
   );
   // Selection de la requete de services active selon le contexte
   const servicesQuery = isAdmin ? adminServicesQuery : publicServicesQuery;
@@ -119,6 +126,15 @@ export function CompetenceShowPage() {
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
         renderItems={(services) => <ServicesGrid services={services} />}
+        paginationBar={
+          (servicesQuery.data?.meta?.last_page ?? 0) > 1 ? (
+            <PaginationBar
+              currentPage={servicesQuery.data.meta.current_page}
+              lastPage={servicesQuery.data.meta.last_page}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </div>
   );

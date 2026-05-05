@@ -5,22 +5,10 @@ import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { useCommandes } from "@/features/account/commandes/commandes.query";
-import { COMMANDE_STATUS } from "@/features/account/commandes/commandes.status";
+import { buildCommandesFiltersConfig } from "@/features/account/commandes/commandes.filters";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-
-// Configuration des filtres disponibles pour les commandes
-const COMMANDES_FILTERS_CONFIG = [
-  {
-    key: "statut",
-    type: "select",
-    options: Object.values(COMMANDE_STATUS).map((v) => ({
-      value: v,
-      labelKey: `commandes:status.${v}`,
-    })),
-  },
-];
 
 /**
  * Page publique qui affiche toutes les commandes disponibles
@@ -48,7 +36,7 @@ export function CommandesPage({ dashboard = false }) {
       filterBar={
         <FilterBar
           t={t}
-          filtersConfig={COMMANDES_FILTERS_CONFIG}
+          filtersConfig={buildCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
       }

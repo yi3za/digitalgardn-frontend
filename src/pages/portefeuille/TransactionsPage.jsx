@@ -5,22 +5,10 @@ import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { Button } from "@/components/ui";
 import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import { usePortefeuilleTransactions } from "@/features/account/portefeuille/portefeuille.query";
-import { TRANSACTION_TYPE } from "@/features/account/portefeuille/portefeuille.constants";
+import { buildTransactionsFiltersConfig } from "@/features/account/portefeuille/portefeuille.filters";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-
-// Configuration des filtres disponibles pour les transactions
-const TRANSACTIONS_FILTERS_CONFIG = [
-  {
-    key: "type",
-    type: "select",
-    options: Object.values(TRANSACTION_TYPE).map((v) => ({
-      value: v,
-      labelKey: `profil:portefeuille.transactions.types.${v}`,
-    })),
-  },
-];
 
 /**
  * Page des transactions du portefeuille
@@ -50,7 +38,7 @@ export function TransactionsPage() {
       filterBar={
         <FilterBar
           t={t}
-          filtersConfig={TRANSACTIONS_FILTERS_CONFIG}
+          filtersConfig={buildTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
         />
       }

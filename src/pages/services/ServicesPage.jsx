@@ -29,28 +29,30 @@ export function ServicesPage() {
   const competencesQuery = useCompetences();
   // Config des filtres construite depuis les donnees API (options dynamiques)
   const filtersConfig = useMemo(() => {
-    const categorieOptions = (categoriesQuery.data ?? []).flatMap((parent) =>
-      (parent.enfants ?? []).map((c) => ({ value: c.slug, label: c.nom })),
+    const categorieOptions = (categoriesQuery.data?.items ?? []).flatMap(
+      (parent) =>
+        (parent.enfants ?? []).map((c) => ({ value: c.slug, label: c.nom })),
     );
-    const competenceOptions = (competencesQuery.data ?? []).flatMap((parent) =>
-      (parent.enfants ?? []).map((c) => ({ value: c.slug, label: c.nom })),
+    const competenceOptions = (competencesQuery.data?.items ?? []).flatMap(
+      (parent) =>
+        (parent.enfants ?? []).map((c) => ({ value: c.slug, label: c.nom })),
     );
     return [
       { key: "search", type: "input" },
       {
         key: "categorie",
         type: "select",
-        allLabel: "catalog:filters.all_categories",
+        allLabel: t("catalog:filters.categories_label"),
         options: categorieOptions,
       },
       {
         key: "competence",
         type: "select",
-        allLabel: "catalog:filters.all_competences",
+        allLabel: t("catalog:filters.competences_label"),
         options: competenceOptions,
       },
     ];
-  }, [categoriesQuery.data, competencesQuery.data]);
+  }, [categoriesQuery.data, competencesQuery.data, t]);
   // Requete pour recuperer les services publies
   const servicesQuery = useServices({ ...filters, page });
   const meta = servicesQuery.data?.meta;

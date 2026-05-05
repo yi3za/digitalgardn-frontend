@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { CategoriesGrid, ServicesGrid } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
+import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Badge,
   Button,
@@ -38,6 +40,8 @@ export function CategorieShowPage() {
   const navigate = useNavigate();
   // Recuperation du contexte de navigation (admin ou public)
   const { isAdmin } = useNavigationPaths();
+  // Etat de la page courante pour la pagination des services
+  const [page, setPage] = useState(1);
   // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!slug)
   const publicCategorieQuery = useCategorieBySlug(isAdmin ? null : slug);
   // Hook admin : charge la categorie depuis l'API admin (tous statuts)
@@ -45,9 +49,14 @@ export function CategorieShowPage() {
   // Selection de la requete active selon le contexte
   const categorieQuery = isAdmin ? adminCategorieQuery : publicCategorieQuery;
   // Hook public : charge les services de la categorie (statut publie uniquement)
-  const publicServicesQuery = useServicesByCategorie(isAdmin ? null : slug);
+  const publicServicesQuery = useServicesByCategorie(isAdmin ? null : slug, {
+    page,
+  });
   // Hook admin : charge les services de la categorie sans filtre de statut
-  const adminServicesQuery = useAdminServicesByCategorie(isAdmin ? slug : null);
+  const adminServicesQuery = useAdminServicesByCategorie(
+    isAdmin ? slug : null,
+    { page },
+  );
   // Selection de la requete de services active selon le contexte
   const servicesQuery = isAdmin ? adminServicesQuery : publicServicesQuery;
   // Destructuration des etats de la requete de la categorie
@@ -114,6 +123,15 @@ export function CategorieShowPage() {
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
         renderItems={(services) => <ServicesGrid services={services} />}
+        paginationBar={
+          (servicesQuery.data?.meta?.last_page ?? 0) > 1 ? (
+            <PaginationBar
+              currentPage={servicesQuery.data.meta.current_page}
+              lastPage={servicesQuery.data.meta.last_page}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </div>
   );

@@ -63,9 +63,15 @@ export function FreelancerShowPage() {
   // Filtres pour les services du freelance
   const [serviceFilters, setServiceFilters] = useState({});
   // Les deux hooks sont appeles : null desactive le hook non utilise (enabled: !!username)
-  const publicFreelancerQuery = useFreelancer(isAdmin ? null : username, serviceFilters);
+  const publicFreelancerQuery = useFreelancer(
+    isAdmin ? null : username,
+    serviceFilters,
+  );
   // Hook admin : charge le freelance depuis l'API admin (tous statuts)
-  const adminFreelancerQuery = useAdminFreelancer(isAdmin ? username : null, serviceFilters);
+  const adminFreelancerQuery = useAdminFreelancer(
+    isAdmin ? username : null,
+    serviceFilters,
+  );
   // Selection de la requete active selon le contexte
   const freelancerQuery = isAdmin
     ? adminFreelancerQuery
