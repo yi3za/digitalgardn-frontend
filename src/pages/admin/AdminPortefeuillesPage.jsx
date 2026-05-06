@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
 import { buildPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
 import { formatPrice } from "@/lib/utils";
@@ -10,6 +11,7 @@ import { PaginationBar } from "@/components/shared/PaginationBar";
 import {
   Card,
   CardContent,
+  Badge,
   DataLoading,
   DataError,
   DataEmpty,
@@ -31,12 +33,42 @@ const COLUMNS = ["user", "disponible", "en_attente", "total", "devise"];
 export function AdminPortefeuillesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  const [searchParams, setSearchParams] = useSearchParams();
   // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState(() => {
+    const initial = {};
+    const search = searchParams.get("search");
+    const platform = searchParams.get("platform");
+
+    if (search) initial.search = search;
+    if (platform) initial.platform = platform;
+
+    return initial;
+  });
+  const [page, setPage] = useState(() => Number(searchParams.get("page") ?? 1));
+  const syncSearchParams = (nextFilters, nextPage = 1) => {
+    const nextParams = new URLSearchParams();
+
+    Object.entries(nextFilters).forEach(([key, value]) => {
+      if (value !== "" && value != null) nextParams.set(key, value);
+    });
+
+    if (nextPage > 1) nextParams.set("page", String(nextPage));
+
+    setSearchParams(nextParams);
+  };
   const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
+    const nextFilters = filters.platform
+      ? { ...newFilters, platform: filters.platform }
+      : newFilters;
+
+    setFilters(nextFilters);
     setPage(1);
+    syncSearchParams(nextFilters, 1);
+  };
+  const handlePageChange = (nextPage) => {
+    setPage(nextPage);
+    syncSearchParams(filters, nextPage);
   };
   // Requete de recuperation des portefeuilles
   const { data, isLoading, isError, isFetching, error, refetch } =
@@ -59,6 +91,7 @@ export function AdminPortefeuillesPage() {
           t={t}
           filtersConfig={buildPortefeuillesFiltersConfig()}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
         {isLoading && <DataLoading />}
         {isError && (
@@ -83,23 +116,38 @@ export function AdminPortefeuillesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {portefeuilles.map((portefeuille) => (
-                <TableRow key={portefeuille.id}>
-                  <TableCell>
-                    <AvatarIdentity user={portefeuille.user} />
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {formatPrice(portefeuille.solde_disponible)} {CURRENCY}
-                  </TableCell>
-                  <TableCell>
-                    {formatPrice(portefeuille.solde_en_attente)} {CURRENCY}
-                  </TableCell>
-                  <TableCell className="font-bold">
-                    {formatPrice(portefeuille.solde_total)} {CURRENCY}
-                  </TableCell>
-                  <TableCell>{portefeuille.devise}</TableCell>
-                </TableRow>
-              ))}
+              {portefeuilles.map((portefeuille) => {
+                const isOwner = portefeuille.user?.is_platform_owner === true;
+                return (
+                  <TableRow
+                    key={portefeuille.id}
+                    className={
+                      isOwner ? "bg-muted/50 font-semibold" : undefined
+                    }
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <AvatarIdentity user={portefeuille.user} />
+                        {isOwner && (
+                          <Badge variant="warning">
+                            {t("admin:portefeuilles.platform")}
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {formatPrice(portefeuille.solde_disponible)} {CURRENCY}
+                    </TableCell>
+                    <TableCell>
+                      {formatPrice(portefeuille.solde_en_attente)} {CURRENCY}
+                    </TableCell>
+                    <TableCell className="font-bold">
+                      {formatPrice(portefeuille.solde_total)} {CURRENCY}
+                    </TableCell>
+                    <TableCell>{portefeuille.devise}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}
@@ -107,7 +155,7 @@ export function AdminPortefeuillesPage() {
           <PaginationBar
             currentPage={meta?.current_page ?? 1}
             lastPage={meta?.last_page ?? 1}
-            onPageChange={setPage}
+            onPageChange={handlePageChange}
           />
         )}
       </CardContent>

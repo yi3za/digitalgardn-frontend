@@ -84,6 +84,8 @@ export function AdminCommandesPage() {
                   "freelance",
                   "service",
                   "montant",
+                  "commission",
+                  "montant_net",
                   "statut",
                   "date",
                 ].map((col) => (
@@ -108,6 +110,12 @@ export function AdminCommandesPage() {
                   </TableCell>
                   <TableCell className="font-medium">
                     {formatPrice(commande.montant)} {CURRENCY}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {formatPrice(commande.commission)} {CURRENCY}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {formatPrice(commande.montant_net)} {CURRENCY}
                   </TableCell>
                   <TableCell>
                     <Badge

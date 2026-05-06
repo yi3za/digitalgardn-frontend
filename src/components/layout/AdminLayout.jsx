@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  ArrowLeftRight,
   LayoutDashboard,
   Users,
   Layers,
@@ -11,11 +12,9 @@ import {
   ChevronsUpDown,
   BadgeCheck,
   Bell,
-  Tag,
-  Wrench,
   Wallet,
-  ArrowLeftRight,
   Star,
+  ChevronRight,
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,6 +28,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
@@ -43,6 +45,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
 } from "@/components/ui";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { logoutThunk } from "@/features/auth/auth.thunks";
@@ -52,6 +57,7 @@ import { APP_NAME } from "@/lib/config";
 import { NavigationContext, ADMIN_PATHS } from "@/contexts/NavigationContext";
 import { LanguageToggle } from "../shared/LanguageToggle";
 import { ThemeToggle } from "../shared/ThemeToggle";
+import { BackButton } from "../shared/BackButton";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -69,10 +75,26 @@ const ADMIN_NAV_ITEMS = [
     labelKey: "admin:nav.users",
   },
   {
-    key: "services",
-    to: "/admin/services",
+    key: "catalog",
     icon: Layers,
-    labelKey: "admin:nav.services",
+    labelKey: "admin:nav.catalog",
+    children: [
+      {
+        key: "services",
+        to: "/admin/services",
+        labelKey: "admin:nav.services",
+      },
+      {
+        key: "categories",
+        to: "/admin/categories",
+        labelKey: "admin:nav.categories",
+      },
+      {
+        key: "competences",
+        to: "/admin/competences",
+        labelKey: "admin:nav.competences",
+      },
+    ],
   },
   {
     key: "commandes",
@@ -81,28 +103,21 @@ const ADMIN_NAV_ITEMS = [
     labelKey: "admin:nav.commandes",
   },
   {
-    key: "categories",
-    to: "/admin/categories",
-    icon: Tag,
-    labelKey: "admin:nav.categories",
-  },
-  {
-    key: "competences",
-    to: "/admin/competences",
-    icon: Wrench,
-    labelKey: "admin:nav.competences",
-  },
-  {
-    key: "portefeuilles",
-    to: "/admin/portefeuilles",
+    key: "finance",
     icon: Wallet,
-    labelKey: "admin:nav.portefeuilles",
-  },
-  {
-    key: "transactions",
-    to: "/admin/transactions",
-    icon: ArrowLeftRight,
-    labelKey: "admin:nav.transactions",
+    labelKey: "admin:nav.finance",
+    children: [
+      {
+        key: "portefeuilles",
+        to: "/admin/portefeuilles",
+        labelKey: "admin:nav.portefeuilles",
+      },
+      {
+        key: "transactions",
+        to: "/admin/transactions",
+        labelKey: "admin:nav.transactions",
+      },
+    ],
   },
   {
     key: "avis",
@@ -126,6 +141,8 @@ export function AdminLayout() {
   const location = useLocation();
   // Generation du nom fallback pour l'avatar
   const avatarFallback = getFallbackName(user?.name);
+  // Determiner si la page courante fait partie de l'espace admin pour afficher le bouton de retour dans le header
+  const showBackButton = location.pathname !== "/admin";
   // Dispatch du thunk de logout et gestion des notifications
   const logout = async () => {
     try {
@@ -168,24 +185,76 @@ export function AdminLayout() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {ADMIN_NAV_ITEMS.map(
-                    ({ key, to, icon: Icon, labelKey, exact }) => (
-                      <SidebarMenuItem key={key}>
-                        <SidebarMenuButton
-                          asChild
-                          tooltip={t(labelKey)}
-                          isActive={
-                            exact
-                              ? location.pathname === to
-                              : location.pathname.startsWith(to)
-                          }
-                        >
-                          <Link to={to}>
-                            <Icon />
-                            <span>{t(labelKey)}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ),
+                    ({ key, to, icon: Icon, labelKey, exact, children }) => {
+                      if (children) {
+                        const isAnyChildActive = children.some(
+                          ({ to: childTo }) =>
+                            location.pathname.startsWith(childTo),
+                        );
+                        return (
+                          <Collapsible
+                            key={key}
+                            defaultOpen={isAnyChildActive}
+                            className="group/collapsible"
+                          >
+                            <SidebarMenuItem>
+                              <CollapsibleTrigger asChild>
+                                <SidebarMenuButton
+                                  tooltip={t(labelKey)}
+                                  isActive={isAnyChildActive}
+                                >
+                                  <Icon />
+                                  <span>{t(labelKey)}</span>
+                                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                                </SidebarMenuButton>
+                              </CollapsibleTrigger>
+                              <CollapsibleContent>
+                                <SidebarMenuSub>
+                                  {children.map(
+                                    ({
+                                      key: childKey,
+                                      to: childTo,
+                                      labelKey: childLabelKey,
+                                    }) => (
+                                      <SidebarMenuSubItem key={childKey}>
+                                        <SidebarMenuSubButton
+                                          asChild
+                                          isActive={location.pathname.startsWith(
+                                            childTo,
+                                          )}
+                                        >
+                                          <Link to={childTo}>
+                                            <span>{t(childLabelKey)}</span>
+                                          </Link>
+                                        </SidebarMenuSubButton>
+                                      </SidebarMenuSubItem>
+                                    ),
+                                  )}
+                                </SidebarMenuSub>
+                              </CollapsibleContent>
+                            </SidebarMenuItem>
+                          </Collapsible>
+                        );
+                      }
+                      return (
+                        <SidebarMenuItem key={key}>
+                          <SidebarMenuButton
+                            asChild
+                            tooltip={t(labelKey)}
+                            isActive={
+                              exact
+                                ? location.pathname === to
+                                : location.pathname.startsWith(to)
+                            }
+                          >
+                            <Link to={to}>
+                              <Icon />
+                              <span>{t(labelKey)}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    },
                   )}
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -253,10 +322,7 @@ export function AdminLayout() {
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={logout}
-                      className="text-destructive focus:text-destructive"
-                    >
+                    <DropdownMenuItem onClick={logout} variant="destructive">
                       <LogOut className="text-destructive" />
                       {t("admin:nav.logout")}
                     </DropdownMenuItem>
@@ -271,6 +337,7 @@ export function AdminLayout() {
           <header className="flex items-center gap-2 border-b px-4 py-3">
             <SidebarTrigger />
             <SidebarSeparator orientation="vertical" />
+            {showBackButton && <BackButton />}
             <span className="text-sm font-medium text-muted-foreground">
               {t("admin:title")}
             </span>

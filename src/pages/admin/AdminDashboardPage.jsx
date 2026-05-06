@@ -32,7 +32,7 @@ export function AdminDashboardPage() {
   const tendancesQuery = useAdminTendances();
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none bg-background">
       <AdminPageHeader
         title={t("admin:dashboard.title")}
         description={t("admin:dashboard.description")}
@@ -47,7 +47,7 @@ export function AdminDashboardPage() {
           tendancesQuery.isFetching
         }
       />
-      <CardContent className="space-y-6 p-0">
+      <CardContent className="space-y-6">
         <AdminStatsSection
           t={t}
           stats={statsQuery.data}

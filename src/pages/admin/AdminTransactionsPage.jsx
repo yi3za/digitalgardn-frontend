@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { useAdminTransactions } from "@/features/admin/transactions/transactions.query";
 import {
   TRANSACTION_TYPE,
@@ -37,12 +38,44 @@ import { buildAdminTransactionsFiltersConfig } from "@/features/admin/transactio
 export function AdminTransactionsPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common", "profil"]);
+  const [searchParams, setSearchParams] = useSearchParams();
   // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState(() => {
+    const initial = {};
+    const search = searchParams.get("search");
+    const type = searchParams.get("type");
+    const platform = searchParams.get("platform");
+
+    if (search) initial.search = search;
+    if (type) initial.type = type;
+    if (platform) initial.platform = platform;
+
+    return initial;
+  });
+  const [page, setPage] = useState(() => Number(searchParams.get("page") ?? 1));
+  const syncSearchParams = (nextFilters, nextPage = 1) => {
+    const nextParams = new URLSearchParams();
+
+    Object.entries(nextFilters).forEach(([key, value]) => {
+      if (value !== "" && value != null) nextParams.set(key, value);
+    });
+
+    if (nextPage > 1) nextParams.set("page", String(nextPage));
+
+    setSearchParams(nextParams);
+  };
   const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
+    const nextFilters = filters.platform
+      ? { ...newFilters, platform: filters.platform }
+      : newFilters;
+
+    setFilters(nextFilters);
     setPage(1);
+    syncSearchParams(nextFilters, 1);
+  };
+  const handlePageChange = (nextPage) => {
+    setPage(nextPage);
+    syncSearchParams(filters, nextPage);
   };
   // Requete de recuperation des transactions
   const { data, isLoading, isError, isFetching, error, refetch } =
@@ -65,6 +98,7 @@ export function AdminTransactionsPage() {
           t={t}
           filtersConfig={buildAdminTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
         {isLoading && <DataLoading />}
         {isError && (
@@ -119,7 +153,7 @@ export function AdminTransactionsPage() {
           <PaginationBar
             currentPage={meta?.current_page ?? 1}
             lastPage={meta?.last_page ?? 1}
-            onPageChange={setPage}
+            onPageChange={handlePageChange}
           />
         )}
       </CardContent>

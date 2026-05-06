@@ -1,8 +1,17 @@
-import { Users, ShieldBan, Layers, ShoppingCart, Star } from "lucide-react";
+import {
+  Users,
+  ShieldBan,
+  Layers,
+  ShoppingCart,
+  Star,
+  Wallet,
+} from "lucide-react";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { DataError } from "@/components/ui";
+import { CURRENCY } from "@/lib/config";
+import { formatPrice } from "@/lib/utils";
 
-// Configuration des 5 cartes statistiques admin
+// Configuration des cartes statistiques admin
 const buildStatCards = (t, stats) => [
   {
     key: "utilisateurs",
@@ -50,6 +59,15 @@ const buildStatCards = (t, stats) => [
     }),
     icon: Star,
   },
+  {
+    key: "treasury",
+    title: t("admin:dashboard.stats.treasury"),
+    value: `${formatPrice(stats?.treasury?.solde_disponible ?? 0)} ${CURRENCY}`,
+    description: t("admin:dashboard.stats.treasury_desc", {
+      en_attente: `${formatPrice(stats?.treasury?.solde_en_attente ?? 0)} ${CURRENCY}`,
+    }),
+    icon: Wallet,
+  },
 ];
 
 /**
@@ -77,7 +95,7 @@ export function AdminStatsSection({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3">
       {cards.map(({ key, title, value, description, icon }) => (
         <DashboardStatCard
           key={key}

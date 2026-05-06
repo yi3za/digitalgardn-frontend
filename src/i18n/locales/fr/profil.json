@@ -67,7 +67,8 @@
         "recharge": "Recharge",
         "achat": "Achat",
         "gain": "Gain",
-        "remboursement": "Remboursement"
+        "remboursement": "Remboursement",
+        "commission": "Commission"
       }
     }
   }

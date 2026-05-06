@@ -233,3 +233,8 @@ export {
   PaginationNext,
   PaginationEllipsis,
 } from "./pagination";
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "./collapsible";

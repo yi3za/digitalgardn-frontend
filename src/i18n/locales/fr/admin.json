@@ -4,10 +4,12 @@
     "label": "Navigation",
     "dashboard": "Tableau de bord",
     "users": "Utilisateurs",
+    "catalog": "Catalogue",
     "services": "Services",
     "commandes": "Commandes",
     "categories": "Catégories",
     "competences": "Compétences",
+    "finance": "Finance",
     "portefeuilles": "Portefeuilles",
     "transactions": "Transactions",
     "avis": "Avis",
@@ -29,7 +31,9 @@
       "commandes": "Commandes",
       "commandes_desc": "{{en_cours}} en cours · {{terminees}} terminées",
       "avis": "Avis",
-      "avis_desc": "Note moyenne : {{note_moyenne}} / 5"
+      "avis_desc": "Note moyenne : {{note_moyenne}} / 5",
+      "treasury": "Trésorerie plateforme",
+      "treasury_desc": "En attente : {{en_attente}}"
     },
     "activite": {
       "services": {
@@ -129,6 +133,8 @@
       "freelance": "Freelance",
       "service": "Service",
       "montant": "Montant",
+      "commission": "Commission",
+      "montant_net": "Net freelance",
       "statut": "Statut",
       "date": "Date"
     },
@@ -231,6 +237,7 @@
   "portefeuilles": {
     "title": "Gestion des portefeuilles",
     "description": "Consultez les soldes et les informations de tous les portefeuilles.",
+    "platform": "Plateforme",
     "columns": {
       "user": "Utilisateur",
       "disponible": "Disponible",

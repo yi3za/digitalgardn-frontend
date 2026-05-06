@@ -6,6 +6,7 @@ export const TRANSACTION_TYPE = {
   GAIN: "gain",
   ACHAT: "achat",
   REMBOURSEMENT: "remboursement",
+  COMMISSION: "commission",
 };
 
 /**
@@ -16,4 +17,5 @@ export const TRANSACTION_TYPE_BADGE_VARIANT = {
   [TRANSACTION_TYPE.GAIN]: "default",
   [TRANSACTION_TYPE.ACHAT]: "destructive",
   [TRANSACTION_TYPE.REMBOURSEMENT]: "outline",
+  [TRANSACTION_TYPE.COMMISSION]: "warning",
 };
