@@ -88,7 +88,7 @@ export function CategorieShowPage() {
 
   return (
     <div className="flex flex-col flex-1">
-      <Card className="shadow-none rounded-none border-none">
+      <Card className="shadow-none rounded-none border-none bg-background">
         <CardHeader>
           <CardTitle>
             {title}

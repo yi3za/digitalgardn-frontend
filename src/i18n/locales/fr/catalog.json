@@ -14,8 +14,7 @@
   "services": {
     "title": "Services",
     "description": "Découvrez nos services disponibles"
-  },
-  "freelancers": {
+  },  "freelancers": {
     "title": "Top freelances",
     "description": "Decouvrez les meilleurs freelances selon leurs avis et leurs services publies.",
     "servicesCount_one": "{{count}} service",

@@ -260,7 +260,7 @@ export function ServiceEditPage() {
     );
 
   return (
-    <Card className="shadow-none rounded-none">
+    <Card className="shadow-none">
       {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("services.edit.title")}</CardTitle>

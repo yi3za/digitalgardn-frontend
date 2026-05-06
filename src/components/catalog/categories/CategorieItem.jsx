@@ -21,14 +21,12 @@ export function CategorieItem({ item }) {
       variant="outline"
     >
       <button onClick={handleClick}>
-        <ItemMedia>
+        <ItemMedia className="w-12 h-12">
           <img
             src={item.icone_url}
-            width={50}
-            height={50}
             alt={item.nom}
             title={item.nom}
-            className="rounded"
+            className="rounded h-full w-full"
           />
         </ItemMedia>
         <ItemContent>
