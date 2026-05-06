@@ -1,6 +1,5 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
-  Button,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -16,7 +15,7 @@ import { UserMenu } from "./UserMenu";
 import { useTranslation } from "react-i18next";
 import { AuthButtons } from "./AuthButtons";
 import { Logo } from "./logo";
-import { ArrowLeft } from "lucide-react";
+import { BackButton } from "@/components/shared/BackButton";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { LanguageToggle } from "@/components/shared/LanguageToggle";
 import {
@@ -32,32 +31,19 @@ export function Header({ dashboard = false }) {
   const { t } = useTranslation(["layout", "codes"]);
   // Hook pour location
   const location = useLocation();
-  // Hook pour navigation
-  const navigate = useNavigate();
   // Recuperer l'utilisateur et le statut d'authentification
   const { user, status } = useSelector(authSelector);
+  // Determiner si on affiche le bouton de retour
   const showBackButton = location.pathname !== "/";
   // Recuperer le nombre total de messages non lus
   const totalUnreadMessages = useSelector(selectTotalUnreadMessages);
   // Recuperer le nombre de commandes non lues
   const unreadCommandes = useSelector(selectUnreadCommandes);
-  // Navigation
-  const handleBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1);
-      return;
-    }
-    navigate("/");
-  };
 
   return (
-    <header className="flex justify-between items-center py-4 mb-10 relative">
+    <header className="flex justify-between items-center py-4 mb-10">
       <div className="flex items-center gap-2 min-w-1/4">
-        {showBackButton && (
-          <Button variant="ghost" size="icon" onClick={handleBack}>
-            <ArrowLeft />
-          </Button>
-        )}
+        {showBackButton && <BackButton />}
         {/* logo */}
         <Logo />
       </div>

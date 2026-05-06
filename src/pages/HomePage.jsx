@@ -5,6 +5,7 @@ import {
   ServicesGrid,
 } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
+import { SearchBar } from "@/components/shared/SearchBar";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useTopFreelancers } from "@/features/public/catalog/freelancers/freelancers.query";
@@ -13,15 +14,11 @@ import { Button } from "@/components/ui";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "next-themes";
 
 /**
  * Page d'accueil de l'application
  */
 export function HomePage() {
-  // Hook pour le theme actuel (light/dark)
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
   // Hook de traduction
   const { t } = useTranslation(["catalog", "common"]);
   // Limite pour la page d'accueil : fetchee depuis la base de donnees via le parametre limit
@@ -33,11 +30,11 @@ export function HomePage() {
 
   return (
     <>
+      <SearchBar className="mb-6" />
       <QueryItemsSection
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
-        isDark={isDark}
         renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
           <Button asChild variant="link">
@@ -51,7 +48,6 @@ export function HomePage() {
         itemsQuery={competencesQuery}
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
-        isDark={isDark}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} />
         )}
@@ -67,7 +63,6 @@ export function HomePage() {
         itemsQuery={topFreelancersQuery}
         title={t("catalog:freelancers.title")}
         description={t("catalog:freelancers.description")}
-        isDark={isDark}
         renderItems={(freelancers) => (
           <FreelancersGrid freelancers={freelancers} />
         )}
@@ -77,7 +72,6 @@ export function HomePage() {
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
         renderItems={(services) => <ServicesGrid services={services} />}
-        isDark={isDark}
         action={
           <Button asChild variant="link">
             <Link to="/services">

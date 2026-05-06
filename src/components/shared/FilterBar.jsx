@@ -15,11 +15,19 @@ const ALL_VALUE = "all";
 /**
  * Composant de barre de filtres generique. Accepte une configuration de filtres (type input ou select) et notifie le parent des changements
  */
-export function FilterBar({ filtersConfig = [], onApply, t }) {
+export function FilterBar({
+  filtersConfig = [],
+  onApply,
+  t,
+  initialValues = {},
+}) {
   // Etat local des filtres en attente, non encore appliques
   const [pending, setPending] = useState(() =>
     Object.fromEntries(
-      filtersConfig.map((f) => [f.key, f.type === "select" ? ALL_VALUE : ""]),
+      filtersConfig.map((f) => [
+        f.key,
+        initialValues[f.key] ?? (f.type === "select" ? ALL_VALUE : ""),
+      ]),
     ),
   );
   // Met a jour un filtre dans l'etat local

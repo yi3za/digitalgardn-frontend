@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ServicesGrid } from "@/components/catalog";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
@@ -14,9 +15,16 @@ import { useTranslation } from "react-i18next";
 export function ServicesPage() {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["catalog", "common"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
+  // Lire le parametre search depuis l'URL (navigation depuis le header ou le hero)
+  const [searchParams] = useSearchParams();
+  // Initialiser les filtres depuis l'URL si present
+  const [filters, setFilters] = useState(() => {
+    const urlSearch = searchParams.get("search");
+    return urlSearch ? { search: urlSearch } : {};
+  });
+  // Etat de la page pour la pagination
   const [page, setPage] = useState(1);
+  // Handler d'application des filtres : met a jour les filtres et reset la page a 1
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters);
     setPage(1);
@@ -64,6 +72,7 @@ export function ServicesPage() {
           t={t}
           filtersConfig={filtersConfig}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
       }
       paginationBar={
