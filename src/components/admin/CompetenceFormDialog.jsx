@@ -81,7 +81,11 @@ export function CompetenceFormDialog({
   const onSubmit = async (values) => {
     try {
       // Convertir le booleen en 0/1 pour Laravel multipart
-      const payload = { ...values, est_active: values.est_active ? 1 : 0 };
+      const payload = {
+        ...values,
+        est_active: values.est_active ? 1 : 0,
+        parent_id: Number(values.parent_id) || null,
+      };
       if (isEdit) {
         // Appel de la mutation de mise a jour avec l'id de la competence
         await updateMutation.mutateAsync({ id: competence.id, ...payload });
@@ -160,56 +164,61 @@ export function CompetenceFormDialog({
               <FormField
                 name="parent_id"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("admin:competences.form.parent")}</FormLabel>
-                    <Select
-                      value={field.value ? String(field.value) : "none"}
-                      onValueChange={(v) =>
-                        field.onChange(v === "none" ? null : Number(v))
-                      }
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue
-                            placeholder={t("admin:competences.form.no_parent")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="none">
-                          {t("admin:competences.form.no_parent")}
-                        </SelectItem>
-                        {parents.map((p) => (
-                          <SelectItem key={p.id} value={String(p.id)}>
-                            {p.nom}
+                render={({ field }) => {
+                  const label = t("admin:competences.form.parent");
+                  return (
+                    <FormItem>
+                      <FormLabel>{label}</FormLabel>
+                      <Select
+                        value={field.value ? String(field.value) : "none"}
+                        onValueChange={(v) =>
+                          field.onChange(v === "none" ? null : Number(v))
+                        }
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue
+                              placeholder={t(
+                                "admin:competences.form.no_parent",
+                              )}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">
+                            {t("admin:competences.form.no_parent")}
                           </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                          {parents.map((p) => (
+                            <SelectItem key={p.id} value={String(p.id)}>
+                              {p.nom}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage rules={{ attribute: label }} />
+                    </FormItem>
+                  );
+                }}
               />
             )}
-            {/* Statut actif — checkbox via FormField */}
             <FormField
               name="est_active"
               control={form.control}
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={Boolean(field.value)}
-                      onCheckedChange={(v) => field.onChange(v === true)}
-                    />
-                  </FormControl>
-                  <FormLabel>
-                    {t("admin:competences.form.est_active")}
-                  </FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const label = t("admin:competences.form.est_active");
+                return (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={Boolean(field.value)}
+                        onCheckedChange={(v) => field.onChange(v === true)}
+                      />
+                    </FormControl>
+                    <FormLabel>{label}</FormLabel>
+                    <FormMessage rules={{ attribute: label }} />
+                  </FormItem>
+                );
+              }}
             />
           </FieldGroup>
         </FieldSet>
