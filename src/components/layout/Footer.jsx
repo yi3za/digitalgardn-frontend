@@ -23,28 +23,26 @@ export function Footer() {
   const { t } = useTranslation("layout");
 
   return (
-    <>
-      <Card className="shadow-none border-y-0 rounded-none bg-background border-t border-secondary">
-        <CardHeader>
-          <CardTitle>
-            <Logo />
-          </CardTitle>
-          <CardDescription>{t("footer.description")}</CardDescription>
-          <CardAction>
-            {publicLinks.map((link) => (
-              <Button key={link.key} variant="link" asChild>
-                <Link to={link.to}>{t(`header.${link.key}`)}</Link>
-              </Button>
-            ))}
-          </CardAction>
-        </CardHeader>
-        <CardContent>
-          <SearchBar />
-        </CardContent>
-        <CardFooter className="justify-center">
-          {t("footer.copyright")} {APP_NAME} — {t("footer.built_with")}
-        </CardFooter>
-      </Card>
-    </>
+    <Card className="shadow-none border-y-0 rounded-none bg-background border-t border-primary/20">
+      <CardHeader>
+        <CardTitle>
+          <Logo />
+        </CardTitle>
+        <CardDescription>{t("footer.description")}</CardDescription>
+        <CardAction>
+          {publicLinks.map((link) => (
+            <Button key={link.key} variant="link" asChild>
+              <Link to={link.to}>{t(`header.${link.key}`)}</Link>
+            </Button>
+          ))}
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <SearchBar />
+      </CardContent>
+      <CardFooter className="justify-center">
+        {t("footer.copyright")} {APP_NAME} — {t("footer.built_with")}
+      </CardFooter>
+    </Card>
   );
 }
