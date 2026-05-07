@@ -20,6 +20,7 @@ export const publicLinks = [
   { key: "services", to: "/services" },
   { key: "categories", to: "/categories" },
   { key: "competences", to: "/competences" },
+  { key: "langues", to: "/langues" },
 ];
 
 // Liens de navigation pour mon business
