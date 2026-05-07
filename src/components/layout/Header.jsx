@@ -27,8 +27,8 @@ export function Header({ dashboard = false }) {
   const isAuthenticated = status === AUTH_STATUS.AUTHENTICATED;
 
   return (
-    <header className="flex justify-between items-center p-4 sticky top-0 z-50 bg-background border-b border-secondary">
-      <div className="flex items-center gap-2 min-w-1/4">
+    <header className="flex justify-between items-center p-4 sticky top-0 z-50 bg-background border-b border-primary/20">
+      <div className="flex items-center gap-2">
         {showBackButton && <BackButton />}
         {/* logo */}
         <Logo />
@@ -36,7 +36,7 @@ export function Header({ dashboard = false }) {
       {/* navigation */}
       <Navbar dashboard={dashboard} t={t} isAuthenticated={isAuthenticated} />
       {/* user actions */}
-      <div className="flex justify-end items-center gap-4 min-w-1/4">
+      <div className="flex justify-end items-center gap-4">
         <ThemeToggle />
         <LanguageToggle />
         {isAuthenticated ? (
