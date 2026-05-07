@@ -39,6 +39,9 @@ export const updateFreelanceProfil = (data) =>
 // Synchroniser les competences de l'utilisateur freelance
 export const syncCompetences = (data) =>
   client.put("/api/me/competences", data, contentTypeJson);
+// Synchroniser les langues de l'utilisateur freelance
+export const syncLangues = (data) =>
+  client.put("/api/me/langues", data, contentTypeJson);
 // Activer le compte utilisateur
 export const activateAccount = () => client.patch("/api/me/activate-account");
 // Desactiver le compte utilisateur
