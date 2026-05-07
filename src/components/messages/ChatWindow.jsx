@@ -58,7 +58,7 @@ export function ChatWindow({
   }, [conversation, currentUserId]);
   // Effet pour faire defiler la fenetre de chat vers le bas a chaque changement de messages ou de conversation
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [messages.length, conversation?.id]);
   // Recuperation du commande liee a la conversation
   const commande = conversation?.commande ?? null;
