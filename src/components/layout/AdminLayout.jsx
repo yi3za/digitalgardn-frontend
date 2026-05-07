@@ -94,6 +94,11 @@ const ADMIN_NAV_ITEMS = [
         to: "/admin/competences",
         labelKey: "admin:nav.competences",
       },
+      {
+        key: "langues",
+        to: "/admin/langues",
+        labelKey: "admin:nav.langues",
+      },
     ],
   },
   {
