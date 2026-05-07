@@ -83,6 +83,7 @@ export {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
   NavigationMenuItemCustom,
+  NavigationMenuItemsCustom,
 } from "./navigation-menu";
 export {
   Item,

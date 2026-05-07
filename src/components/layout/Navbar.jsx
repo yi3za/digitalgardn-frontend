@@ -1,13 +1,9 @@
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
   NavigationMenuItemCustom,
-  NavigationMenuLink,
+  NavigationMenuItemsCustom,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "../ui";
-import { Link } from "react-router-dom";
 import {
   selectTotalUnreadMessages,
   selectUnreadCommandes,
@@ -16,7 +12,6 @@ import { useSelector } from "react-redux";
 
 // Liens de navigation publics
 export const publicLinks = [
-  { key: "home", to: "/" },
   { key: "services", to: "/services" },
   { key: "categories", to: "/categories" },
   { key: "competences", to: "/competences" },
@@ -25,10 +20,10 @@ export const publicLinks = [
 
 // Liens de navigation pour mon business
 const myBusinessLinks = [
-  { key: "profil", to: "/dashboard/profil" },
-  { key: "mesServices", to: "/dashboard/services" },
-  { key: "portefeuille", to: "/dashboard/portefeuille" },
-  { key: "transactions", to: "/dashboard/portefeuille/transactions" },
+  { key: "profil", to: "profil" },
+  { key: "mesServices", to: "services" },
+  { key: "portefeuille", to: "portefeuille" },
+  { key: "transactions", to: "portefeuille/transactions" },
 ];
 
 /**
@@ -41,17 +36,18 @@ export function Navbar({ dashboard = false, t, isAuthenticated }) {
   const unreadCommandes = useSelector(selectUnreadCommandes);
 
   return (
-    <NavigationMenu className="min-w-1/2">
+    <NavigationMenu>
       <NavigationMenuList>
         {!dashboard && (
           <>
-            {publicLinks.map((link) => (
-              <NavigationMenuItemCustom
-                key={link.key}
-                content={t(`header.${link.key}`)}
-                to={link.to}
-              />
-            ))}
+            <NavigationMenuItemCustom content={t("header.home")} to="/" />
+            <NavigationMenuItemsCustom
+              triggerLabel={t("header.catalog")}
+              items={publicLinks.map((link) => ({
+                label: t(`header.${link.key}`),
+                to: link.to,
+              }))}
+            />
           </>
         )}
         {dashboard && (
@@ -60,22 +56,13 @@ export function Navbar({ dashboard = false, t, isAuthenticated }) {
               content={t("header.dashboard")}
               to="/dashboard"
             />
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>
-                {t("header.myBusiness")}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="w-96">
-                  {myBusinessLinks.map((link) => (
-                    <li key={link.key}>
-                      <NavigationMenuLink asChild>
-                        <Link to={link.to}>{t(`header.${link.key}`)}</Link>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            <NavigationMenuItemsCustom
+              triggerLabel={t("header.myBusiness")}
+              items={myBusinessLinks.map((link) => ({
+                label: t(`header.${link.key}`),
+                to: `/dashboard/${link.to}`,
+              }))}
+            />
           </>
         )}
         {isAuthenticated && (

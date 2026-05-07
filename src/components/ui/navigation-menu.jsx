@@ -158,6 +158,26 @@ function NavigationMenuItemCustom({ content, to, badgeCount = null }) {
   );
 }
 
+function NavigationMenuItemsCustom({ triggerLabel, items }) {
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>{triggerLabel}</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul className="w-96">
+          {items.map((link) => (
+            <li key={link.label}>
+              <NavigationMenuLink asChild>
+                <Link to={link.to}>{link.label}</Link>
+              </NavigationMenuLink>
+            </li>
+          ))}
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  );
+}
+
+
 export {
   NavigationMenu,
   NavigationMenuList,
@@ -169,4 +189,5 @@ export {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
   NavigationMenuItemCustom,
+  NavigationMenuItemsCustom,
 };
