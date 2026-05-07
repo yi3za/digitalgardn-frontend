@@ -218,6 +218,13 @@ export function FreelancerShowPage() {
               path={competencesPath}
             />
           )}
+          {!!freelancer?.langues?.length && (
+            <SkillBadges
+              title={t("catalog:freelancer.languesTitle")}
+              items={freelancer.langues}
+              BadgeVariant="outline"
+            />
+          )}
         </CardContent>
       </Card>
       <Card className="shadow-none">
