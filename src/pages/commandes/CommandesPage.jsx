@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CommandesGrid } from "@/components/commandes/CommandesGrid";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
@@ -6,6 +5,7 @@ import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
 import { useCommandes } from "@/features/account/commandes/commandes.query";
 import { buildCommandesFiltersConfig } from "@/features/account/commandes/commandes.filters";
 import { useTranslation } from "react-i18next";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page publique qui affiche toutes les commandes disponibles
@@ -13,13 +13,10 @@ import { useTranslation } from "react-i18next";
 export function CommandesPage({ dashboard = false }) {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["commandes", "common", "codes"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["statut"],
+  });
   // Requete pour recuperer les commandes
   const commandesQuery = useCommandes({ ...filters, page });
   const meta = commandesQuery.data?.meta;
@@ -34,6 +31,7 @@ export function CommandesPage({ dashboard = false }) {
           t={t}
           filtersConfig={buildCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
       }
       paginationBar={
