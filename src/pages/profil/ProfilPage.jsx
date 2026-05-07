@@ -2,16 +2,19 @@ import { ProfilBioItem } from "@/components/profil/ProfilBioItem";
 import { ProfilEditItem } from "@/components/profil/ProfilEditItem";
 import { ProfilViewItem } from "@/components/profil/ProfilViewItem";
 import { MultiHierarchicalItem } from "@/components/shared/MultiHierarchicalItem";
+import { MultiFlatItem } from "@/components/shared/MultiFlatItem";
 import { Button, Form, ItemGroup, Spinner } from "@/components/ui";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { updateInfoSchema } from "@/features/auth/auth.schemas";
 import { authSelector } from "@/features/auth/auth.selectors";
 import {
   syncCompetencesThunk,
+  syncLanguesThunk,
   updateFreelanceProfilThunk,
 } from "@/features/auth/auth.thunks";
 import { useFormUpdate } from "@/features/auth/useFormUpdate";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
+import { useLangues } from "@/features/public/catalog/langues/langues.query";
 import { formatDate, getFallbackName, toCapitalize } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -29,6 +32,8 @@ const SHEET = { PROFIL: { SHOW: "profile-show", EDIT: "profile-edit" } };
 export function ProfilPage({ handleOnboardingCompletion }) {
   // competencesQuery contient generalement : data, isLoading, isError, etc.
   const competencesQuery = useCompetences();
+  // languesQuery contient generalement : data, isLoading, isError, etc.
+  const languesQuery = useLangues();
   // Recupere les donnees de l'utilisateur authentifie
   const { user, loading } = useSelector(authSelector);
   // Fonction de traduction
@@ -62,6 +67,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       biographie: user?.profil?.biographie ?? "",
       avatar: undefined,
       competences: user?.competences ?? [],
+      langues: user?.langues ?? [],
     },
     mode: "onChange",
     reValidateMode: "onChange",
@@ -85,7 +91,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
   const closeSheet = () => setActiveSheet(null);
   // Verifier que les champs obligatoires de freelance sont remplis
   const isOnboardingTermine = async () => {
-    const requiredFields = ["titre", "biographie", "competences"];
+    const requiredFields = ["titre", "biographie", "competences", "langues"];
     for (const field of requiredFields) {
       if (!(await form.trigger(field))) {
         // Ouvrir le sheet d'edition si c'est titre
@@ -100,7 +106,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
         setTimeout(() => {
           form.setFocus(field);
         }, 0);
-        // Pour competences, rien de special a faire
+        // Pour competences/langues, rien de special a faire
         return;
       }
     }
@@ -130,10 +136,21 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       thunk: syncCompetencesThunk,
       resetFields: "competences",
     });
+  // Function pour mise a jour des langues
+  const handleUpdateLangues = () =>
+    executeUpdate({
+      fieldNames: "langues",
+      thunk: syncLanguesThunk,
+      resetFields: "langues",
+    });
 
   // Function pour reinitialiser les competences
   const handleResetCompetences = () => {
     form.resetField("competences", { defaultValue: user?.competences ?? [] });
+  };
+  // Function pour reinitialiser les langues
+  const handleResetLangues = () => {
+    form.resetField("langues", { defaultValue: user?.langues ?? [] });
   };
 
   return (
@@ -192,13 +209,28 @@ export function ProfilPage({ handleOnboardingCompletion }) {
               onReset={handleResetCompetences}
               isChanged={form.formState.dirtyFields?.competences}
             />
+            <MultiFlatItem
+              name="langues"
+              control={form.control}
+              title={t("taxonomy:langues.title")}
+              description={t("taxonomy:langues.description")}
+              t={t}
+              dataQuery={languesQuery}
+              placeholder={t("taxonomy:langues.placeholder")}
+              emptyMessage={t("taxonomy:langues.empty")}
+              saveIsLoading={loading.syncLangues}
+              onSave={handleUpdateLangues}
+              onReset={handleResetLangues}
+              isChanged={form.formState.dirtyFields?.langues}
+            />
           </>
         )}
       </Form>
       {user?.role === AUTH_ROLE.FREELANCE &&
         !user?.onboarding_termine &&
         !biographieEdit &&
-        !isFieldDirty("competences") && (
+        !isFieldDirty("competences") &&
+        !isFieldDirty("langues") && (
           <Button
             onClick={isOnboardingTermine}
             disabled={loading.completeOnboarding}
