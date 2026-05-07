@@ -5,17 +5,14 @@
       "titleAccent": "pour faire grandir vos projets",
       "description": "DigitalGardn connecte les clients avec des freelances, créateurs et experts capables de transformer une idée en résultat concret.",
       "actions": {
-        "services": "Explorer les services",
-        "categories": "Explorer les catégories",
-        "competences": "Explorer les compétences",
-        "langues": "Explorer les langues"
+        "services": "Explorer les services"
       }
     }
   },
   "filters": {
     "categories_label": "catégories",
     "competences_label": "compétences",
-    "langues_label": "langues"
+    "langues_label": "langues qui parlent les freelances"
   },
   "categories": {
     "title": "Catégories",
