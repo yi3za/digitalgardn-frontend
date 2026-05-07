@@ -82,6 +82,7 @@ export function FilterBar({
             key={filter.key}
             value={pending[filter.key] ?? ""}
             onChange={(e) => handleChange(filter.key, e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleApply()}
             placeholder={filter.placeholder ?? t("common:filters.search")}
             className="w-44"
           />
