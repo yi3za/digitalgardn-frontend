@@ -14,6 +14,7 @@ import {
   switchToFreelance,
   updateFreelanceProfil,
   syncCompetences,
+  syncLangues,
   activateAccount,
   deactivateAccount,
   deleteAccount,
@@ -76,6 +77,8 @@ export const syncCompetencesThunk = createApiThunk(
   "auth/syncCompetences",
   syncCompetences,
 );
+// thunk pour la synchronisation des langues freelance
+export const syncLanguesThunk = createApiThunk("auth/syncLangues", syncLangues);
 // thunk pour l'activation du compte utilisateur
 export const activateAccountThunk = createApiThunk(
   "auth/activateAccount",
