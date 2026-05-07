@@ -10,6 +10,7 @@ import { ServiceRowActions } from "./ServiceRowActions";
 import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page pour l'affichage des services du freelance connecte
@@ -20,13 +21,10 @@ export function ServicesPage() {
   // Hook de navigation pour permettre la redirection
   const navigate = useNavigate();
   const { services: servicesBasePath } = useNavigationPaths();
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "statut"],
+  });
   // Requete pour recuperer les services du freelance connecte
   const myServicesQuery = useMyServices({ ...filters, page });
   const meta = myServicesQuery.data?.meta;
@@ -41,6 +39,7 @@ export function ServicesPage() {
           t={t}
           filtersConfig={buildMyServicesFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
       }
       paginationBar={
