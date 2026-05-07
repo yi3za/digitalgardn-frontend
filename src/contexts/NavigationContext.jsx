@@ -2,28 +2,28 @@ import { createContext, useContext } from "react";
 
 // Valeurs par defaut (contexte public)
 const defaultPaths = {
-  freelancers: "/freelancers",
   services: "/services",
   categories: "/categories",
   competences: "/competences",
+  langues: "/langues",
   isAdmin: false,
 };
 
 // Valeurs pour le contexte dashboard freelance
 export const DASHBOARD_PATHS = {
-  freelancers: "/freelancers",
   services: "/dashboard/services",
   categories: "/categories",
   competences: "/competences",
+  langues: "/langues",
   isAdmin: false,
 };
 
 // Valeurs pour le contexte admin
 export const ADMIN_PATHS = {
-  freelancers: "/admin/freelancers",
   services: "/admin/services",
   categories: "/admin/categories",
   competences: "/admin/competences",
+  langues: "/admin/langues",
   isAdmin: true,
 };
 
