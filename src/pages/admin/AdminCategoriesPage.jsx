@@ -43,7 +43,7 @@ export function AdminCategoriesPage() {
   const deleteMutation = useDeleteAdminCategorie();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
   // Categories parentes uniquement (sans parent_id)
-  const parents = (categories ?? []).filter((c) => c.parent_id === null);
+  const parents = (categories ?? []).filter((c) => c.parent === null);
   // Suppression d'une categorie par id
   const handleDelete = async (id) => {
     try {
@@ -100,23 +100,25 @@ export function AdminCategoriesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((cat) => (
-                <TableRow key={cat.id}>
+              {categories.map((categorie) => (
+                <TableRow key={categorie.id}>
                   <TableCell className="font-medium">
-                    <CategorieMiniCard categorie={cat} />
+                    <CategorieMiniCard categorie={categorie} />
                   </TableCell>
                   <TableCell>
-                    {cat.parent ? (
-                      <CategorieMiniCard categorie={cat.parent} />
+                    {categorie.parent ? (
+                      <CategorieMiniCard categorie={categorie.parent} />
                     ) : (
                       "—"
                     )}
                   </TableCell>
-                  <TableCell>{cat.ordre}</TableCell>
+                  <TableCell>{categorie.ordre}</TableCell>
                   <TableCell>
-                    <Badge variant={cat.est_active ? "default" : "secondary"}>
+                    <Badge
+                      variant={categorie.est_active ? "default" : "secondary"}
+                    >
                       {t(
-                        cat.est_active
+                        categorie.est_active
                           ? "admin:categories.statuts.active"
                           : "admin:categories.statuts.inactive",
                       )}
@@ -125,7 +127,7 @@ export function AdminCategoriesPage() {
                   <TableCell>
                     <div className="flex gap-2 [&_button]:flex-1">
                       <CategorieFormDialog
-                        categorie={cat}
+                        categorie={categorie}
                         parents={parents}
                         triggerLabel={<Pencil className="size-3" />}
                         triggerProps={{ size: "sm", variant: "outline" }}
@@ -135,12 +137,12 @@ export function AdminCategoriesPage() {
                         triggerProps={{ size: "sm", variant: "destructive" }}
                         title={t("admin:categories.confirm_delete_title")}
                         description={t("admin:categories.confirm_delete", {
-                          nom: cat.nom,
+                          nom: categorie.nom,
                         })}
                         confirmLabel={t("admin:categories.actions.delete")}
                         cancelLabel={t("common:actions.cancel")}
                         confirmVariant="destructive"
-                        onConfirm={() => handleDelete(cat.id)}
+                        onConfirm={() => handleDelete(categorie.id)}
                         loading={deleteMutation.isPending}
                         disabled={deleteMutation.isPending}
                       />
