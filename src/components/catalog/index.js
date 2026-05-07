@@ -1,4 +1,5 @@
 export { CategorieItem, CategoriesGrid } from "./categories";
 export { CompetenceItem, CompetencesGrid } from "./competences";
+export { LangueItem, LanguesGrid } from "./langues";
 export { ServiceItem, ServicesGrid } from "./services";
 export { FreelancerItem, FreelancersGrid } from "./freelancers";
