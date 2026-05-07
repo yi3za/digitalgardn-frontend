@@ -15,8 +15,11 @@ import { Star, BriefcaseBusiness } from "lucide-react";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { useTranslation } from "react-i18next";
 
-// Carte individuelle d'un freelance pour la section home
+/**
+ * Carte individuelle d'un freelance pour la section home
+ */
 export function FreelancerItem({ freelancer }) {
+  // Hooks pour les chemins de navigation et la traduction
   const { freelancers: freelancersBasePath } = useNavigationPaths();
   const { t } = useTranslation(["catalog", "common"]);
 
