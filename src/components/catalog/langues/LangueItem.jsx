@@ -11,7 +11,7 @@ export function LangueItem({ item }) {
 
   return (
     <Badge variant="secondary" asChild>
-      <Link to={`${languesBasePath}/${item.id}`}>{item.nom}</Link>
+      <Link to={`${languesBasePath}/${item.slug}`}>{item.nom}</Link>
     </Badge>
   );
 }
