@@ -91,7 +91,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
   const closeSheet = () => setActiveSheet(null);
   // Verifier que les champs obligatoires de freelance sont remplis
   const isOnboardingTermine = async () => {
-    const requiredFields = ["titre", "biographie", "competences", "langues"];
+    const requiredFields = ["titre", "langues", "biographie", "competences"];
     for (const field of requiredFields) {
       if (!(await form.trigger(field))) {
         // Ouvrir le sheet d'edition si c'est titre
