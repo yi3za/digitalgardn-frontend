@@ -59,8 +59,22 @@ const competenceId = z
   .number({ invalid_type_error: "validation.integer" })
   .int("validation.integer")
   .positive("validation.integer");
+const langueId = z
+  .number({ invalid_type_error: "validation.integer" })
+  .int("validation.integer")
+  .positive("validation.integer");
 export const competencesField = z
   .array(competenceId, {
+    required_error: "validation.required",
+    invalid_type_error: "validation.array",
+  })
+  .min(1, "validation.required")
+  .max(5, "validation.max.array")
+  .refine((items) => new Set(items).size === items.length, {
+    message: "validation.distinct",
+  });
+export const languesField = z
+  .array(langueId, {
     required_error: "validation.required",
     invalid_type_error: "validation.array",
   })
@@ -142,6 +156,7 @@ export const updateInfoSchema = z.object({
   biographie: biographieField,
   site_web: siteWebField,
   competences: competencesField,
+  langues: languesField,
 });
 
 /**
