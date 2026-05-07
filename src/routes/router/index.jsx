@@ -14,6 +14,7 @@ import { servicesRoutes } from "./services.routes";
 import { freelancersRoutes } from "./freelancers.routes";
 import { categoriesRoutes } from "./categories.routes";
 import { competencesRoutes } from "./competences.routes";
+import { languesRoutes } from "./langues.routes";
 import { commandesRoutes } from "./commandes.routes";
 import { adminRoutes } from "./admin.routes";
 import { AdminRoute } from "../guards/AdminRoute";
@@ -73,6 +74,7 @@ export const router = createBrowserRouter([
           },
           categoriesRoutes,
           competencesRoutes,
+          languesRoutes,
           servicesRoutes,
           freelancersRoutes,
         ],
