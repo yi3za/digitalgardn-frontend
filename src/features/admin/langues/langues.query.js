@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAdminLangues,
-  getAdminLangueById,
   createAdminLangue,
   updateAdminLangue,
   deleteAdminLangue,
@@ -12,14 +11,6 @@ export const useAdminLangues = () =>
   useQuery({
     queryKey: ["admin", "langues"],
     queryFn: getAdminLangues,
-  });
-
-// Detail d'une langue par id
-export const useAdminLangueById = (id) =>
-  useQuery({
-    queryKey: ["admin", "langue", id],
-    queryFn: () => getAdminLangueById(id),
-    enabled: !!id,
   });
 
 // Mutation : creer une langue

@@ -17,8 +17,3 @@ export const getLangues = async (filters = {}) => {
   };
 };
 
-// Recupere une langue par id
-export const getLangueById = async (id) => {
-  const { data } = await client.get(`/api/langues/${id}`);
-  return data?.details?.langue;
-};

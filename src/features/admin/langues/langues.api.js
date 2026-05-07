@@ -6,12 +6,6 @@ export const getAdminLangues = async () => {
   return data?.details?.langues ?? [];
 };
 
-// Detail d'une langue par id
-export const getAdminLangueById = async (id) => {
-  const { data } = await client.get(`/api/admin/langues/${id}`);
-  return data?.details?.langue ?? null;
-};
-
 // Creer une langue
 export const createAdminLangue = async (payload) => {
   const { data } = await client.post(
