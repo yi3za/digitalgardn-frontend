@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
@@ -6,6 +5,7 @@ import { TransactionRow } from "@/components/portefeuille/TransactionRow";
 import { usePortefeuilleTransactions } from "@/features/account/portefeuille/portefeuille.query";
 import { buildTransactionsFiltersConfig } from "@/features/account/portefeuille/portefeuille.filters";
 import { useTranslation } from "react-i18next";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page des transactions du portefeuille
@@ -13,13 +13,10 @@ import { useTranslation } from "react-i18next";
 export function TransactionsPage() {
   // Hook de traduction pour les textes de la page et les codes d'erreur
   const { t } = useTranslation(["profil", "common"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["type"],
+  });
   // Requetes pour recuperer les donnees du portefeuille et de ses transactions
   const transactionsQuery = usePortefeuilleTransactions({ ...filters, page });
   const meta = transactionsQuery.data?.meta;
@@ -35,6 +32,7 @@ export function TransactionsPage() {
           t={t}
           filtersConfig={buildTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
       }
       paginationBar={
