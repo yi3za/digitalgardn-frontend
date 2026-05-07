@@ -8,6 +8,7 @@ import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
 import { CategorieShowPage } from "@/pages/categories/CategorieShowPage";
 import { AdminCompetencesPage } from "@/pages/admin/AdminCompetencesPage";
 import { CompetenceShowPage } from "@/pages/competences/CompetenceShowPage";
+import { AdminLanguesPage } from "@/pages/admin/AdminLanguesPage";
 import { AdminPortefeuillesPage } from "@/pages/admin/AdminPortefeuillesPage";
 import { AdminTransactionsPage } from "@/pages/admin/AdminTransactionsPage";
 import { AdminAvisPage } from "@/pages/admin/AdminAvisPage";
@@ -34,6 +35,7 @@ export const adminRoutes = {
     { path: "categories/:slug", element: <CategorieShowPage /> },
     { path: "competences", element: <AdminCompetencesPage /> },
     { path: "competences/:slug", element: <CompetenceShowPage /> },
+    { path: "langues", element: <AdminLanguesPage /> },
     { path: "portefeuilles", element: <AdminPortefeuillesPage /> },
     { path: "transactions", element: <AdminTransactionsPage /> },
     { path: "avis", element: <AdminAvisPage /> },
