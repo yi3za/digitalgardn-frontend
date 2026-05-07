@@ -12,7 +12,11 @@ export function SkillBadges({ items, BadgeVariant, title, path }) {
       <div className="flex flex-wrap gap-2">
         {(items ?? []).map((item) => (
           <Badge key={`competence-${item.id}`} variant={BadgeVariant}>
-            <Link to={`${path}/${item.slug}`}>{item.nom}</Link>
+            {path && item.slug ? (
+              <Link to={`${path}/${item.slug}`}>{item.nom}</Link>
+            ) : (
+              item.nom
+            )}
           </Badge>
         ))}
       </div>
