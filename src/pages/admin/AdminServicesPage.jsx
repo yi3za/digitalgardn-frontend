@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useAdminServices,
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui";
 
 import { buildAdminServicesFiltersConfig } from "@/features/admin/services/services.filters";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page de gestion des services (espace admin)
@@ -27,13 +27,10 @@ import { buildAdminServicesFiltersConfig } from "@/features/admin/services/servi
 export function AdminServicesPage() {
   // Hook traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "statut"],
+  });
   // Recupere tous les services
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminServices({ ...filters, page });
@@ -65,6 +62,7 @@ export function AdminServicesPage() {
           t={t}
           filtersConfig={buildAdminServicesFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
         {isLoading && <DataLoading />}
         {isError && (

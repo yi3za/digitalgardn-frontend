@@ -1,12 +1,8 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminCommandes } from "@/features/admin/commandes/commandes.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
-import {
-  COMMANDE_STATUS,
-  commandeStatusBadgeVariantByStatut,
-} from "@/features/account/commandes/commandes.status";
+import { commandeStatusBadgeVariantByStatut } from "@/features/account/commandes/commandes.status";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
@@ -28,6 +24,7 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
 import { buildAdminCommandesFiltersConfig } from "@/features/admin/commandes/commandes.filters";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page de gestion des commandes (espace admin)
@@ -35,13 +32,10 @@ import { buildAdminCommandesFiltersConfig } from "@/features/admin/commandes/com
 export function AdminCommandesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "statut"],
+  });
   // Requete de recuperation des commandes
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminCommandes({ ...filters, page });
@@ -62,6 +56,7 @@ export function AdminCommandesPage() {
           t={t}
           filtersConfig={buildAdminCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
         {isLoading && <DataLoading />}
         {isError && (

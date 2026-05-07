@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
 import { buildPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
 import { formatPrice } from "@/lib/utils";
@@ -23,6 +21,7 @@ import {
   TableCell,
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 // Colonnes du tableau des portefeuilles
 const COLUMNS = ["user", "disponible", "en_attente", "total", "devise"];
@@ -33,43 +32,8 @@ const COLUMNS = ["user", "disponible", "en_attente", "total", "devise"];
 export function AdminPortefeuillesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState(() => {
-    const initial = {};
-    const search = searchParams.get("search");
-    const platform = searchParams.get("platform");
-
-    if (search) initial.search = search;
-    if (platform) initial.platform = platform;
-
-    return initial;
-  });
-  const [page, setPage] = useState(() => Number(searchParams.get("page") ?? 1));
-  const syncSearchParams = (nextFilters, nextPage = 1) => {
-    const nextParams = new URLSearchParams();
-
-    Object.entries(nextFilters).forEach(([key, value]) => {
-      if (value !== "" && value != null) nextParams.set(key, value);
-    });
-
-    if (nextPage > 1) nextParams.set("page", String(nextPage));
-
-    setSearchParams(nextParams);
-  };
-  const handleApplyFilters = (newFilters) => {
-    const nextFilters = filters.platform
-      ? { ...newFilters, platform: filters.platform }
-      : newFilters;
-
-    setFilters(nextFilters);
-    setPage(1);
-    syncSearchParams(nextFilters, 1);
-  };
-  const handlePageChange = (nextPage) => {
-    setPage(nextPage);
-    syncSearchParams(filters, nextPage);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters();
   // Requete de recuperation des portefeuilles
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminPortefeuilles({ ...filters, page });
@@ -155,7 +119,7 @@ export function AdminPortefeuillesPage() {
           <PaginationBar
             currentPage={meta?.current_page ?? 1}
             lastPage={meta?.last_page ?? 1}
-            onPageChange={handlePageChange}
+            onPageChange={setPage}
           />
         )}
       </CardContent>

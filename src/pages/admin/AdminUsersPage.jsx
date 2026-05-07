@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useAdminUsers,
@@ -31,6 +30,7 @@ import {
 } from "@/features/auth/auth.constants";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { buildUsersFiltersConfig } from "@/features/admin/users/users.filters";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page de gestion des utilisateurs (espace admin)
@@ -38,13 +38,10 @@ import { buildUsersFiltersConfig } from "@/features/admin/users/users.filters";
 export function AdminUsersPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState({});
-  const [page, setPage] = useState(1);
-  const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "role", "status"],
+  });
   // Requete de recuperation des utilisateurs
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminUsers({ ...filters, page });
@@ -75,6 +72,7 @@ export function AdminUsersPage() {
           t={t}
           filtersConfig={buildUsersFiltersConfig(t)}
           onApply={handleApplyFilters}
+          initialValues={filters}
         />
         {isLoading && <DataLoading />}
         {isError && (

@@ -2,10 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { useAdminTransactions } from "@/features/admin/transactions/transactions.query";
-import {
-  TRANSACTION_TYPE,
-  TRANSACTION_TYPE_BADGE_VARIANT,
-} from "@/features/account/portefeuille/portefeuille.constants";
+import { TRANSACTION_TYPE_BADGE_VARIANT } from "@/features/account/portefeuille/portefeuille.constants";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -26,11 +23,11 @@ import {
   TableCell,
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
+import { buildAdminTransactionsFiltersConfig } from "@/features/admin/transactions/transactions.filters";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 // Colonnes du tableau des transactions
 const COLUMNS = ["id", "user", "type", "montant", "date"];
-
-import { buildAdminTransactionsFiltersConfig } from "@/features/admin/transactions/transactions.filters";
 
 /**
  * Page de gestion des transactions (espace admin)
@@ -38,45 +35,10 @@ import { buildAdminTransactionsFiltersConfig } from "@/features/admin/transactio
 export function AdminTransactionsPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common", "profil"]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  // Etat des filtres appliques et de la page courante
-  const [filters, setFilters] = useState(() => {
-    const initial = {};
-    const search = searchParams.get("search");
-    const type = searchParams.get("type");
-    const platform = searchParams.get("platform");
-
-    if (search) initial.search = search;
-    if (type) initial.type = type;
-    if (platform) initial.platform = platform;
-
-    return initial;
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "type"],
   });
-  const [page, setPage] = useState(() => Number(searchParams.get("page") ?? 1));
-  const syncSearchParams = (nextFilters, nextPage = 1) => {
-    const nextParams = new URLSearchParams();
-
-    Object.entries(nextFilters).forEach(([key, value]) => {
-      if (value !== "" && value != null) nextParams.set(key, value);
-    });
-
-    if (nextPage > 1) nextParams.set("page", String(nextPage));
-
-    setSearchParams(nextParams);
-  };
-  const handleApplyFilters = (newFilters) => {
-    const nextFilters = filters.platform
-      ? { ...newFilters, platform: filters.platform }
-      : newFilters;
-
-    setFilters(nextFilters);
-    setPage(1);
-    syncSearchParams(nextFilters, 1);
-  };
-  const handlePageChange = (nextPage) => {
-    setPage(nextPage);
-    syncSearchParams(filters, nextPage);
-  };
   // Requete de recuperation des transactions
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminTransactions({ ...filters, page });
@@ -153,7 +115,7 @@ export function AdminTransactionsPage() {
           <PaginationBar
             currentPage={meta?.current_page ?? 1}
             lastPage={meta?.last_page ?? 1}
-            onPageChange={handlePageChange}
+            onPageChange={setPage}
           />
         )}
       </CardContent>
