@@ -7,13 +7,15 @@
       "actions": {
         "services": "Explorer les services",
         "categories": "Explorer les catégories",
-        "competences": "Explorer les compétences"
+        "competences": "Explorer les compétences",
+        "langues": "Explorer les langues"
       }
     }
   },
   "filters": {
     "categories_label": "catégories",
-    "competences_label": "compétences"
+    "competences_label": "compétences",
+    "langues_label": "langues"
   },
   "categories": {
     "title": "Catégories",
@@ -22,6 +24,10 @@
   "competences": {
     "title": "Compétences",
     "description": "Découvrez les compétences disponibles"
+  },
+  "langues": {
+    "title": "Langues",
+    "description": "Découvrez les langues disponibles chez les freelances"
   },
   "services": {
     "title": "Services",
@@ -42,7 +48,8 @@
     "servicesCount_one": "{{count}} service",
     "servicesCount_other": "{{count}} services",
     "defaultTitle": "Freelance",
-    "competencesTitle": "Compétences du freelance"
+    "competencesTitle": "Compétences du freelance",
+    "languesTitle": "Langues du freelance"
   },
   "serviceShow": {
     "priceLabel": "Prix de base",

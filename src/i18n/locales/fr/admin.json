@@ -9,6 +9,7 @@
     "commandes": "Commandes",
     "categories": "Catégories",
     "competences": "Compétences",
+    "langues": "Langues",
     "finance": "Finance",
     "portefeuilles": "Portefeuilles",
     "transactions": "Transactions",
@@ -229,6 +230,31 @@
       "parent": "Compétence parente",
       "no_parent": "Aucune (compétence racine)",
       "est_active": "Active",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "langues": {
+    "title": "Gestion des langues",
+    "description": "Créez, modifiez et supprimez les langues des freelances.",
+    "confirm_delete": "Voulez-vous vraiment supprimer \"{{nom}}\" ?",
+    "confirm_delete_title": "Supprimer la langue",
+    "columns": {
+      "langue": "Langue",
+      "actions": "Actions"
+    },
+    "actions": {
+      "create": "Nouvelle langue",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "title_create": "Créer une langue",
+      "title_edit": "Modifier la langue",
+      "description_create": "Remplissez les informations pour créer une nouvelle langue.",
+      "description_edit": "Modifiez les informations de la langue sélectionnée.",
+      "nom": "Nom",
+      "nom_placeholder": "Ex: Français",
       "create": "Créer",
       "save": "Enregistrer",
       "cancel": "Annuler"

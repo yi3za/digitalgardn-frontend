@@ -5,6 +5,12 @@
     "description": "Sélectionnez les expertises techniques pertinentes.",
     "empty": "Aucune compétence trouvée."
   },
+  "langues": {
+    "title": "Langues",
+    "placeholder": "Rechercher une langue...",
+    "description": "Sélectionnez les langues que vous maîtrisez.",
+    "empty": "Aucune langue trouvée."
+  },
   "categories": {
     "title": "Catégories",
     "placeholder": "Choisir une catégorie...",
