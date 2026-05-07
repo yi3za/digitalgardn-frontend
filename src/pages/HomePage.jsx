@@ -39,7 +39,7 @@ export function HomePage() {
 
   return (
     <>
-      <Card className="shadow-none border-none text-center gap-15 justify-center bg-background">
+      <Card className="shadow-none border-none text-center gap-10 justify-center bg-background">
         <Logo />
         <CardHeader className="gap-3">
           <CardTitle className="text-5xl font-bold">
@@ -55,20 +55,10 @@ export function HomePage() {
         <CardContent>
           <SearchBar />
         </CardContent>
-        <CardFooter className="justify-center gap-3">
-          <Button asChild size="sm">
+        <CardFooter className="justify-center">
+          <Button asChild>
             <Link to="/services">
               {t("catalog:home.hero.actions.services")}
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/categories">
-              {t("catalog:home.hero.actions.categories")}
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/competences">
-              {t("catalog:home.hero.actions.competences")}
             </Link>
           </Button>
         </CardFooter>
