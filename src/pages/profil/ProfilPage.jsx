@@ -187,6 +187,20 @@ export function ProfilPage({ handleOnboardingCompletion }) {
         />
         {user?.role === AUTH_ROLE.FREELANCE && (
           <>
+            <MultiFlatItem
+              name="langues"
+              control={form.control}
+              title={t("taxonomy:langues.title")}
+              description={t("taxonomy:langues.description")}
+              t={t}
+              dataQuery={languesQuery}
+              placeholder={t("taxonomy:langues.placeholder")}
+              emptyMessage={t("taxonomy:langues.empty")}
+              saveIsLoading={loading.syncLangues}
+              onSave={handleUpdateLangues}
+              onReset={handleResetLangues}
+              isChanged={form.formState.dirtyFields?.langues}
+            />
             <ProfilBioItem
               t={t}
               user={user}
@@ -208,20 +222,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
               onSave={handleUpdateCompetences}
               onReset={handleResetCompetences}
               isChanged={form.formState.dirtyFields?.competences}
-            />
-            <MultiFlatItem
-              name="langues"
-              control={form.control}
-              title={t("taxonomy:langues.title")}
-              description={t("taxonomy:langues.description")}
-              t={t}
-              dataQuery={languesQuery}
-              placeholder={t("taxonomy:langues.placeholder")}
-              emptyMessage={t("taxonomy:langues.empty")}
-              saveIsLoading={loading.syncLangues}
-              onSave={handleUpdateLangues}
-              onReset={handleResetLangues}
-              isChanged={form.formState.dirtyFields?.langues}
             />
           </>
         )}
