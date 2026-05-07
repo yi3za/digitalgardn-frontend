@@ -6,9 +6,11 @@ export const buildTransactionsFiltersConfig = (t) => [
     key: "type",
     type: "select",
     allLabel: t("profil:portefeuille.transactions.type"),
-    options: Object.values(TRANSACTION_TYPE).map((v) => ({
-      value: v,
-      label: t(`profil:portefeuille.transactions.types.${v}`),
-    })),
+    options: Object.values(TRANSACTION_TYPE)
+      .filter((t) => t !== TRANSACTION_TYPE.COMMISSION)
+      .map((v) => ({
+        value: v,
+        label: t(`profil:portefeuille.transactions.types.${v}`),
+      })),
   },
 ];
