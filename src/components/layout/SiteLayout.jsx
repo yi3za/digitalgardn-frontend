@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { authSelector } from "@/features/auth/auth.selectors";
 import { AUTH_ROLE } from "@/features/auth/auth.constants";
 import { useRealtimeSubscriptions } from "@/hooks/useRealtimeSubscriptions";
+import { ScrollToTop } from "../feedback/scroll-to-top";
 
 /**
  * Wrapper du site principal
@@ -20,5 +21,10 @@ export function SiteLayout() {
   // Rediriger l'admin vers son espace
   if (isAdmin) return <Navigate to="/admin" replace />;
 
-  return <Outlet />;
+  return (
+    <>
+      <ScrollToTop />
+      <Outlet />;
+    </>
+  );
 }
