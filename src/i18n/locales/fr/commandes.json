@@ -29,5 +29,17 @@
     "optional": "optionnel",
     "submit": "Envoyer l'avis",
     "success": "Votre avis a été ajouté avec succès."
+  },
+  "invoice": {
+    "btn_print": "Imprimer la facture (PDF)",
+    "title_pdf": "Facture",
+    "order_id": "ID de Commande",
+    "service_name": "Service",
+    "client_name": "Client",
+    "amount": "Montant Total",
+    "net_amount": "Montant Net",
+    "status": "Statut",
+    "date": "Date de transaction",
+    "footer": "Merci d'avoir utilisé DigitalGarden pour vos projets freelance."
   }
 }
