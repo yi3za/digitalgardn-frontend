@@ -27,7 +27,12 @@ export function ThemeToggle() {
   const isDark = theme === "dark";
 
   return (
-    <Button variant="ghost" size="icon" onClick={handleThemeChange}>
+    <Button
+      className="text-foreground/80"
+      variant="ghost"
+      size="icon"
+      onClick={handleThemeChange}
+    >
       {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
     </Button>
   );

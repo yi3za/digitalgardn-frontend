@@ -13,7 +13,7 @@ export const COMMANDE_STATUS = {
 
 export const commandeStatusBadgeVariantByStatut = {
   en_attente: "link",
-  en_cours: "ghost",
+  en_cours: "warning",
   livree: "secondary",
   en_revision: "secondary",
   terminee: "default",

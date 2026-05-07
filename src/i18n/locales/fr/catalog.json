@@ -1,4 +1,16 @@
 {
+  "home": {
+    "hero": {
+      "title": "Trouvez le bon service",
+      "titleAccent": "pour faire grandir vos projets",
+      "description": "DigitalGardn connecte les clients avec des freelances, créateurs et experts capables de transformer une idée en résultat concret.",
+      "actions": {
+        "services": "Explorer les services",
+        "categories": "Explorer les catégories",
+        "competences": "Explorer les compétences"
+      }
+    }
+  },
   "filters": {
     "categories_label": "catégories",
     "competences_label": "compétences"
@@ -14,7 +26,8 @@
   "services": {
     "title": "Services",
     "description": "Découvrez nos services disponibles"
-  },  "freelancers": {
+  },
+  "freelancers": {
     "title": "Top freelances",
     "description": "Decouvrez les meilleurs freelances selon leurs avis et leurs services publies.",
     "servicesCount_one": "{{count}} service",

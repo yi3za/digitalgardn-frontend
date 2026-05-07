@@ -37,8 +37,8 @@ export function ConversationList({
   }
 
   return (
-    <ScrollArea className="h-full w-full p-3">
-      <div className="pr-2 min-w-0">
+    <ScrollArea className="h-full w-full">
+      <div className="px-2">
         {conversations.map((conversation) => (
           <ConversationItem
             key={conversation.id}

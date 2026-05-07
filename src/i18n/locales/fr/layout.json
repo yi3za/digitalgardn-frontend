@@ -1,11 +1,14 @@
 {
   "header": {
     "home": "Accueil",
+    "categories": "Catégories",
+    "competences": "Compétences",
     "login": "Se connecter",
     "register": "S'inscrire",
     "dashboard": "Dashboard",
     "myBusiness": "Mon business",
-    "services": "Mes services",
+    "services": "Services",
+    "mesServices": "Mes services",
     "profil": "Mon profil",
     "messages": "Messages",
     "commandes": "Commandes",
@@ -28,6 +31,7 @@
   },
   "footer": {
     "copyright": "© 2026",
+    "description": "Un espace pour trouver des services, des compétences et des freelances adaptés à vos besoins.",
     "built_with": "Réalisé avec React & Laravel"
   }
 }

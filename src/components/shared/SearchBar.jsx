@@ -33,7 +33,9 @@ export function SearchBar({ className }) {
   };
 
   return (
-    <InputGroup className={cn("min-w-100 px-2 py-6 shadow-none", className)}>
+    <InputGroup
+      className={cn("min-w-100 px-2 py-6 shadow-none bg-background", className)}
+    >
       <InputGroupAddon>
         <Search className="size-4 text-muted-foreground" />
       </InputGroupAddon>

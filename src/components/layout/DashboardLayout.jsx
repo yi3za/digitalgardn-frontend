@@ -22,9 +22,9 @@ export function DashboardLayout() {
 
   return (
     <NavigationContext.Provider value={DASHBOARD_PATHS}>
-      <div className="container mx-auto flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         <Header dashboard />
-        <main className="flex flex-col flex-1">
+        <main className="container mx-auto flex flex-col flex-1 gap-2 py-20">
           <Outlet />
         </main>
         <Footer />
