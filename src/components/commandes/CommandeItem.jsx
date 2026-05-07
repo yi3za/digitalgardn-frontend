@@ -8,6 +8,7 @@ import {
   ItemFooter,
 } from "@/components/ui";
 import {
+  COMMANDE_STATUS,
   commandeStatusBadgeVariantByStatut,
   commandeStatusTextKeyByStatut,
 } from "@/features/account/commandes/commandes.status";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { AvatarIdentity } from "../shared/AvatarIdentity";
 import { Send } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
+import { CommandePdfExporter } from "./CommandePdfExporter";
 
 /**
  * Composant qui affiche une commande individuelle
@@ -32,23 +34,27 @@ export function CommandeItem({ item, linkTo, t, onClick = null }) {
     });
 
   return (
-    <Item
-      onClick={handleClick}
-      className="min-w-50 cursor-pointer overflow-hidden"
-      variant="outline"
-    >
+    <Item onClick={handleClick} className="cursor-pointer" variant="outline">
       <ItemContent>
-        <ItemTitle>{item?.service?.titre}</ItemTitle>
+        <ItemTitle>
+          {item?.service?.titre}
+          <Badge
+            className="mx-3"
+            variant={commandeStatusBadgeVariantByStatut?.[item?.statut]}
+          >
+            {t(commandeStatusTextKeyByStatut?.[item?.statut])}
+          </Badge>
+        </ItemTitle>
         <ItemDescription className="text-start line-clamp-1">
           {item?.service?.description}
         </ItemDescription>
       </ItemContent>
-      <ItemActions className="flex-col">
-        <Badge variant={commandeStatusBadgeVariantByStatut?.[item?.statut]}>
-          {t(commandeStatusTextKeyByStatut?.[item?.statut])}
-        </Badge>
+      <ItemActions className="flex-col items-end">
+        {item?.statut === COMMANDE_STATUS.TERMINEE && (
+          <CommandePdfExporter t={t} commande={item} />
+        )}
         {item?.updated_at && (
-          <span className="text-xs text-muted-foreground tabular-nums">
+          <span className="font-medium text-xs text-muted-foreground">
             {formatDateTime(item.updated_at)}
           </span>
         )}
