@@ -12,6 +12,7 @@ import {
   registerThunk,
   switchToFreelanceThunk,
   syncCompetencesThunk,
+  syncLanguesThunk,
   updateFreelanceProfilThunk,
   updateInfoThunk,
   uploadAvatarThunk,
@@ -122,6 +123,13 @@ const authSlice = createSlice({
     // Gestion de la synchronisation des competences de l'utilisateur freelance
     builder.addCase(
       syncCompetencesThunk.fulfilled,
+      (state, { payload: { details: { user } } }) => {
+        state.user = user;
+      },
+    );
+    // Gestion de la synchronisation des langues de l'utilisateur freelance
+    builder.addCase(
+      syncLanguesThunk.fulfilled,
       (state, { payload: { details: { user } } }) => {
         state.user = user;
       },
