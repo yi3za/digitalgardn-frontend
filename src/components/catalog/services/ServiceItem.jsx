@@ -20,10 +20,10 @@ import { useNavigationPaths } from "@/contexts/NavigationContext";
 /**
  * Composant qui affiche un service individuel dans le catalogue
  */
-export function ServiceItem({ item, isAdmin = false }) {
+export function ServiceItem({ item }) {
   // Hook de navigation pour redirections
   const navigate = useNavigate();
-  const { services: servicesBasePath } = useNavigationPaths();
+  const { isAdmin, services: servicesBasePath } = useNavigationPaths();
   // Hook de traduction pour les textes statiques du composant
   const { t } = useTranslation(["dashboard", "catalog"]);
   // Etat local pour gerer le hover sur le service

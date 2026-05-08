@@ -239,7 +239,7 @@ export function FreelancerShowPage() {
         <CardContent>
           {services.length ? (
             <>
-              <ServicesGrid services={services} isAdmin={isAdmin} />
+              <ServicesGrid services={services} />
               <PaginationBar
                 currentPage={servicePage}
                 lastPage={servicesMeta?.last_page}
