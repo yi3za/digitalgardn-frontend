@@ -58,6 +58,7 @@ import { NavigationContext, ADMIN_PATHS } from "@/contexts/NavigationContext";
 import { LanguageToggle } from "../shared/LanguageToggle";
 import { ThemeToggle } from "../shared/ThemeToggle";
 import { BackButton } from "../shared/BackButton";
+import { ScrollToTop } from "../feedback/scroll-to-top";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -339,6 +340,7 @@ export function AdminLayout() {
           <SidebarRail />
         </Sidebar>
         <SidebarInset>
+          <ScrollToTop />
           <header className="flex items-center gap-2 border-b px-4 py-3">
             <SidebarTrigger />
             <SidebarSeparator orientation="vertical" />
