@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronRight } from "lucide-react";
 import {
   useAdminCompetences,
   useDeleteAdminCompetence,
@@ -22,7 +22,10 @@ import {
   TableRow,
   TableCell,
   ReusableDialog,
+  Button,
 } from "@/components/ui";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Page de gestion des competences (espace admin)
@@ -30,6 +33,8 @@ import {
 export function AdminCompetencesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat d'affichage des competences enfants dans la table
+  const [showChildren, setShowChildren] = useState({});
   // Requete de recuperation des competences
   const {
     data: competences,
@@ -53,6 +58,10 @@ export function AdminCompetencesPage() {
     } catch (err) {
       toast.error(t(`codes:${err?.response?.data?.code ?? "NETWORK_ERROR"}`));
     }
+  };
+  // Gestion de l'affichage des competences enfants
+  const handleShowChildren = (id) => {
+    setShowChildren((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
@@ -100,56 +109,88 @@ export function AdminCompetencesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {competences.map((comp) => (
-                <TableRow key={comp.id}>
-                  <TableCell>
-                    <CompetenceMiniCard competence={comp} />
-                  </TableCell>
-                  <TableCell>
-                    {comp.parent ? (
-                      <CompetenceMiniCard competence={comp.parent} />
-                    ) : (
-                      "—"
-                    )}
-                  </TableCell>
-                  <TableCell>{comp.ordre}</TableCell>
-                  <TableCell>
-                    <Badge variant={comp.est_active ? "default" : "secondary"}>
-                      {t(
-                        comp.est_active
-                          ? "admin:competences.statuts.active"
-                          : "admin:competences.statuts.inactive",
+              {competences.map(
+                (competence) =>
+                  (!competence.parent ||
+                    showChildren[competence.parent.id]) && (
+                    <TableRow
+                      key={competence.id}
+                      className={cn(
+                        !competence.parent && showChildren[competence.id]
+                          ? "bg-muted"
+                          : "",
                       )}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2 [&_button]:flex-1">
-                      {/* Dialog edition avec trigger Pencil */}
-                      <CompetenceFormDialog
-                        competence={comp}
-                        parents={parents}
-                        triggerLabel={<Pencil className="size-3" />}
-                        triggerProps={{ size: "sm", variant: "outline" }}
-                      />
-                      {/* Dialog confirmation suppression avec trigger Trash */}
-                      <ReusableDialog
-                        triggerLabel={<Trash2 className="size-3" />}
-                        triggerProps={{ size: "sm", variant: "destructive" }}
-                        title={t("admin:competences.confirm_delete_title")}
-                        description={t("admin:competences.confirm_delete", {
-                          nom: comp.nom,
-                        })}
-                        confirmLabel={t("admin:competences.actions.delete")}
-                        cancelLabel={t("common:actions.cancel")}
-                        confirmVariant="destructive"
-                        onConfirm={() => handleDelete(comp.id)}
-                        loading={deleteMutation.isPending}
-                        disabled={deleteMutation.isPending}
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    >
+                      <TableCell>
+                        <CompetenceMiniCard competence={competence} />
+                      </TableCell>
+                      <TableCell>
+                        {competence.parent ? (
+                          <CompetenceMiniCard competence={competence.parent} />
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell>{competence.ordre}</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            competence.est_active ? "default" : "secondary"
+                          }
+                        >
+                          {t(
+                            competence.est_active
+                              ? "admin:competences.statuts.active"
+                              : "admin:competences.statuts.inactive",
+                          )}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2 [&_button]:flex-1">
+                          {!competence.parent && (
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleShowChildren(competence.id)}
+                            >
+                              <ChevronRight
+                                className={cn(
+                                  "transition-transform duration-100",
+                                  showChildren[competence.id]
+                                    ? "rotate-90"
+                                    : "rotate-0",
+                                )}
+                              />
+                            </Button>
+                          )}
+                          <CompetenceFormDialog
+                            competence={competence}
+                            parents={parents}
+                            triggerLabel={<Pencil className="size-3" />}
+                            triggerProps={{ size: "sm", variant: "outline" }}
+                          />
+                          <ReusableDialog
+                            triggerLabel={<Trash2 className="size-3" />}
+                            triggerProps={{
+                              size: "sm",
+                              variant: "destructive",
+                            }}
+                            title={t("admin:competences.confirm_delete_title")}
+                            description={t("admin:competences.confirm_delete", {
+                              nom: competence.nom,
+                            })}
+                            confirmLabel={t("admin:competences.actions.delete")}
+                            cancelLabel={t("common:actions.cancel")}
+                            confirmVariant="destructive"
+                            onConfirm={() => handleDelete(competence.id)}
+                            loading={deleteMutation.isPending}
+                            disabled={deleteMutation.isPending}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ),
+              )}
             </TableBody>
           </Table>
         )}
