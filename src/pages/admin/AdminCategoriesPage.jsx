@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronRight } from "lucide-react";
 import {
   useAdminCategories,
   useDeleteAdminCategorie,
@@ -22,7 +22,10 @@ import {
   TableRow,
   TableCell,
   ReusableDialog,
+  Button,
 } from "@/components/ui";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Page de gestion des categories (espace admin)
@@ -30,6 +33,8 @@ import {
 export function AdminCategoriesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Etat d'affichage des categories enfants dans la table
+  const [showChildren, setShowChildren] = useState({});
   // Requete de recuperation des categories
   const {
     data: categories,
@@ -53,6 +58,10 @@ export function AdminCategoriesPage() {
     } catch (err) {
       toast.error(t(`codes:${err?.response?.data?.code ?? "NETWORK_ERROR"}`));
     }
+  };
+  // Gestion de l'affichage des categories enfants
+  const handleShowChildren = (id) => {
+    setShowChildren((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
@@ -100,56 +109,87 @@ export function AdminCategoriesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((categorie) => (
-                <TableRow key={categorie.id}>
-                  <TableCell className="font-medium">
-                    <CategorieMiniCard categorie={categorie} />
-                  </TableCell>
-                  <TableCell>
-                    {categorie.parent ? (
-                      <CategorieMiniCard categorie={categorie.parent} />
-                    ) : (
-                      "—"
-                    )}
-                  </TableCell>
-                  <TableCell>{categorie.ordre}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={categorie.est_active ? "default" : "secondary"}
-                    >
-                      {t(
-                        categorie.est_active
-                          ? "admin:categories.statuts.active"
-                          : "admin:categories.statuts.inactive",
+              {categories.map(
+                (categorie) =>
+                  (!categorie.parent || showChildren[categorie.parent.id]) && (
+                    <TableRow
+                      key={categorie.id}
+                      className={cn(
+                        !categorie.parent && showChildren[categorie.id]
+                          ? "bg-muted"
+                          : "",
                       )}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2 [&_button]:flex-1">
-                      <CategorieFormDialog
-                        categorie={categorie}
-                        parents={parents}
-                        triggerLabel={<Pencil className="size-3" />}
-                        triggerProps={{ size: "sm", variant: "outline" }}
-                      />
-                      <ReusableDialog
-                        triggerLabel={<Trash2 className="size-3" />}
-                        triggerProps={{ size: "sm", variant: "destructive" }}
-                        title={t("admin:categories.confirm_delete_title")}
-                        description={t("admin:categories.confirm_delete", {
-                          nom: categorie.nom,
-                        })}
-                        confirmLabel={t("admin:categories.actions.delete")}
-                        cancelLabel={t("common:actions.cancel")}
-                        confirmVariant="destructive"
-                        onConfirm={() => handleDelete(categorie.id)}
-                        loading={deleteMutation.isPending}
-                        disabled={deleteMutation.isPending}
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    >
+                      <TableCell className="font-medium">
+                        <CategorieMiniCard categorie={categorie} />
+                      </TableCell>
+                      <TableCell>
+                        {categorie.parent ? (
+                          <CategorieMiniCard categorie={categorie.parent} />
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell>{categorie.ordre}</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            categorie.est_active ? "default" : "secondary"
+                          }
+                        >
+                          {t(
+                            categorie.est_active
+                              ? "admin:categories.statuts.active"
+                              : "admin:categories.statuts.inactive",
+                          )}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2 [&_button]:flex-1">
+                          {!categorie.parent && (
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleShowChildren(categorie.id)}
+                            >
+                              <ChevronRight
+                                className={cn(
+                                  "transition-transform duration-100",
+                                  showChildren[categorie.id]
+                                    ? "rotate-90"
+                                    : "rotate-0",
+                                )}
+                              />
+                            </Button>
+                          )}
+                          <CategorieFormDialog
+                            categorie={categorie}
+                            parents={parents}
+                            triggerLabel={<Pencil className="size-3" />}
+                            triggerProps={{ size: "sm", variant: "outline" }}
+                          />
+                          <ReusableDialog
+                            triggerLabel={<Trash2 className="size-3" />}
+                            triggerProps={{
+                              size: "sm",
+                              variant: "destructive",
+                            }}
+                            title={t("admin:categories.confirm_delete_title")}
+                            description={t("admin:categories.confirm_delete", {
+                              nom: categorie.nom,
+                            })}
+                            confirmLabel={t("admin:categories.actions.delete")}
+                            cancelLabel={t("common:actions.cancel")}
+                            confirmVariant="destructive"
+                            onConfirm={() => handleDelete(categorie.id)}
+                            loading={deleteMutation.isPending}
+                            disabled={deleteMutation.isPending}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ),
+              )}
             </TableBody>
           </Table>
         )}
