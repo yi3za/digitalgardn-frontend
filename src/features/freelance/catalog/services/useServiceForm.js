@@ -16,6 +16,7 @@ import {
 } from "./services.mutations";
 import { useSyncField } from "./useSyncField";
 import { setServerErrors } from "@/lib/utils";
+import { getNewFileKey } from "@/components/shared/FichiersUploadItem";
 
 // Etapes du formulaire de service
 export const STEP_INFO = 1;
@@ -69,10 +70,7 @@ const toFichierItems = (fichiers = []) =>
 // Fonction utilitaire pour generer une cle unique
 const getFichierKey = (item) => {
   if (item?.type === "existing") return `existing:${item.id}`;
-  const file = item?.file;
-  return file
-    ? `new:${file.name}:${file.size}:${file.lastModified}`
-    : "new:missing";
+  return getNewFileKey(item);
 };
 
 // Fonction utilitaire pour comparer deux listes de fichiers
@@ -236,6 +234,7 @@ export function useServiceForm({ mode, schema, service = null, slug = null }) {
       setSavedFichiers([...fichiers]);
     } catch (error) {
       const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+      setServerErrors(error?.response?.data?.details, form.setError);
       toast.error(t(`codes:${code}`));
     }
   }, [effectiveSlug, form, syncFichiersMutation, t]);

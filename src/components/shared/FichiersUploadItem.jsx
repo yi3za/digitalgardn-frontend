@@ -13,7 +13,7 @@ import {
 } from "@/components/ui";
 
 // Genere une cle unique pour un fichier ajoute
-const getNewFileKey = (item) => {
+export const getNewFileKey = (item) => {
   const file = item.file;
   return `${item.id}:${file.name}:${file.size}:${file.lastModified}`;
 };
@@ -29,25 +29,6 @@ const createNewFichierItem = (file) => ({
 const getItemName = (item, index) => {
   if (item.type === "existing") return item.name ?? `image-${index + 1}`;
   return item.file.name;
-};
-
-// Recherche recursive d'un message d'erreur dans une structure d'erreur potentiellement imbriquee
-const findErrorMessage = (error) => {
-  if (!error) return null;
-  if (typeof error.message === "string") return error.message;
-  if (Array.isArray(error)) {
-    for (const item of error) {
-      const message = findErrorMessage(item);
-      if (message) return message;
-    }
-  }
-  if (typeof error === "object") {
-    for (const value of Object.values(error)) {
-      const message = findErrorMessage(value);
-      if (message) return message;
-    }
-  }
-  return null;
 };
 
 // Hook de gestion des apercus des fichiers, avec creation et revocation des object URLs pour les fichiers locaux
@@ -133,7 +114,6 @@ export function FichiersUploadItem({
   const previews = usePreviewItems(items);
   const remaining = maxFiles - items.length;
   const isLimitReached = remaining <= 0;
-  const errorMessage = findErrorMessage(fieldState.error);
   // Fonction de mise a jour de la liste des items, qui met a jour la valeur du champ et declenche la validation
   const updateItems = useCallback(
     (nextItems) => {
@@ -268,9 +248,9 @@ export function FichiersUploadItem({
               ))}
             </div>
           )}
-          {errorMessage && (
+          {fieldState?.error && (
             <p className="text-sm text-destructive">
-              {tValidation(errorMessage, {
+              {tValidation(fieldState?.error?.message, {
                 attribute: title,
                 max: maxFiles,
               })}
