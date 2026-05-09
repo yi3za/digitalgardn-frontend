@@ -23,7 +23,9 @@ export function CategorieMiniCard({ categorie }) {
       </ItemMedia>
       <ItemContent>
         <ItemTitle className="font-medium">{categorie?.nom}</ItemTitle>
-        <ItemDescription>{categorie?.slug}</ItemDescription>
+        <ItemDescription className="line-clamp-1">
+          {categorie?.description}
+        </ItemDescription>
       </ItemContent>
     </>
   );

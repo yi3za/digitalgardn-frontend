@@ -23,7 +23,9 @@ export function CompetenceMiniCard({ competence }) {
       </ItemMedia>
       <ItemContent>
         <ItemTitle className="font-medium">{competence?.nom}</ItemTitle>
-        <ItemDescription>{competence?.slug}</ItemDescription>
+        <ItemDescription className="line-clamp-1">
+          {competence?.description}
+        </ItemDescription>
       </ItemContent>
     </>
   );
