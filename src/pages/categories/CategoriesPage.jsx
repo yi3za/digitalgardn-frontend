@@ -36,13 +36,11 @@ export function CategoriesPage() {
         />
       }
       paginationBar={
-        (meta?.last_page ?? 0) > 1 ? (
-          <PaginationBar
-            currentPage={meta.current_page}
-            lastPage={meta.last_page}
-            onPageChange={setPage}
-          />
-        ) : null
+        <PaginationBar
+          currentPage={meta?.current_page}
+          lastPage={meta?.last_page}
+          onPageChange={setPage}
+        />
       }
     />
   );
