@@ -108,7 +108,7 @@ export function MessagesPage() {
   };
 
   return (
-    <section className="py-5 flex flex-col w-full">
+    <div className="py-5 flex flex-col w-full">
       <Card className="w-full shadow-none border-none flex flex-col flex-1 min-h-0 gap-3">
         <CardHeader>
           <CardTitle>{t("page.title")}</CardTitle>
@@ -142,6 +142,6 @@ export function MessagesPage() {
           />
         </CardContent>
       </Card>
-    </section>
+    </div>
   );
 }
