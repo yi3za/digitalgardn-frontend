@@ -21,6 +21,10 @@ import {
   TableCell,
   ReusableDialog,
 } from "@/components/ui";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { buildAdminLanguesFiltersConfig } from "@/features/admin/langues/langues.filters";
+import { PaginationBar } from "@/components/shared/PaginationBar";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 /**
  * Page de gestion des langues (espace admin)
@@ -28,15 +32,17 @@ import {
 export function AdminLanguesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters();
   // Requete de recuperation des langues
   const {
-    data: langues,
+    data: { items: langues, meta } = {},
     isLoading,
     isError,
     isFetching,
     error,
     refetch,
-  } = useAdminLangues();
+  } = useAdminLangues({ ...filters, page });
   // Mutation de suppression d'une langue
   const deleteMutation = useDeleteAdminLangue();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -69,7 +75,13 @@ export function AdminLanguesPage() {
           />
         }
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-col flex-1">
+        <FilterBar
+          t={t}
+          filtersConfig={buildAdminLanguesFiltersConfig()}
+          onApply={handleApplyFilters}
+          initialValues={filters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -123,6 +135,13 @@ export function AdminLanguesPage() {
               ))}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page}
+            lastPage={meta?.last_page}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>

@@ -1,9 +1,20 @@
 import { client, contentTypeJson } from "@/api/client";
+import { cleanFilters } from "@/lib/utils";
 
 // Liste toutes les langues
-export const getAdminLangues = async () => {
-  const { data } = await client.get("/api/admin/langues");
-  return data?.details?.langues ?? [];
+export const getAdminLangues = async (filters = {}) => {
+  const { data } = await client.get("/api/admin/langues", {
+    params: cleanFilters(filters),
+  });
+  return {
+    items: data?.details?.langues ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Creer une langue

@@ -7,10 +7,10 @@ import {
 } from "./langues.api";
 
 // Liste des langues
-export const useAdminLangues = () =>
+export const useAdminLangues = (filters = {}) =>
   useQuery({
-    queryKey: ["admin", "langues"],
-    queryFn: getAdminLangues,
+    queryKey: ["admin", "langues", filters],
+    queryFn: () => getAdminLangues(filters),
   });
 
 // Mutation : creer une langue
