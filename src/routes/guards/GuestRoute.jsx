@@ -10,5 +10,6 @@ export function GuestRoute() {
   const { status } = useSelector(authSelector);
   // Si l'utilisateur est deja authentifie, il est redirige vers la page d'accueil
   if (status === AUTH_STATUS.AUTHENTICATED) return <Navigate to="/" replace />;
+
   return <Outlet />;
 }
