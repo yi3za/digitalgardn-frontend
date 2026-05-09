@@ -12,46 +12,98 @@ import {
   Spinner,
 } from "@/components/ui";
 
-/**
- * Garde les object-URLs stables entre les rendus :
- * reutilise celles qui existent deja, revoque les supprimees.
- */
-function useObjectUrls(files) {
-  // Cache pour stocker les URLs associees a chaque fichier
-  const cache = useRef(new Map());
-  const [items, setItems] = useState([]);
-  // A chaque changement de la liste de fichiers, on met a jour les URLs en cache
+// Genere une cle unique pour un fichier ajoute
+const getNewFileKey = (item) => {
+  const file = item.file;
+  return `${item.id}:${file.name}:${file.size}:${file.lastModified}`;
+};
+
+// Genere un nouvel item de fichier a partir d'un fichier ajoute
+const createNewFichierItem = (file) => ({
+  type: "new",
+  id: crypto.randomUUID?.() ?? `${file.name}-${file.size}-${Date.now()}`,
+  file,
+});
+
+// Genere un nom d'affichage pour un item de fichier
+const getItemName = (item, index) => {
+  if (item.type === "existing") return item.name ?? `image-${index + 1}`;
+  return item.file.name;
+};
+
+// Recherche recursive d'un message d'erreur dans une structure d'erreur potentiellement imbriquee
+const findErrorMessage = (error) => {
+  if (!error) return null;
+  if (typeof error.message === "string") return error.message;
+  if (Array.isArray(error)) {
+    for (const item of error) {
+      const message = findErrorMessage(item);
+      if (message) return message;
+    }
+  }
+  if (typeof error === "object") {
+    for (const value of Object.values(error)) {
+      const message = findErrorMessage(value);
+      if (message) return message;
+    }
+  }
+  return null;
+};
+
+// Hook de gestion des apercus des fichiers, avec creation et revocation des object URLs pour les fichiers locaux
+function usePreviewItems(items) {
+  // Map de cle d'item a object URL pour les fichiers locaux
+  const objectUrls = useRef(new Map());
+  // Liste des apercus a afficher, avec structure uniforme pour les fichiers existants et nouveaux
+  const [previews, setPreviews] = useState([]);
+  // A chaque changement de la liste d'items, on met a jour les apercus et les object URLs
   useEffect(() => {
-    const prev = cache.current;
-    const next = new Map();
-    // Creation de la nouvelle liste d'items avec URLs
-    const result = files.map((file) => {
-      const key = `${file.name}-${file.size}-${file.lastModified}`;
-      const url = prev.get(key) ?? URL.createObjectURL(file);
-      next.set(key, url);
-      return { key, name: file.name, url };
+    const activeKeys = new Set();
+    const nextPreviews = items.map((item, index) => {
+      if (item.type === "existing") {
+        return {
+          key: `existing-${item.id}`,
+          name: getItemName(item, index),
+          url: item.url,
+        };
+      }
+      // Pour les fichiers locaux, on genere une cle unique et on cree une object URL si necessaire
+      const key = getNewFileKey(item);
+      activeKeys.add(key);
+      if (!objectUrls.current.has(key)) {
+        objectUrls.current.set(key, URL.createObjectURL(item.file));
+      }
+      return {
+        key,
+        name: getItemName(item, index),
+        url: objectUrls.current.get(key),
+      };
     });
-    // Revoque les URLs qui ne sont plus utilisees
-    prev.forEach((url, key) => {
-      if (!next.has(key)) URL.revokeObjectURL(url);
+    // On revoke les object URLs qui ne sont plus associees a des items actifs
+    objectUrls.current.forEach((url, key) => {
+      if (!activeKeys.has(key)) {
+        URL.revokeObjectURL(url);
+        objectUrls.current.delete(key);
+      }
     });
-    // Mise a jour du cache et des items a afficher
-    cache.current = next;
-    setItems(result);
-    // Nettoyage a la destruction du composant : revoke toutes les URLs
-    return () => {
-      next.forEach((url) => URL.revokeObjectURL(url));
-      cache.current = new Map();
-    };
-  }, [files]);
-  // Retourne la liste des items avec leurs URLs stables pour l'affichage
-  return items;
+    // On met a jour les apercus a afficher
+    setPreviews(nextPreviews);
+  }, [items]);
+  // A la destruction du composant, on revoke toutes les object URLs encore actives
+  useEffect(
+    () => () => {
+      objectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      objectUrls.current.clear();
+    },
+    [],
+  );
+  // On retourne la liste des apercus a afficher, avec les URLs a jour pour les fichiers locaux
+  return previews;
 }
 
 /**
- * Composant d'upload d'images pour les services.
- * Affiche une dropzone, un apercu en grille avec etoile sur l'image principale,
- * et des controles de deplacement / suppression.
+ * Upload et gestion de la galerie des images d'un service.
+ * La valeur du champ est la source unique pour les images existantes et nouvelles.
  */
 export function FichiersUploadItem({
   t,
@@ -64,65 +116,58 @@ export function FichiersUploadItem({
   saveIsLoading = false,
   isChanged = false,
   maxFiles = 10,
-  existingUrls = [],
 }) {
-  // Hook de traduction pour les textes du composant
+  // Traduction des messages de validation, avec namespace "validation" pour les erreurs generiques
   const { t: tValidation } = useTranslation("validation");
-  // Hook de react-hook-form pour gerer le champ de fichiers
+  // Utilisation de useController pour connecter le composant a react-hook-form, avec une valeur par defaut de liste vide
   const { field, fieldState } = useController({
     name,
     control,
     defaultValue: [],
   });
-  // ID pour l'input de fichiers
+  // Generation d'un ID unique pour l'input de fichiers
   const inputId = useId();
-  // Fichiers locaux actuellement selectionnes
-  const files = field.value ?? [];
-  // Indique s'il y a des fichiers locaux
-  const hasLocalFiles = files.length > 0;
-  // Items a afficher avec leurs URLs stables
-  const previewItems = useObjectUrls(files);
-  // Calcul du nombre de fichiers restants avant d'atteindre la limite
-  const remaining = maxFiles - files.length;
-  // Indique si la limite de fichiers a ete atteinte
+  // Recuperation de la liste des items de fichiers
+  const items = field.value ?? [];
+  // Utilisation du hook de gestion des apercus pour obtenir les URLs a afficher pour les items actuels
+  const previews = usePreviewItems(items);
+  const remaining = maxFiles - items.length;
   const isLimitReached = remaining <= 0;
-  // Nombre total de fichiers a afficher (locaux ou existants)
-  const currentCount = hasLocalFiles ? files.length : existingUrls.length;
-  // Images a afficher : fichiers locaux ou URLs existantes
-  const items = hasLocalFiles
-    ? previewItems
-    : existingUrls.filter(Boolean).map((url, i) => ({
-        key: `existing-${i}`,
-        name: `image-${i + 1}`,
-        url,
-      }));
-  // Gestion du changement de fichiers : ajoute les nouveaux fichiers a la liste existante
+  const errorMessage = findErrorMessage(fieldState.error);
+  // Fonction de mise a jour de la liste des items, qui met a jour la valeur du champ et declenche la validation
+  const updateItems = useCallback(
+    (nextItems) => {
+      field.onChange(nextItems);
+      field.onBlur();
+    },
+    [field],
+  );
+  // Gestion du changement de fichiers
   const handleFilesChange = useCallback(
     (e) => {
-      const added = Array.from(e.target.files ?? []).slice(
-        0,
-        Math.max(maxFiles - files.length, 0),
-      );
-      if (added.length) field.onChange([...files, ...added]);
+      const added = Array.from(e.target.files ?? [])
+        .slice(0, Math.max(remaining, 0))
+        .map(createNewFichierItem);
+      if (added.length) updateItems([...items, ...added]);
       e.target.value = "";
     },
-    [field, files, maxFiles],
+    [items, remaining, updateItems],
   );
-  // Gestion de la suppression d'un fichier : retire le fichier de la liste
+  // Gestion de la suppression d'un fichier
   const handleRemove = useCallback(
-    (i) => field.onChange(files.filter((_, idx) => idx !== i)),
-    [field, files],
+    (index) => updateItems(items.filter((_, i) => i !== index)),
+    [items, updateItems],
   );
-  // Gestion du deplacement d'un fichier : change l'ordre des fichiers dans la liste
+  // Gestion du deplacement d'un fichier dans la liste
   const handleMove = useCallback(
     (from, to) => {
-      if (to < 0 || to >= files.length) return;
-      const next = [...files];
-      const [moved] = next.splice(from, 1);
-      next.splice(to, 0, moved);
-      field.onChange(next);
+      if (to < 0 || to >= items.length) return;
+      const nextItems = [...items];
+      const [moved] = nextItems.splice(from, 1);
+      nextItems.splice(to, 0, moved);
+      updateItems(nextItems);
     },
-    [field, files],
+    [items, updateItems],
   );
 
   return (
@@ -161,18 +206,18 @@ export function FichiersUploadItem({
               </p>
             </label>
             <p className="text-right text-sm text-muted-foreground">
-              {currentCount}/{maxFiles}
+              {items.length}/{maxFiles}
             </p>
           </div>
-          {items.length === 0 && (
+          {previews.length === 0 && (
             <div className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
               <ImagePlus className="mx-auto mb-2 h-5 w-5" />
               {t("services.form.fields.fichiers.empty")}
             </div>
           )}
-          {items.length > 0 && (
+          {previews.length > 0 && (
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {items.map((item, index) => (
+              {previews.map((item, index) => (
                 <div
                   key={item.key}
                   className="relative space-y-2 rounded-md border p-2"
@@ -187,46 +232,45 @@ export function FichiersUploadItem({
                     alt={item.name}
                     className="h-24 w-full rounded object-cover"
                   />
-                  {hasLocalFiles && (
-                    <div className="flex items-center gap-1">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                        onClick={() => handleMove(index, index - 1)}
-                        disabled={index === 0}
-                      >
-                        <ArrowLeft className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                        onClick={() => handleMove(index, index + 1)}
-                        disabled={index === files.length - 1}
-                      >
-                        <ArrowRight className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        className="flex-1"
-                        onClick={() => handleRemove(index)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleMove(index, index - 1)}
+                      disabled={index === 0 || saveIsLoading}
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleMove(index, index + 1)}
+                      disabled={index === items.length - 1 || saveIsLoading}
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleRemove(index)}
+                      disabled={saveIsLoading}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
           )}
-          {fieldState.error?.message && (
+          {errorMessage && (
             <p className="text-sm text-destructive">
-              {tValidation(fieldState.error.message, {
+              {tValidation(errorMessage, {
                 attribute: title,
                 max: maxFiles,
               })}
@@ -249,6 +293,7 @@ export function FichiersUploadItem({
               className="w-fit"
               variant="outline"
               onClick={onReset}
+              disabled={saveIsLoading}
             >
               {t("common:actions.reset")}
             </Button>
