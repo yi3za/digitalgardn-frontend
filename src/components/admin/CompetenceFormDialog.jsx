@@ -27,6 +27,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
+  Textarea,
 } from "@/components/ui";
 
 // Valeurs par defaut du formulaire
@@ -144,12 +145,28 @@ export function CompetenceFormDialog({
               control={form.control}
               rules={{ min: 1, max: 100 }}
             />
-            <CustomFormField
+            <FormField
               name="description"
-              label={t("admin:competences.form.description")}
-              placeholder={t("admin:competences.form.description_placeholder")}
               control={form.control}
-              rules={{ max: 500 }}
+              render={({ field }) => {
+                const label = t("admin:competences.form.description");
+                const placeholder = t(
+                  "admin:competences.form.description_placeholder",
+                );
+                return (
+                  <FormItem>
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="max-h-30"
+                        {...field}
+                        placeholder={placeholder}
+                      />
+                    </FormControl>
+                    <FormMessage rules={{ attribute: label, max: 500 }} />
+                  </FormItem>
+                );
+              }}
             />
             <CustomFormField
               name="ordre"
