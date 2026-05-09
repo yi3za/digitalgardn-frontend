@@ -17,9 +17,15 @@ import {
   DataEmpty,
   Button,
 } from "@/components/ui";
-
 import { buildAdminServicesFiltersConfig } from "@/features/admin/services/services.filters";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { useState } from "react";
+
+// Configuration des actions de changement de statut d'un service (publier / rejeter)
+const SERVICE_ACTIONS = [
+  { status: SERVICE_STATUS.PUBLIE, label: "approve", variant: "default" },
+  { status: SERVICE_STATUS.REJETE, label: "reject", variant: "destructive" },
+];
 
 /**
  * Page de gestion des services (espace admin)
@@ -31,6 +37,8 @@ export function AdminServicesPage() {
   const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
     keys: ["search", "statut"],
   });
+  // Etat local pour suivre les mises a jour de statut en cours
+  const [updateStatusIsPending, setUpdateStatusIsPending] = useState({});
   // Recupere tous les services
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminServices({ ...filters, page });
@@ -42,10 +50,13 @@ export function AdminServicesPage() {
   // Fonction de gestion du changement de statut d'un service (publier / rejeter)
   const handleStatusChange = async (serviceId, newStatut) => {
     try {
+      setUpdateStatusIsPending((prev) => ({ ...prev, [serviceId]: true }));
       await mutation.mutateAsync({ serviceId, statut: newStatut });
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
       toast.error(t(`codes:${error?.response?.data?.code ?? "NETWORK_ERROR"}`));
+    } finally {
+      setUpdateStatusIsPending((prev) => ({ ...prev, [serviceId]: false }));
     }
   };
 
@@ -82,23 +93,19 @@ export function AdminServicesPage() {
             renderActions={(service) =>
               service.statut === SERVICE_STATUS.EN_ATTENTE_APPROBATION ? (
                 <div className="flex gap-2 [&_button]:flex-1">
-                  <Button
-                    size="sm"
-                    onClick={() =>
-                      handleStatusChange(service.id, SERVICE_STATUS.PUBLIE)
-                    }
-                  >
-                    {t("admin:services.actions.approve")}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() =>
-                      handleStatusChange(service.id, SERVICE_STATUS.REJETE)
-                    }
-                  >
-                    {t("admin:services.actions.reject")}
-                  </Button>
+                  {SERVICE_ACTIONS.map((action) => (
+                    <Button
+                      key={action.status}
+                      size="sm"
+                      variant={action.variant}
+                      disabled={updateStatusIsPending?.[service.id]}
+                      onClick={() =>
+                        handleStatusChange(service.id, action.status)
+                      }
+                    >
+                      {t(`admin:services.actions.${action.label}`)}
+                    </Button>
+                  ))}
                 </div>
               ) : null
             }

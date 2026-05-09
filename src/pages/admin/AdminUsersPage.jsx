@@ -31,6 +31,14 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { buildUsersFiltersConfig } from "@/features/admin/users/users.filters";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { useState } from "react";
+
+// Configuration des actions de changement de statut d'un utilisateur
+const STATUS_ACTIONS = [
+  { status: ACCOUNT_STATUS.ACTIF, label: "set_actif", variant: "outline" },
+  { status: ACCOUNT_STATUS.INACTIF, label: "set_inactif", variant: "outline" },
+  { status: ACCOUNT_STATUS.BANNI, label: "set_banni", variant: "destructive" },
+];
 
 /**
  * Page de gestion des utilisateurs (espace admin)
@@ -42,6 +50,8 @@ export function AdminUsersPage() {
   const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
     keys: ["search", "role", "status"],
   });
+  // Etat local pour suivre les mises a jour de statut en cours
+  const [updateStatusIsPending, setUpdateStatusIsPending] = useState({});
   // Requete de recuperation des utilisateurs
   const { data, isLoading, isError, isFetching, error, refetch } =
     useAdminUsers({ ...filters, page });
@@ -52,10 +62,13 @@ export function AdminUsersPage() {
   // Fonction de gestion du changement de statut d'un utilisateur (actif, inactif, banni)
   const handleStatusChange = async (userId, newStatus) => {
     try {
+      setUpdateStatusIsPending((prev) => ({ ...prev, [userId]: true }));
       await updateAdminUserStatus.mutateAsync({ userId, status: newStatus });
       toast.success(t("codes:SUCCESS"));
     } catch (error) {
       toast.error(t(`codes:${error?.response?.data?.code ?? "NETWORK_ERROR"}`));
+    } finally {
+      setUpdateStatusIsPending((prev) => ({ ...prev, [userId]: false }));
     }
   };
 
@@ -115,38 +128,21 @@ export function AdminUsersPage() {
                   <TableCell>{formatDateTime(user.created_at)}</TableCell>
                   <TableCell>
                     <div className="flex gap-2 [&_button]:flex-1">
-                      {user.status !== ACCOUNT_STATUS.ACTIF && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() =>
-                            handleStatusChange(user.id, ACCOUNT_STATUS.ACTIF)
-                          }
-                        >
-                          {t("admin:users.actions.set_actif")}
-                        </Button>
-                      )}
-                      {user.status !== ACCOUNT_STATUS.INACTIF && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() =>
-                            handleStatusChange(user.id, ACCOUNT_STATUS.INACTIF)
-                          }
-                        >
-                          {t("admin:users.actions.set_inactif")}
-                        </Button>
-                      )}
-                      {user.status !== ACCOUNT_STATUS.BANNI && (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() =>
-                            handleStatusChange(user.id, ACCOUNT_STATUS.BANNI)
-                          }
-                        >
-                          {t("admin:users.actions.set_banni")}
-                        </Button>
+                      {STATUS_ACTIONS.map(
+                        (action) =>
+                          user.status !== action.status && (
+                            <Button
+                              key={action.status}
+                              size="sm"
+                              variant={action.variant}
+                              disabled={updateStatusIsPending?.[user.id]}
+                              onClick={() =>
+                                handleStatusChange(user.id, action.status)
+                              }
+                            >
+                              {t(`admin:users.actions.${action.label}`)}
+                            </Button>
+                          ),
                       )}
                     </div>
                   </TableCell>
