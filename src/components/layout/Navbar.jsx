@@ -29,14 +29,14 @@ const myBusinessLinks = [
 /**
  * Composant Navbar
  */
-export function Navbar({ dashboard = false, t, isAuthenticated }) {
+export function Navbar({ className, dashboard = false, t, isAuthenticated }) {
   // Recuperer le nombre total de messages non lus
   const totalUnreadMessages = useSelector(selectTotalUnreadMessages);
   // Recuperer le nombre de commandes non lues
   const unreadCommandes = useSelector(selectUnreadCommandes);
 
   return (
-    <NavigationMenu>
+    <NavigationMenu className={className}>
       <NavigationMenuList>
         {!dashboard && (
           <>
