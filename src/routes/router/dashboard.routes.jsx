@@ -14,17 +14,6 @@ import { ProfilPage } from "@/pages/profil/ProfilPage";
  * Definit les routes liees au dashboard freelance
  *
  * DashboardLayout : layout principal du dashboard (protection + structure)
- *
- * dashboard : page principale du dashboard (vue globale, statistiques, etc.)
- * dashboard/services : liste des services du freelance
- * dashboard/services/create : page de creation d'un nouveau service
- * dashboard/services/:slug : page privee de visualisation d'un service du freelance, y compris les brouillons
- * dashboard/services/:slug/edit : page de modification d'un service existant (identifie par son slug)
- * dashboard/profil : page de modification du profil du freelance
- * dashboard/messages : page de messagerie du freelance (liste des conversations + messages d'une conversation selectionnee)
- * dashboard/commandes : page de gestion des commandes du freelance (liste des commandes)
- * dashboard/portefeuille : page de gestion du portefeuille du freelance (solde, transactions, etc.)
- * dashboard/portefeuille/transactions : page de l'historique complet des transactions du portefeuille
  */
 export const dashboardRoutes = {
   path: "dashboard",

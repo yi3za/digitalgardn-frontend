@@ -130,7 +130,6 @@ export function PasswordResetPage() {
 
   return (
     <>
-      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("passwordReset.title")}</CardTitle>
         <CardDescription>{t("passwordReset.description")}</CardDescription>
@@ -151,7 +150,6 @@ export function PasswordResetPage() {
           </Button>
         </CardAction>
       </CardHeader>
-      {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
           <FieldSet disabled={loading.sendResetCode || loading.resetPassword}>
@@ -241,7 +239,6 @@ export function PasswordResetPage() {
           </FieldSet>
         </Form>
       </CardContent>
-      {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <Button
           disabled={loading.sendResetCode || loading.resetPassword}

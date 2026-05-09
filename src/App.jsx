@@ -19,7 +19,6 @@ export function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        {/* ThemeProvider : gere le theme et le persiste dans localStorage automatiquement */}
         <ThemeProvider attribute="class" defaultTheme="light">
           <AppRouter />
           <Toaster position="top-right" />

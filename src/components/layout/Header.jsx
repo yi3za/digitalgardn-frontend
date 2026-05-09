@@ -30,12 +30,9 @@ export function Header({ dashboard = false }) {
     <header className="flex justify-between items-center p-4 sticky top-0 z-50 bg-background border-b border-primary/20">
       <div className="flex items-center gap-2">
         {showBackButton && <BackButton />}
-        {/* logo */}
         <Logo />
       </div>
-      {/* navigation */}
       <Navbar dashboard={dashboard} t={t} isAuthenticated={isAuthenticated} />
-      {/* user actions */}
       <div className="flex justify-end items-center gap-4">
         <ThemeToggle />
         <LanguageToggle />

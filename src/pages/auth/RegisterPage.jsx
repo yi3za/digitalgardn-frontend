@@ -102,7 +102,6 @@ export function RegisterPage() {
 
   return (
     <>
-      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("register.title")}</CardTitle>
         <CardDescription>{t("register.description")}</CardDescription>
@@ -116,7 +115,6 @@ export function RegisterPage() {
           </Button>
         </CardAction>
       </CardHeader>
-      {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
           <FieldSet disabled={loading.register}>
@@ -204,7 +202,6 @@ export function RegisterPage() {
           </FieldSet>
         </Form>
       </CardContent>
-      {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <ButtonGroup className="w-full flex">
           <Button

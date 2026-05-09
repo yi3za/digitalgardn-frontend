@@ -75,7 +75,6 @@ export function LoginPage() {
 
   return (
     <>
-      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("login.title")}</CardTitle>
         <CardDescription>{t("login.description")}</CardDescription>
@@ -89,7 +88,6 @@ export function LoginPage() {
           </Button>
         </CardAction>
       </CardHeader>
-      {/* Contenu de la carte */}
       <CardContent>
         <Form {...form}>
           <FieldSet disabled={loading.login}>
@@ -172,7 +170,6 @@ export function LoginPage() {
           </FieldSet>
         </Form>
       </CardContent>
-      {/* Pied de carte */}
       <CardFooter className="flex-col gap-2">
         <Button
           className="w-full"

@@ -80,7 +80,6 @@ export function DangerZonePage() {
 
   return (
     <>
-      {/* En-tete de la carte */}
       <CardHeader>
         <CardTitle>{t("items.danger_zone.title")}</CardTitle>
         <CardDescription>{t("items.danger_zone.description")}</CardDescription>
@@ -90,7 +89,6 @@ export function DangerZonePage() {
           </Button>
         </CardAction>
       </CardHeader>
-      {/* Contenu de la carte */}
       <CardContent>
         <ItemGroup className="gap-5">
           {dangerousItems.map(({ id, title, description }) => {
