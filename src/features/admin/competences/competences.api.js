@@ -1,9 +1,20 @@
 import { client, contentTypeMultipart } from "@/api/client";
+import { cleanFilters } from "@/lib/utils";
 
-// Liste toutes les competences
-export const getAdminCompetences = async () => {
-  const { data } = await client.get("/api/admin/competences");
-  return data?.details?.competences ?? [];
+// Recupere toutes les comptences
+export const getAdminCompetences = async (filters = {}) => {
+  const { data } = await client.get("/api/admin/competences", {
+    params: cleanFilters(filters),
+  });
+  return {
+    items: data?.details?.competences ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Detail d'une competence par slug (quel que soit son statut)

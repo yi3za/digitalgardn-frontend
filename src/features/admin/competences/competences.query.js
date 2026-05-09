@@ -9,10 +9,10 @@ import {
 } from "./competences.api";
 
 // Liste des competences
-export const useAdminCompetences = () =>
+export const useAdminCompetences = (filters = {}) =>
   useQuery({
-    queryKey: ["admin", "competences"],
-    queryFn: getAdminCompetences,
+    queryKey: ["admin", "competences", filters],
+    queryFn: () => getAdminCompetences(filters),
   });
 
 // Detail d'une competence par slug (quel que soit son statut)

@@ -26,6 +26,10 @@ import {
 } from "@/components/ui";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { buildAdminCompetencesFiltersConfig } from "@/features/admin/competences/competences.filters";
+import { PaginationBar } from "@/components/shared/PaginationBar";
+import { FilterBar } from "@/components/shared/FilterBar";
 
 /**
  * Page de gestion des competences (espace admin)
@@ -33,17 +37,21 @@ import { cn } from "@/lib/utils";
 export function AdminCompetencesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "statut"],
+  });
   // Etat d'affichage des competences enfants dans la table
   const [showChildren, setShowChildren] = useState({});
   // Requete de recuperation des competences
   const {
-    data: competences,
+    data: { items: competences, meta } = {},
     isLoading,
     isError,
     isFetching,
     error,
     refetch,
-  } = useAdminCompetences();
+  } = useAdminCompetences({ ...filters, page });
   // Mutation de suppression d'une competence
   const deleteMutation = useDeleteAdminCompetence();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -83,7 +91,13 @@ export function AdminCompetencesPage() {
           />
         }
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-col flex-1">
+        <FilterBar
+          t={t}
+          filtersConfig={buildAdminCompetencesFiltersConfig(t)}
+          onApply={handleApplyFilters}
+          initialValues={filters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -193,6 +207,13 @@ export function AdminCompetencesPage() {
               )}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page}
+            lastPage={meta?.last_page}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>
