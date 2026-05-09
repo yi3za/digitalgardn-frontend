@@ -62,17 +62,20 @@ const newFichierField = z.object({
     .refine((f) => ACCEPTED_IMAGE_TYPES.includes(f.type), "validation.mimes"),
 });
 const fichiersField = z
-  .array(z.discriminatedUnion("type", [existingFichierField, newFichierField]), {
-    required_error: "validation.required",
-    invalid_type_error: "validation.array",
-  })
+  .array(
+    z.discriminatedUnion("type", [existingFichierField, newFichierField]),
+    {
+      required_error: "validation.required",
+      invalid_type_error: "validation.array",
+    },
+  )
   .min(1, "validation.required")
   .max(10, "validation.max.array");
 
 /**
- * Schema de validation pour la creation d'un service freelance
+ * Schema de validation pour les services freelance, utilise pour la creation et la mise a jour des services
  */
-export const storeServiceSchema = z.object({
+const serviceShema = z.object({
   titre: serviceTitreField,
   description: serviceDescriptionField,
   prix_base: servicePrixBaseField,
@@ -82,17 +85,11 @@ export const storeServiceSchema = z.object({
   competences: competencesField,
   categories: categoriesField,
 });
-
+/**
+ * Schema de validation pour la creation d'un service freelance
+ */
+export const storeServiceSchema = serviceShema;
 /**
  * Schema de validation pour la mise a jour d'un service freelance
  */
-export const updateServiceSchema = z.object({
-  titre: serviceTitreField,
-  description: serviceDescriptionField,
-  prix_base: servicePrixBaseField,
-  delai_livraison: serviceDelaiLivraisonField,
-  revisions: serviceRevisionsField,
-  fichiers: fichiersField,
-  competences: competencesField,
-  categories: categoriesField,
-});
+export const updateServiceSchema = serviceShema;
