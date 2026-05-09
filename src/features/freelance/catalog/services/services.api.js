@@ -80,10 +80,21 @@ export const syncCompetences = async (slug, payload) => {
 };
 
 // Synchroniser les fichiers d'un service (multipart/form-data)
-export const syncFichiers = async (slug, files) => {
+export const syncFichiers = async (slug, fichiers) => {
   const formData = new FormData();
   formData.append("_method", "PUT");
-  files.forEach((file) => formData.append("fichiers[]", file));
+  // Parcours de la liste des fichiers pour les ajouter au FormData
+  fichiers.forEach((item, index) => {
+    // Si l'item est de type "existing", on ajoute son ID et son ordre dans le FormData, sinon on ajoute le fichier lui-meme
+    if (item.type === "existing") {
+      formData.append("existing_fichiers[]", item.id);
+      formData.append(`existing_fichiers_order[${item.id}]`, index);
+      return;
+    }
+    formData.append("fichiers[]", item.file);
+    formData.append("fichiers_order[]", index);
+  });
+  // Envoi de la requete POST avec le FormData et le content type multipart/form-data
   const { data } = await client.post(
     `/api/me/services/${slug}/fichiers`,
     formData,
