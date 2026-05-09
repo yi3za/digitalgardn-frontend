@@ -9,10 +9,10 @@ import {
 } from "./categories.api";
 
 // Liste des categories
-export const useAdminCategories = () =>
+export const useAdminCategories = (filters = {}) =>
   useQuery({
-    queryKey: ["admin", "categories"],
-    queryFn: getAdminCategories,
+    queryKey: ["admin", "categories", filters],
+    queryFn: () => getAdminCategories(filters),
   });
 
 // Detail d'une categorie par slug (quel que soit son statut)

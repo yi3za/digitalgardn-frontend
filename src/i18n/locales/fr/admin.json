@@ -192,6 +192,9 @@
       "create": "Créer",
       "save": "Enregistrer",
       "cancel": "Annuler"
+    },
+    "filters": {
+      "statut_label": "statuts"
     }
   },
   "competences": {
@@ -233,6 +236,9 @@
       "create": "Créer",
       "save": "Enregistrer",
       "cancel": "Annuler"
+    },
+    "filters": {
+      "statut_label": "statuts"
     }
   },
   "langues": {

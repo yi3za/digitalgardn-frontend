@@ -1,9 +1,20 @@
 import { client, contentTypeMultipart } from "@/api/client";
+import { cleanFilters } from "@/lib/utils";
 
-// Liste toutes les categories
-export const getAdminCategories = async () => {
-  const { data } = await client.get("/api/admin/categories");
-  return data?.details?.categories ?? [];
+// Recupere toutes les categories
+export const getAdminCategories = async (filters = {}) => {
+  const { data } = await client.get("/api/admin/categories", {
+    params: cleanFilters(filters),
+  });
+  return {
+    items: data?.details?.categories ?? [],
+    meta: data?.details?.meta ?? {
+      current_page: 1,
+      last_page: 1,
+      total: 0,
+      per_page: 15,
+    },
+  };
 };
 
 // Detail d'une categorie par slug (quel que soit son statut)

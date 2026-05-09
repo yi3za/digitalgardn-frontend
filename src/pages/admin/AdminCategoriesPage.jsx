@@ -26,6 +26,10 @@ import {
 } from "@/components/ui";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { PaginationBar } from "@/components/shared/PaginationBar";
+import { FilterBar } from "@/components/shared/FilterBar";
+import { buildAdminCategoriesFiltersConfig } from "@/features/admin/categories/categories.filters";
 
 /**
  * Page de gestion des categories (espace admin)
@@ -33,17 +37,21 @@ import { cn } from "@/lib/utils";
 export function AdminCategoriesPage() {
   // Hook de traduction
   const { t } = useTranslation(["admin", "codes", "common"]);
+  // Utiliser le hook de synchronisation des filtres avec l'URL
+  const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
+    keys: ["search", "statut"],
+  });
   // Etat d'affichage des categories enfants dans la table
   const [showChildren, setShowChildren] = useState({});
   // Requete de recuperation des categories
   const {
-    data: categories,
+    data: { items: categories, meta } = {},
     isLoading,
     isError,
     isFetching,
     error,
     refetch,
-  } = useAdminCategories();
+  } = useAdminCategories({ ...filters, page });
   // Mutation de suppression d'une categorie
   const deleteMutation = useDeleteAdminCategorie();
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
@@ -83,7 +91,13 @@ export function AdminCategoriesPage() {
           />
         }
       />
-      <CardContent className="flex flex-1">
+      <CardContent className="flex flex-col flex-1">
+        <FilterBar
+          t={t}
+          filtersConfig={buildAdminCategoriesFiltersConfig(t)}
+          onApply={handleApplyFilters}
+          initialValues={filters}
+        />
         {isLoading && <DataLoading />}
         {isError && (
           <DataError
@@ -192,6 +206,13 @@ export function AdminCategoriesPage() {
               )}
             </TableBody>
           </Table>
+        )}
+        {!isLoading && !isError && (
+          <PaginationBar
+            currentPage={meta?.current_page}
+            lastPage={meta?.last_page}
+            onPageChange={setPage}
+          />
         )}
       </CardContent>
     </Card>
