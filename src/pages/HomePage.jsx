@@ -40,7 +40,7 @@ export function HomePage() {
   return (
     <>
       <Card className="shadow-none border-none text-center gap-10 justify-center bg-background">
-        <Logo />
+        <Logo className="mx-auto" />
         <CardHeader className="gap-3">
           <CardTitle className="text-5xl font-bold">
             {t("catalog:home.hero.title")}
