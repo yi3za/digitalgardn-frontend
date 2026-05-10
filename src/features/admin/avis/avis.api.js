@@ -8,12 +8,7 @@ export const getAdminAvis = async (filters = {}) => {
   });
   return {
     items: data?.details?.avis ?? [],
-    meta: data?.details?.meta ?? {
-      current_page: 1,
-      last_page: 1,
-      total: 0,
-      per_page: 15,
-    },
+    meta: data?.details?.meta ?? {},
   };
 };
 

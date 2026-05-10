@@ -8,12 +8,7 @@ export const getCategories = async (filters = {}) => {
   });
   return {
     items: data?.details?.categories ?? [],
-    meta: data?.details?.meta ?? {
-      current_page: 1,
-      last_page: 1,
-      total: 0,
-      per_page: 15,
-    },
+    meta: data?.details?.meta ?? {},
   };
 };
 
@@ -30,11 +25,6 @@ export const getServicesByCategorie = async (slug, params = {}) => {
   });
   return {
     items: data?.details?.services ?? [],
-    meta: data?.details?.meta ?? {
-      current_page: 1,
-      last_page: 1,
-      total: 0,
-      per_page: 15,
-    },
+    meta: data?.details?.meta ?? {},
   };
 };
