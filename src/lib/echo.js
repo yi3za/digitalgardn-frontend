@@ -13,7 +13,6 @@ export const isRealtimeEnabled = () =>
  */
 export const getEcho = () => {
   if (echoInstance) return echoInstance;
-  console.log("Initialisation de la connexion websocket pour Reverb...");
   // Si la fonctionnalite de temps reel n'est pas active, ne pas creer d'instance Echo
   if (!isRealtimeEnabled()) {
     return null;
