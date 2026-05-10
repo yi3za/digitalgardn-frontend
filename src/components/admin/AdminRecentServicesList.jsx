@@ -1,7 +1,9 @@
 import { RecentList } from "@/components/shared/RecentList";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 
-// Liste des derniers services en attente d'approbation (dashboard admin)
+/**
+ * Liste des derniers services en attente d'approbation
+ */
 export function AdminRecentServicesList({ t, services = [] }) {
   return (
     <RecentList

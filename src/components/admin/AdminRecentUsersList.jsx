@@ -6,7 +6,9 @@ import {
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
 
-// Liste des derniers utilisateurs inscrits (dashboard admin)
+/**
+ * Liste des derniers utilisateurs inscrits
+ */
 export function AdminRecentUsersList({ t, users = [] }) {
   return (
     <RecentList

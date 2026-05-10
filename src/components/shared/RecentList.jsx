@@ -15,7 +15,9 @@ import {
   Spinner,
 } from "@/components/ui";
 
-// Composant generique pour les listes d'activite recente (dashboard admin et freelance)
+/**
+ * Composant generique pour les listes d'activite recente (dashboard admin et freelance)
+ */
 export function RecentList({
   t,
   titleKey,

@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { RecentList } from "@/components/shared/RecentList";
 import { CommandeItem } from "@/components/commandes/CommandeItem";
 
-// Liste des dernieres commandes recentes de la plateforme (dashboard admin)
+/**
+ * Liste des dernieres commandes recentes de la plateforme
+ */
 export function AdminRecentCommandesList({ t, commandes = [] }) {
   const navigate = useNavigate();
 

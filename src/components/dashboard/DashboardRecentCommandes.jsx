@@ -1,7 +1,9 @@
 import { CommandeItem } from "@/components/commandes/CommandeItem";
 import { RecentList } from "@/components/shared/RecentList";
 
-// Liste des dernieres commandes recentes du freelance (dashboard)
+/**
+ * Liste des dernieres commandes recentes du freelance
+ */
 export function DashboardRecentCommandes({
   t,
   commandes = [],

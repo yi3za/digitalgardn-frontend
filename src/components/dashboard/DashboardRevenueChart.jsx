@@ -19,7 +19,7 @@ import {
 import { formatPrice } from "@/lib/utils";
 
 /**
- * Graphique de revenus mensuels du freelance (donnees reelles API)
+ * Graphique de revenus mensuels du freelance
  */
 export function DashboardRevenueChart({
   data = [],

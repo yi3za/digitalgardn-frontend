@@ -16,6 +16,7 @@ export function DashboardStatsSection({
   refetch,
 }) {
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
+  // Configuration des cartes de stats avec titres, valeurs, descriptions et icones
   const STAT_CARDS = [
     {
       key: "revenus",
