@@ -24,6 +24,7 @@ const myBusinessLinks = [
   { key: "mesServices", to: "services" },
   { key: "portefeuille", to: "portefeuille" },
   { key: "transactions", to: "portefeuille/transactions" },
+  { key: "avis", to: "avis" },
 ];
 
 /**

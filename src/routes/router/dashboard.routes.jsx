@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { CommandesPage } from "@/pages/commandes/CommandesPage";
+import { AvisPage } from "@/pages/dashboard/avis/AvisPage";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { ServiceCreatePage } from "@/pages/dashboard/services/ServiceCreatePage";
 import { ServiceEditPage } from "@/pages/dashboard/services/ServiceEditPage";
@@ -25,6 +26,7 @@ export const dashboardRoutes = {
     { path: "commandes", element: <CommandesPage dashboard /> },
     { path: "portefeuille", element: <PortefeuillePage /> },
     { path: "portefeuille/transactions", element: <TransactionsPage /> },
+    { path: "avis", element: <AvisPage /> },
     {
       path: "services",
       children: [

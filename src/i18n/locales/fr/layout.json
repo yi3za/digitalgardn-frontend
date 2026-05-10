@@ -15,7 +15,8 @@
     "messages": "Messages",
     "commandes": "Commandes",
     "portefeuille": "Mon portefeuille",
-    "transactions": "Mes transactions"
+    "transactions": "Mes transactions",
+    "avis": "Avis sur mes services"
   },
   "user_menu": {
     "navigation": "Tableau de bord",
