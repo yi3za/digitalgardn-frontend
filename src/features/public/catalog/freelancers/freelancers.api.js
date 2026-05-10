@@ -21,5 +21,8 @@ export const getFreelancerAvis = async (username, page = 1) => {
   const { data } = await client.get(`/api/freelancers/${username}/avis`, {
     params: { page },
   });
-  return data?.details ?? { avis: [], meta: null };
+  return {
+    items: data?.details?.avis ?? [],
+    meta: data?.details?.meta ?? {},
+  };
 };

@@ -22,10 +22,10 @@ export const useAdminService = (slug) =>
   });
 
 // Avis d'un service (quel que soit son statut)
-export const useAdminServiceAvis = (slug) =>
+export const useAdminServiceAvis = (slug, page = 1) =>
   useQuery({
-    queryKey: ["admin", "service", slug, "avis"],
-    queryFn: () => getAdminServiceAvis(slug),
+    queryKey: ["admin", "service", slug, "avis", page],
+    queryFn: () => getAdminServiceAvis(slug, page),
     enabled: !!slug,
   });
 

@@ -8,12 +8,7 @@ export const getAdminServices = async (filters = {}) => {
   });
   return {
     items: data?.details.services ?? [],
-    meta: data?.details.meta ?? {
-      current_page: 1,
-      last_page: 1,
-      total: 0,
-      per_page: 15,
-    },
+    meta: data?.details?.meta ?? {},
   };
 };
 
@@ -24,9 +19,14 @@ export const getAdminService = async (slug) => {
 };
 
 // Avis d'un service (quel que soit son statut)
-export const getAdminServiceAvis = async (slug) => {
-  const { data } = await client.get(`/api/admin/services/${slug}/avis`);
-  return data?.details?.avis ?? [];
+export const getAdminServiceAvis = async (slug, page = 1) => {
+  const { data } = await client.get(`/api/admin/services/${slug}/avis`, {
+    params: { page },
+  });
+  return {
+    items: data?.details?.avis ?? [],
+    meta: data?.details?.meta ?? {},
+  };
 };
 
 // Modifier le statut d'un service (publier / rejeter)

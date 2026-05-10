@@ -17,9 +17,9 @@ export const useService = (slug) =>
   });
 
 // Hook pour les avis d'un service
-export const useServiceAvis = (slug) =>
+export const useServiceAvis = (slug, page = 1) =>
   useQuery({
-    queryKey: ["service", slug, "avis"],
-    queryFn: () => getServiceAvis(slug),
+    queryKey: ["service", slug, "avis", page],
+    queryFn: () => getServiceAvis(slug, page),
     enabled: !!slug,
   });

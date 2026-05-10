@@ -45,8 +45,10 @@ export function ServiceShowPage() {
   const publicServiceQuery = useService(isAdmin ? null : slug);
   // Hook admin : charge le service depuis l'API admin (tous statuts)
   const adminServiceQuery = useAdminService(isAdmin ? slug : null);
+  // Page courante pour la pagination des avis du service
+  const [avisPage, setAvisPage] = useState(1);
   // Hook admin : charge les avis du service sans filtre de statut
-  const adminAvisQuery = useAdminServiceAvis(isAdmin ? slug : null);
+  const adminAvisQuery = useAdminServiceAvis(isAdmin ? slug : null, avisPage);
   // Selection de la requete active selon le contexte
   const serviceQuery = isAdmin ? adminServiceQuery : publicServiceQuery;
   // Mutations pour l'achat (public uniquement)
@@ -112,6 +114,8 @@ export function ServiceShowPage() {
         showAvis={true}
         showStatus={isAdmin}
         avisQuery={isAdmin ? adminAvisQuery : null}
+        avisPage={avisPage}
+        onAvisPageChange={setAvisPage}
         competencesPath={competencesPath}
         categoriesPath={categoriesPath}
         footerActions={

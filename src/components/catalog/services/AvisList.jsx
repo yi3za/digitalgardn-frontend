@@ -32,7 +32,7 @@ export function AvisList({
   error,
   refetch,
   t,
-  className,
+  className = "",
 }) {
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";

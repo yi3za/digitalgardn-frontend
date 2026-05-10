@@ -252,7 +252,7 @@ export function FreelancerShowPage() {
         </CardContent>
       </Card>
       <AvisList
-        avis={avisQuery.data?.avis ?? []}
+        avis={avisQuery.data?.items ?? []}
         meta={avisQuery.data?.meta ?? null}
         currentPage={avisPage}
         onPageChange={setAvisPage}

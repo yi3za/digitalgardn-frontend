@@ -27,6 +27,7 @@ import {
 } from "@/features/freelance/catalog/services/services.status";
 import { SkillBadges } from "./SkillBadges";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
+import { useState } from "react";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -43,6 +44,8 @@ export function ServiceDetailsCard({
   showFreelancerSection = false,
   showAvis = false,
   avisQuery: externalAvisQuery = null,
+  avisPage: controlledAvisPage,
+  onAvisPageChange,
   categoryBadgeVariant = "outline",
   competenceBadgeVariant = "secondary",
   refreshTextKey = "common:actions.retry",
@@ -57,9 +60,13 @@ export function ServiceDetailsCard({
   freelancerSectionTitleKey = "catalog:serviceShow.freelancerSection",
   freelancerSectionDescriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
+  const [internalAvisPage, setInternalAvisPage] = useState(1);
+  const avisPage = controlledAvisPage ?? internalAvisPage;
+  const setAvisPage = onAvisPageChange ?? setInternalAvisPage;
   // Si un avisQuery externe est fourni (ex: admin), on desactive l'appel public
   const internalAvisQuery = useServiceAvis(
     externalAvisQuery ? null : service?.slug,
+    avisPage,
   );
   const avisQuery = externalAvisQuery ?? internalAvisQuery;
   // Recuperation des chemins de navigation selon le contexte (public ou admin)
@@ -197,7 +204,10 @@ export function ServiceDetailsCard({
       )}
       {showAvis && (
         <AvisList
-          avis={avisQuery.data || []}
+          avis={avisQuery.data?.items ?? []}
+          meta={avisQuery.data?.meta ?? null}
+          currentPage={avisQuery.data?.meta?.current_page ?? avisPage}
+          onPageChange={setAvisPage}
           isLoading={avisQuery.isLoading}
           isError={avisQuery.isError}
           error={avisQuery.error}
