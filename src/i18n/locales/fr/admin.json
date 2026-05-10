@@ -76,6 +76,8 @@
       "user": "Utilisateur",
       "role": "Rôle",
       "status": "Statut",
+      "last_activity": "Dernier accès",
+      "inactive_days": "Inactivité",
       "joined": "Inscription",
       "actions": "Actions"
     },
@@ -94,9 +96,20 @@
       "set_inactif": "Désactiver",
       "set_banni": "Bannir"
     },
+    "activity": {
+      "never": "Jamais connecté",
+      "today": "Aujourd'hui",
+      "day": "Depuis {{count}} jour",
+      "days": "Depuis {{count}} jours"
+    },
+    "sort": {
+      "inactive": "Plus inactifs",
+      "recent": "Plus récents"
+    },
     "filters": {
       "status_label": "statuts",
-      "role_label": "rôles"
+      "role_label": "rôles",
+      "sort_label": "tri"
     }
   },
   "services": {
