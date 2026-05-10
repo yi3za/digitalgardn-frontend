@@ -34,6 +34,25 @@ const passwordConfirmationField = z
   .string("validation.string")
   .min(1, "validation.required");
 const rememberField = z.boolean("validation.boolean").default(false);
+const existingAvatarField = z
+  .object({
+    type: z.literal("existing"),
+    url: z.string().min(1, "validation.required"),
+  })
+  .refine((data) => data.url.length > 0, {
+    message: "validation.required",
+  });
+const newAvatarField = z.object({
+  type: z.literal("new"),
+  file: z
+    .instanceof(File, "validation.file")
+    .refine((file) => file.size <= 2 * 1024 * 1024, "validation.max.file")
+    .refine((file) => {
+      const types = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+      return types.includes(file.type);
+    }, "validation.mimes"),
+});
 const titreField = z
   .string("validation.string")
   .trim()
@@ -145,13 +164,7 @@ export const updateInfoSchema = z.object({
   name: nameField,
   username: usernameField,
   email: emailField,
-  avatar: z
-    .instanceof(File, "validation.file")
-    .refine((file) => file.size <= 2 * 1024 * 1024, "validation.max.file")
-    .refine((file) => {
-      const types = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-      return types.includes(file.type);
-    }, "validation.mimes"),
+  avatar: z.discriminatedUnion("type", [existingAvatarField, newAvatarField]),
   titre: titreField,
   biographie: biographieField,
   site_web: siteWebField,
