@@ -21,4 +21,19 @@ export const buildAdminUsersFiltersConfig = (t) => [
       label: t(`admin:users.roles.${v}`),
     })),
   },
+  {
+    key: "sort",
+    type: "select",
+    allLabel: t("admin:users.filters.sort_label"),
+    options: [
+      {
+        value: "inactive",
+        label: t("admin:users.sort.inactive"),
+      },
+      {
+        value: "recent",
+        label: t("admin:users.sort.recent"),
+      },
+    ],
+  },
 ];
