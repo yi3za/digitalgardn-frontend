@@ -17,7 +17,7 @@ import { useCompetences } from "@/features/public/catalog/competences/competence
 import { useLangues } from "@/features/public/catalog/langues/langues.query";
 import { formatDate, getFallbackName, toCapitalize } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -65,7 +65,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       titre: user?.profil?.titre ?? "",
       site_web: user?.profil?.site_web ?? "",
       biographie: user?.profil?.biographie ?? "",
-      avatar: undefined,
+      avatar: { type: "existing", url: user?.avatar ? user.avatar_url : "" },
       competences: user?.competences ?? [],
       langues: user?.langues ?? [],
     },
@@ -73,29 +73,46 @@ export function ProfilPage({ handleOnboardingCompletion }) {
     reValidateMode: "onChange",
     resolver: zodResolver(updateInfoSchema),
   });
+  // Effet pour reset les valeurs du formulaire lorsque les donnees de l'utilisateur sont chargees ou mises a jour
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user?.name ?? "",
+        titre: user?.profil?.titre ?? "",
+        site_web: user?.profil?.site_web ?? "",
+        biographie: user?.profil?.biographie ?? "",
+        avatar: { type: "existing", url: user?.avatar ? user.avatar_url : "" },
+        competences: user?.competences ?? [],
+        langues: user?.langues ?? [],
+      });
+    }
+  }, [user, form.reset]);
   // Hook pour les mises a jour de formulaire
   const { executeUpdate } = useFormUpdate(form);
-
   // Helper pour verifier si un champ est modifie
   const isFieldDirty = (fieldName) => form.formState.dirtyFields?.[fieldName];
-
   // Helper pour obtenir les champs modifies du profil freelance
   const getDirtyFreelanceFields = () => {
     const freelanceFields = ["titre", "site_web", "biographie"];
     return freelanceFields.filter(isFieldDirty);
   };
-
   // Sheet actuellement ouvert
   const [activeSheet, setActiveSheet] = useState(null);
   // Fermer le actif
   const closeSheet = () => setActiveSheet(null);
   // Verifier que les champs obligatoires de freelance sont remplis
   const isOnboardingTermine = async () => {
-    const requiredFields = ["titre", "langues", "biographie", "competences"];
+    const requiredFields = [
+      "avatar",
+      "titre",
+      "langues",
+      "biographie",
+      "competences",
+    ];
     for (const field of requiredFields) {
       if (!(await form.trigger(field))) {
-        // Ouvrir le sheet d'edition si c'est titre
-        if (field === "titre") {
+        // Ouvrir le sheet d'edition si c'est titre ou avatar
+        if (["avatar", "titre"].includes(field)) {
           setActiveSheet(SHEET.PROFIL.EDIT);
         }
         // Activer l'edition de biographie si c'est biographie
@@ -112,7 +129,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
     }
     return handleOnboardingCompletion(true);
   };
-
   // Function pour mise a jour du profil freelance
   const handleUpdateFreelanceProfil = async () => {
     const dataKeys = getDirtyFreelanceFields();
@@ -128,7 +144,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       }
     }
   };
-
   // Function pour mise a jour des competences
   const handleUpdateCompetences = () =>
     executeUpdate({
@@ -143,7 +158,6 @@ export function ProfilPage({ handleOnboardingCompletion }) {
       thunk: syncLanguesThunk,
       resetFields: "langues",
     });
-
   // Function pour reinitialiser les competences
   const handleResetCompetences = () => {
     form.resetField("competences", { defaultValue: user?.competences ?? [] });
@@ -234,7 +248,7 @@ export function ProfilPage({ handleOnboardingCompletion }) {
           <Button
             onClick={isOnboardingTermine}
             disabled={loading.completeOnboarding}
-            className="mt-3 w-fit self-end"
+            className="absolute -bottom-20 right-0"
           >
             {loading.completeOnboarding && <Spinner />}
             {t("common:actions.finish")}
