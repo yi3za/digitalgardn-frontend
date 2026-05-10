@@ -10,12 +10,15 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import { formatDateTime } from "@/lib/utils";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { Star } from "lucide-react";
 
 /**
  * Liste des derniers avis laisses sur la plateforme
  */
 export function AdminRecentAvisList({ t, avis = [], ...queryState }) {
+  const { avis: avisBasePath } = useNavigationPaths();
+
   return (
     <RecentList
       t={t}
@@ -23,7 +26,7 @@ export function AdminRecentAvisList({ t, avis = [], ...queryState }) {
       descriptionKey="admin:dashboard.activite.avis.description"
       viewAllKey="admin:dashboard.activite.avis.viewAll"
       emptyKey="admin:dashboard.activite.avis.empty"
-      linkTo="/admin/avis"
+      linkTo={avisBasePath}
       items={avis}
       {...queryState}
       renderItem={(item) => (
