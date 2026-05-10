@@ -20,7 +20,9 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
 | **Internationalisation** | i18next, react-i18next                      |
 | **Temps Reel**           | Laravel Echo, Pusher-js                     |
 | **Graphiques**           | Recharts                                    |
+| **Export PDF**           | jsPDF                                       |
 | **Carrousel**            | Embla Carousel                              |
+| **Theme**                | next-themes                                 |
 | **Environnement**        | Node.js v22.17.1, npm 10.9.2                |
 
 ---
@@ -92,6 +94,9 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Badge de messages non lus par conversation.
   - Liaison conversations-commandes avec affichage du statut dans l'en-tete.
   - Compteur de messages non lus initialise en temps reel.
+  - Envoi de fichiers dans les conversations.
+  - Affichage des pieces jointes dans les bulles de messages.
+  - Rafraichissement des conversations et messages apres envoi.
 
 - ✅ **Notifications & Temps Reel**
   - Slice Redux pour les notifications globales avec badge dans le header.
@@ -117,8 +122,56 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Gestion des commandes : liste avec details.
   - Gestion des categories : CRUD complet avec CategoryFormDialog et selection de parent.
   - Gestion des competences : CRUD complet avec CompetenceFormDialog.
+  - Pages admin pour avis, portefeuilles, transactions et langues.
+  - Tableau de bord admin enrichi avec activite recente, tendances mensuelles, stats avis et finance plateforme.
+  - Navigation admin enrichie avec sections catalogue, finance et toggles theme/langue.
+  - Gestion du statut et affichage des badges dans les vues admin.
   - AdminPageHeader : En-tete partage avec bouton refresh et indicateur isFetching.
   - Organisation des features admin par domaine (users/, services/, commandes/, stats/, categories/, competences/).
+
+- ✅ **Navigation Contextuelle et Pages Partagees**
+  - NavigationContext centralise les chemins publics, dashboard et admin.
+  - Pages de detail reutilisees selon le contexte pour services, freelances, categories et competences.
+  - Mini cartes reutilisables pour categories, competences et services.
+  - Masquage des actions publiques d'achat et de contact pour les administrateurs.
+
+- ✅ **Catalogue, Langues et Freelances**
+  - Module langues complet avec pages publiques, composants, filtres, routes et traductions.
+  - Gestion admin des langues avec API, hooks React Query, schema Zod et formulaire dedie.
+  - Affichage des langues sur le detail freelance et filtrage des services par langue.
+  - Section des meilleurs freelances sur la page d'accueil.
+  - Pages de detail categorie et competence basees sur les slugs.
+
+- ✅ **Filtres, Pagination et Synchronisation URL**
+  - FilterBar, PaginationBar et SearchBar reutilisables sur les listes.
+  - Support generalise des filtres et de la pagination dans les APIs frontend et les hooks React Query.
+  - Hook useUrlFilters pour synchroniser les filtres avec l'URL.
+  - Filtres admin pour utilisateurs, services, commandes, transactions, avis, portefeuilles, categories, competences et langues.
+
+- ✅ **Gestion Avancee des Services**
+  - ServiceForm multi-etapes pour creation et edition des services.
+  - Validation des fichiers existants et nouveaux.
+  - Synchronisation des fichiers avec reordonnancement et suppression selective.
+  - ServicesTable et ServiceRowActions pour les listes dashboard et admin.
+  - FilePickerButton generique pour les selections de fichiers.
+
+- ✅ **Export PDF des Commandes**
+  - Generation de facture PDF avec jsPDF.
+  - Bouton d'export integre dans la liste des commandes.
+  - Traductions dediees pour le contenu de facture.
+
+- ✅ **Theme, Langue et Ergonomie**
+  - ThemeProvider avec support du mode sombre.
+  - Toggles de theme et de langue dans le header et le layout admin.
+  - Persistance de la langue selectionnee dans localStorage.
+  - ScrollToTop dans le site principal et l'administration.
+  - Barre de navigation extraite dans Navbar avec bouton retour et recherche.
+
+- ✅ **Profil et Onboarding Ameliores**
+  - Gestion de l'avatar existant dans le formulaire profil.
+  - Reset du formulaire utilisateur apres modification.
+  - Schema avatar avec discriminated union pour differencier avatar existant et nouveau fichier.
+  - Scroll ajoute dans la page de configuration freelancer.
 
 ---
 
