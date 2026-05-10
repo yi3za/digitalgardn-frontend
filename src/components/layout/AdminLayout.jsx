@@ -2,13 +2,11 @@ import { useTranslation } from "react-i18next";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  ArrowLeftRight,
   LayoutDashboard,
   Users,
   Layers,
   ShoppingCart,
   LogOut,
-  ShieldCheck,
   ChevronsUpDown,
   BadgeCheck,
   Bell,
@@ -59,6 +57,7 @@ import { LanguageToggle } from "../shared/LanguageToggle";
 import { ThemeToggle } from "../shared/ThemeToggle";
 import { BackButton } from "../shared/BackButton";
 import { ScrollToTop } from "../feedback/scroll-to-top";
+import logo from "@/assets/logo.png";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -147,6 +146,8 @@ export function AdminLayout() {
   const location = useLocation();
   // Generation du nom fallback pour l'avatar
   const avatarFallback = getFallbackName(user?.name);
+  // Generation du nom fallback pour l'avatar de l'application
+  const AppFallback = getFallbackName(APP_NAME);
   // Determiner si la page courante fait partie de l'espace admin pour afficher le bouton de retour dans le header
   const showBackButton = location.pathname !== "/admin";
   // Dispatch du thunk de logout et gestion des notifications
@@ -171,9 +172,12 @@ export function AdminLayout() {
               <SidebarMenuItem>
                 <SidebarMenuButton size="lg" asChild>
                   <Link to="/admin">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                      <ShieldCheck className="size-4" />
-                    </div>
+                    <Avatar>
+                      <AvatarImage src={logo} alt={APP_NAME} title={APP_NAME} />
+                      <AvatarFallback className="rounded-lg">
+                        {AppFallback}
+                      </AvatarFallback>
+                    </Avatar>
                     <div className="flex flex-col">
                       <span className="font-medium">{APP_NAME}</span>
                       <span className="text-xs text-muted-foreground">
