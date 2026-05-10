@@ -49,25 +49,20 @@ export const useFormUpdate = (form) => {
     try {
       // Dispatcher le thunk et attendre la reponse
       const { code } = await dispatch(thunk(data)).unwrap();
-
       // Afficher un message de succes
       toast.success(t(`codes:${code}`));
-
       // Reinitialiser les champs speciifies
       fieldsToReset.forEach((field) => {
         form.resetField(field, {
           defaultValue: data[field],
         });
       });
-
       return true;
     } catch ({ code, details: errors }) {
       // Definir les erreurs de serveur dans le formulaire
       setServerErrors(errors, form.setError);
-
       // Afficher un message d'erreur
       toast.error(t(`codes:${code}`));
-
       return false;
     }
   };
@@ -77,35 +72,5 @@ export const useFormUpdate = (form) => {
    */
   const executeUpdate = (config) => executeGenericUpdate(config);
 
-  /**
-   * Execute une mise a jour de fichier (avatar, etc)
-   */
-  const executeFileUpdate = (config) => {
-    const { fieldName, thunk } = config;
-    const fileValue = form.getValues(fieldName);
-
-    return executeGenericUpdate({
-      fieldNames: fieldName,
-      thunk,
-      resetFields: fieldName,
-      getFieldValue: () => ({ [fieldName]: fileValue }),
-    });
-  };
-
-  /**
-   * Execute une mise a jour de biographie
-   */
-  const executeBioUpdate = (config) => {
-    const { fieldName, thunk } = config;
-    const bioValue = form.getValues(fieldName);
-
-    return executeGenericUpdate({
-      fieldNames: fieldName,
-      thunk,
-      resetFields: fieldName,
-      getFieldValue: () => ({ [fieldName]: bioValue }),
-    });
-  };
-
-  return { executeUpdate, executeFileUpdate, executeBioUpdate };
+  return { executeUpdate };
 };
