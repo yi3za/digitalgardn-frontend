@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminAvis } from "@/features/admin/avis/avis.query";
 import { useDeleteAdminAvis } from "@/features/admin/avis/avis.mutations";
