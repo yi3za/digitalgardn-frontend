@@ -27,6 +27,10 @@
     "title": "Commandes récentes",
     "description": "Vos 5 dernières commandes mises à jour"
   },
+  "recentAvis": {
+    "title": "Avis récents",
+    "description": "Vos 5 derniers avis reçus"
+  },
   "avis": {
     "title": "Mes avis",
     "description": "Consultez les avis reçus sur vos services.",
@@ -43,6 +47,7 @@
     "actions": {
       "delete": "Supprimer"
     },
+    "no_comment": "Aucun commentaire",
     "filters": {
       "note_label": "notes"
     }

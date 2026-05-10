@@ -54,6 +54,12 @@
         "description": "Les 5 dernières commandes de la plateforme",
         "viewAll": "Voir toutes les commandes",
         "empty": "Aucune commande trouvée"
+      },
+      "avis": {
+        "title": "Avis récents",
+        "description": "Les 5 derniers avis laissés sur la plateforme",
+        "viewAll": "Voir tous les avis",
+        "empty": "Aucun avis trouvé"
       }
     },
     "charts": {
@@ -323,6 +329,7 @@
     "actions": {
       "delete": "Supprimer"
     },
+    "no_comment": "Aucun commentaire",
     "filters": {
       "note_label": "notes"
     }
