@@ -40,6 +40,26 @@ const STATUS_ACTIONS = [
   { status: ACCOUNT_STATUS.BANNI, label: "set_banni", variant: "destructive" },
 ];
 
+// Fonction utilitaire pour formater le nombre de jours d'inactivite d'un utilisateur
+const formatInactiveDays = (t, days) => {
+  // Si les jours d'inactivite sont null ou undefined, considerer que l'utilisateur n'a jamais ete actif
+  if (days === null || days === undefined) {
+    return t("admin:users.activity.never");
+  }
+  const inactiveDays = Math.trunc(Number(days));
+  // Si l'utilisateur est inactif depuis 0 jour, afficher "Aujourd'hui"
+  if (inactiveDays === 0) {
+    return t("admin:users.activity.today");
+  }
+  // Sinon, afficher le nombre de jours d'inactivite avec la traduction appropriee (singulier/pluriel)
+  return t(
+    inactiveDays === 1
+      ? "admin:users.activity.day"
+      : "admin:users.activity.days",
+    { count: inactiveDays },
+  );
+};
+
 /**
  * Page de gestion des utilisateurs (espace admin)
  */
@@ -48,7 +68,7 @@ export function AdminUsersPage() {
   const { t } = useTranslation(["admin", "codes", "common"]);
   // Utiliser le hook de synchronisation des filtres avec l'URL
   const [filters, handleApplyFilters, page, setPage] = useUrlFilters({
-    keys: ["search", "role", "status"],
+    keys: ["search", "role", "status", "sort"],
   });
   // Etat local pour suivre les mises a jour de statut en cours
   const [updateStatusIsPending, setUpdateStatusIsPending] = useState({});
@@ -102,7 +122,15 @@ export function AdminUsersPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                {["user", "role", "status", "joined", "actions"].map((col) => (
+                {[
+                  "user",
+                  "role",
+                  "status",
+                  "last_activity",
+                  "inactive_days",
+                  "joined",
+                  "actions",
+                ].map((col) => (
                   <TableHead key={col}>
                     {t(`admin:users.columns.${col}`)}
                   </TableHead>
@@ -123,6 +151,20 @@ export function AdminUsersPage() {
                   <TableCell>
                     <Badge variant={ACCOUNT_STATUS_BADGE_VARIANT[user.status]}>
                       {t(`admin:users.statuses.${user.status}`)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {user.derniere_activite
+                      ? formatDateTime(user.derniere_activite)
+                      : t("admin:users.activity.never")}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        user.jours_inactif > 7 ? "destructive" : "secondary"
+                      }
+                    >
+                      {formatInactiveDays(t, user.jours_inactif)}
                     </Badge>
                   </TableCell>
                   <TableCell>{formatDateTime(user.created_at)}</TableCell>
