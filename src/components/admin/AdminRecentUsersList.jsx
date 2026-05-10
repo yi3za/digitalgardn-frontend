@@ -5,11 +5,14 @@ import {
   ACCOUNT_STATUS_BADGE_VARIANT,
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Liste des derniers utilisateurs inscrits
  */
 export function AdminRecentUsersList({ t, users = [] }) {
+  const { users: usersBasePath } = useNavigationPaths();
+
   return (
     <RecentList
       t={t}
@@ -17,7 +20,7 @@ export function AdminRecentUsersList({ t, users = [] }) {
       descriptionKey="admin:dashboard.activite.users.description"
       viewAllKey="admin:dashboard.activite.users.viewAll"
       emptyKey="admin:dashboard.activite.users.empty"
-      linkTo="/admin/users"
+      linkTo={usersBasePath}
       items={users}
       renderItem={(user) => (
         <Item key={user.id} variant="muted" size="sm">
