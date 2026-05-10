@@ -22,7 +22,6 @@ import {
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
-
 import { buildAdminCommandesFiltersConfig } from "@/features/admin/commandes/commandes.filters";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
 
