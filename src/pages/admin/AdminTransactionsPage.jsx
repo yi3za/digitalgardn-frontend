@@ -83,29 +83,48 @@ export function AdminTransactionsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell className="font-bold">#{transaction.id}</TableCell>
-                  <TableCell>
-                    <AvatarIdentity user={transaction.user} />
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={TRANSACTION_TYPE_BADGE_VARIANT[transaction.type]}
-                    >
-                      {t(
-                        `profil:portefeuille.transactions.types.${transaction.type}`,
-                      )}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {formatPrice(transaction.montant)} {CURRENCY}
-                  </TableCell>
-                  <TableCell>
-                    {formatDateTime(transaction.created_at)}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {transactions.map((transaction) => {
+                const isOwner = transaction.user?.is_platform_owner === true;
+                return (
+                  <TableRow
+                    key={transaction.id}
+                    className={
+                      isOwner ? "bg-muted/50 font-semibold" : undefined
+                    }
+                  >
+                    <TableCell className="font-bold">
+                      #{transaction.id}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <AvatarIdentity user={transaction.user} />
+                        {isOwner && (
+                          <Badge variant="warning">
+                            {t("admin:portefeuilles.platform")}
+                          </Badge>
+                        )}
+                      </div>{" "}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          TRANSACTION_TYPE_BADGE_VARIANT[transaction.type]
+                        }
+                      >
+                        {t(
+                          `profil:portefeuille.transactions.types.${transaction.type}`,
+                        )}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {formatPrice(transaction.montant)} {CURRENCY}
+                    </TableCell>
+                    <TableCell>
+                      {formatDateTime(transaction.created_at)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}
