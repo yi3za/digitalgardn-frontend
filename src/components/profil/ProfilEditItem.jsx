@@ -58,25 +58,31 @@ export function ProfilEditItem({
   handleUpdateFreelanceProfil,
 }) {
   // Hook pour les mises a jour de formulaire
-  const { executeUpdate, executeFileUpdate } = useFormUpdate(form);
-
+  const { executeUpdate } = useFormUpdate(form);
   // Function pour upload l'avatar de l'utilisateur
   const handleUploadAvatar = (e) => {
     const avatar = e.target.files?.[0];
     if (!avatar) return;
-    form.setValue("avatar", avatar);
-    executeFileUpdate({
-      fieldName: "avatar",
+    form.setValue("avatar", { type: "new", file: avatar });
+    const isSuccess = executeUpdate({
+      fieldNames: "avatar",
       thunk: uploadAvatarThunk,
+      getFieldValue: () => ({ avatar }),
+      resetFields: [],
     });
+    if (isSuccess)
+      form.resetField("avatar", {
+        defaultValue: {
+          type: "existing",
+          url: user?.avatar ? user.avatar_url : "",
+        },
+      });
   };
-
   // Function pour mise a jour les informations
   const handleUpdateInfo = () =>
     executeUpdate({
       fieldNames: "name",
       thunk: updateInfoThunk,
-      resetFields: "name",
     });
 
   return (
