@@ -83,7 +83,7 @@ export function UserMenu({ user, t, dashboard }) {
           <AvatarBadge className={USER_STATUS_BADGE_COLORS[user?.status]} />
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         {canAccessDashboard && (
           <DropdownMenuGroup>
             <DropdownMenuLabel>{t("user_menu.navigation")}</DropdownMenuLabel>
