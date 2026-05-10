@@ -29,11 +29,11 @@ export function ProfilBioItem({
   loading,
 }) {
   // Hook pour les mises a jour de formulaire
-  const { executeBioUpdate } = useFormUpdate(form);
+  const { executeUpdate } = useFormUpdate(form);
   // Function pour mise a jour de la biographie
   const handleUpdateBio = async () => {
-    const success = await executeBioUpdate({
-      fieldName: "biographie",
+    const success = await executeUpdate({
+      fieldNames: "biographie",
       thunk: updateFreelanceProfilThunk,
     });
     if (success) setBiographieEdit(false);
