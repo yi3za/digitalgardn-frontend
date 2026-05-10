@@ -29,7 +29,7 @@ import {
   AUTH_ROLE_BADGE_VARIANT,
 } from "@/features/auth/auth.constants";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
-import { buildUsersFiltersConfig } from "@/features/admin/users/users.filters";
+import { buildAdminUsersFiltersConfig } from "@/features/admin/users/users.filters";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
 import { useState } from "react";
 
@@ -83,7 +83,7 @@ export function AdminUsersPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={buildUsersFiltersConfig(t)}
+          filtersConfig={buildAdminUsersFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
         />

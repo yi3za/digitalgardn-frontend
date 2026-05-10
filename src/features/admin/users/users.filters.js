@@ -1,7 +1,7 @@
 import { ACCOUNT_STATUS, AUTH_ROLE } from "@/features/auth/auth.constants";
 
 // Config des filtres pour la page de gestion des utilisateurs
-export const buildUsersFiltersConfig = (t) => [
+export const buildAdminUsersFiltersConfig = (t) => [
   { key: "search", type: "input" },
   {
     key: "status",
