@@ -6,7 +6,7 @@ export const getAdminStats = async () => {
   return data?.details?.stats ?? null;
 };
 
-// Activite recente : services en attente + derniers inscrits + dernieres commandes
+// Activite recente : services en attente + derniers inscrits + dernieres commandes + derniers avis
 export const getAdminActivite = async () => {
   const { data } = await client.get("/api/admin/stats/activite");
   return data?.details ?? null;

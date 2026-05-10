@@ -12,7 +12,7 @@ export const useAdminStats = () =>
     queryFn: getAdminStats,
   });
 
-// Activite recente : services en attente + derniers inscrits + dernieres commandes
+// Activite recente : services en attente + derniers inscrits + dernieres commandes + derniers avis
 export const useAdminActivite = () =>
   useQuery({
     queryKey: ["admin", "activite"],
