@@ -1,4 +1,4 @@
-import { CardContent } from "@/components/ui";
+import { CardContent, ScrollArea } from "@/components/ui";
 import { ProfilPage } from "../profil/ProfilPage";
 import { useOutletContext } from "react-router-dom";
 
@@ -12,7 +12,9 @@ export function FreelancerSetupPage() {
   return (
     <>
       <CardContent>
-        <ProfilPage handleOnboardingCompletion={handleOnboardingCompletion} />
+        <ScrollArea className="h-[60vh]">
+          <ProfilPage handleOnboardingCompletion={handleOnboardingCompletion} />
+        </ScrollArea>
       </CardContent>
     </>
   );
