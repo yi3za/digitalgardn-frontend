@@ -24,7 +24,7 @@ import {
 } from "@/components/ui";
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
-import { buildAvisFiltersConfig } from "@/features/admin/avis/avis.filters";
+import { buildAdminAvisFiltersConfig } from "@/features/admin/avis/avis.filters";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
 
 // Colonnes du tableau des avis
@@ -80,7 +80,7 @@ export function AdminAvisPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={buildAvisFiltersConfig(t)}
+          filtersConfig={buildAdminAvisFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
         />

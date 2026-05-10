@@ -1,5 +1,5 @@
 // Config des filtres pour la page de gestion des avis admin
-export const buildAvisFiltersConfig = (t) => [
+export const buildAdminAvisFiltersConfig = (t) => [
   { key: "search", type: "input" },
   {
     key: "note",
