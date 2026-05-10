@@ -1,5 +1,6 @@
 import { CommandeItem } from "@/components/commandes/CommandeItem";
 import { RecentList } from "@/components/shared/RecentList";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 
 /**
  * Liste des dernieres commandes recentes du freelance
@@ -13,6 +14,11 @@ export function DashboardRecentCommandes({
   error,
   refetch,
 }) {
+  const {
+    commandes: commandesBasePath,
+    messages: messagesBasePath,
+  } = useNavigationPaths();
+
   return (
     <RecentList
       t={t}
@@ -20,7 +26,7 @@ export function DashboardRecentCommandes({
       descriptionKey="dashboard:activity.description"
       viewAllKey="common:actions.viewAll"
       emptyKey="common:states.empty"
-      linkTo="/dashboard/commandes"
+      linkTo={commandesBasePath}
       items={commandes}
       isLoading={isLoading}
       isError={isError}
@@ -31,7 +37,7 @@ export function DashboardRecentCommandes({
         <CommandeItem
           key={commande.id}
           item={commande}
-          linkTo="/dashboard/messages"
+          linkTo={messagesBasePath}
           t={t}
         />
       )}
