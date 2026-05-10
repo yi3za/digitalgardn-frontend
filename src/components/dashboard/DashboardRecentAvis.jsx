@@ -10,6 +10,7 @@ import {
 import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import { formatDateTime } from "@/lib/utils";
+import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { Star } from "lucide-react";
 
 /**
@@ -24,6 +25,8 @@ export function DashboardRecentAvis({
   error,
   refetch,
 }) {
+  const { avis: avisBasePath } = useNavigationPaths();
+
   return (
     <RecentList
       t={t}
@@ -31,7 +34,7 @@ export function DashboardRecentAvis({
       descriptionKey="dashboard:recentAvis.description"
       viewAllKey="common:actions.viewAll"
       emptyKey="common:states.empty"
-      linkTo="/dashboard/avis"
+      linkTo={avisBasePath}
       items={avis}
       isLoading={isLoading}
       isError={isError}
