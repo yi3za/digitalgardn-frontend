@@ -7,6 +7,10 @@ const defaultPaths = {
   categories: "/categories",
   competences: "/competences",
   langues: "/langues",
+  commandes: "/commandes",
+  messages: "/messages",
+  avis: "/avis",
+  users: "/users",
   isAdmin: false,
 };
 
@@ -17,6 +21,10 @@ export const DASHBOARD_PATHS = {
   categories: "/categories",
   competences: "/competences",
   langues: "/langues",
+  commandes: "/dashboard/commandes",
+  messages: "/dashboard/messages",
+  avis: "/dashboard/avis",
+  users: "/dashboard/users",
   isAdmin: false,
 };
 
@@ -27,6 +35,10 @@ export const ADMIN_PATHS = {
   categories: "/admin/categories",
   competences: "/admin/competences",
   langues: "/admin/langues",
+  commandes: "/admin/commandes",
+  messages: "/admin/messages",
+  avis: "/admin/avis",
+  users: "/admin/users",
   isAdmin: true,
 };
 
