@@ -12,6 +12,12 @@ export const getDashboardCommandesRecentes = async () => {
   return data?.details?.commandes ?? [];
 };
 
+// Recupere les avis recents du freelance
+export const getDashboardAvisRecentes = async () => {
+  const { data } = await client.get("/api/me/dashboard/avis-recentes");
+  return data?.details?.avis ?? [];
+};
+
 // Recupere les revenus mensuels sur les 6 derniers mois
 export const getDashboardRevenuesMensuels = async () => {
   const { data } = await client.get("/api/me/dashboard/revenus-mensuels");

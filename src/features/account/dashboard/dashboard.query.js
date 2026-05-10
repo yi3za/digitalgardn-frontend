@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getDashboardStats,
   getDashboardCommandesRecentes,
+  getDashboardAvisRecentes,
   getDashboardRevenuesMensuels,
 } from "./dashboard.api";
 
@@ -18,6 +19,14 @@ export const useDashboardCommandesRecentes = () =>
   useQuery({
     queryKey: ["dashboard", "commandes-recentes"],
     queryFn: getDashboardCommandesRecentes,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+  });
+
+// Hook pour recuperer les avis recents
+export const useDashboardAvisRecentes = () =>
+  useQuery({
+    queryKey: ["dashboard", "avis-recentes"],
+    queryFn: getDashboardAvisRecentes,
     staleTime: 1000 * 60 * 2, // 2 minutes
   });
 
