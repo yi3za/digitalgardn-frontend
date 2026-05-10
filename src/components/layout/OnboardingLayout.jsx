@@ -67,7 +67,7 @@ export function OnboardingLayout() {
 
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <Card className="w-3xl shadow-none rounded-none border-none">
+      <Card className="w-3xl shadow-none relative">
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
