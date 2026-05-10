@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
-import { buildPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
+import { buildAdminPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
 import { formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -53,7 +53,7 @@ export function AdminPortefeuillesPage() {
       <CardContent className="flex flex-1 flex-col">
         <FilterBar
           t={t}
-          filtersConfig={buildPortefeuillesFiltersConfig()}
+          filtersConfig={buildAdminPortefeuillesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
         />
