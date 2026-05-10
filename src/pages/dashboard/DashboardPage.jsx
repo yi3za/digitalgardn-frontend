@@ -3,9 +3,11 @@ import { DashboardStatsSection } from "@/components/dashboard/DashboardStatsSect
 import { DashboardRevenueChart } from "@/components/dashboard/DashboardRevenueChart";
 import { DashboardCommandesChart } from "@/components/dashboard/DashboardCommandesChart";
 import { DashboardRecentCommandes } from "@/components/dashboard/DashboardRecentCommandes";
+import { DashboardRecentAvis } from "@/components/dashboard/DashboardRecentAvis";
 import {
   useDashboardStats,
   useDashboardCommandesRecentes,
+  useDashboardAvisRecentes,
   useDashboardRevenuesMensuels,
 } from "@/features/account/dashboard/dashboard.query";
 import {
@@ -24,8 +26,11 @@ export function DashboardPage() {
   const { t } = useTranslation(["dashboard", "common", "codes", "commandes"]);
   // Requetes API
   const statsQuery = useDashboardStats();
+  // Requetes pour les commandes recentes, les avis recents et les revenus mensuels
   const commandesQuery = useDashboardCommandesRecentes();
+  const avisQuery = useDashboardAvisRecentes();
   const revenusQuery = useDashboardRevenuesMensuels();
+
   return (
     <Card className="border-0 shadow-none bg-transparent">
       <CardHeader>
@@ -59,14 +64,24 @@ export function DashboardPage() {
             refetch={statsQuery.refetch}
           />
         </div>
-        <DashboardRecentCommandes
-          t={t}
-          commandes={commandesQuery.data ?? []}
-          isLoading={commandesQuery.isLoading}
-          isError={commandesQuery.isError}
-          error={commandesQuery.error}
-          refetch={commandesQuery.refetch}
-        />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <DashboardRecentCommandes
+            t={t}
+            commandes={commandesQuery.data ?? []}
+            isLoading={commandesQuery.isLoading}
+            isError={commandesQuery.isError}
+            error={commandesQuery.error}
+            refetch={commandesQuery.refetch}
+          />
+          <DashboardRecentAvis
+            t={t}
+            avis={avisQuery.data ?? []}
+            isLoading={avisQuery.isLoading}
+            isError={avisQuery.isError}
+            error={avisQuery.error}
+            refetch={avisQuery.refetch}
+          />
+        </div>
       </CardContent>
     </Card>
   );

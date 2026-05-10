@@ -9,6 +9,7 @@ import { AdminStatsSection } from "@/components/admin/AdminStatsSection";
 import { AdminRecentServicesList } from "@/components/admin/AdminRecentServicesList";
 import { AdminRecentUsersList } from "@/components/admin/AdminRecentUsersList";
 import { AdminRecentCommandesList } from "@/components/admin/AdminRecentCommandesList";
+import { AdminRecentAvisList } from "@/components/admin/AdminRecentAvisList";
 import { AdminUsersGrowthChart } from "@/components/admin/AdminUsersGrowthChart";
 import { DashboardCommandesChart } from "@/components/dashboard/DashboardCommandesChart";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -94,15 +95,26 @@ export function AdminDashboardPage() {
             refetch={activiteQuery.refetch}
           />
         </div>
-        <AdminRecentCommandesList
-          t={t}
-          commandes={activiteQuery.data?.commandes ?? []}
-          isLoading={activiteQuery.isLoading}
-          isError={activiteQuery.isError}
-          isFetching={activiteQuery.isFetching}
-          error={activiteQuery.error}
-          refetch={activiteQuery.refetch}
-        />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <AdminRecentCommandesList
+            t={t}
+            commandes={activiteQuery.data?.commandes ?? []}
+            isLoading={activiteQuery.isLoading}
+            isError={activiteQuery.isError}
+            isFetching={activiteQuery.isFetching}
+            error={activiteQuery.error}
+            refetch={activiteQuery.refetch}
+          />
+          <AdminRecentAvisList
+            t={t}
+            avis={activiteQuery.data?.avis ?? []}
+            isLoading={activiteQuery.isLoading}
+            isError={activiteQuery.isError}
+            isFetching={activiteQuery.isFetching}
+            error={activiteQuery.error}
+            refetch={activiteQuery.refetch}
+          />
+        </div>
       </CardContent>
     </Card>
   );
