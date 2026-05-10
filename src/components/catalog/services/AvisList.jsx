@@ -32,12 +32,13 @@ export function AvisList({
   error,
   refetch,
   t,
+  className,
 }) {
   // Determination du code d'erreur pour afficher un message d'erreur adapte en cas de probleme
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
   return (
-    <Card className="shadow-none">
+    <Card className={`shadow-none ${className}`}>
       <CardHeader>
         <CardTitle>{t("catalog:avis.title")}</CardTitle>
         <CardDescription>{t("catalog:avis.description")}</CardDescription>
