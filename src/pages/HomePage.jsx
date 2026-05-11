@@ -5,24 +5,15 @@ import {
   ServicesGrid,
 } from "@/components/catalog";
 import { QueryItemsSection } from "@/components/shared/QueryItemsSection";
-import { SearchBar } from "@/components/shared/SearchBar";
 import { useCategories } from "@/features/public/catalog/categories/categories.query";
 import { useCompetences } from "@/features/public/catalog/competences/competences.query";
 import { useTopFreelancers } from "@/features/public/catalog/freelancers/freelancers.query";
 import { useServices } from "@/features/public/catalog/services/services.query";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui";
+import { Button } from "@/components/ui";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Logo } from "@/components/layout/Logo";
+import { HeroSection } from "@/components/layout/HeroSection";
 
 /**
  * Page d'accueil de l'application
@@ -39,31 +30,7 @@ export function HomePage() {
 
   return (
     <>
-      <Card className="shadow-none border-none text-center gap-10 justify-center bg-background">
-        <Logo className="mx-auto" />
-        <CardHeader className="gap-3">
-          <CardTitle className="text-5xl font-bold">
-            {t("catalog:home.hero.title")}
-          </CardTitle>
-          <CardTitle className="text-6xl font-serif italic text-primary">
-            {t("catalog:home.hero.titleAccent")}
-          </CardTitle>
-          <CardDescription className="text-lg">
-            {t("catalog:home.hero.description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SearchBar />
-        </CardContent>
-        <CardFooter className="justify-center">
-          <Button asChild>
-            <Link to="/services">
-              {t("catalog:home.hero.actions.services")}
-            </Link>
-          </Button>
-        </CardFooter>
-      </Card>
-
+      <HeroSection t={t} />
       <QueryItemsSection
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
