@@ -23,7 +23,7 @@ export function Footer() {
   const { t } = useTranslation("layout");
 
   return (
-    <Card className="shadow-none border-y-0 rounded-none bg-background border-t border-primary/20">
+    <Card className="shadow-none border-y-0 rounded-none border-t border-primary/20 bg-background">
       <CardHeader>
         <CardTitle>
           <Logo />
