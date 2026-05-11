@@ -9,7 +9,7 @@ import { Card } from "../ui";
 export function AuthLayout() {
   return (
     <div className="flex justify-center items-center flex-1">
-      <Card className="w-lg">
+      <Card className="w-xl shadow-none">
         <Outlet />
       </Card>
     </div>
