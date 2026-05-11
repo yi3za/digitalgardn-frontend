@@ -16,7 +16,7 @@ import { Logo } from "./Logo";
  */
 export function HeroSection({ t }) {
   return (
-    <Card className="shadow-none border-none text-center gap-10 justify-center bg-background">
+    <Card className="shadow-none border-none text-center gap-10 justify-center bg-background mb-10">
       <Logo className="mx-auto" />
       <CardHeader className="gap-3">
         <CardTitle className="text-5xl font-bold">
