@@ -54,8 +54,11 @@ export function FreelancerShowPage() {
   // Hook de traduction pour les textes statiques de la page
   const { t } = useTranslation(["catalog", "common", "codes", "admin"]);
   // Recuperation du contexte de navigation (admin ou public)
-  const { isAdmin: isAdminCtx, competences: competencesPath } =
-    useNavigationPaths();
+  const {
+    isAdmin: isAdminCtx,
+    competences: competencesPath,
+    langues: languesPath,
+  } = useNavigationPaths();
   // Recuperation de l'utilisateur connecte
   const { user: currentUser } = useSelector(authSelector);
   // Determination du mode admin (contexte layout ou role utilisateur)
@@ -223,6 +226,7 @@ export function FreelancerShowPage() {
               title={t("catalog:freelancer.languesTitle")}
               items={freelancer.langues}
               BadgeVariant="outline"
+              path={languesPath}
             />
           )}
         </CardContent>
