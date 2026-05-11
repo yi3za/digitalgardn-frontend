@@ -110,9 +110,7 @@
           "label": "Images du service",
           "description": "Ajoutez des images pour illustrer votre service.",
           "placeholder": "Ajouter des images",
-          "empty": "Aucune image sélectionnée",
-          "remaining": "{{count}} restante(s) sur {{max}}",
-          "limitReached": "Limite de {{max}} images atteinte"
+          "empty": "Aucune image sélectionnée"
         }
       }
     },
