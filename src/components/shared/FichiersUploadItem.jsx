@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, ImagePlus, Star, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Plus, Star, Trash2 } from "lucide-react";
 import { useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   Button,
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  DataEmpty,
+  FormMessage,
   Input,
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
   Spinner,
 } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 // Genere une cle unique pour un fichier ajoute
 export const getNewFileKey = (item) => {
@@ -151,10 +156,24 @@ export function FichiersUploadItem({
   );
 
   return (
-    <Item variant="outline">
-      <ItemContent>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
+    <Card className="shadow-none">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+        <CardAction>
+          <Button
+            variant="link"
+            className={cn(isLimitReached ? "pointer-events-none" : "")}
+            asChild
+          >
+            <label htmlFor={inputId}>
+              <Plus />
+              {t("services.form.fields.fichiers.placeholder")}
+            </label>
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
         <div className="my-3 space-y-3">
           <div className="space-y-2">
             <Input
@@ -166,34 +185,12 @@ export function FichiersUploadItem({
               onChange={handleFilesChange}
               disabled={saveIsLoading || isLimitReached}
             />
-            <label
-              htmlFor={inputId}
-              className="block cursor-pointer rounded-lg border-2 border-dashed p-5 text-center transition-colors hover:border-primary hover:bg-muted/40"
-            >
-              <ImagePlus className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
-              <p className="font-medium">
-                {t("services.form.fields.fichiers.placeholder")}
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {isLimitReached
-                  ? t("services.form.fields.fichiers.limitReached", {
-                      max: maxFiles,
-                    })
-                  : t("services.form.fields.fichiers.remaining", {
-                      count: remaining,
-                      max: maxFiles,
-                    })}
-              </p>
-            </label>
             <p className="text-right text-sm text-muted-foreground">
               {items.length}/{maxFiles}
             </p>
           </div>
           {previews.length === 0 && (
-            <div className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
-              <ImagePlus className="mx-auto mb-2 h-5 w-5" />
-              {t("services.form.fields.fichiers.empty")}
-            </div>
+            <DataEmpty description={t("services.form.fields.fichiers.empty")} />
           )}
           {previews.length > 0 && (
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -213,48 +210,50 @@ export function FichiersUploadItem({
                     className="h-24 w-full rounded object-cover"
                   />
                   <div className="flex items-center gap-1">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => handleMove(index, index - 1)}
-                      disabled={index === 0 || saveIsLoading}
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => handleMove(index, index + 1)}
-                      disabled={index === items.length - 1 || saveIsLoading}
-                    >
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => handleRemove(index)}
-                      disabled={saveIsLoading}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    {[
+                      {
+                        icon: ArrowLeft,
+                        onClick: () => handleMove(index, index - 1),
+                        disabled: index === 0 || saveIsLoading,
+                        variant: "outline",
+                      },
+                      {
+                        icon: ArrowRight,
+                        onClick: () => handleMove(index, index + 1),
+                        disabled: index === items.length - 1 || saveIsLoading,
+                        variant: "outline",
+                      },
+                      {
+                        icon: Trash2,
+                        onClick: () => handleRemove(index),
+                        disabled: saveIsLoading,
+                        variant: "destructive",
+                      },
+                    ].map(({ icon: Icon, onClick, disabled, variant }, idx) => (
+                      <Button
+                        key={idx}
+                        type="button"
+                        variant={variant}
+                        size="sm"
+                        className="flex-1"
+                        onClick={onClick}
+                        disabled={disabled}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </Button>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
           )}
           {fieldState?.error && (
-            <p className="text-sm text-destructive">
+            <FormMessage>
               {tValidation(fieldState?.error?.message, {
                 attribute: title,
                 max: maxFiles,
               })}
-            </p>
+            </FormMessage>
           )}
         </div>
         {isChanged && (
@@ -279,7 +278,7 @@ export function FichiersUploadItem({
             </Button>
           </div>
         )}
-      </ItemContent>
-    </Item>
+      </CardContent>
+    </Card>
   );
 }
