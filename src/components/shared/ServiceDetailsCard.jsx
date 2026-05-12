@@ -101,7 +101,7 @@ export function ServiceDetailsCard({
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
           <div className="px-6 flex items-center justify-center">
             {serviceImages.length > 0 ? (
-              <Carousel className="rounded-lg border overflow-hidden w-full h-full bg-muted flex items-center justify-center">
+              <Carousel className="rounded-lg border overflow-hidden w-full h-full bg-card flex items-center justify-center">
                 <CarouselContent>
                   {serviceImages.map((imageUrl, index) => (
                     <CarouselItem key={`${service.id}-image-${index}`}>
