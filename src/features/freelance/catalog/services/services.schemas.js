@@ -17,7 +17,8 @@ const serviceDescriptionField = z
   .max(600, "validation.max.string");
 const servicePrixBaseField = z.coerce
   .number({ invalid_type_error: "validation.numeric" })
-  .min(1, "validation.min.numeric");
+  .min(1, "validation.min.numeric")
+  .max(99999999.99, "validation.max.numeric");
 const serviceDelaiLivraisonField = z.coerce
   .number({ invalid_type_error: "validation.integer" })
   .min(1, "validation.min.numeric")

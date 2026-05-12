@@ -212,8 +212,9 @@ function ServiceInfoFields({ t, form }) {
         placeholder={t("services.form.fields.prix_base.placeholder")}
         control={form.control}
         icon={DollarSign}
-        rules={{ min: 1 }}
+        rules={{ min: 1, max: 99999999.99 }}
         min={1}
+        max={99999999.99}
       />
       <CustomFormField
         name="delai_livraison"
