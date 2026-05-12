@@ -27,13 +27,13 @@ export function Header({ dashboard = false }) {
   const isAuthenticated = status === AUTH_STATUS.AUTHENTICATED;
 
   return (
-    <header className="flex justify-between items-center p-4 sticky top-0 z-50 bg-background border-b border-primary/20">
+    <header className="flex justify-between items-center p-4 sticky top-0 z-50 bg-background border-b border-border">
       <div className="flex items-center gap-2 flex-1">
         {showBackButton && <BackButton />}
         <Logo />
       </div>
       <Navbar
-        className="flex-1"
+        className="flex-1 hidden md:flex"
         dashboard={dashboard}
         t={t}
         isAuthenticated={isAuthenticated}
