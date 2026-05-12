@@ -148,6 +148,8 @@ export function AdminLayout() {
   const avatarFallback = getFallbackName(user?.name);
   // Generation du nom fallback pour l'avatar de l'application
   const AppFallback = getFallbackName(APP_NAME);
+  // Separation du nom de l'application en deux parties pour styliser la seconde partie
+  const [prefix, suffix] = [APP_NAME.slice(0, 7), APP_NAME.slice(7)];
   // Determiner si la page courante fait partie de l'espace admin pour afficher le bouton de retour dans le header
   const showBackButton = location.pathname !== "/admin";
   // Dispatch du thunk de logout et gestion des notifications
@@ -179,7 +181,10 @@ export function AdminLayout() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                      <span className="font-medium">{APP_NAME}</span>
+                      <span className="font-medium">
+                        {prefix}
+                        <span className="text-primary">{suffix}</span>
+                      </span>
                       <span className="text-xs text-muted-foreground">
                         {t("admin:title")}
                       </span>
