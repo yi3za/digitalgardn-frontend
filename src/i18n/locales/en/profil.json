@@ -1,0 +1,75 @@
+{
+  "modifierInfo": {
+    "title": "Edit Profile",
+    "description": "Manage your account information and profile picture to personalize your experience.",
+    "fields": {
+      "avatar": {
+        "label": "Profile picture"
+      },
+      "name": {
+        "label": "Full name",
+        "placeholder": "Enter your name",
+        "description": "This name will be displayed on your public profile."
+      },
+      "titre": {
+        "label": "Professional title",
+        "placeholder": "Enter your professional title",
+        "description": "This title will appear under your name and describe your specialty."
+      },
+      "site_web": {
+        "label": "Personal website",
+        "placeholder": "https://your-website.com",
+        "description": "Link to your personal website."
+      },
+      "username": {
+        "label": "Username",
+        "description": "Your unique identifier. To change it, go to account settings."
+      },
+      "biographie": {
+        "label": "Professional introduction",
+        "placeholder": "Write a brief introduction about your background",
+        "description": "Describe your experience, skills, and area of expertise."
+      }
+    }
+  },
+  "voirInfo": {
+    "title": "Profile overview",
+    "description": "View your profile as it appears to other users on the platform and see how your introduction and information look to help with interactions and opportunities.",
+    "action": "View profile",
+    "sheet": {
+      "title": "Public profile",
+      "description": "This is how other users see your profile"
+    }
+  },
+  "meta": {
+    "joined": "Joined in {{date}}"
+  },
+  "portefeuille": {
+    "title": "Wallet",
+    "description": "Track your available and pending balances.",
+    "available": "Available",
+    "pending": "Pending",
+    "total": "Total",
+    "recharge": {
+      "trigger": "Add funds",
+      "title": "Add funds to wallet",
+      "description": "Add funds to your wallet.",
+      "placeholder": "Amount (MAD)",
+      "submit": "Add funds",
+      "success": "Funds added successfully."
+    },
+    "transactions": {
+      "title": "Transaction history",
+      "pageDescription": "See all your recent wallet operations.",
+      "empty": "No transactions at the moment.",
+      "type": "types",
+      "types": {
+        "recharge": "Add funds",
+        "achat": "Purchase",
+        "gain": "Earning",
+        "remboursement": "Refund",
+        "commission": "Commission"
+      }
+    }
+  }
+}

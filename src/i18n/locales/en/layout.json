@@ -1,0 +1,40 @@
+{
+  "header": {
+    "home": "Home",
+    "categories": "Categories",
+    "competences": "Skills",
+    "langues": "Languages",
+    "login": "Log in",
+    "register": "Sign up",
+    "dashboard": "Dashboard",
+    "myBusiness": "My business",
+    "catalog": "Catalog",
+    "services": "Services",
+    "mesServices": "My services",
+    "profil": "My profile",
+    "messages": "Messages",
+    "commandes": "Orders",
+    "portefeuille": "My wallet",
+    "transactions": "My transactions",
+    "avis": "My service reviews"
+  },
+  "user_menu": {
+    "navigation": "Dashboard",
+    "admin": "Admin area",
+    "finances": "Finances",
+    "account": "Account",
+    "session": "Session",
+    "profil": "Profile",
+    "settings": "Settings",
+    "portefeuille": "Wallet",
+    "transactions": "Transactions",
+    "dashboard": "Freelancer area",
+    "accueil": "Back to home",
+    "logout": "Logout"
+  },
+  "footer": {
+    "copyright": "© 2026",
+    "description": "A space to find services, skills, and freelancers suited to your needs.",
+    "built_with": "Built with React & Laravel"
+  }
+}

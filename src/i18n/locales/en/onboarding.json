@@ -1,0 +1,16 @@
+{
+  "title": "Complete your profile",
+  "description": "This information will help personalize your experience on DigitalGarden.",
+  "role": {
+    "options": {
+      "client": {
+        "title": "Client",
+        "description": "I want to hire talent for my projects."
+      },
+      "freelance": {
+        "title": "Freelancer",
+        "description": "I want to offer my professional services."
+      }
+    }
+  }
+}

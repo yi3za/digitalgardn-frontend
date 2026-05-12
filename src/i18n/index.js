@@ -1,10 +1,10 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { fr } from "./locales/fr";
+import { fr, en } from "./locales";
 import { getLanguage, saveLanguage } from "@/lib/storage";
 
 // Ressources de traduction disponibles
-const resources = { fr };
+const resources = { fr, en };
 
 // Recuperer la langue sauvegardee ou utiliser le defaut
 const initialLanguage = getLanguage();

@@ -1,0 +1,28 @@
+{
+  "page": {
+    "title": "Messages",
+    "description": "Chat in real time with your contacts."
+  },
+  "list": {
+    "empty": "No conversation available."
+  },
+  "conversation": {
+    "emptyPreview": "No messages yet",
+    "unknownUser": "User"
+  },
+  "chat": {
+    "selectConversation": "Select a conversation to start.",
+    "active": "Active conversation",
+    "reviews": "Revisions: {{used}} used out of {{max}}, {{remaining}} left",
+    "empty": "No messages in this conversation."
+  },
+  "input": {
+    "placeholder": "Type your message...",
+    "placeholderWithFile": "Add a message (optional)...",
+    "send": "Send",
+    "invalid": "Invalid message. Content is required (max {{max}} characters).",
+    "conversationClosed": "This conversation is closed.",
+    "attachFile": "Attach a file",
+    "fileSize": "{{size}} MB"
+  }
+}

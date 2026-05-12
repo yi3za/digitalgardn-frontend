@@ -1,0 +1,14 @@
+{
+  "SUCCESS": "Operation completed successfully.",
+  "VALIDATION_ERROR": "Some fields are incorrect or missing.",
+  "UNAUTHENTICATED": "You need to be logged in to access this action.",
+  "INVALID_CREDENTIALS": "Incorrect email address or password.",
+  "FORBIDDEN": "You do not have permission to perform this action.",
+  "NOT_FOUND": "Sorry, we couldn't find what you are looking for.",
+  "SERVER_ERROR": "An error occurred on the server. Please try again later.",
+  "NETWORK_ERROR": "Unable to connect. Please check your internet connection.",
+  "METHOD_NOT_ALLOWED": "This action is not allowed.",
+  "CSRF_TOKEN_MISMATCH": "Your session has expired. Please log in again.",
+  "TOO_MANY_REQUESTS": "You have made too many requests. Please try again later.",
+  "BAD_REQUEST": "There was an error with your request. Please try again."
+}

@@ -1,0 +1,30 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "confirm": "Confirm",
+    "exit": "Exit",
+    "close": "Close",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "reset": "Reset",
+    "upload": "Upload",
+    "view": "View",
+    "viewAll": "View all"
+  },
+  "states": {
+    "empty": "No content available at the moment."
+  },
+  "filters": {
+    "apply": "Filter",
+    "all": "All",
+    "all_label": "All {{label}}",
+    "search": "Search..."
+  }
+}

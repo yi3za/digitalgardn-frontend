@@ -1,0 +1,78 @@
+{
+  "home": {
+    "hero": {
+      "title": "Find the right service",
+      "titleAccent": "to grow your projects",
+      "description": "DigitalGardn connects clients with freelancers, creators, and experts able to turn an idea into a concrete result.",
+      "actions": {
+        "services": "Browse services"
+      }
+    }
+  },
+  "filters": {
+    "categories_label": "categories",
+    "competences_label": "skills",
+    "langues_label": "languages spoken by freelancers"
+  },
+  "categories": {
+    "title": "Categories",
+    "description": "Browse the available categories"
+  },
+  "competences": {
+    "title": "Skills",
+    "description": "Discover the available skills"
+  },
+  "langues": {
+    "title": "Languages",
+    "description": "See the languages available among freelancers"
+  },
+  "services": {
+    "title": "Services",
+    "description": "Discover our available services"
+  },
+  "freelancers": {
+    "title": "Top freelancers",
+    "description": "Discover the best freelancers according to their reviews and their published services.",
+    "servicesCount_one": "{{count}} service",
+    "servicesCount_other": "{{count}} services",
+    "reviewsCount_one": "{{count}} review",
+    "reviewsCount_other": "{{count}} reviews"
+  },
+  "freelancer": {
+    "profileTitle": "Freelancer profile",
+    "publishedServices": "Published services",
+    "contact": "Contact",
+    "servicesCount_one": "{{count}} service",
+    "servicesCount_other": "{{count}} services",
+    "defaultTitle": "Freelancer",
+    "competencesTitle": "Freelancer's skills",
+    "languesTitle": "Freelancer's languages"
+  },
+  "serviceShow": {
+    "priceLabel": "Base price",
+    "priceSuffix": "MAD",
+    "delayLabel": "Delivery time",
+    "delaySuffix": "days",
+    "revisionsLabel": "Revisions",
+    "buy": "Buy this service",
+    "sales": "sales",
+    "reviews": "reviews",
+    "categoriesTitle": "Service categories",
+    "competencesTitle": "Service skills",
+    "viewFreelancer": "View freelancer",
+    "contact": "Contact",
+    "freelancerSection": "Freelancer",
+    "freelancerSectionDescription": "Provider information",
+    "dialog": {
+      "instructionsTitle": "Order instructions",
+      "instructionsDescription": "Please detail your expectations or needs (optional, maximum 5000 characters).",
+      "instructionsLabel": "Instructions",
+      "instructionsPlaceholder": "Describe here your needs, expectations, or instructions for this service (optional)."
+    }
+  },
+  "avis": {
+    "title": "Customer reviews",
+    "description": "See reviews from customers who purchased this service.",
+    "count_suffix": "reviews"
+  }
+}

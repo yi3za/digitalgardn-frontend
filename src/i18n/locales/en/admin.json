@@ -1,0 +1,337 @@
+{
+  "title": "Administration",
+  "nav": {
+    "label": "Navigation",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "catalog": "Catalog",
+    "services": "Services",
+    "commandes": "Orders",
+    "categories": "Categories",
+    "competences": "Skills",
+    "langues": "Languages",
+    "finance": "Finance",
+    "portefeuilles": "Wallets",
+    "transactions": "Transactions",
+    "avis": "Reviews",
+    "backToSite": "Back to Site",
+    "account": "My Account",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "description": "Platform global statistics.",
+    "stats": {
+      "total_users": "Users",
+      "total_users_desc": "{{clients}} clients · {{freelances}} freelancers",
+      "banned": "Banned Accounts",
+      "banned_desc": "Blocked users",
+      "services": "Services",
+      "services_desc": "{{publies}} published · {{en_attente}} pending",
+      "commandes": "Orders",
+      "commandes_desc": "{{en_cours}} ongoing · {{terminees}} completed",
+      "avis": "Reviews",
+      "avis_desc": "Average rating: {{note_moyenne}} / 5",
+      "treasury": "Platform treasury",
+      "treasury_desc": "Pending: {{en_attente}}"
+    },
+    "activite": {
+      "services": {
+        "title": "Pending services",
+        "description": "Services submitted for approval",
+        "viewAll": "View all services",
+        "empty": "No pending services"
+      },
+      "users": {
+        "title": "Latest signups",
+        "description": "Recently registered users",
+        "viewAll": "View all users",
+        "empty": "No users found"
+      },
+      "commandes": {
+        "title": "Recent orders",
+        "description": "The last 5 orders on the platform",
+        "viewAll": "View all orders",
+        "empty": "No orders found"
+      },
+      "avis": {
+        "title": "Recent reviews",
+        "description": "The last 5 reviews left on the platform",
+        "viewAll": "View all reviews",
+        "empty": "No reviews found"
+      }
+    },
+    "charts": {
+      "growth": {
+        "title": "Monthly signups",
+        "description": "Evolution of new signups over the last 6 months",
+        "users": "Signups"
+      },
+      "commandes": {
+        "title": "Monthly orders",
+        "description": "Order volume over the last 6 months",
+        "count": "Orders"
+      }
+    }
+  },
+  "users": {
+    "title": "User management",
+    "description": "View and modify account status.",
+    "columns": {
+      "user": "User",
+      "role": "Role",
+      "status": "Status",
+      "last_activity": "Last access",
+      "inactive_days": "Inactivity",
+      "joined": "Sign up",
+      "actions": "Actions"
+    },
+    "roles": {
+      "admin": "Admin",
+      "freelance": "Freelancer",
+      "client": "Client"
+    },
+    "statuses": {
+      "actif": "Active",
+      "inactif": "Inactive",
+      "banni": "Banned"
+    },
+    "actions": {
+      "set_actif": "Activate",
+      "set_inactif": "Deactivate",
+      "set_banni": "Ban"
+    },
+    "activity": {
+      "never": "Never logged in",
+      "today": "Today",
+      "day": "{{count}} day ago",
+      "days": "{{count}} days ago"
+    },
+    "sort": {
+      "inactive": "Most inactive",
+      "recent": "Most recent"
+    },
+    "filters": {
+      "status_label": "status",
+      "role_label": "roles",
+      "sort_label": "sort"
+    }
+  },
+  "services": {
+    "title": "Service management",
+    "description": "Approve or reject pending services.",
+    "columns": {
+      "service": "Service",
+      "freelance": "Freelancer",
+      "prix": "Price",
+      "statut": "Status",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "brouillon": "Draft",
+      "en_attente_approbation": "Pending",
+      "publie": "Published",
+      "en_pause": "Paused",
+      "rejete": "Rejected"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "filters": {
+      "statut_label": "status"
+    }
+  },
+  "commandes": {
+    "title": "Order management",
+    "description": "History of all platform orders.",
+    "columns": {
+      "id": "#",
+      "client": "Client",
+      "freelance": "Freelancer",
+      "service": "Service",
+      "montant": "Amount",
+      "commission": "Commission",
+      "montant_net": "Net to freelancer",
+      "statut": "Status",
+      "date": "Date"
+    },
+    "statuts": {
+      "en_attente": "Pending",
+      "en_cours": "In progress",
+      "livree": "Delivered",
+      "en_revision": "In review",
+      "terminee": "Completed",
+      "annulee": "Cancelled"
+    },
+    "filters": {
+      "statut_label": "status"
+    }
+  },
+  "categories": {
+    "title": "Category management",
+    "description": "Create, edit and delete service categories.",
+    "confirm_delete": "Are you sure you want to delete \"{{nom}}\"?",
+    "confirm_delete_title": "Delete category",
+    "columns": {
+      "categorie": "Category",
+      "parent": "Parent",
+      "ordre": "Order",
+      "statut": "Status",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "create": "New category",
+      "delete": "Delete"
+    },
+    "form": {
+      "title_create": "Create category",
+      "title_edit": "Edit category",
+      "description_create": "Fill in the information to create a new category.",
+      "description_edit": "Edit the selected category information.",
+      "nom": "Name",
+      "nom_placeholder": "Ex: Web Development",
+      "slug": "Slug",
+      "slug_placeholder": "Ex: web-development",
+      "description": "Description",
+      "description_placeholder": "Short description of the category",
+      "icone": "Icon",
+      "icone_placeholder": "Ex: path/to/icon.svg",
+      "ordre": "Order",
+      "ordre_placeholder": "0",
+      "parent": "Parent category",
+      "no_parent": "None (root category)",
+      "est_active": "Active",
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "filters": {
+      "statut_label": "status"
+    }
+  },
+  "competences": {
+    "title": "Skill management",
+    "description": "Create, edit and delete service skills.",
+    "confirm_delete": "Are you sure you want to delete \"{{nom}}\"?",
+    "confirm_delete_title": "Delete skill",
+    "columns": {
+      "competence": "Skill",
+      "parent": "Parent",
+      "ordre": "Order",
+      "statut": "Status",
+      "actions": "Actions"
+    },
+    "statuts": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "create": "New skill",
+      "delete": "Delete"
+    },
+    "form": {
+      "title_create": "Create skill",
+      "title_edit": "Edit skill",
+      "description_create": "Fill in the information to create a new skill.",
+      "description_edit": "Edit the selected skill information.",
+      "nom": "Name",
+      "nom_placeholder": "Ex: React.js",
+      "description": "Description",
+      "description_placeholder": "Short description of the skill",
+      "icone": "Icon",
+      "icone_placeholder": "Ex: path/to/icon.svg",
+      "ordre": "Order",
+      "ordre_placeholder": "0",
+      "parent": "Parent skill",
+      "no_parent": "None (root skill)",
+      "est_active": "Active",
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "filters": {
+      "statut_label": "status"
+    }
+  },
+  "langues": {
+    "title": "Language management",
+    "description": "Create, edit and delete freelancer languages.",
+    "confirm_delete": "Are you sure you want to delete \"{{nom}}\"?",
+    "confirm_delete_title": "Delete language",
+    "columns": {
+      "langue": "Language",
+      "actions": "Actions"
+    },
+    "actions": {
+      "create": "New language",
+      "delete": "Delete"
+    },
+    "form": {
+      "title_create": "Create language",
+      "title_edit": "Edit language",
+      "description_create": "Fill in the information to create a new language.",
+      "description_edit": "Edit the selected language information.",
+      "nom": "Name",
+      "nom_placeholder": "Ex: French",
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "portefeuilles": {
+    "title": "Wallet management",
+    "description": "View balances and information for all wallets.",
+    "platform": "Platform",
+    "columns": {
+      "user": "User",
+      "disponible": "Available",
+      "en_attente": "Pending",
+      "total": "Total",
+      "devise": "Currency"
+    }
+  },
+  "transactions": {
+    "title": "Transaction management",
+    "description": "History of all platform transactions.",
+    "columns": {
+      "id": "#",
+      "user": "User",
+      "type": "Type",
+      "montant": "Amount",
+      "date": "Date"
+    },
+    "filters": {
+      "type_label": "types"
+    }
+  },
+  "avis": {
+    "title": "Review management",
+    "description": "View and delete reviews left on the platform.",
+    "confirm_delete": "Are you sure you want to delete this review?",
+    "confirm_delete_title": "Delete review",
+    "columns": {
+      "id": "#",
+      "client": "Client",
+      "freelance": "Freelancer",
+      "service": "Service",
+      "note": "Rating",
+      "commentaire": "Comment",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "actions": {
+      "delete": "Delete"
+    },
+    "no_comment": "No comment",
+    "filters": {
+      "note_label": "ratings"
+    }
+  }
+}

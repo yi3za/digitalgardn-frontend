@@ -1,0 +1,45 @@
+{
+  "title": "My Orders",
+  "description": "Manage your current and past orders. Accept, deliver, or cancel your orders depending on their status.",
+  "status": {
+    "en_attente": "Pending",
+    "en_cours": "In progress",
+    "livree": "Delivered",
+    "en_revision": "In revision",
+    "terminee": "Completed",
+    "annulee": "Cancelled",
+    "all": "statuses"
+  },
+  "actions": {
+    "start": "Accept order",
+    "deliver": "Mark as delivered",
+    "redeliver": "Re-deliver",
+    "accept": "Confirm receipt",
+    "revision": "Request revision",
+    "cancel": "Cancel order"
+  },
+  "avis": {
+    "trigger": "Leave a review",
+    "title": "Leave a review",
+    "description": "Share your experience with this freelancer and help other users.",
+    "note": "Rating (1-5)",
+    "notePlaceholder": "Select a rating from 1 to 5",
+    "commentaire": "Comment",
+    "commentairePlaceholder": "Describe your experience (at least 20 characters)",
+    "optional": "optional",
+    "submit": "Submit review",
+    "success": "Your review has been successfully added."
+  },
+  "invoice": {
+    "btn_print": "Print invoice (PDF)",
+    "title_pdf": "Invoice",
+    "order_id": "Order ID",
+    "service_name": "Service",
+    "client_name": "Client",
+    "amount": "Total Amount",
+    "net_amount": "Net Amount",
+    "status": "Status",
+    "date": "Transaction date",
+    "footer": "Thank you for using DigitalGarden for your freelance projects."
+  }
+}

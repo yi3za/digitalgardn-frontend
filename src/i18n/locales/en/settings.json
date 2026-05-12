@@ -1,0 +1,70 @@
+{
+  "title": "Account Settings",
+  "description": "Manage and update your account information, including your email address, preferences, and security settings.",
+  "action": {
+    "go_to_profil": "Go to profile",
+    "back_to_settings": "Back to settings",
+    "save": "Save {{field}}"
+  },
+  "items": {
+    "personal_info": {
+      "title": "Personal Information",
+      "description": "Manage and update your personal information to keep your profile complete, accurate, and up to date.",
+      "fields": {
+        "labels": {
+          "name": "Full name",
+          "username": "Username",
+          "email": "Email address"
+        },
+        "placeholder": "Enter your {{field}}"
+      }
+    },
+    "security": {
+      "title": "Security",
+      "description": "Manage your account security and update your password to protect your information.",
+      "fields": {
+        "labels": {
+          "password": "Current password",
+          "new_password": "New password",
+          "confirm_password": "Confirm password"
+        },
+        "placeholder": "Enter your {{field}}"
+      },
+      "actions": {
+        "reset_password": "Reset password",
+        "forgotPassword": "Forgot password?"
+      },
+      "dialog": {
+        "forgot_password": {
+          "title": "External reset",
+          "description": "To use this option, you will be logged out in order to reset your password via email. Do you wish to continue?"
+        }
+      }
+    },
+    "danger_zone": {
+      "title": "Danger zone",
+      "description": "Manage your account status. You can activate or deactivate your account at any time.",
+      "status": {
+        "title": "Account status",
+        "description": "Activate or deactivate your account as needed.",
+        "actions": {
+          "deactivate": "Deactivate account",
+          "activate": "Reactivate account"
+        },
+        "dialog": {
+          "title": "Change account status",
+          "description": "Are you sure you want to {{action}} your account? This action will affect access to your data."
+        }
+      },
+      "delete": {
+        "title": "Delete account",
+        "description": "Permanently delete your account and all your data. This action is irreversible.",
+        "action": "Delete account",
+        "dialog": {
+          "title": "Irreversible deletion",
+          "description": "Warning! You are about to permanently delete your account. This action cannot be undone."
+        }
+      }
+    }
+  }
+}

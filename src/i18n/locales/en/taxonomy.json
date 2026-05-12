@@ -1,0 +1,20 @@
+{
+  "competences": {
+    "title": "Skills",
+    "placeholder": "Search for a skill...",
+    "description": "Select relevant technical expertise.",
+    "empty": "No skills found."
+  },
+  "langues": {
+    "title": "Languages",
+    "placeholder": "Search for a language...",
+    "description": "Select the languages you are proficient in.",
+    "empty": "No languages found."
+  },
+  "categories": {
+    "title": "Categories",
+    "placeholder": "Choose a category...",
+    "description": "Determine the main area of this service.",
+    "empty": "No categories found."
+  }
+}
