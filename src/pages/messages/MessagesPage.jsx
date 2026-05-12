@@ -109,13 +109,13 @@ export function MessagesPage() {
 
   return (
     <div className="py-5 flex flex-col w-full">
-      <Card className="w-full shadow-none border-none flex flex-col flex-1 min-h-0 gap-3">
+      <Card className="w-full shadow-none border-none flex flex-col flex-1 min-h-0 gap-3 bg-background">
         <CardHeader>
           <CardTitle>{t("page.title")}</CardTitle>
           <CardDescription>{t("page.description")}</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_minmax(0,1fr)] gap-4 h-auto lg:h-[70vh] min-h-0">
-          <aside className="flex flex-col overflow-hidden rounded-xl border bg-card p-3 h-[40vh] lg:h-full min-h-0 min-w-0">
+          <aside className="flex flex-col overflow-hidden rounded-xl border p-3 h-[40vh] lg:h-full min-h-0 min-w-0">
             <ConversationList
               conversations={conversations}
               isLoading={conversationsQuery.isLoading}
