@@ -44,7 +44,7 @@ export function LanguageToggle() {
           <Globe className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="space-y-1">
+      <DropdownMenuContent className="space-y-1" align="end">
         {LANGUAGES.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
