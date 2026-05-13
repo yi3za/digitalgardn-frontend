@@ -18,7 +18,7 @@ export function IconeUploadField({ control, label, open }) {
     <FormField
       name="icone"
       control={control}
-      render={({ field: { value, onChange, ...field } }) => (
+      render={({ field: { value: _value, onChange, ...field } }) => (
         <FormItem>
           <label
             htmlFor="icone"
