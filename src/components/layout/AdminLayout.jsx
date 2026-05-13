@@ -59,6 +59,7 @@ import { BackButton } from "../shared/BackButton";
 import { ScrollToTop } from "../feedback/scroll-to-top";
 import logo from "@/assets/logo.png";
 import { useQueryClient } from "@tanstack/react-query";
+import { resetCommandes } from "@/features/notifications/notificationsSlice";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -162,6 +163,8 @@ export function AdminLayout() {
       const { code } = await dispatch(logoutThunk()).unwrap();
       // Netoyage le cache des donnees
       queryClient.clear();
+      // Initial le count de les commandes a 0
+      dispatch(resetCommandes());
       // Notifier la deconnexion reussie
       toast.success(t(`codes:${code}`));
     } catch ({ code }) {
