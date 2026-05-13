@@ -44,11 +44,11 @@ export function RegisterPage() {
   // Validation des champs basee sur registerSchema
   const form = useForm({
     defaultValues: {
-      name: "yaazaaitbah",
-      username: "yaazaaitbah" + Date.now(),
-      email: "yaazaaitbah" + Date.now() + "@example.com",
-      password: "yaazaaitbah",
-      password_confirmation: "yaazaaitbah",
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
       remember: false,
     },
     resolver: zodResolver(registerSchema),
