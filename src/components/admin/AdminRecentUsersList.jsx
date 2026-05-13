@@ -10,7 +10,7 @@ import { useNavigationPaths } from "@/contexts/NavigationContext";
 /**
  * Liste des derniers utilisateurs inscrits
  */
-export function AdminRecentUsersList({ t, users = [] }) {
+export function AdminRecentUsersList({ t, users = [], ...props }) {
   const { users: usersBasePath } = useNavigationPaths();
 
   return (
@@ -21,6 +21,7 @@ export function AdminRecentUsersList({ t, users = [] }) {
       viewAllKey="admin:dashboard.activite.users.viewAll"
       emptyKey="admin:dashboard.activite.users.empty"
       linkTo={usersBasePath}
+      {...props}
       items={users}
       renderItem={(user) => (
         <Item key={user.id} variant="muted" size="sm">

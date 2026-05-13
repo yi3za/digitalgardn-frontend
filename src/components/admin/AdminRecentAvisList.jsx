@@ -12,11 +12,12 @@ import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import { formatDateTime } from "@/lib/utils";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { Star } from "lucide-react";
+import { AvisListSkeleton } from "@/components/skeletons";
 
 /**
  * Liste des derniers avis laisses sur la plateforme
  */
-export function AdminRecentAvisList({ t, avis = [], ...queryState }) {
+export function AdminRecentAvisList({ t, avis = [], ...props }) {
   const { avis: avisBasePath } = useNavigationPaths();
 
   return (
@@ -28,7 +29,8 @@ export function AdminRecentAvisList({ t, avis = [], ...queryState }) {
       emptyKey="admin:dashboard.activite.avis.empty"
       linkTo={avisBasePath}
       items={avis}
-      {...queryState}
+      {...props}
+      loadingSkeleton={AvisListSkeleton}
       renderItem={(item) => (
         <Item key={item.id} variant="muted" size="sm">
           <ItemContent>

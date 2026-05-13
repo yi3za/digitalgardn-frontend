@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { RecentList } from "@/components/shared/RecentList";
 import { CommandeItem } from "@/components/commandes/CommandeItem";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
+import { CommandesSkeleton } from "@/components/skeletons";
 
 /**
  * Liste des dernieres commandes recentes de la plateforme
  */
-export function AdminRecentCommandesList({ t, commandes = [] }) {
+export function AdminRecentCommandesList({ t, commandes = [], ...props }) {
   const navigate = useNavigate();
   const { commandes: commandesBasePath } = useNavigationPaths();
 
@@ -19,6 +20,8 @@ export function AdminRecentCommandesList({ t, commandes = [] }) {
       emptyKey="admin:dashboard.activite.commandes.empty"
       linkTo={commandesBasePath}
       items={commandes}
+      {...props}
+      loadingSkeleton={CommandesSkeleton}
       renderItem={(commande) => (
         <CommandeItem
           key={commande.id}

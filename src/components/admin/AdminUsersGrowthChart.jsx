@@ -8,6 +8,7 @@ import {
   DataError,
   DataEmpty,
 } from "@/components/ui";
+import { ChartSkeleton } from "@/components/skeletons";
 import {
   AreaChart,
   Area,
@@ -44,7 +45,7 @@ export function AdminUsersGrowthChart({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1">
-        {isLoading && <DataLoading />}
+        {isLoading && <DataLoading skeleton={ChartSkeleton} />}
         {isError && (
           <DataError
             errorCode={code}
