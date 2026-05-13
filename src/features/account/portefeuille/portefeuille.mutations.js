@@ -10,6 +10,7 @@ export const useRechargerPortefeuille = () => {
       queryClient.invalidateQueries({ queryKey: ["portefeuille"] });
       // Mettre a jour les stats portefeuille et revenus du dashboard
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
     },
   });
 };

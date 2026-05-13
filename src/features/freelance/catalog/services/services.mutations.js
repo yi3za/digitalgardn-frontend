@@ -10,6 +10,18 @@ import {
   syncFichiers,
 } from "./services.api";
 
+function invalidateServiceCatalog(queryClient, slug = null) {
+  queryClient.invalidateQueries({ queryKey: ["services"] });
+  queryClient.invalidateQueries({ queryKey: ["categorie"] });
+  queryClient.invalidateQueries({ queryKey: ["competence"] });
+  queryClient.invalidateQueries({ queryKey: ["freelancer"] });
+  queryClient.invalidateQueries({ queryKey: ["top-freelancers"] });
+  if (slug) {
+    queryClient.invalidateQueries({ queryKey: ["service", slug] });
+  }
+  queryClient.invalidateQueries({ queryKey: ["admin"] });
+}
+
 // Hook pour la creation d un service
 export const useCreateService = () => {
   const queryClient = useQueryClient();
@@ -18,6 +30,7 @@ export const useCreateService = () => {
     onSuccess: () => {
       // Invalider seulement le cache prive car la nouvelle service est toujours un brouillon
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
       // Mettre a jour le compteur services du dashboard
       queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
@@ -32,16 +45,18 @@ export const useUpdateService = () => {
     onSuccess: (responseData, variables) => {
       // Extraire le service de la reponse API
       const service = responseData?.details?.service;
+      const slug = service?.slug ?? variables.slug;
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
+      if (slug !== variables.slug) {
+        queryClient.invalidateQueries({ queryKey: ["my-service", slug] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
       // Invalider le cache public seulement si la service est publiee
       if (service?.statut === SERVICE_STATUS.PUBLIE) {
-        queryClient.invalidateQueries({
-          queryKey: ["service", variables.slug],
-        });
-        queryClient.invalidateQueries({ queryKey: ["services"] });
+        invalidateServiceCatalog(queryClient, slug);
       }
     },
   });
@@ -56,19 +71,18 @@ export const useUpdateServiceStatus = () => {
       const service = responseData?.details?.service;
       const previousStatut = variables?.currentStatut;
       const nextStatut = service?.statut;
+      const slug = service?.slug ?? variables.slug;
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       queryClient.invalidateQueries({
         queryKey: ["my-service", variables.slug],
       });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
       // Si le service etait public ou le devient, on invalide le cache public.
       if (
         previousStatut === SERVICE_STATUS.PUBLIE ||
         nextStatut === SERVICE_STATUS.PUBLIE
       ) {
-        queryClient.invalidateQueries({
-          queryKey: ["service", variables.slug],
-        });
-        queryClient.invalidateQueries({ queryKey: ["services"] });
+        invalidateServiceCatalog(queryClient, slug);
       }
       // Mettre a jour le compteur services du dashboard
       queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
@@ -81,10 +95,11 @@ export const useDeleteService = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (slug) => deleteService(slug),
-    onSuccess: () => {
+    onSuccess: (_, slug) => {
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      queryClient.invalidateQueries({ queryKey: ["my-service", slug] });
       // Invalider le cache public pour enlever la service supprimee
-      queryClient.invalidateQueries({ queryKey: ["services"] });
+      invalidateServiceCatalog(queryClient, slug);
       // Mettre a jour le compteur services du dashboard
       queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
     },
@@ -104,9 +119,7 @@ export const useSyncCategories = () => {
       });
       // Invalider le cache public seulement si la service est publiee
       if (statut === SERVICE_STATUS.PUBLIE) {
-        queryClient.invalidateQueries({
-          queryKey: ["service", variables.slug],
-        });
+        invalidateServiceCatalog(queryClient, variables.slug);
       }
     },
   });
@@ -125,9 +138,7 @@ export const useSyncCompetences = () => {
       });
       // Invalider le cache public seulement si la service est publiee
       if (statut === SERVICE_STATUS.PUBLIE) {
-        queryClient.invalidateQueries({
-          queryKey: ["service", variables.slug],
-        });
+        invalidateServiceCatalog(queryClient, variables.slug);
       }
     },
   });
@@ -147,10 +158,7 @@ export const useSyncFichiers = () => {
       queryClient.invalidateQueries({ queryKey: ["my-services"] });
       // Invalider le cache public seulement si la service est publiee
       if (statut === SERVICE_STATUS.PUBLIE) {
-        queryClient.invalidateQueries({
-          queryKey: ["service", variables.slug],
-        });
-        queryClient.invalidateQueries({ queryKey: ["services"] });
+        invalidateServiceCatalog(queryClient, variables.slug);
       }
     },
   });

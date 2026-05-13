@@ -12,9 +12,25 @@ export const useCreateCommande = () => {
 
   return useMutation({
     mutationFn: (data) => createCommande(data),
-    onSuccess: () => {
+    onSuccess: (commande) => {
       // Met a jour les donnees de portefeuille apres un achat
       queryClient.invalidateQueries({ queryKey: ["portefeuille"] });
+      queryClient.invalidateQueries({ queryKey: ["commandes"] });
+      queryClient.invalidateQueries({
+        queryKey: ["messages", "conversations"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      if (commande?.service?.slug) {
+        queryClient.invalidateQueries({
+          queryKey: ["service", commande.service.slug],
+        });
+      }
+      if (commande?.freelance?.username) {
+        queryClient.invalidateQueries({
+          queryKey: ["freelancer", commande.freelance.username],
+        });
+      }
       // Mettre a jour le dashboard (stats commandes + commandes recentes)
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -28,11 +44,17 @@ export const useUpdateCommandeStatus = () => {
   return useMutation({
     mutationFn: ({ commandeId, newStatus }) =>
       updateCommandeStatus(commandeId, newStatus),
-    onSuccess: (_, variables) => {
+    onSuccess: (commande, variables) => {
       queryClient.invalidateQueries({ queryKey: ["commandes"] });
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
       });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      if (commande?.conversation?.id) {
+        queryClient.invalidateQueries({
+          queryKey: ["messages", "conversation", commande.conversation.id],
+        });
+      }
       // Mettre a jour le dashboard (stats + commandes recentes + revenus si terminee)
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
       if (
@@ -52,14 +74,31 @@ export const useCreateAvis = () => {
 
   return useMutation({
     mutationFn: ({ commandeId, data }) => createAvis(commandeId, data),
-    onSuccess: () => {
+    onSuccess: (avis) => {
       queryClient.invalidateQueries({ queryKey: ["commandes"] });
       queryClient.invalidateQueries({
         queryKey: ["messages", "conversations"],
       });
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      if (avis?.service?.slug) {
+        queryClient.invalidateQueries({
+          queryKey: ["service", avis.service.slug],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["service", avis.service.slug, "avis"],
+        });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["service"] });
+      }
+      if (avis?.client?.username) {
+        queryClient.invalidateQueries({
+          queryKey: ["freelancer", avis.client.username, "avis"],
+        });
+      }
       // Mettre a jour les stats avis du dashboard
-      queryClient.invalidateQueries({ queryKey: ["dashboard", "stats"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: ["me", "avis"] });
     },
   });
 };

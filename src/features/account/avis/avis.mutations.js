@@ -10,6 +10,9 @@ export const useDeleteMyAvis = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["me", "avis"] });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: ["service"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
     },
   });
 };

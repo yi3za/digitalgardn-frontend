@@ -19,7 +19,8 @@ export const useCreateAdminLangue = () => {
   return useMutation({
     mutationFn: createAdminLangue,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "langues"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["langues"] });
     },
   });
 };
@@ -30,7 +31,10 @@ export const useUpdateAdminLangue = () => {
   return useMutation({
     mutationFn: updateAdminLangue,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "langues"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["langues"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
     },
   });
 };
@@ -41,7 +45,10 @@ export const useDeleteAdminLangue = () => {
   return useMutation({
     mutationFn: deleteAdminLangue,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "langues"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["langues"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
     },
   });
 };

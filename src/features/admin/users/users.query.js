@@ -14,8 +14,10 @@ export const useUpdateAdminUserStatus = () => {
   return useMutation({
     mutationFn: updateAdminUserStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
-      queryClient.invalidateQueries({ queryKey: ["admin", "stats"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
+      queryClient.invalidateQueries({ queryKey: ["top-freelancers"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };

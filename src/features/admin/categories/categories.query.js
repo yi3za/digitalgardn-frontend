@@ -37,7 +37,8 @@ export const useCreateAdminCategorie = () => {
   return useMutation({
     mutationFn: createAdminCategorie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "categories"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 };
@@ -47,8 +48,14 @@ export const useUpdateAdminCategorie = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateAdminCategorie,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "categories"] });
+    onSuccess: (categorie) => {
+      const slug = categorie?.slug;
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      if (slug) {
+        queryClient.invalidateQueries({ queryKey: ["categorie", slug] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };
@@ -59,7 +66,10 @@ export const useDeleteAdminCategorie = () => {
   return useMutation({
     mutationFn: deleteAdminCategorie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "categories"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["categorie"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };

@@ -34,9 +34,19 @@ export const useUpdateAdminServiceStatus = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateAdminServiceStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "services"] });
-      queryClient.invalidateQueries({ queryKey: ["admin", "stats"] });
+    onSuccess: (service) => {
+      const slug = service?.slug;
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      if (slug) {
+        queryClient.invalidateQueries({ queryKey: ["service", slug] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["my-services"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["categorie"] });
+      queryClient.invalidateQueries({ queryKey: ["competence"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
+      queryClient.invalidateQueries({ queryKey: ["top-freelancers"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

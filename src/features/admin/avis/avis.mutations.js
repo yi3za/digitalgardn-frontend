@@ -7,7 +7,11 @@ export const useDeleteAdminAvis = () => {
   return useMutation({
     mutationFn: deleteAdminAvis,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "avis"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["service"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["freelancer"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

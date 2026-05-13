@@ -37,7 +37,8 @@ export const useCreateAdminCompetence = () => {
   return useMutation({
     mutationFn: createAdminCompetence,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "competences"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["competences"] });
     },
   });
 };
@@ -47,8 +48,14 @@ export const useUpdateAdminCompetence = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateAdminCompetence,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "competences"] });
+    onSuccess: (competence) => {
+      const slug = competence?.slug;
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["competences"] });
+      if (slug) {
+        queryClient.invalidateQueries({ queryKey: ["competence", slug] });
+      }
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };
@@ -59,7 +66,10 @@ export const useDeleteAdminCompetence = () => {
   return useMutation({
     mutationFn: deleteAdminCompetence,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "competences"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["competences"] });
+      queryClient.invalidateQueries({ queryKey: ["competence"] });
+      queryClient.invalidateQueries({ queryKey: ["services"] });
     },
   });
 };
