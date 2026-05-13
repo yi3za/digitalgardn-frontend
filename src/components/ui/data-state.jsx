@@ -13,7 +13,19 @@ import {
 } from "./empty";
 import { Skeleton } from "./skeleton";
 
-function DataLoading({ className }) {
+function DataLoading({
+  className,
+  skeleton: LoadingSkeleton = null,
+  skeletonProps = {},
+}) {
+  if (LoadingSkeleton) {
+    return typeof LoadingSkeleton === "function" ? (
+      <LoadingSkeleton {...skeletonProps} />
+    ) : (
+      LoadingSkeleton
+    );
+  }
+
   return (
     <Empty className={cn("relative min-h-60 border md:p-0", className)}>
       <Skeleton className="absolute inset-0" />
