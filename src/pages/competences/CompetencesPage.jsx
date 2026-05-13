@@ -6,6 +6,7 @@ import { useCompetences } from "@/features/public/catalog/competences/competence
 import { buildCompetencesFiltersConfig } from "@/features/public/catalog/competences/competences.filters";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { TaxonomySkeleton } from "@/components/skeletons";
 
 /**
  * Page publique qui affiche toutes les competences disponibles
@@ -24,6 +25,8 @@ export function CompetencesPage() {
       itemsQuery={competencesQuery}
       title={t("catalog:competences.title")}
       description={t("catalog:competences.description")}
+      loadingSkeleton={TaxonomySkeleton}
+      loadingSkeletonProps={{ variant: "grid" }}
       renderItems={(data) => (
         <CompetencesGrid
           competences={data?.items ?? data ?? []}

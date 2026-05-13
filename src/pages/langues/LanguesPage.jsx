@@ -6,6 +6,7 @@ import { useLangues } from "@/features/public/catalog/langues/langues.query";
 import { buildLanguesFiltersConfig } from "@/features/public/catalog/langues/langues.filters";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { TaxonomySkeleton } from "@/components/skeletons";
 
 /**
  * Page publique qui affiche toutes les langues disponibles
@@ -24,6 +25,8 @@ export function LanguesPage() {
       itemsQuery={languesQuery}
       title={t("catalog:langues.title")}
       description={t("catalog:langues.description")}
+      loadingSkeleton={TaxonomySkeleton}
+      loadingSkeletonProps={{ variant: "grid" }}
       renderItems={(data) => (
         <LanguesGrid langues={data?.items ?? data ?? []} />
       )}

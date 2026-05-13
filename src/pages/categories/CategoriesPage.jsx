@@ -6,6 +6,7 @@ import { useCategories } from "@/features/public/catalog/categories/categories.q
 import { buildCategoriesFiltersConfig } from "@/features/public/catalog/categories/categories.filters";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { TaxonomySkeleton } from "@/components/skeletons";
 
 /**
  * Page publique qui affiche toutes les categories disponibles
@@ -24,6 +25,8 @@ export function CategoriesPage() {
       itemsQuery={categoriesQuery}
       title={t("catalog:categories.title")}
       description={t("catalog:categories.description")}
+      loadingSkeleton={TaxonomySkeleton}
+      loadingSkeletonProps={{ variant: "grid" }}
       renderItems={(data) => (
         <CategoriesGrid categories={data?.items ?? data ?? []} variant="grid" />
       )}

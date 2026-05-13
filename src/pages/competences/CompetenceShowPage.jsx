@@ -26,6 +26,7 @@ import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { ServicesSkeleton, TaxonomySkeleton } from "@/components/skeletons";
 
 /**
  * Page d'affichage d'une competence. Fonctionne en mode public et admin.
@@ -78,7 +79,7 @@ export function CompetenceShowPage() {
   // Les enfants de la competence pour l'affichage
   const children = competence?.enfants ?? [];
 
-  if (isLoading) return <DataLoading />;
+  if (isLoading) return <DataLoading skeleton={TaxonomySkeleton} />;
 
   if (isError)
     return (
@@ -125,6 +126,7 @@ export function CompetenceShowPage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
+        loadingSkeleton={ServicesSkeleton}
         renderItems={(services) => <ServicesGrid services={services} />}
         paginationBar={
           (servicesQuery.data?.meta?.last_page ?? 0) > 1 ? (

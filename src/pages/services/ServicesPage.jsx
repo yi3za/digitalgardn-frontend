@@ -9,6 +9,7 @@ import { useCompetences } from "@/features/public/catalog/competences/competence
 import { useLangues } from "@/features/public/catalog/langues/langues.query";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { ServicesSkeleton } from "@/components/skeletons";
 
 // Filtres supportes par la page services et synchronises avec l'URL
 const URL_FILTER_KEYS = ["search", "categorie", "competence", "langue"];
@@ -87,6 +88,7 @@ export function ServicesPage() {
           onPageChange={setPage}
         />
       }
+      loadingSkeleton={ServicesSkeleton}
       renderItems={(services) => <ServicesGrid services={services} />}
     />
   );
