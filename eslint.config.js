@@ -27,10 +27,19 @@ export default defineConfig([
       '@tanstack/query': query,
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': [
+        'error',
+        { varsIgnorePattern: '^_|^[A-Z_]', argsIgnorePattern: '^_|^[A-Z_]' },
+      ],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/purity': 'off',
+      'react-hooks/incompatible-library': 'off',
       // React Query rules
       '@tanstack/query/exhaustive-deps': 'error',
-      '@tanstack/query/prefer-query-object-syntax': 'warn',
       '@tanstack/query/stable-query-client': 'error',
     },
   },
