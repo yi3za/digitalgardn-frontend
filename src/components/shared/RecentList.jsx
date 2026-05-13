@@ -14,6 +14,7 @@ import {
   ScrollArea,
   Spinner,
 } from "@/components/ui";
+import { RecentListSkeleton } from "@/components/skeletons";
 
 /**
  * Composant generique pour les listes d'activite recente (dashboard admin et freelance)
@@ -33,6 +34,8 @@ export function RecentList({
   refetch,
   renderItem,
   scrollClassName = "h-80",
+  loadingSkeleton = RecentListSkeleton,
+  loadingSkeletonProps = {},
 }) {
   const code = error?.response?.data?.code ?? "NETWORK_ERROR";
 
@@ -51,7 +54,12 @@ export function RecentList({
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={loadingSkeleton}
+            skeletonProps={loadingSkeletonProps}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}
