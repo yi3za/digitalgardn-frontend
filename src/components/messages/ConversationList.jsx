@@ -1,6 +1,7 @@
 import { ConversationItem } from "./ConversationItem";
 import { DataEmpty, DataError, DataLoading, ScrollArea } from "@/components/ui";
 import { useTranslation } from "react-i18next";
+import { ConversationListSkeleton } from "@/components/skeletons";
 
 /**
  * Composant affichant la liste des conversations de l'utilisateur, avec gestion des etats de chargement et d'erreur
@@ -19,7 +20,7 @@ export function ConversationList({
   const { t } = useTranslation("messages");
   // Gestion des etats de chargement, d'erreur et de liste vide
   if (isLoading) {
-    return <DataLoading />;
+    return <DataLoading skeleton={ConversationListSkeleton} />;
   }
   // Gestion de l'etat d'erreur lors du chargement des conversations
   if (isError) {
