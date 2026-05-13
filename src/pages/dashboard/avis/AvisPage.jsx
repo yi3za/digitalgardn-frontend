@@ -63,6 +63,7 @@ export function AvisPage() {
           filtersConfig={buildMyAvisFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={avisQuery.refetch}
         />
       }
       paginationBar={
