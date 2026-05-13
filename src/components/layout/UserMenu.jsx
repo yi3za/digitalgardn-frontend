@@ -30,6 +30,7 @@ import { getFallbackName } from "@/lib/utils";
 import { ACCOUNT_STATUS, AUTH_ROLE } from "@/features/auth/auth.constants";
 import { disconnectEcho } from "@/lib/echo";
 import { useQueryClient } from "@tanstack/react-query";
+import { resetCommandes } from "@/features/notifications/notificationsSlice";
 
 // Couleurs des badges de statut utilisateur
 const USER_STATUS_BADGE_COLORS = {
@@ -60,6 +61,8 @@ export function UserMenu({ user, t, dashboard }) {
     try {
       // Appeler le thunk de logout pour deconnecter l'utilisateur
       const { code } = await dispatch(logoutThunk()).unwrap();
+      // Initial le count de les commandes a 0
+      dispatch(resetCommandes());
       // Netoyage le cache des donnees
       queryClient.clear();
       // Deconnecter Echo pour fermer la connexion websocket en temps reel
