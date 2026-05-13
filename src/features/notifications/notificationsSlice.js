@@ -24,14 +24,18 @@ const notificationsSlice = createSlice({
     incrementCommandes: (state) => {
       state.unreadCommandes += 1;
     },
-    resetCommandes: (state) => {
-      state.unreadCommandes = 0;
+    // Remettre l'etat initial pour effacer les donnees
+    resetNotifications: () => {
+      return initialState;
     },
   },
 });
 
 // Export des actions du slice de notifications
-export const { setConversationMessages, incrementCommandes, resetCommandes } =
-  notificationsSlice.actions;
+export const {
+  setConversationMessages,
+  incrementCommandes,
+  resetNotifications,
+} = notificationsSlice.actions;
 // Export du reducer du slice de notifications pour l'inclure dans le store global
 export const notificationsReducer = notificationsSlice.reducer;
