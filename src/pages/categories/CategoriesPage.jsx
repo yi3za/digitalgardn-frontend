@@ -36,6 +36,7 @@ export function CategoriesPage() {
           filtersConfig={buildCategoriesFiltersConfig()}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={categoriesQuery.refetch}
         />
       }
       paginationBar={
