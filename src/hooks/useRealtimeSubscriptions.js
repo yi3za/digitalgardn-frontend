@@ -51,7 +51,7 @@ export function useRealtimeSubscriptions(currentUserId) {
       if (statutCommande === COMMANDE_STATUS.EN_ATTENTE)
         dispatch(incrementCommandes());
     });
-  }, [conversations, dispatch]);
+  }, [conversations, dispatch, currentUserId]);
   // Liste stable des IDs de conversations actives (commande non close) pour eviter les abonnements inutiles
   const conversationIds = useMemo(
     () =>
