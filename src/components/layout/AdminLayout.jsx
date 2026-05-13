@@ -58,6 +58,7 @@ import { ThemeToggle } from "../shared/ThemeToggle";
 import { BackButton } from "../shared/BackButton";
 import { ScrollToTop } from "../feedback/scroll-to-top";
 import logo from "@/assets/logo.png";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Navigation principale de l'espace admin
 const ADMIN_NAV_ITEMS = [
@@ -136,6 +137,8 @@ const ADMIN_NAV_ITEMS = [
  * Layout principal de l'espace d'administration avec sidebar complete
  */
 export function AdminLayout() {
+  // Recupere queryClient
+  const queryClient = useQueryClient();
   // Traduction
   const { t } = useTranslation(["admin", "codes"]);
   // Recuperation de l'utilisateur connecte
@@ -157,6 +160,8 @@ export function AdminLayout() {
     try {
       // Appeler le thunk de logout pour deconnecter l'utilisateur
       const { code } = await dispatch(logoutThunk()).unwrap();
+      // Netoyage le cache des donnees
+      queryClient.clear();
       // Notifier la deconnexion reussie
       toast.success(t(`codes:${code}`));
     } catch ({ code }) {
