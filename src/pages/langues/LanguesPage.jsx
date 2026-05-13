@@ -36,6 +36,7 @@ export function LanguesPage() {
           filtersConfig={buildLanguesFiltersConfig()}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={languesQuery.refetch}
         />
       }
       paginationBar={
