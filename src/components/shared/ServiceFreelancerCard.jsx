@@ -24,9 +24,9 @@ export function ServiceFreelancerCard({
   titleKey = "catalog:serviceShow.freelancerSection",
   descriptionKey = "catalog:serviceShow.freelancerSectionDescription",
 }) {
-  if (!user) return null;
   // Base paths selon le contexte (public ou admin)
   const { freelancers: freelancersBasePath } = useNavigationPaths();
+  if (!user) return null;
 
   return (
     <Card className="shadow-none">
