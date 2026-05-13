@@ -72,7 +72,7 @@ export function DangerZonePage() {
       toast.success(t(`codes:${code}`));
       // Fermer le dialog de confirmation
       closeDialog();
-    } catch ({ code, details: errors }) {
+    } catch ({ code }) {
       // Affichage d'une notification d'erreur en cas d'echec de l'action
       toast.error(t(`codes:${code}`));
     }
