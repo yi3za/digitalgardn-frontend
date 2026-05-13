@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import { useAdminTransactions } from "@/features/admin/transactions/transactions.query";
 import { TRANSACTION_TYPE_BADGE_VARIANT } from "@/features/account/portefeuille/portefeuille.constants";
 import { formatPrice, formatDateTime } from "@/lib/utils";
@@ -60,7 +61,12 @@ export function AdminTransactionsPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 5 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}

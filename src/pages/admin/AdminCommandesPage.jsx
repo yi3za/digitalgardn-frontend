@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import { useAdminCommandes } from "@/features/admin/commandes/commandes.query";
 import { formatDateTime, formatPrice } from "@/lib/utils";
 import { CURRENCY } from "@/lib/config";
@@ -57,7 +58,12 @@ export function AdminCommandesPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 9 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}

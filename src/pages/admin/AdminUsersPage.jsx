@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import {
   useAdminUsers,
   useUpdateAdminUserStatus,
@@ -107,7 +108,12 @@ export function AdminUsersPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 7 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}

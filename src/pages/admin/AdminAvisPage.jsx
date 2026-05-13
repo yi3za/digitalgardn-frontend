@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import { useAdminAvis } from "@/features/admin/avis/avis.query";
 import { useDeleteAdminAvis } from "@/features/admin/avis/avis.mutations";
 import { formatDateTime } from "@/lib/utils";
@@ -83,7 +84,12 @@ export function AdminAvisPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 8 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}

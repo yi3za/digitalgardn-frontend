@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import { useAdminPortefeuilles } from "@/features/admin/portefeuilles/portefeuilles.query";
 import { buildAdminPortefeuillesFiltersConfig } from "@/features/admin/portefeuilles/portefeuilles.filters";
 import { formatPrice } from "@/lib/utils";
@@ -57,7 +58,12 @@ export function AdminPortefeuillesPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 5 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}

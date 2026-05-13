@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { TableSkeleton } from "@/components/skeletons";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import {
@@ -82,7 +83,12 @@ export function AdminLanguesPage() {
           onApply={handleApplyFilters}
           initialValues={filters}
         />
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={TableSkeleton}
+            skeletonProps={{ columns: 2 }}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}
