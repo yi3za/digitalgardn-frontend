@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { getMeThunk } from "@/features/auth/auth.thunks";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 
 // Composant racine de l'application
@@ -22,7 +22,7 @@ export function App() {
         <ThemeProvider attribute="class" defaultTheme="light">
           <AppRouter />
           <Toaster position="top-center" />
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </ThemeProvider>
       </QueryClientProvider>
     </Provider>
