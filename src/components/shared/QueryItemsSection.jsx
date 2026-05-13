@@ -26,6 +26,8 @@ export function QueryItemsSection({
   paginationBar = null,
   renderItems,
   emptyDescription,
+  loadingSkeleton = null,
+  loadingSkeletonProps = {},
 }) {
   // Hook de traduction pour les textes statiques de la section et les codes d'erreur
   const { t } = useTranslation(["common", "codes"]);
@@ -58,7 +60,12 @@ export function QueryItemsSection({
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
         {filterBar}
-        {isLoading && <DataLoading />}
+        {isLoading && (
+          <DataLoading
+            skeleton={loadingSkeleton}
+            skeletonProps={loadingSkeletonProps}
+          />
+        )}
         {isError && (
           <DataError
             errorCode={code}
