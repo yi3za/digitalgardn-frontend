@@ -41,6 +41,7 @@ import { toast } from "sonner";
 import { SkillBadges } from "@/components/shared/SkillBadges";
 import { AvisList } from "@/components/catalog/services/AvisList";
 import { PaginationBar } from "@/components/shared/PaginationBar";
+import { FreelancerProfileSkeleton } from "@/components/skeletons";
 
 /**
  * Page d'affichage d'un freelance. Fonctionne en mode public et admin.
@@ -127,7 +128,7 @@ export function FreelancerShowPage() {
   };
 
   if (isLoading) {
-    return <DataLoading />;
+    return <DataLoading skeleton={FreelancerProfileSkeleton} />;
   }
 
   if (isError) {

@@ -7,6 +7,7 @@ import { usePortefeuille } from "@/features/account/portefeuille/portefeuille.qu
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { ListSkeleton } from "@/components/skeletons";
 
 /**
  * Page principale du portefeuille qui affiche le solde et les 10 dernieres transactions
@@ -33,6 +34,8 @@ export function PortefeuillePage() {
         title={t("profil:portefeuille.transactions.title")}
         description={t("profil:portefeuille.transactions.pageDescription")}
         emptyDescription={t("profil:portefeuille.transactions.empty")}
+        loadingSkeleton={ListSkeleton}
+        loadingSkeletonProps={{ avatar: false, actions: true }}
         renderItems={(transactions) => (
           <ScrollArea className="h-100 px-5">
             <>

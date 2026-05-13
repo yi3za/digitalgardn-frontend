@@ -6,6 +6,7 @@ import { useCommandes } from "@/features/account/commandes/commandes.query";
 import { buildCommandesFiltersConfig } from "@/features/account/commandes/commandes.filters";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { CommandesSkeleton } from "@/components/skeletons";
 
 /**
  * Page publique qui affiche toutes les commandes disponibles
@@ -26,6 +27,7 @@ export function CommandesPage({ dashboard = false }) {
       itemsQuery={commandesQuery}
       title={t("commandes:title")}
       description={t("commandes:description")}
+      loadingSkeleton={CommandesSkeleton}
       filterBar={
         <FilterBar
           t={t}

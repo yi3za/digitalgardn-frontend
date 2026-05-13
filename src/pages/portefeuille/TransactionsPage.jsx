@@ -6,6 +6,7 @@ import { usePortefeuilleTransactions } from "@/features/account/portefeuille/por
 import { buildTransactionsFiltersConfig } from "@/features/account/portefeuille/portefeuille.filters";
 import { useTranslation } from "react-i18next";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { ListSkeleton } from "@/components/skeletons";
 
 /**
  * Page des transactions du portefeuille
@@ -27,6 +28,8 @@ export function TransactionsPage() {
       title={t("profil:portefeuille.transactions.title")}
       description={t("profil:portefeuille.transactions.pageDescription")}
       emptyDescription={t("profil:portefeuille.transactions.empty")}
+      loadingSkeleton={ListSkeleton}
+      loadingSkeletonProps={{ avatar: false, actions: true }}
       filterBar={
         <FilterBar
           t={t}
