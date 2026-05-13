@@ -142,18 +142,20 @@ function NavigationMenuIndicator({
 }
 
 function NavigationMenuItemCustom({ content, to, badgeCount = null }) {
+  const hasBadge = badgeCount !== null && badgeCount > 0
+
   return (
     <NavigationMenuItem>
       <NavigationMenuLink
         asChild
         className={cn(
           navigationMenuTriggerStyle(),
-          badgeCount ? "relative" : "",
+          hasBadge ? "relative" : "",
         )}
       >
         <Link to={to}>{content}</Link>
       </NavigationMenuLink>
-      {badgeCount && <NotificationBadge count={badgeCount} />}
+      {hasBadge && <NotificationBadge count={badgeCount} />}
     </NavigationMenuItem>
   );
 }
