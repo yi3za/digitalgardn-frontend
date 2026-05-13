@@ -51,7 +51,6 @@ export function AdminTransactionsPage() {
       <AdminPageHeader
         title={t("admin:transactions.title")}
         description={t("admin:transactions.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -60,6 +59,7 @@ export function AdminTransactionsPage() {
           filtersConfig={buildAdminTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
