@@ -11,6 +11,7 @@ import { Button } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { useUrlFilters } from "@/hooks/useUrlFilters";
+import { TableSkeleton } from "@/components/skeletons";
 
 /**
  * Page pour l'affichage des services du freelance connecte
@@ -34,6 +35,8 @@ export function ServicesPage() {
       itemsQuery={myServicesQuery}
       title={t("services.title")}
       description={t("services.description")}
+      loadingSkeleton={TableSkeleton}
+      loadingSkeletonProps={{ columns: 6 }}
       filterBar={
         <FilterBar
           t={t}

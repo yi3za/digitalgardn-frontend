@@ -20,6 +20,7 @@ import {
 } from "@/components/ui";
 import { Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { TableSkeleton } from "@/components/skeletons";
 
 // Colonnes du tableau des avis recus
 const COLUMNS = ["client", "service", "note", "commentaire", "date", "actions"];
@@ -54,6 +55,8 @@ export function AvisPage() {
       itemsQuery={avisQuery}
       title={t("dashboard:avis.title")}
       description={t("dashboard:avis.description")}
+      loadingSkeleton={TableSkeleton}
+      loadingSkeletonProps={{ columns: COLUMNS.length }}
       filterBar={
         <FilterBar
           t={t}

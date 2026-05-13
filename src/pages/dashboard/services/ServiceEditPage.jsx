@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { DataError, DataLoading } from "@/components/ui";
+import { ServiceDetailsSkeleton } from "@/components/skeletons";
 import { ServiceForm } from "@/components/shared/ServiceForm";
 import { useMyService } from "@/features/freelance/catalog/services/services.query";
 import { updateServiceSchema } from "@/features/freelance/catalog/services/services.schemas";
@@ -30,7 +31,8 @@ export function ServiceEditPage() {
     slug,
   });
 
-  if (isServicePending) return <DataLoading />;
+  if (isServicePending)
+    return <DataLoading skeleton={ServiceDetailsSkeleton} />;
 
   if (isServiceError)
     return (
