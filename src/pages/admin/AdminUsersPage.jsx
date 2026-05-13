@@ -98,7 +98,6 @@ export function AdminUsersPage() {
       <AdminPageHeader
         title={t("admin:users.title")}
         description={t("admin:users.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -107,6 +106,7 @@ export function AdminUsersPage() {
           filtersConfig={buildAdminUsersFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
