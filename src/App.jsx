@@ -21,7 +21,7 @@ export function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <AppRouter />
-          <Toaster position="top-right" />
+          <Toaster position="top-center" />
           <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>
       </QueryClientProvider>
