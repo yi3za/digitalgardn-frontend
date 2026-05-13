@@ -17,12 +17,12 @@ import {
   ItemTitle,
   Spinner,
   Button,
-  Skeleton,
   FormField,
   FormItem,
   FormMessage,
 } from "../ui";
 import { Fragment, useMemo, useState } from "react";
+import { MultiSelectSkeleton } from "@/components/skeletons";
 
 /**
  * Composant de selection multiple hierarchique permettant de choisir
@@ -66,7 +66,7 @@ export function MultiHierarchicalItem({
         </ItemTitle>
         <ItemDescription>{description}</ItemDescription>
         <div className="my-3 min-h-10 flex items-center">
-          {isLoading && <Skeleton className="min-h-10" />}
+          {isLoading && <MultiSelectSkeleton />}
           {isSuccess && (
             <FormField
               control={control}
