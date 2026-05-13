@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import { CommandeDropDownMenu } from "../commandes/CommandeDropDownMenu";
 import { AvisDialog } from "../commandes/AvisDialog";
 import { AvatarIdentity } from "../shared/AvatarIdentity";
+import { ChatMessagesSkeleton } from "@/components/skeletons";
 
 /**
  * Composant affichant la fenetre de chat pour une conversation donnee
@@ -126,7 +127,7 @@ export function ChatWindow({
       <Separator />
       <CardContent className="overflow-hidden flex-1 min-h-0 flex">
         {isLoading ? (
-          <DataLoading />
+          <DataLoading skeleton={ChatMessagesSkeleton} />
         ) : isError ? (
           <DataError
             retryText={t("common:actions.retry")}
