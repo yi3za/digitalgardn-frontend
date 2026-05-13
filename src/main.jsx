@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.jsx";
 // configuration de l'internationalisation
@@ -9,8 +8,4 @@ import "@/styles/index.css";
 /**
  * Point d'entree principal de l'application React
  */
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+createRoot(document.getElementById("root")).render(<App />);
