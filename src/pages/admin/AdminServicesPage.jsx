@@ -66,7 +66,6 @@ export function AdminServicesPage() {
       <AdminPageHeader
         title={t("admin:services.title")}
         description={t("admin:services.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -75,6 +74,7 @@ export function AdminServicesPage() {
           filtersConfig={buildAdminServicesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
