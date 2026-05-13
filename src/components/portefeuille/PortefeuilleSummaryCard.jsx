@@ -16,6 +16,7 @@ import {
 import { formatPrice } from "@/lib/utils";
 import { Wallet } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { PortefeuilleSkeleton } from "@/components/skeletons";
 
 // Definition des items a afficher dans le resume du portefeuille
 const PORTEFEUILLE_SUMMARY_ITEMS = [
@@ -63,7 +64,7 @@ export function PortefeuilleSummaryCard({ portefeuilleQuery, action = null }) {
         {action && <CardAction>{action}</CardAction>}
       </CardHeader>
       <CardContent>
-        {isLoading && <DataLoading />}
+        {isLoading && <DataLoading skeleton={PortefeuilleSkeleton} />}
         {isError && (
           <DataError
             errorCode={code}
