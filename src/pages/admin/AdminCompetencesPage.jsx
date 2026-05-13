@@ -98,6 +98,7 @@ export function AdminCompetencesPage() {
           filtersConfig={buildAdminCompetencesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
