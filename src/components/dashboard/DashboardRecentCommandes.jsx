@@ -1,6 +1,7 @@
 import { CommandeItem } from "@/components/commandes/CommandeItem";
 import { RecentList } from "@/components/shared/RecentList";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
+import { CommandesSkeleton } from "@/components/skeletons";
 
 /**
  * Liste des dernieres commandes recentes du freelance
@@ -33,6 +34,7 @@ export function DashboardRecentCommandes({
       isFetching={isFetching}
       error={error}
       refetch={refetch}
+      loadingSkeleton={CommandesSkeleton}
       renderItem={(commande) => (
         <CommandeItem
           key={commande.id}

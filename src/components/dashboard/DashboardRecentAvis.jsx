@@ -12,6 +12,7 @@ import { ServiceMiniCard } from "@/components/shared/ServiceMiniCard";
 import { formatDateTime } from "@/lib/utils";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { Star } from "lucide-react";
+import { AvisListSkeleton } from "@/components/skeletons";
 
 /**
  * Liste des derniers avis recus par le freelance
@@ -41,6 +42,7 @@ export function DashboardRecentAvis({
       isFetching={isFetching}
       error={error}
       refetch={refetch}
+      loadingSkeleton={AvisListSkeleton}
       renderItem={(item) => (
         <Item key={item.id} variant="muted" size="sm">
           <ItemContent>

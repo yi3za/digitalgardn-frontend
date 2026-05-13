@@ -6,6 +6,7 @@ import {
   CardContent,
 } from "@/components/ui";
 import { DataLoading, DataError } from "@/components/ui";
+import { ChartSkeleton } from "@/components/skeletons";
 import {
   BarChart,
   Bar,
@@ -72,7 +73,7 @@ export function DashboardCommandesChart({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading && <DataLoading />}
+        {isLoading && <DataLoading skeleton={ChartSkeleton} />}
         {isError && (
           <DataError
             errorCode={code}

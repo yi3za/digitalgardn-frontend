@@ -6,6 +6,7 @@ import {
   CardContent,
 } from "@/components/ui";
 import { DataLoading, DataError, DataEmpty } from "@/components/ui";
+import { ChartSkeleton } from "@/components/skeletons";
 import { CURRENCY } from "@/lib/config";
 import {
   AreaChart,
@@ -40,7 +41,7 @@ export function DashboardRevenueChart({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1">
-        {isLoading && <DataLoading />}
+        {isLoading && <DataLoading skeleton={ChartSkeleton} />}
         {isError && (
           <DataError
             errorCode={code}
