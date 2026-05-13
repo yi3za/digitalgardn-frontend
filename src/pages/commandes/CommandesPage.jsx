@@ -34,6 +34,7 @@ export function CommandesPage({ dashboard = false }) {
           filtersConfig={buildCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={commandesQuery.refetch}
         />
       }
       paginationBar={
