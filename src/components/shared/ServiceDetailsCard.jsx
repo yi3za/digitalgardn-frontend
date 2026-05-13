@@ -28,6 +28,7 @@ import {
 import { SkillBadges } from "./SkillBadges";
 import { useNavigationPaths } from "@/contexts/NavigationContext";
 import { useState } from "react";
+import { ServiceDetailsSkeleton } from "@/components/skeletons";
 
 /**
  * Composant de carte de details d'un service, utilise dans la page de details d'un service et dans la liste des services d'un freelance, avec gestion des etats de chargement, d'erreur et de service non disponible
@@ -78,7 +79,7 @@ export function ServiceDetailsCard({
   const serviceImages = collectServiceImages(service);
 
   if (isLoading) {
-    return <DataLoading />;
+    return <DataLoading skeleton={ServiceDetailsSkeleton} />;
   }
 
   if (isError) {
