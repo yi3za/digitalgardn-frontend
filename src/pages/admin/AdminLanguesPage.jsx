@@ -82,6 +82,7 @@ export function AdminLanguesPage() {
           filtersConfig={buildAdminLanguesFiltersConfig()}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
