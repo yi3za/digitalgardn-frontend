@@ -35,6 +35,7 @@ import {
 } from "@/features/auth/auth.thunks";
 import { useFormUpdate } from "@/features/auth/useFormUpdate";
 
+// Role de freelance
 const { FREELANCE } = AUTH_ROLE;
 
 /**
@@ -154,7 +155,7 @@ export function ProfilEditItem({
                 control={form.control}
                 name="avatar"
                 render={({ field }) => {
-                  const { value, onChange, ...rest } = field;
+                  const { value: _value, onChange: _onChange, ...rest } = field;
                   return (
                     <FormItem>
                       <div className="relative w-fit mx-auto">
