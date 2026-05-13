@@ -48,7 +48,6 @@ export function AdminPortefeuillesPage() {
       <AdminPageHeader
         title={t("admin:portefeuilles.title")}
         description={t("admin:portefeuilles.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -57,6 +56,7 @@ export function AdminPortefeuillesPage() {
           filtersConfig={buildAdminPortefeuillesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
