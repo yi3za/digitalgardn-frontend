@@ -16,7 +16,11 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
+  CardAction,
+  Button,
+  Spinner,
 } from "@/components/ui";
+import { RefreshCw } from "lucide-react";
 
 /**
  * Page principal du tableau de bord freelance
@@ -30,12 +34,33 @@ export function DashboardPage() {
   const commandesQuery = useDashboardCommandesRecentes();
   const avisQuery = useDashboardAvisRecentes();
   const revenusQuery = useDashboardRevenuesMensuels();
+  // Indicateur de chargement global pour le dashboard
+  const isFetching =
+    statsQuery.isFetching ||
+    commandesQuery.isFetching ||
+    avisQuery.isFetching ||
+    revenusQuery.isFetching;
+  // Fonction de rafraichissement de toutes les donnees du dashboard
+  const onRefetch = () => {
+    statsQuery.refetch();
+    commandesQuery.refetch();
+    avisQuery.refetch();
+    revenusQuery.refetch();
+  };
 
   return (
     <Card className="border-0 shadow-none bg-transparent">
       <CardHeader>
-        <CardTitle>{t("dashboard:title")}</CardTitle>
+        <CardTitle>
+          {t("dashboard:title")}
+          {isFetching && <Spinner className="inline mx-3" />}
+        </CardTitle>
         <CardDescription>{t("dashboard:description")}</CardDescription>
+        <CardAction>
+          <Button size="sm" variant="ghost" onClick={onRefetch}>
+            <RefreshCw className="size-4" />
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent className="space-y-6 p-0">
         <DashboardStatsSection
