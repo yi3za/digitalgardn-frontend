@@ -6,8 +6,8 @@ import {
   CardAction,
   CardContent,
 } from "@/components/ui";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { StatValueSkeleton } from "@/components/skeletons";
 
 /**
  * Carte de statistique individuelle pour le dashboard
@@ -25,7 +25,7 @@ export function DashboardStatCard({
       <CardHeader>
         <CardDescription>{title}</CardDescription>
         <CardTitle className="text-xl font-bold ">
-          {isLoading ? <Skeleton className="h-8 w-full" /> : (value ?? "—")}
+          {isLoading ? <StatValueSkeleton /> : (value ?? "—")}
         </CardTitle>
         {Icon && (
           <CardAction>
