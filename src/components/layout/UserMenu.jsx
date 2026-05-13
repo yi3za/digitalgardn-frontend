@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import { getFallbackName } from "@/lib/utils";
 import { ACCOUNT_STATUS, AUTH_ROLE } from "@/features/auth/auth.constants";
 import { disconnectEcho } from "@/lib/echo";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Couleurs des badges de statut utilisateur
 const USER_STATUS_BADGE_COLORS = {
@@ -41,6 +42,8 @@ const USER_STATUS_BADGE_COLORS = {
  * Composant affichant le menu utilisateur
  */
 export function UserMenu({ user, t, dashboard }) {
+  // Recupere queryClient
+  const queryClient = useQueryClient();
   // Etat de store indiquant si une requete auth est en cours
   const { loading } = useSelector(authSelector);
   // Dispatcher pour les actions
@@ -57,6 +60,8 @@ export function UserMenu({ user, t, dashboard }) {
     try {
       // Appeler le thunk de logout pour deconnecter l'utilisateur
       const { code } = await dispatch(logoutThunk()).unwrap();
+      // Netoyage le cache des donnees
+      queryClient.clear();
       // Deconnecter Echo pour fermer la connexion websocket en temps reel
       disconnectEcho();
       // Afficher message de succes
