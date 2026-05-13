@@ -14,7 +14,7 @@ export function SettingsLayout() {
   const isAdmin = user?.role === AUTH_ROLE.ADMIN;
 
   return (
-    <Card className="shadow-none border-none">
+    <Card className="shadow-none border-none bg-background">
       <Outlet context={{ isAdmin, user, loading }} />
     </Card>
   );
