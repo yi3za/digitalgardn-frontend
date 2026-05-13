@@ -148,12 +148,12 @@ function NavigationMenuItemCustom({ content, to, badgeCount = null }) {
         asChild
         className={cn(
           navigationMenuTriggerStyle(),
-          !!badgeCount ? "relative" : "",
+          badgeCount ? "relative" : "",
         )}
       >
         <Link to={to}>{content}</Link>
       </NavigationMenuLink>
-      {!!badgeCount && <NotificationBadge count={badgeCount} />}
+      {badgeCount && <NotificationBadge count={badgeCount} />}
     </NavigationMenuItem>
   );
 }
