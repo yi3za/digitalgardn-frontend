@@ -74,7 +74,6 @@ export function AdminAvisPage() {
       <AdminPageHeader
         title={t("admin:avis.title")}
         description={t("admin:avis.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -83,6 +82,7 @@ export function AdminAvisPage() {
           filtersConfig={buildAdminAvisFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
