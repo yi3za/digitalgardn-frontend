@@ -2,7 +2,7 @@ import { COMMANDE_STATUS } from "@/features/account/commandes/commandes.status";
 import { useConversations } from "@/features/messages/messages.query";
 import {
   incrementCommandes,
-  resetCommandes,
+  resetNotifications,
   setConversationMessages,
 } from "@/features/notifications/notificationsSlice";
 import { getEcho, isRealtimeEnabled } from "@/lib/echo";
@@ -30,8 +30,8 @@ export function useRealtimeSubscriptions(currentUserId) {
   // Initialisation des notifications de messages non lus par conversation a partir des conversations chargees
   useEffect(() => {
     if (!conversations.length) return;
-    // Reset du compteur de commandes en attente avant de le recalculer
-    dispatch(resetCommandes());
+    // Remettre l'etat initial pour effacer les donnees
+    dispatch(resetNotifications());
     // Initialise les messages non lus par conversation
     conversations.forEach((conversation) => {
       const count = conversation.unread_messages_count;
