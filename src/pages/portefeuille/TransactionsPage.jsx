@@ -36,6 +36,7 @@ export function TransactionsPage() {
           filtersConfig={buildTransactionsFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={transactionsQuery.refetch}
         />
       }
       paginationBar={
