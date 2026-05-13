@@ -38,6 +38,8 @@ export function CompetencesPage() {
           t={t}
           filtersConfig={buildCompetencesFiltersConfig()}
           onApply={handleApplyFilters}
+          initialValues={filters}
+          onRefetch={competencesQuery.refetch}
         />
       }
       paginationBar={
