@@ -18,6 +18,7 @@ import { AvatarIdentity } from "@/components/shared/AvatarIdentity";
 import { PaginationBar } from "@/components/shared/PaginationBar";
 import { Star } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
+import { AvisListSkeleton } from "@/components/skeletons";
 
 /**
  * Composant qui affiche la liste des avis d'un service avec pagination
@@ -44,7 +45,7 @@ export function AvisList({
         <CardDescription>{t("catalog:avis.description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {isLoading && <DataLoading />}
+        {isLoading && <DataLoading skeleton={AvisListSkeleton} />}
         {isError && (
           <DataError
             errorCode={code}
