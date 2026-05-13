@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMyServices } from "@/features/freelance/catalog/services/services.query";
 import { buildMyServicesFiltersConfig } from "@/features/freelance/catalog/services/services.filters";
@@ -43,6 +42,7 @@ export function ServicesPage() {
           filtersConfig={buildMyServicesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={myServicesQuery.refetch}
         />
       }
       paginationBar={
