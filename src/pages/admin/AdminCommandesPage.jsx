@@ -48,7 +48,6 @@ export function AdminCommandesPage() {
       <AdminPageHeader
         title={t("admin:commandes.title")}
         description={t("admin:commandes.description")}
-        onRefresh={refetch}
         isFetching={isFetching}
       />
       <CardContent className="flex flex-1 flex-col">
@@ -57,6 +56,7 @@ export function AdminCommandesPage() {
           filtersConfig={buildAdminCommandesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
