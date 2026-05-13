@@ -20,6 +20,7 @@ export function FilterBar({
   onApply,
   t,
   initialValues = {},
+  onRefetch,
 }) {
   // Etat local des filtres en attente, non encore appliques
   const [pending, setPending] = useState(() =>
@@ -88,12 +89,17 @@ export function FilterBar({
           />
         ),
       )}
-      <Button size="sm" onClick={handleApply}>
+      <Button type="button" size="sm" onClick={handleApply}>
         {t("common:filters.apply")}
       </Button>
-      <Button size="sm" variant="outline" onClick={handleReset}>
+      <Button type="button" size="sm" variant="outline" onClick={handleReset}>
         {t("common:actions.reset")}
       </Button>
+      {onRefetch && (
+        <Button type="button" size="sm" variant="outline" onClick={onRefetch}>
+          {t("common:actions.refresh")}
+        </Button>
+      )}
     </div>
   );
 }
