@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { ServicesGrid } from "@/components/catalog";
 import { FilterBar } from "@/components/shared/FilterBar";
 import { PaginationBar } from "@/components/shared/PaginationBar";
@@ -79,6 +79,7 @@ export function ServicesPage() {
           filtersConfig={filtersConfig}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={servicesQuery.refetch}
         />
       }
       paginationBar={
