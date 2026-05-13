@@ -14,6 +14,11 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { HeroSection } from "@/components/layout/HeroSection";
+import {
+  FreelancersSkeleton,
+  ServicesSkeleton,
+  TaxonomySkeleton,
+} from "@/components/skeletons";
 
 /**
  * Page d'accueil de l'application
@@ -35,6 +40,7 @@ export function HomePage() {
         itemsQuery={categoriesQuery}
         title={t("catalog:categories.title")}
         description={t("catalog:categories.description")}
+        loadingSkeleton={TaxonomySkeleton}
         renderItems={(categories) => <CategoriesGrid categories={categories} />}
         action={
           <Button asChild variant="link">
@@ -48,6 +54,7 @@ export function HomePage() {
         itemsQuery={competencesQuery}
         title={t("catalog:competences.title")}
         description={t("catalog:competences.description")}
+        loadingSkeleton={TaxonomySkeleton}
         renderItems={(competences) => (
           <CompetencesGrid competences={competences} />
         )}
@@ -63,6 +70,7 @@ export function HomePage() {
         itemsQuery={topFreelancersQuery}
         title={t("catalog:freelancers.title")}
         description={t("catalog:freelancers.description")}
+        loadingSkeleton={FreelancersSkeleton}
         renderItems={(freelancers) => (
           <FreelancersGrid freelancers={freelancers} />
         )}
@@ -71,6 +79,7 @@ export function HomePage() {
         itemsQuery={servicesQuery}
         title={t("catalog:services.title")}
         description={t("catalog:services.description")}
+        loadingSkeleton={ServicesSkeleton}
         renderItems={(services) => <ServicesGrid services={services} />}
         action={
           <Button asChild variant="link">
