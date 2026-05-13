@@ -98,6 +98,7 @@ export function AdminCategoriesPage() {
           filtersConfig={buildAdminCategoriesFiltersConfig(t)}
           onApply={handleApplyFilters}
           initialValues={filters}
+          onRefetch={refetch}
         />
         {isLoading && (
           <DataLoading
