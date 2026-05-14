@@ -51,10 +51,12 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
 
 - ✅ **Internationalisation (i18n)**
   - Application entierement traduisible avec gestion des textes de l'interface et des messages d'erreur.
+  - Ajout des ressources de traduction anglaises pour les principaux modules de l'application.
 
 - ✅ **Gestion des Donnees Asynchrones (TanStack Query)**
   - Utilisation de React Query pour la recuperation et la mise en cache des donnees.
   - Optimisation des performances avec gestion automatique des etats loading et error.
+  - Invalidation plus complete des caches apres mutations (commandes, avis, services, portefeuille et donnees admin).
 
 - ✅ **Espace Profil & Parametres Utilisateur**
   - Gestion de Profil : Mise a jour des informations et upload d'avatar.
@@ -71,6 +73,7 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Table : Composant table complet (TableHeader, TableBody, TableHead, TableRow, TableCell).
   - Select : Composant select accessible base sur Radix UI.
   - DataLoading / DataError / DataEmpty : Etats de donnees standardises et reutilisables.
+  - Skeletons metier pour listes, tables, graphiques, messages, services, taxonomies et details.
 
 - ✅ **Routage & Layout Restructures**
   - SiteLayout : Layout global encapsulant les pages publiques.
@@ -113,6 +116,8 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Page et composants du tableau de bord avec statistiques.
   - Visualisations graphiques via Recharts.
   - Invalidation intelligente du cache lors des mutations.
+  - Liste des avis recents et cartes de chargement dediees aux widgets du dashboard.
+  - Bouton de rafraichissement global pour recharger les donnees principales du dashboard.
 
 - ✅ **Espace Administration**
   - AdminLayout avec navigation laterale et protection par role.
@@ -128,6 +133,8 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Gestion du statut et affichage des badges dans les vues admin.
   - AdminPageHeader : En-tete partage avec bouton refresh et indicateur isFetching.
   - Organisation des features admin par domaine (users/, services/, commandes/, stats/, categories/, competences/).
+  - Affichage de la derniere activite et du nombre de jours d'inactivite des utilisateurs.
+  - Skeletons dedies aux tables et listes recentes de l'administration.
 
 - ✅ **Navigation Contextuelle et Pages Partagees**
   - NavigationContext centralise les chemins publics, dashboard et admin.
@@ -147,6 +154,7 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Support generalise des filtres et de la pagination dans les APIs frontend et les hooks React Query.
   - Hook useUrlFilters pour synchroniser les filtres avec l'URL.
   - Filtres admin pour utilisateurs, services, commandes, transactions, avis, portefeuilles, categories, competences et langues.
+  - Bouton de rafraichissement centralise dans FilterBar via la prop onRefetch.
 
 - ✅ **Gestion Avancee des Services**
   - ServiceForm multi-etapes pour creation et edition des services.
@@ -166,6 +174,7 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
   - Persistance de la langue selectionnee dans localStorage.
   - ScrollToTop dans le site principal et l'administration.
   - Barre de navigation extraite dans Navbar avec bouton retour et recherche.
+  - Logo, favicon et splash screen anime bases sur l'identite visuelle de l'application.
 
 - ✅ **Profil et Onboarding Ameliores**
   - Gestion de l'avatar existant dans le formulaire profil.
@@ -184,6 +193,11 @@ Suivez ces etapes pour configurer et lancer le projet sur votre machine locale.
 ```bash
 git clone https://github.com/yi3za/digitalgardn-frontend.git
 cd digitalgardn-frontend
+copy .env.example .env
 npm install
 npm run dev
 ```
+
+**Configuration environnement**
+
+- `VITE_API_BASE_URL` permet de configurer l'URL du backend sans modifier le code source.
