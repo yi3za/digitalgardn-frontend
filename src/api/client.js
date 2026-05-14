@@ -5,9 +5,7 @@ import axios from "axios";
  */
 export const client = axios.create({
   // URL de base du serveur backend
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ??
-    "http://localhost/PFF/digitalgardn-backend/public/",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   // Definition des en-tetes HTTP envoyes avec chaque requete
   headers: {
     // Indique que les reponses attendues sont au format JSON
