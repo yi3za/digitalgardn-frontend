@@ -184,6 +184,44 @@ Interface utilisateur de l'application Digitalgardn, une plateforme de mise en r
 
 ---
 
+## 📸 Captures d'écran
+ 
+### Authentification & Onboarding
+| Interface de connexion | Interface d'inscription | Interface d'onboarding |
+|---|---|---|
+| ![Interface de connexion](screenshots/interface-de-connexion.jpg) | ![Interface d'inscription](screenshots/interface-dinscription.jpg) | ![Interface d'onboarding](screenshots/interface-donboarding.jpg) |
+ 
+### Services
+| Liste des services | Création de service |
+|---|---|
+| ![Liste des services](screenshots/liste-des-services.jpg) | ![Création de service](screenshots/creation-de-service.jpg) |
+ 
+| Création de service (images) | Création de service (catégories, compétences) |
+|---|---|
+| ![Création de service - images](screenshots/creation-de-service-images.jpg) | ![Création de service - catégories/compétences](screenshots/creation-de-service-categories-competences.jpg) |
+ 
+### Commandes & Portefeuille
+| Espace commandes client | Consultation du portefeuille virtuel | Historique des transactions |
+|---|---|---|
+| ![Espace commandes client](screenshots/espace-commandes-client.jpg) | ![Portefeuille virtuel](screenshots/consultation-du-portefeuille-virtuel.jpg) | ![Historique des transactions](screenshots/historique-des-transactions-du-portefeuille.jpg) |
+ 
+### Messagerie
+| Liste des conversations | Messagerie instantanée |
+|---|---|
+| ![Liste des conversations](screenshots/liste-des-conversations-utilisateur.jpg) | ![Messagerie instantanée](screenshots/interface-de-messagerie-instantanee.jpg) |
+ 
+### Espace Freelance
+| Tableau de bord freelance | Gestion des avis |
+|---|---|
+| ![Tableau de bord freelance](screenshots/vue-generale-du-tableau-de-bord-freelance.jpg) | ![Gestion des avis](screenshots/gestion-des-avis-du-freelance.jpg) |
+ 
+### Administration
+| Tableau de bord administrateur | Gestion des utilisateurs |
+|---|---|
+| ![Tableau de bord administrateur](screenshots/tableau-de-bord-administrateur.jpg) | ![Gestion des utilisateurs](screenshots/gestion-des-utilisateurs.jpg) |
+ 
+---
+
 ## Installation et Lancement
 
 Suivez ces etapes pour configurer et lancer le projet sur votre machine locale.
